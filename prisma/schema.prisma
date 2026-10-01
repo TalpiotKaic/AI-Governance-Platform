@@ -1,0 +1,1091 @@
+// K-VeriAI — AI Governance, Evaluation & Assurance Platform
+// Data model follows the traceability chain:
+// AI System → Risk → Regulation/Standard → Control → Test Requirement → Test Method
+// → Scenario/Dataset → Execution (Run/Session/Dialogue) → Metric/Finding → Verdict
+// → Review/Approval → Evidence → Report / Evidence Pack (ISO 42001, EU AI Act, NIST AI RMF/ARIA, KR AI Basic Act)
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ───────────────────────────── Tenancy & Identity ─────────────────────────────
+
+enum OrgType {
+  VERIFICATION_BODY // accredited testing / verification organization
+  ENTERPRISE        // customer organization operating AI systems
+}
+
+enum Role {
+  ADMIN
+  GOVERNANCE_OWNER
+  TESTER
+  REVIEWER
+  APPROVER
+  VIEWER
+}
+
+model Organization {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  type      OrgType  @default(ENTERPRISE)
+  country   String?
+  sector    String?
+  trustCenterEnabled Boolean @default(false)
+  trustCenterIntro   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users        User[]
+  systems      AiSystem[]
+  models       ModelAsset[]
+  datasets     Dataset[]
+  vendors      Vendor[]
+  risks        Risk[]
+  plans        EvaluationPlan[]
+  runs         EvaluationRun[]
+  evidence     Evidence[]
+  reports      Report[]
+  approvals    Approval[]
+  tasks        Task[]
+  incidents    Incident[]
+  policies     Policy[]
+  auditLogs    AuditLog[]
+  credentials  ProviderCredential[]
+  scenarios    TestScenario[]
+}
+
+model User {
+  id           String   @id @default(cuid())
+  orgId        String
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         Role     @default(VIEWER)
+  title        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  org              Organization       @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  ownedSystems     AiSystem[]         @relation("SystemOwner")
+  technicalSystems AiSystem[]         @relation("SystemTechnicalOwner")
+  ownedRisks       Risk[]
+  createdPlans     EvaluationPlan[]
+  createdRuns      EvaluationRun[]
+  createdEvidence  Evidence[]
+  createdReports   Report[]           @relation("ReportCreator")
+  reviewedReports  Report[]           @relation("ReportReviewer")
+  approvedReports  Report[]           @relation("ReportApprover")
+  approvals        Approval[]
+  tasks            Task[]
+  auditLogs        AuditLog[]
+  controlImpls     ControlImplementation[]
+  policies         Policy[]
+
+  @@index([orgId])
+}
+
+// ───────────────────────────── AI Inventory ─────────────────────────────
+
+enum SystemType {
+  PREDICTIVE_ML
+  LLM_APPLICATION
+  RAG_ASSISTANT
+  AGENT
+  MULTI_AGENT
+  EXTERNAL_SAAS
+}
+
+enum LifecycleStage {
+  PLANNED
+  DEVELOPMENT
+  TESTING
+  APPROVED
+  PRODUCTION
+  RETIRED
+}
+
+enum RiskTier {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum EuAiActCategory {
+  UNCLASSIFIED
+  MINIMAL
+  LIMITED_TRANSPARENCY
+  HIGH_RISK
+  PROHIBITED
+  GPAI
+  GPAI_SYSTEMIC
+}
+
+enum AutonomyLevel {
+  ASSISTIVE   // suggests, human executes
+  SUPERVISED  // executes with human approval on sensitive actions
+  AUTONOMOUS  // executes end-to-end
+}
+
+model AiSystem {
+  id                 String          @id @default(cuid())
+  orgId              String
+  code               String          // human-readable id e.g. AIS-0001
+  name               String
+  description        String?
+  type               SystemType
+  sector             String?
+  purpose            String?
+  deploymentContext  String?
+  lifecycleStage     LifecycleStage  @default(DEVELOPMENT)
+  ownerId            String?
+  technicalOwnerId   String?
+  euAiActCategory    EuAiActCategory @default(UNCLASSIFIED)
+  euAiActAnnexIIIArea String?
+  riskTier           RiskTier        @default(MEDIUM)
+  riskScore          Float?
+  assuranceScore     Float?
+  intendedUsers      String?
+  affectedPersons    String?
+  usesPersonalData   Boolean         @default(false)
+  usesSensitiveData  Boolean         @default(false)
+  customerFacing     Boolean         @default(false)
+  automatedDecision  Boolean         @default(false)
+  humanOversight     String?
+  geographies        String[]        @default([])
+  tags               String[]        @default([])
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  org            Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  owner          User?        @relation("SystemOwner", fields: [ownerId], references: [id])
+  technicalOwner User?        @relation("SystemTechnicalOwner", fields: [technicalOwnerId], references: [id])
+
+  models         ModelAsset[]
+  agentProfile   AgentProfile?
+  datasets       SystemDataset[]
+  vendors        SystemVendor[]
+  risks          Risk[]
+  controlImpls   ControlImplementation[]
+  plans          EvaluationPlan[]
+  runs           EvaluationRun[]
+  findings       Finding[]
+  evidence       Evidence[]
+  reports        Report[]
+  incidents      Incident[]
+  changeEvents   ChangeEvent[]
+
+  @@unique([orgId, code])
+  @@index([orgId, lifecycleStage])
+}
+
+enum HostingType {
+  THIRD_PARTY_API
+  CLOUD_MANAGED
+  SELF_HOSTED
+  ON_PREMISE
+}
+
+model ModelAsset {
+  id              String      @id @default(cuid())
+  orgId           String
+  systemId        String?
+  name            String
+  provider        String      // e.g. Anthropic, OpenAI, in-house
+  version         String?
+  modality        String?     // text, vision, multimodal, tabular
+  hostingType     HostingType @default(THIRD_PARTY_API)
+  licence         String?
+  trainingDataDesc String?
+  knownLimitations String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  org    Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  system AiSystem?    @relation(fields: [systemId], references: [id], onDelete: SetNull)
+
+  @@index([orgId])
+}
+
+model AgentProfile {
+  id             String        @id @default(cuid())
+  systemId       String        @unique
+  framework      String?       // LangGraph, CrewAI, AutoGen, custom, MCP
+  autonomyLevel  AutonomyLevel @default(SUPERVISED)
+  tools          Json          @default("[]") // [{name, description, riskLevel, permissions, allowed}]
+  dataSources    Json          @default("[]") // [{name, type, containsPii}]
+  subAgents      Json          @default("[]") // [{name, role}]
+  mcpServers     Json          @default("[]") // [{name, endpoint, tools:[]}]
+  memoryDesc     String?
+  guardrails     String?
+  killSwitch     Boolean       @default(false)
+  maxBudgetUsd   Float?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  system AiSystem @relation(fields: [systemId], references: [id], onDelete: Cascade)
+}
+
+model Dataset {
+  id           String   @id @default(cuid())
+  orgId        String
+  name         String
+  version      String?
+  source       String?
+  description  String?
+  containsPii  Boolean  @default(false)
+  sensitivity  String?  // public / internal / confidential / restricted
+  recordCount  Int?
+  createdAt    DateTime @default(now())
+
+  org     Organization    @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  systems SystemDataset[]
+
+  @@index([orgId])
+}
+
+model SystemDataset {
+  systemId  String
+  datasetId String
+  purpose   String? // training / evaluation / retrieval / inference input
+
+  system  AiSystem @relation(fields: [systemId], references: [id], onDelete: Cascade)
+  dataset Dataset  @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+
+  @@id([systemId, datasetId])
+}
+
+model Vendor {
+  id              String   @id @default(cuid())
+  orgId           String
+  name            String
+  serviceType     String?  // foundation model API, cloud, SaaS AI
+  country         String?
+  riskScore       Float?   // 0-100
+  dataSensitivity String?
+  certifications  String[] @default([])
+  notes           String?
+  createdAt       DateTime @default(now())
+
+  org     Organization   @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  systems SystemVendor[]
+
+  @@index([orgId])
+}
+
+model SystemVendor {
+  systemId String
+  vendorId String
+  role     String? // LLM provider, hosting, tool provider
+
+  system AiSystem @relation(fields: [systemId], references: [id], onDelete: Cascade)
+  vendor Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+
+  @@id([systemId, vendorId])
+}
+
+// ───────────────────────────── Risk ─────────────────────────────
+
+enum RiskDimension {
+  ACCURACY_EFFICACY
+  BIAS_FAIRNESS
+  ROBUSTNESS
+  SAFETY
+  SECURITY
+  PRIVACY
+  TRANSPARENCY_EXPLAINABILITY
+  ACCOUNTABILITY
+  AGENT_BEHAVIOR
+  EXPOSURE
+}
+
+enum RiskStatus {
+  IDENTIFIED
+  ASSESSED
+  MITIGATING
+  ACCEPTED
+  CLOSED
+}
+
+enum RiskSource {
+  INTAKE
+  MANUAL
+  TEST_FINDING
+  INCIDENT
+  MONITORING
+}
+
+model Risk {
+  id          String        @id @default(cuid())
+  orgId       String
+  systemId    String
+  code        String        // R-0001
+  title       String
+  description String?
+  dimension   RiskDimension
+  likelihood  Int           // 1-5
+  severity    Int           // 1-5
+  score       Float         // computed: likelihood*1 + severity*3 (VerifyWise-style weighting), scaled 0-100
+  residualScore Float?
+  status      RiskStatus    @default(IDENTIFIED)
+  source      RiskSource    @default(MANUAL)
+  ownerId     String?
+  mitigation  String?
+  dueDate     DateTime?
+  findingId   String?       @unique
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  org     Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  system  AiSystem     @relation(fields: [systemId], references: [id], onDelete: Cascade)
+  owner   User?        @relation(fields: [ownerId], references: [id])
+  finding Finding?     @relation(fields: [findingId], references: [id])
+  evidenceLinks EvidenceLink[]
+
+  @@unique([orgId, code])
+  @@index([systemId])
+}
+
+// ───────────────────────────── Frameworks, Requirements, Controls ─────────────────────────────
+
+enum FrameworkCode {
+  ISO_42001
+  EU_AI_ACT
+  NIST_AI_RMF
+  NIST_ARIA
+  KR_AI_BASIC_ACT
+}
+
+model Framework {
+  id          String        @id @default(cuid())
+  code        FrameworkCode @unique
+  name        String
+  version     String?
+  issuer      String?
+  description String?
+  requirements Requirement[]
+}
+
+model Requirement {
+  id           String  @id @default(cuid())
+  frameworkId  String
+  ref          String  // e.g. "A.6.2.4", "Art. 9", "MEASURE 2.6"
+  title        String
+  description  String?
+  category     String? // clause group / function
+  evidenceHint String?
+  sortOrder    Int     @default(0)
+
+  framework Framework            @relation(fields: [frameworkId], references: [id], onDelete: Cascade)
+  controls  RequirementControl[]
+  evidenceLinks EvidenceLink[]
+
+  @@unique([frameworkId, ref])
+  @@index([frameworkId])
+}
+
+model Control {
+  id          String  @id @default(cuid())
+  code        String  @unique // HC-01 ...
+  name        String
+  description String?
+  category    String?
+  testHint    String? // what technical tests produce evidence for this control
+  sortOrder   Int     @default(0)
+
+  requirements RequirementControl[]
+  testMethods  ControlTestMethod[]
+  impls        ControlImplementation[]
+  evidenceLinks EvidenceLink[]
+  findings     FindingControl[]
+}
+
+model RequirementControl {
+  requirementId String
+  controlId     String
+
+  requirement Requirement @relation(fields: [requirementId], references: [id], onDelete: Cascade)
+  control     Control     @relation(fields: [controlId], references: [id], onDelete: Cascade)
+
+  @@id([requirementId, controlId])
+}
+
+enum ControlStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  IMPLEMENTED
+  VERIFIED        // verified by test evidence or independent review
+  NOT_APPLICABLE
+}
+
+model ControlImplementation {
+  id             String        @id @default(cuid())
+  systemId       String
+  controlId      String
+  status         ControlStatus @default(NOT_STARTED)
+  ownerId        String?
+  notes          String?
+  lastVerifiedAt DateTime?
+  updatedAt      DateTime      @updatedAt
+
+  system  AiSystem @relation(fields: [systemId], references: [id], onDelete: Cascade)
+  control Control  @relation(fields: [controlId], references: [id], onDelete: Cascade)
+  owner   User?    @relation(fields: [ownerId], references: [id])
+
+  @@unique([systemId, controlId])
+}
+
+// ───────────────────────────── Test Library (NIST ARIA aligned) ─────────────────────────────
+
+enum TestingType {
+  MODEL_TESTING  // automated, pre-specified prompts
+  RED_TEAMING    // adversarial (human or automated adversary)
+  USER_TESTING   // realistic use with questionnaires
+}
+
+enum TestCategory {
+  QUALITY        // relevance, faithfulness, hallucination
+  SAFETY         // harmful content, unsafe recommendations
+  FAIRNESS       // bias, stereotyping, disparate treatment
+  PRIVACY        // PII leakage, over-elicitation
+  SECURITY       // prompt injection, jailbreak, data exfiltration
+  ROBUSTNESS     // noise, paraphrase, distribution shift
+  AGENT          // tool-call accuracy, unsafe actions, over-permission, multi-turn manipulation
+  TRANSPARENCY   // disclosure, explanation quality
+  PERFORMANCE    // latency, cost
+}
+
+model TestMethod {
+  id            String       @id @default(cuid())
+  code          String       @unique // TM-01
+  name          String
+  category      TestCategory
+  testingType   TestingType
+  description   String?
+  standardRef   String?      // e.g. ISO/IEC TR 24027, ISO/IEC 24029-2, NIST AI 200-3
+  metrics       Json         @default("[]") // [{key, name, direction:'higher'|'lower', threshold, unit}]
+  applicableTo  SystemType[] @default([])
+  judgeRubric   String?      // LLM-as-judge rubric
+  sortOrder     Int          @default(0)
+
+  controls  ControlTestMethod[]
+  scenarios TestScenario[]
+}
+
+model ControlTestMethod {
+  controlId    String
+  testMethodId String
+
+  control    Control    @relation(fields: [controlId], references: [id], onDelete: Cascade)
+  testMethod TestMethod @relation(fields: [testMethodId], references: [id], onDelete: Cascade)
+
+  @@id([controlId, testMethodId])
+}
+
+enum Severity {
+  INFO
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+model TestScenario {
+  id               String      @id @default(cuid())
+  orgId            String?     // null = global library
+  methodId         String
+  code             String      @unique // SC-001
+  name             String
+  sector           String?
+  useCase          String?
+  targetConcept    String?     // NIST trustworthiness characteristic
+  description      String?
+  instructions     String?     // tester / red-teamer instructions
+  tactic           String?     // for red teaming: injection, authority_claim, multi_turn_trust, tool_misuse, exfiltration...
+  prompts          Json        @default("[]") // [{id, turns:[{role, content}], expected?, mustNotContain?, tags?, toolExpectation?}]
+  annotationSchema Json        @default("[]") // [{key, question, type:'boolean'|'scale'|'choice', options?, severityWeight?}]
+  questionnaire    Json        @default("[]") // user testing questionnaire items
+  defaultSeverity  Severity    @default(MEDIUM)
+  applicableTo     SystemType[] @default([])
+  isLibrary        Boolean     @default(true)
+  createdAt        DateTime    @default(now())
+
+  org      Organization?  @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  method   TestMethod     @relation(fields: [methodId], references: [id], onDelete: Cascade)
+  plans    PlanScenario[]
+  sessions TestSession[]
+
+  @@index([methodId])
+}
+
+// ───────────────────────────── Evaluation Plan (ARIA worksheets B.1–B.5) ─────────────────────────────
+
+enum PlanStatus {
+  DRAFT
+  ACTIVE
+  COMPLETED
+  ARCHIVED
+}
+
+model EvaluationPlan {
+  id             String     @id @default(cuid())
+  orgId          String
+  systemId       String
+  name           String
+  status         PlanStatus @default(DRAFT)
+  scope          Json       @default("{}") // B.1: applications, sector, useCases[], targetConcept
+  design         Json       @default("{}") // B.2: modelTestingGoal, redTeamingGoal, userTestingGoal, testerDistribution
+  materials      Json       @default("{}") // B.3: scenarios, prompt sets, instructions, questionnaires, annotation schema summary
+  infrastructure Json       @default("{}") // B.4: platform/schema/annotation/scoring checklist
+  implementation Json       @default("{}") // B.5: recruitment, sample sizes, IRB/consent, analysis, reporting
+  createdById    String?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  org       Organization   @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  system    AiSystem       @relation(fields: [systemId], references: [id], onDelete: Cascade)
+  createdBy User?          @relation(fields: [createdById], references: [id])
+  scenarios PlanScenario[]
+  runs      EvaluationRun[]
+
+  @@index([systemId])
+}
+
+model PlanScenario {
+  planId      String
+  scenarioId  String
+  testingType TestingType
+  sampleSize  Int?        // prompts / testers planned
+
+  plan     EvaluationPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  scenario TestScenario   @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+
+  @@id([planId, scenarioId])
+}
+
+// ───────────────────────────── Evaluation Execution ─────────────────────────────
+
+enum RunMode {
+  LIVE
+  DEMO
+}
+
+enum RunStatus {
+  DRAFT
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum Verdict {
+  PASS
+  WARN
+  FAIL
+  NOT_EVALUATED
+}
+
+model EvaluationRun {
+  id            String    @id @default(cuid())
+  orgId         String
+  systemId      String
+  planId        String?
+  code          String    // RUN-0001
+  name          String
+  mode          RunMode   @default(DEMO)
+  status        RunStatus @default(DRAFT)
+  targetConfig  Json      @default("{}") // {adapter:'anthropic'|'openai'|'http'|'demo'|'sandbox-agent', model, baseUrl, systemPrompt, tools}
+  judgeConfig   Json      @default("{}") // {adapter, model}
+  environment   Json      @default("{}") // test environment registry: model version, hw/sw, date, seed
+  progress      Int       @default(0)
+  summary       Json      @default("{}") // {verdict, assuranceScore, metrics:[], byCategory:{}, counts:{}}
+  verdict       Verdict   @default(NOT_EVALUATED)
+  error         String?
+  startedAt     DateTime?
+  finishedAt    DateTime?
+  createdById   String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  org       Organization    @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  system    AiSystem        @relation(fields: [systemId], references: [id], onDelete: Cascade)
+  plan      EvaluationPlan? @relation(fields: [planId], references: [id], onDelete: SetNull)
+  createdBy User?           @relation(fields: [createdById], references: [id])
+  sessions  TestSession[]
+  metrics   MetricResult[]
+  findings  Finding[]
+  evidence  Evidence[]
+  reports   ReportRun[]
+
+  @@unique([orgId, code])
+  @@index([systemId, status])
+}
+
+// NIST ARIA data schema: SessionID (PK), Date/Time, TesterID, ApplicationID, ScenarioID, TestingType
+model TestSession {
+  id          String      @id @default(cuid())
+  runId       String
+  scenarioId  String
+  testingType TestingType
+  testerId    String      // prompt-set id (model testing) or anonymised human tester id
+  promptRef   String?     // id within scenario.prompts
+  startedAt   DateTime    @default(now())
+  endedAt     DateTime?
+  verdict     Verdict     @default(NOT_EVALUATED)
+  severity    Severity?
+  metrics     Json        @default("{}")
+  notes       String?
+
+  run         EvaluationRun  @relation(fields: [runId], references: [id], onDelete: Cascade)
+  scenario    TestScenario   @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+  turns       DialogueTurn[]
+  annotations Annotation[]
+  findings    Finding[]
+  questionnaire QuestionnaireResponse[]
+
+  @@index([runId])
+}
+
+enum TurnRole {
+  SYSTEM
+  USER
+  ASSISTANT
+  TOOL
+}
+
+model DialogueTurn {
+  id          String   @id @default(cuid())
+  sessionId   String
+  index       Int
+  role        TurnRole
+  content     String
+  toolCalls   Json?    // [{name, arguments}]
+  toolResult  Json?
+  latencyMs   Int?
+  inputTokens Int?
+  outputTokens Int?
+  createdAt   DateTime @default(now())
+
+  session TestSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, index])
+}
+
+enum AnnotatorType {
+  HUMAN
+  LLM_JUDGE
+  RULE
+}
+
+model Annotation {
+  id          String        @id @default(cuid())
+  sessionId   String
+  annotator   AnnotatorType
+  annotatorId String?
+  itemKey     String        // annotation schema item key
+  value       String        // normalized value (e.g. "yes", "3", "appropriate")
+  rationale   String?
+  confidence  Float?
+  createdAt   DateTime      @default(now())
+
+  session TestSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+}
+
+model QuestionnaireResponse {
+  id        String   @id @default(cuid())
+  sessionId String
+  itemKey   String
+  value     String
+  createdAt DateTime @default(now())
+
+  session TestSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+model MetricResult {
+  id        String  @id @default(cuid())
+  runId     String
+  category  TestCategory
+  metricKey String
+  name      String
+  value     Float
+  unit      String?
+  threshold Float?
+  direction String  @default("higher") // higher | lower
+  verdict   Verdict @default(NOT_EVALUATED)
+  sampleSize Int?
+
+  run EvaluationRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+
+  @@index([runId])
+}
+
+enum FindingStatus {
+  OPEN
+  MITIGATING
+  MITIGATED
+  ACCEPTED
+  FALSE_POSITIVE
+}
+
+model Finding {
+  id             String        @id @default(cuid())
+  runId          String
+  sessionId      String?
+  systemId       String
+  code           String        // F-0001
+  title          String
+  description    String?
+  category       TestCategory
+  severity       Severity
+  tactic         String?
+  evidenceExcerpt String?
+  recommendation String?
+  status         FindingStatus @default(OPEN)
+  createdAt      DateTime      @default(now())
+
+  run      EvaluationRun    @relation(fields: [runId], references: [id], onDelete: Cascade)
+  session  TestSession?     @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  system   AiSystem         @relation(fields: [systemId], references: [id], onDelete: Cascade)
+  risk     Risk?
+  controls FindingControl[]
+
+  @@index([systemId, status])
+}
+
+model FindingControl {
+  findingId String
+  controlId String
+
+  finding Finding @relation(fields: [findingId], references: [id], onDelete: Cascade)
+  control Control @relation(fields: [controlId], references: [id], onDelete: Cascade)
+
+  @@id([findingId, controlId])
+}
+
+// ───────────────────────────── Evidence & Reports ─────────────────────────────
+
+enum EvidenceType {
+  MODEL_CARD
+  AGENT_CARD
+  RISK_ASSESSMENT
+  IMPACT_ASSESSMENT
+  DPIA
+  BIAS_FAIRNESS_REPORT
+  ROBUSTNESS_TEST_REPORT
+  SECURITY_ASSESSMENT
+  RED_TEAM_REPORT
+  USER_TESTING_REPORT
+  EVALUATION_METRICS
+  EVALUATION_PLAN
+  TEST_REPORT
+  HUMAN_OVERSIGHT_PLAN
+  POST_MARKET_MONITORING_PLAN
+  AUDIT_REPORT
+  CONFORMITY_ASSESSMENT
+  POLICY_DOCUMENT
+  APPROVAL_RECORD
+  INCIDENT_RECORD
+  TRAINING_RECORD
+  OTHER
+}
+
+enum EvidenceSource {
+  GENERATED     // produced by the platform from test results
+  UPLOADED      // document uploaded by a user
+  ATTESTATION   // human attestation record
+}
+
+enum EvidenceStatus {
+  DRAFT
+  VALID
+  EXPIRED
+  SUPERSEDED
+}
+
+model Evidence {
+  id          String         @id @default(cuid())
+  orgId       String
+  systemId    String?
+  runId       String?
+  type        EvidenceType
+  source      EvidenceSource @default(GENERATED)
+  title       String
+  description String?
+  content     Json?          // structured content for generated evidence
+  fileName    String?
+  fileUrl     String?
+  mimeType    String?
+  sha256      String?
+  status      EvidenceStatus @default(VALID)
+  validFrom   DateTime       @default(now())
+  validUntil  DateTime?
+  createdById String?
+  createdAt   DateTime       @default(now())
+
+  org       Organization   @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  system    AiSystem?      @relation(fields: [systemId], references: [id], onDelete: Cascade)
+  run       EvaluationRun? @relation(fields: [runId], references: [id], onDelete: SetNull)
+  createdBy User?          @relation(fields: [createdById], references: [id])
+  links     EvidenceLink[]
+
+  @@index([orgId, type])
+  @@index([systemId])
+}
+
+model EvidenceLink {
+  id            String  @id @default(cuid())
+  evidenceId    String
+  controlId     String?
+  requirementId String?
+  riskId        String?
+
+  evidence    Evidence     @relation(fields: [evidenceId], references: [id], onDelete: Cascade)
+  control     Control?     @relation(fields: [controlId], references: [id], onDelete: Cascade)
+  requirement Requirement? @relation(fields: [requirementId], references: [id], onDelete: Cascade)
+  risk        Risk?        @relation(fields: [riskId], references: [id], onDelete: Cascade)
+
+  @@index([evidenceId])
+  @@index([controlId])
+  @@index([requirementId])
+}
+
+enum ReportType {
+  EVALUATION_REPORT          // evaluation results (metrics, findings)
+  VERIFICATION_REPORT        // formal test/verification report (시험성적서 style)
+  NIST_ARIA_EVALUATION_REPORT
+  ISO_42001_EVIDENCE_PACK
+  EU_AI_ACT_EVIDENCE_PACK
+  NIST_AI_RMF_EVIDENCE_PACK
+  KR_AI_BASIC_ACT_EVIDENCE_PACK
+  AI_PASSPORT                // living factsheet / assurance history
+}
+
+enum ReportStatus {
+  DRAFT
+  IN_REVIEW
+  APPROVED
+  ISSUED
+  SUPERSEDED
+}
+
+model Report {
+  id           String       @id @default(cuid())
+  orgId        String
+  systemId     String
+  type         ReportType
+  code         String       // RPT-0001
+  title        String
+  version      Int          @default(1)
+  status       ReportStatus @default(DRAFT)
+  content      Json         @default("{}") // structured sections rendered by the report renderer
+  createdById  String?
+  reviewerId   String?
+  approverId   String?
+  reviewedAt   DateTime?
+  approvedAt   DateTime?
+  issuedAt     DateTime?
+  supersedesId String?      @unique
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  org        Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  system     AiSystem     @relation(fields: [systemId], references: [id], onDelete: Cascade)
+  createdBy  User?        @relation("ReportCreator", fields: [createdById], references: [id])
+  reviewer   User?        @relation("ReportReviewer", fields: [reviewerId], references: [id])
+  approver   User?        @relation("ReportApprover", fields: [approverId], references: [id])
+  supersedes Report?      @relation("ReportVersion", fields: [supersedesId], references: [id])
+  supersededBy Report?    @relation("ReportVersion")
+  runs       ReportRun[]
+
+  @@unique([orgId, code])
+  @@index([systemId, type])
+}
+
+model ReportRun {
+  reportId String
+  runId    String
+
+  report Report        @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  run    EvaluationRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+
+  @@id([reportId, runId])
+}
+
+// ───────────────────────────── Governance Workflow ─────────────────────────────
+
+enum ApprovalSubject {
+  SYSTEM_DEPLOYMENT
+  REPORT_ISSUANCE
+  RISK_ACCEPTANCE
+  POLICY_EXCEPTION
+  EVALUATION_PLAN
+}
+
+enum ApprovalDecision {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Approval {
+  id          String           @id @default(cuid())
+  orgId       String
+  subjectType ApprovalSubject
+  subjectId   String
+  subjectLabel String?
+  stage       String           // e.g. "Technical Review", "Privacy Review", "Executive Approval"
+  approverId  String?
+  decision    ApprovalDecision @default(PENDING)
+  comment     String?
+  requestedAt DateTime         @default(now())
+  decidedAt   DateTime?
+
+  org      Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  approver User?        @relation(fields: [approverId], references: [id])
+
+  @@index([orgId, decision])
+}
+
+enum TaskStatus {
+  OPEN
+  IN_PROGRESS
+  DONE
+  CANCELLED
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  orgId       String
+  title       String
+  description String?
+  assigneeId  String?
+  dueDate     DateTime?
+  status      TaskStatus @default(OPEN)
+  relatedType String?    // system / risk / finding / control / report
+  relatedId   String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  org      Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  assignee User?        @relation(fields: [assigneeId], references: [id])
+
+  @@index([orgId, status])
+}
+
+enum IncidentStatus {
+  REPORTED
+  INVESTIGATING
+  MITIGATED
+  CLOSED
+}
+
+model Incident {
+  id            String         @id @default(cuid())
+  orgId         String
+  systemId      String?
+  code          String
+  title         String
+  description   String?
+  severity      Severity
+  harmCategory  String?        // bias, privacy, safety, security, hallucination, financial
+  status        IncidentStatus @default(REPORTED)
+  affectedCount Int?
+  rootCause     String?
+  actions       String?
+  seriousIncident Boolean      @default(false) // EU AI Act Art.73 reportable
+  reportedAt    DateTime       @default(now())
+  resolvedAt    DateTime?
+
+  org    Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  system AiSystem?    @relation(fields: [systemId], references: [id], onDelete: SetNull)
+
+  @@unique([orgId, code])
+}
+
+enum PolicyStatus {
+  DRAFT
+  ACTIVE
+  RETIRED
+}
+
+model Policy {
+  id            String       @id @default(cuid())
+  orgId         String
+  title         String
+  version       String       @default("1.0")
+  status        PolicyStatus @default(DRAFT)
+  content       String?
+  effectiveDate DateTime?
+  ownerId       String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  owner User?        @relation(fields: [ownerId], references: [id])
+}
+
+// Change events drive re-test triggers (model/prompt/tool/data changes invalidate prior evidence)
+enum ChangeType {
+  MODEL_VERSION
+  PROMPT
+  TOOL
+  DATA_SOURCE
+  CONFIGURATION
+  VENDOR
+}
+
+model ChangeEvent {
+  id          String     @id @default(cuid())
+  systemId    String
+  type        ChangeType
+  description String
+  requiresRetest Boolean @default(true)
+  retestCategories TestCategory[] @default([])
+  createdAt   DateTime   @default(now())
+
+  system AiSystem @relation(fields: [systemId], references: [id], onDelete: Cascade)
+
+  @@index([systemId])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  orgId      String
+  actorId    String?
+  action     String   // created / updated / approved / generated / ...
+  entityType String
+  entityId   String?
+  summary    String?
+  diff       Json?
+  createdAt  DateTime @default(now())
+
+  org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  actor User?        @relation(fields: [actorId], references: [id])
+
+  @@index([orgId, createdAt])
+}
+
+// Provider credentials for LIVE evaluation (encrypted at rest with AUTH_SECRET-derived key)
+model ProviderCredential {
+  id           String   @id @default(cuid())
+  orgId        String
+  provider     String   // anthropic | openai | openai-compatible | http
+  label        String
+  encryptedKey String
+  baseUrl      String?
+  defaultModel String?
+  createdAt    DateTime @default(now())
+
+  org Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+}
