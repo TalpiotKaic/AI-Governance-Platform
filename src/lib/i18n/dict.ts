@@ -128,12 +128,55 @@ export const ko: Record<string, string> = {
   "Language of the generated report content. Versions are tracked per language.": "생성될 리포트 본문의 언어입니다. 버전은 언어별로 관리됩니다.",
   "Regenerate in Korean": "한국어판 생성",
   "Regenerate in English": "영문판 생성",
+  "You don't have permission for this page": "이 페이지에 대한 권한이 없습니다",
+  "Your role": "내 역할",
+  "Required permission": "필요 권한",
+  "Ask an administrator to change your role in Settings → Users & roles.": "역할 변경이 필요하면 관리자에게 요청하세요(설정 → 사용자·역할).",
+  "Back to dashboard": "대시보드로 돌아가기",
+  "Permission matrix": "권한 매트릭스",
+  "Permission": "권한",
+  "Capabilities per role. Roles are not a hierarchy: reviewers and approvers cannot run the evaluations they sign off (segregation of duties). Server actions enforce the same matrix.": "역할별 기능 권한입니다. 역할은 서열이 아니며, 검토자·승인자는 자신이 서명하는 평가를 직접 실행할 수 없습니다(직무 분리). 서버 액션도 동일한 매트릭스로 집행됩니다.",
+  "perm.systems.write": "AI 시스템 등록·편집, 변경 기록, 통제 상태 설정",
+  "perm.systems.delete": "AI 시스템 삭제",
+  "perm.risks.write": "위험 추가 및 상태 변경",
+  "perm.plans.write": "평가 계획 생성·완료",
+  "perm.evaluations.run": "평가 실행 시작·재실행",
+  "perm.evaluations.annotate": "사람 어노테이션 추가, 발견사항 상태 변경",
+  "perm.evidence.write": "증적 업로드·확인서 작성, 통제 연결",
+  "perm.reports.generate": "리포트·증적 팩 생성, 검토 요청",
+  "perm.reports.review": "리포트 검토 완료 / 초안으로 되돌리기",
+  "perm.reports.approve": "리포트 승인·발행",
+  "perm.approvals.decide": "배포·위험 수용 승인 결정",
+  "perm.tasks.write": "태스크 생성·변경",
+  "perm.incidents.write": "인시던트 보고·갱신",
+  "perm.policies.write": "정책 생성·활성화",
+  "perm.settings.view": "조직 설정 열람",
+  "perm.settings.manage": "사용자·역할·자격증명·조직 관리",
+  "perm.audit.view": "감사 추적 열람",
   "Language": "언어", "English": "English", "Korean": "한국어",
 };
 
-export const en: Record<string, string> = {};
+export const en: Record<string, string> = {
+  "perm.systems.write": "Register and edit AI systems, record changes, set control status",
+  "perm.systems.delete": "Delete AI systems",
+  "perm.risks.write": "Add risks and update risk status",
+  "perm.plans.write": "Create and complete evaluation plans",
+  "perm.evaluations.run": "Start and re-run evaluation runs",
+  "perm.evaluations.annotate": "Add human annotations and update finding status",
+  "perm.evidence.write": "Upload or attest evidence, link to controls",
+  "perm.reports.generate": "Generate reports and evidence packs, submit for review",
+  "perm.reports.review": "Mark reports reviewed or return to draft",
+  "perm.reports.approve": "Approve and issue reports",
+  "perm.approvals.decide": "Decide deployment and risk-acceptance approvals",
+  "perm.tasks.write": "Create and update tasks",
+  "perm.incidents.write": "Report and update incidents",
+  "perm.policies.write": "Create and activate policies",
+  "perm.settings.view": "View organisation settings",
+  "perm.settings.manage": "Manage users, roles, credentials and organisation",
+  "perm.audit.view": "View the audit trail",
+};
 
 export function translate(locale: Locale, key: string): string {
-  if (locale === "ko") return ko[key] ?? key;
-  return key;
+  if (locale === "ko") return ko[key] ?? en[key] ?? key;
+  return en[key] ?? key;
 }

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { requireUser } from "@/lib/auth";
+import { requireUser, userCan } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -28,9 +28,9 @@ export default async function PlanPage(props: PageProps<"/plans/[id]">) {
   return (
     <>
       <PageHeader title={p.name} crumbs={[{ label: "Evaluation Plans", href: "/plans" }, { label: p.name }]} description={`${p.system.code} · ${p.system.name}`} actions={<>
-        <Link href={`/evaluations/new?systemId=${p.systemId}&planId=${p.id}`}><Button>{t("Run this plan")}</Button></Link>
-        <Link href={`/reports/new?systemId=${p.systemId}&type=NIST_ARIA_EVALUATION_REPORT&planId=${p.id}`}><Button variant="outline">{t("ARIA report")}</Button></Link>
-        {p.status !== "COMPLETED" && <form action={setPlanStatusAction.bind(null, p.id, "COMPLETED")}><Button variant="ghost" type="submit">{t("Mark completed")}</Button></form>}
+        {userCan(user, "evaluations.run") && <Link href={`/evaluations/new?systemId=${p.systemId}&planId=${p.id}`}><Button>{t("Run this plan")}</Button></Link>}
+        {userCan(user, "reports.generate") && <Link href={`/reports/new?systemId=${p.systemId}&type=NIST_ARIA_EVALUATION_REPORT&planId=${p.id}`}><Button variant="outline">{t("ARIA report")}</Button></Link>}
+        {p.status !== "COMPLETED" && userCan(user, "plans.write") && <form action={setPlanStatusAction.bind(null, p.id, "COMPLETED")}><Button variant="ghost" type="submit">{t("Mark completed")}</Button></form>}
       </>} />
       <div className="mb-4"><Badge tone={toneForStatus(p.status)}>{L(p.status)}</Badge></div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">

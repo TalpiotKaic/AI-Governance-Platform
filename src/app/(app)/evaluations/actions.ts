@@ -2,7 +2,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
-import { requireRole } from "@/lib/auth";
+import { requirePermission } from "@/lib/auth";
 import { nextCode } from "@/lib/utils";
 import { startRunInBackground } from "@/lib/eval/runner";
 import type { Prisma } from "@/generated/prisma/client";
@@ -10,7 +10,7 @@ import type { Prisma } from "@/generated/prisma/client";
 function s(fd: FormData, k: string) { const v = fd.get(k); return typeof v === "string" ? v.trim() : ""; }
 
 export async function createRunAction(formData: FormData) {
-  const user = await requireRole("TESTER");
+  const user = await requirePermission("evaluations.run");
   const systemId = s(formData, "systemId");
   const system = await db.aiSystem.findFirstOrThrow({ where: { id: systemId, orgId: user.orgId } });
   const planId = s(formData, "planId") || undefined;
@@ -42,7 +42,7 @@ export async function createRunAction(formData: FormData) {
 }
 
 export async function rerunAction(runId: string) {
-  const user = await requireRole("TESTER");
+  const user = await requirePermission("evaluations.run");
   const run = await db.evaluationRun.findFirstOrThrow({ where: { id: runId, orgId: user.orgId } });
   if (run.status === "RUNNING") return;
   await db.evaluationRun.update({ where: { id: runId }, data: { status: "QUEUED", progress: 0, error: null } });
@@ -51,7 +51,7 @@ export async function rerunAction(runId: string) {
 }
 
 export async function updateFindingStatusAction(findingId: string, formData: FormData) {
-  const user = await requireRole("TESTER");
+  const user = await requirePermission("evaluations.annotate");
   const f = await db.finding.findFirstOrThrow({ where: { id: findingId, system: { orgId: user.orgId } } });
   const status = String(formData.get("status")) as "OPEN" | "MITIGATING" | "MITIGATED" | "ACCEPTED" | "FALSE_POSITIVE";
   await db.finding.update({ where: { id: findingId }, data: { status } });
@@ -61,7 +61,7 @@ export async function updateFindingStatusAction(findingId: string, formData: For
 }
 
 export async function addHumanAnnotationAction(sessionId: string, formData: FormData) {
-  const user = await requireRole("TESTER");
+  const user = await requirePermission("evaluations.annotate");
   const session = await db.testSession.findFirstOrThrow({ where: { id: sessionId, run: { orgId: user.orgId } } });
   const itemKey = String(formData.get("itemKey")), value = String(formData.get("value")).toLowerCase(), rationale = String(formData.get("rationale") ?? "") || null;
   await db.annotation.create({ data: { sessionId, annotator: "HUMAN", annotatorId: user.id, itemKey, value, rationale, confidence: 1 } });

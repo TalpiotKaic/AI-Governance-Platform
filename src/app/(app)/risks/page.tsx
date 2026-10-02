@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import { requireUser } from "@/lib/auth";
+import { requireUser, userCan } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
@@ -26,7 +26,7 @@ export default async function RisksPage(props: PageProps<"/risks">) {
   for (const r of risks) matrix[5 - r.severity][r.likelihood - 1]++;
   return (
     <>
-      <PageHeader title={t("Risk Register")} description={t("Portfolio view of AI risks across systems. Dimensions follow Holistic-AI-style multi-dimensional assessment plus agent behaviour; HIGH/CRITICAL test findings register risks automatically with full traceability.")} actions={<Link href="/risks/new"><Button><Plus className="h-4 w-4" /> {t("Add risk")}</Button></Link>} />
+      <PageHeader title={t("Risk Register")} description={t("Portfolio view of AI risks across systems. Dimensions follow Holistic-AI-style multi-dimensional assessment plus agent behaviour; HIGH/CRITICAL test findings register risks automatically with full traceability.")} actions={userCan(user, "risks.write") && <Link href="/risks/new"><Button><Plus className="h-4 w-4" /> {t("Add risk")}</Button></Link>} />
       <div className="mb-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Card><CardHeader><CardTitle>{t("Likelihood × Severity")}</CardTitle><CardDescription>{t("Count of risks per cell (severity weighted 3×)")}</CardDescription></CardHeader><CardContent>
           <div className="grid grid-cols-[auto_repeat(5,1fr)] gap-1 text-[11px]">
@@ -42,7 +42,7 @@ export default async function RisksPage(props: PageProps<"/risks">) {
       <div className="rounded-lg border border-border bg-surface">
         <Table><THead><TR><TH>{t("Code")}</TH><TH>{t("Risk")}</TH><TH>{t("System")}</TH><TH>{t("Dimension")}</TH><TH>L</TH><TH>S</TH><TH>{t("Score")}</TH><TH>{t("Source")}</TH><TH>{t("Status")}</TH><TH>{t("Due")}</TH><TH>{t("Update")}</TH></TR></THead><TBody>
           {risks.map((r) => <TR key={r.id}><TD className="font-mono text-xs text-muted">{r.code}</TD><TD><div className="font-medium">{r.title}</div>{r.description && <div className="line-clamp-2 text-xs text-muted">{r.description}</div>}{r.finding && <Link href={`/evaluations/${r.finding.runId}?tab=findings`} className="text-xs text-primary hover:underline">← finding {r.finding.code}</Link>}</TD><TD className="text-xs"><Link href={`/systems/${r.systemId}?tab=risks`} className="hover:underline">{r.system.code}</Link></TD><TD><Badge>{L(r.dimension)}</Badge></TD><TD className="tabular-nums">{r.likelihood}</TD><TD className="tabular-nums">{r.severity}</TD><TD><Badge tone={toneForTier(r.score >= 80 ? "CRITICAL" : r.score >= 60 ? "HIGH" : r.score >= 35 ? "MEDIUM" : "LOW")}>{Math.round(r.score)}</Badge>{r.residualScore !== null && <div className="text-[10px] text-muted">residual {Math.round(r.residualScore)}</div>}</TD><TD className="text-xs">{L(r.source)}</TD><TD><Badge tone={toneForStatus(r.status)}>{L(r.status)}</Badge></TD><TD className="text-xs text-muted">{fmtDate(r.dueDate)}</TD>
-            <TD><form action={updateRiskStatusAction.bind(null, r.id)} className="flex items-center gap-1"><Select name="status" defaultValue={r.status} className="h-7 w-28 text-xs">{["IDENTIFIED", "ASSESSED", "MITIGATING", "ACCEPTED", "CLOSED"].map((s) => <option key={s} value={s}>{L(s)}</option>)}</Select><Input name="residualScore" type="number" min={0} max={100} placeholder={t("resid.")} className="h-7 w-16 text-xs" /><Button size="sm" variant="ghost" type="submit">{t("Save")}</Button></form></TD></TR>)}
+            <TD>{userCan(user, "risks.write") ? <form action={updateRiskStatusAction.bind(null, r.id)} className="flex items-center gap-1"><Select name="status" defaultValue={r.status} className="h-7 w-28 text-xs">{["IDENTIFIED", "ASSESSED", "MITIGATING", "ACCEPTED", "CLOSED"].map((s) => <option key={s} value={s}>{L(s)}</option>)}</Select><Input name="residualScore" type="number" min={0} max={100} placeholder={t("resid.")} className="h-7 w-16 text-xs" /><Button size="sm" variant="ghost" type="submit">{t("Save")}</Button></form> : <span className="text-xs">{L(r.status)}</span>}</TD></TR>)}
         </TBody></Table>
       </div>
     </>

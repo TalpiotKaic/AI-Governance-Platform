@@ -2,14 +2,14 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
-import { requireRole } from "@/lib/auth";
+import { requirePermission } from "@/lib/auth";
 import type { Prisma, TestingType } from "@/generated/prisma/client";
 
 function s(fd: FormData, k: string) { const v = fd.get(k); return typeof v === "string" ? v.trim() : ""; }
 function list(v: string) { return v.split("\n").map((x) => x.trim()).filter(Boolean); }
 
 export async function createPlanAction(formData: FormData) {
-  const user = await requireRole("TESTER");
+  const user = await requirePermission("plans.write");
   const systemId = s(formData, "systemId");
   await db.aiSystem.findFirstOrThrow({ where: { id: systemId, orgId: user.orgId } });
   const scenarioIds = formData.getAll("scenarioIds").map(String);
@@ -29,7 +29,7 @@ export async function createPlanAction(formData: FormData) {
 }
 
 export async function setPlanStatusAction(id: string, status: "DRAFT" | "ACTIVE" | "COMPLETED" | "ARCHIVED") {
-  const user = await requireRole("TESTER");
+  const user = await requirePermission("plans.write");
   await db.evaluationPlan.findFirstOrThrow({ where: { id, orgId: user.orgId } });
   await db.evaluationPlan.update({ where: { id }, data: { status } });
   revalidatePath(`/plans/${id}`);

@@ -1,4 +1,5 @@
-import { requireUser, hasRole } from "@/lib/auth";
+import { requirePagePermission, userCan } from "@/lib/auth";
+import { PERMISSIONS, ROLES, can } from "@/lib/permissions";
 import { db } from "@/lib/db";
 import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -12,15 +13,14 @@ import Link from "next/link";
 import { getI18n } from "@/lib/i18n/server";
 
 export const metadata = { title: "Settings" };
-const ROLES = ["ADMIN", "GOVERNANCE_OWNER", "APPROVER", "REVIEWER", "TESTER", "VIEWER"];
 
 export default async function SettingsPage() {
   const { t, L } = await getI18n();
-  const user = await requireUser();
+  const user = await requirePagePermission("settings.view");
   const org = await db.organization.findUniqueOrThrow({ where: { id: user.orgId } });
   const users = await db.user.findMany({ where: { orgId: user.orgId }, orderBy: { createdAt: "asc" } });
   const creds = await db.providerCredential.findMany({ where: { orgId: user.orgId }, orderBy: { createdAt: "desc" } });
-  const admin = hasRole(user, "ADMIN");
+  const admin = userCan(user, "settings.manage");
   const env = { anthropic: Boolean(process.env.ANTHROPIC_API_KEY), openai: Boolean(process.env.OPENAI_API_KEY), ollama: process.env.OLLAMA_BASE_URL ?? null };
   return (
     <>
@@ -34,6 +34,9 @@ export default async function SettingsPage() {
         <Card className="lg:col-span-2"><CardHeader><CardTitle>{t("Users & roles")}</CardTitle><CardDescription>{t("Roles: Admin · Governance Owner · Approver (authorised signatory) · Reviewer (technical review) · Tester (runs evaluations) · Viewer.")}</CardDescription></CardHeader><CardContent className="px-0 pb-0">
           <Table><THead><TR><TH>{t("Name")}</TH><TH>{t("Email")}</TH><TH>{t("Title")}</TH><TH>{t("Role")}</TH><TH>{t("Since")}</TH></TR></THead><TBody>{users.map((u) => <TR key={u.id}><TD className="font-medium">{u.name}</TD><TD className="text-xs">{u.email}</TD><TD className="text-xs text-muted">{u.title ?? "—"}</TD><TD>{admin ? <form action={setUserRoleAction.bind(null, u.id)} className="flex items-center gap-1"><Select name="role" defaultValue={u.role} className="h-7 w-44 text-xs">{ROLES.map((r) => <option key={r} value={r}>{L(r)}</option>)}</Select><Button size="sm" variant="ghost" type="submit">{t("Save")}</Button></form> : <Badge tone="primary">{L(u.role)}</Badge>}</TD><TD className="text-xs text-muted">{fmtDate(u.createdAt)}</TD></TR>)}</TBody></Table>
           {admin && <form action={createUserAction} className="grid grid-cols-1 gap-2 border-t border-border p-4 sm:grid-cols-5"><Input name="name" placeholder={t("Name")} required /><Input name="email" type="email" placeholder={t("Email")} required /><Input name="title" placeholder={t("Title")} /><Select name="role" defaultValue="VIEWER">{ROLES.map((r) => <option key={r} value={r}>{L(r)}</option>)}</Select><div className="flex gap-2"><Input name="password" type="password" placeholder={t("Initial password")} /><Button type="submit">{t("Add")}</Button></div></form>}
+        </CardContent></Card>
+        <Card className="lg:col-span-2"><CardHeader><CardTitle>{t("Permission matrix")}</CardTitle><CardDescription>{t("Capabilities per role. Roles are not a hierarchy: reviewers and approvers cannot run the evaluations they sign off (segregation of duties). Server actions enforce the same matrix.")}</CardDescription></CardHeader><CardContent className="px-0 pb-0">
+          <Table><THead><TR><TH>{t("Permission")}</TH>{ROLES.map((r) => <TH key={r} className="text-center">{L(r)}</TH>)}</TR></THead><TBody>{PERMISSIONS.map((p) => <TR key={p}><TD className="text-xs"><code>{p}</code><div className="text-[11px] text-muted">{t(`perm.${p}`)}</div></TD>{ROLES.map((r) => <TD key={r} className="text-center text-xs">{can(r, p) ? <span className="text-success">●</span> : <span className="text-muted/40">—</span>}</TD>)}</TR>)}</TBody></Table>
         </CardContent></Card>
         <Card className="lg:col-span-2"><CardHeader><CardTitle>{t("Integrations")}</CardTitle></CardHeader><CardContent className="text-sm text-muted"><p>• <Link href="/evaluation-api" className="text-primary hover:underline">{t("HTTP Evaluation API contract")}</Link> — connect any model or agent to K-VeriAI (NIST AI 200-3 Evaluation API style).</p><p className="mt-1">• CI/CD quality gate: call <code>POST /api/public/evaluation-api/sample</code> style targets from your pipeline, or run an evaluation and read <code>/api/reports/:id/export</code> to gate deployments on verdict.</p></CardContent></Card>
       </div>

@@ -3,6 +3,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useI18n } from "@/lib/i18n/client";
+import { canSeeNav } from "@/lib/permissions";
+import type { Role } from "@/generated/prisma/client";
 import { LanguageToggle } from "./language-toggle";
 
 const links = [
@@ -11,7 +13,7 @@ const links = [
   ["/reports", "Reports & Packs"], ["/approvals", "Approvals & Tasks"], ["/incidents", "Incidents"], ["/policies", "Policies"], ["/settings", "Settings"],
 ];
 
-export function MobileNav() {
+export function MobileNav({ role }: { role: Role }) {
   const [open, setOpen] = useState(false);
   const { t } = useI18n();
   return (
@@ -27,7 +29,7 @@ export function MobileNav() {
               <button type="button" onClick={() => setOpen(false)} aria-label={t("Close")}><X className="h-5 w-5" /></button>
             </div>
             <ul className="space-y-1">
-              {links.map(([href, label]) => (
+              {links.filter(([href]) => canSeeNav(role, href)).map(([href, label]) => (
                 <li key={href}><Link href={href} onClick={() => setOpen(false)} className="block rounded-md px-2 py-2 text-sm hover:bg-surface-2">{t(label)}</Link></li>
               ))}
             </ul>

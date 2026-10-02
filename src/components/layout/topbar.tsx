@@ -14,7 +14,7 @@ export async function Topbar({ user }: { user: SessionUser }) {
   return (
     <header className="no-print sticky top-0 z-20 flex h-14 items-center justify-between border-b border-border bg-surface/90 px-4 backdrop-blur">
       <div className="flex items-center gap-3">
-        <MobileNav />
+        <MobileNav role={user.role} />
         <Link href="/dashboard" className="text-sm font-semibold md:hidden">{t("K-VeriAI")}</Link>
         <Badge tone={user.orgType === "VERIFICATION_BODY" ? "accent" : "neutral"}>{t(user.orgType === "VERIFICATION_BODY" ? "Verification Body" : "Enterprise")}</Badge>
         <span className="hidden text-sm text-muted sm:inline">{user.orgName}</span>

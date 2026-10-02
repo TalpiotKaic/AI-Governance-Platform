@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { requireUser } from "@/lib/auth";
+import { requireUser, userCan } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -47,7 +47,7 @@ export default async function FrameworkDetailPage(props: PageProps<"/frameworks/
   return (
     <>
       <PageHeader title={L(fw.code)} crumbs={[{ label: "Frameworks & Controls", href: "/frameworks" }, { label: L(fw.code) }]} description={fw.description ?? undefined}
-        actions={<>{packType && systemId && <Link href={`/reports/new?systemId=${systemId}&type=${packType}`}><Button>{t("Generate evidence pack")}</Button></Link>}</>} />
+        actions={<>{packType && systemId && userCan(user, "reports.generate") && <Link href={`/reports/new?systemId=${systemId}&type=${packType}`}><Button>{t("Generate evidence pack")}</Button></Link>}</>} />
       <Card className="mb-4"><CardContent className="flex flex-col gap-3 pt-5 md:flex-row md:items-center md:justify-between">
         <form className="flex items-center gap-2 text-sm"><span className="text-muted">{t("Coverage for system:")}</span><Select name="systemId" defaultValue={systemId} className="w-72">{systems.map((s) => <option key={s.id} value={s.id}>{s.code} · {s.name}</option>)}</Select><Button type="submit" variant="outline" size="sm">{t("Apply")}</Button></form>
         <div className="flex items-center gap-3 text-sm"><Progress value={total ? (covered / total) * 100 : 0} className="w-48" tone={covered / Math.max(1, total) >= 0.8 ? "success" : "primary"} /><span className="tabular-nums">{covered}/{total} covered</span><Badge tone="warning">{partial} partial</Badge><Badge tone="danger">{total - covered - partial} gaps</Badge></div>

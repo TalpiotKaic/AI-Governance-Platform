@@ -1,4 +1,4 @@
-import { requireUser } from "@/lib/auth";
+import { requirePagePermission } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,7 +11,7 @@ import { createPlanAction } from "../actions";
 
 export default async function NewPlanPage(props: PageProps<"/plans/new">) {
   const { t, L } = await getI18n();
-  const user = await requireUser();
+  const user = await requirePagePermission("plans.write");
   const sp = await props.searchParams;
   const systems = await db.aiSystem.findMany({ where: { orgId: user.orgId }, orderBy: { code: "asc" } });
   const scenarios = await db.testScenario.findMany({ orderBy: { code: "asc" }, include: { method: true } });

@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/client";
+import { canSeeNav } from "@/lib/permissions";
+import type { Role } from "@/generated/prisma/client";
 
 const nav = [
   { section: "Overview", items: [{ href: "/dashboard", label: "Dashboard", icon: LayoutDashboard }] },
@@ -45,7 +47,7 @@ const nav = [
   },
 ];
 
-export function Sidebar({ orgName, orgSlug, trustEnabled }: { orgName: string; orgSlug: string; trustEnabled: boolean }) {
+export function Sidebar({ orgName, orgSlug, trustEnabled, role }: { orgName: string; orgSlug: string; trustEnabled: boolean; role: Role }) {
   const pathname = usePathname();
   const { t } = useI18n();
   return (
@@ -58,7 +60,7 @@ export function Sidebar({ orgName, orgSlug, trustEnabled }: { orgName: string; o
         </div>
       </div>
       <nav className="flex-1 overflow-y-auto px-3 py-3 scroll-thin">
-        {nav.map((group) => (
+        {nav.map((g) => ({ ...g, items: g.items.filter((i) => canSeeNav(role, i.href)) })).filter((g) => g.items.length).map((group) => (
           <div key={group.section} className="mb-4">
             <p className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-wider text-muted">{t(group.section)}</p>
             <ul className="space-y-0.5">

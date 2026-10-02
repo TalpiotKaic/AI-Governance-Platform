@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { requireRole } from "@/lib/auth";
+import { requirePermission } from "@/lib/auth";
 import { nextCode, riskScore } from "@/lib/utils";
 import { intakeTier } from "@/lib/intake";
 import type { Prisma } from "@/generated/prisma/client";
@@ -58,7 +58,7 @@ function parseTools(v?: string) {
 function parseLines(v?: string, key = "name") { return (v ?? "").split("\n").map((l) => l.trim()).filter(Boolean).map((l) => ({ [key]: l })); }
 
 export async function createSystemAction(formData: FormData) {
-  const user = await requireRole("TESTER");
+  const user = await requirePermission("systems.write");
   const d = parseForm(formData);
   const count = await db.aiSystem.count({ where: { orgId: user.orgId } });
   const { score, tier } = intakeTier(d);
@@ -91,7 +91,7 @@ export async function createSystemAction(formData: FormData) {
 }
 
 export async function updateSystemAction(id: string, formData: FormData) {
-  const user = await requireRole("TESTER");
+  const user = await requirePermission("systems.write");
   const d = parseForm(formData);
   const existing = await db.aiSystem.findFirstOrThrow({ where: { id, orgId: user.orgId }, include: { agentProfile: true } });
   const { score, tier } = intakeTier(d);
@@ -111,7 +111,7 @@ export async function updateSystemAction(id: string, formData: FormData) {
 }
 
 export async function recordChangeAction(systemId: string, formData: FormData) {
-  const user = await requireRole("TESTER");
+  const user = await requirePermission("systems.write");
   await db.aiSystem.findFirstOrThrow({ where: { id: systemId, orgId: user.orgId } });
   const type = String(formData.get("type")) as "MODEL_VERSION" | "PROMPT" | "TOOL" | "DATA_SOURCE" | "CONFIGURATION" | "VENDOR";
   const description = String(formData.get("description") ?? "").trim();
@@ -126,7 +126,7 @@ export async function recordChangeAction(systemId: string, formData: FormData) {
 }
 
 export async function updateControlStatusAction(systemId: string, controlId: string, formData: FormData) {
-  const user = await requireRole("TESTER");
+  const user = await requirePermission("systems.write");
   await db.aiSystem.findFirstOrThrow({ where: { id: systemId, orgId: user.orgId } });
   const status = String(formData.get("status")) as "NOT_STARTED" | "IN_PROGRESS" | "IMPLEMENTED" | "VERIFIED" | "NOT_APPLICABLE";
   const notes = String(formData.get("notes") ?? "").trim() || undefined;
@@ -135,7 +135,7 @@ export async function updateControlStatusAction(systemId: string, controlId: str
 }
 
 export async function deleteSystemAction(id: string) {
-  const user = await requireRole("ADMIN");
+  const user = await requirePermission("systems.delete");
   const s = await db.aiSystem.findFirstOrThrow({ where: { id, orgId: user.orgId } });
   await db.aiSystem.delete({ where: { id } });
   await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: "system.deleted", entityType: "AiSystem", entityId: id, summary: `${s.code} deleted` } });

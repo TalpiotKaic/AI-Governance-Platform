@@ -1,4 +1,4 @@
-import { requireUser } from "@/lib/auth";
+import { requirePagePermission } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,7 +10,7 @@ import { getI18n } from "@/lib/i18n/server";
 
 export default async function NewRiskPage(props: PageProps<"/risks/new">) {
   const { t, L } = await getI18n();
-  const user = await requireUser();
+  const user = await requirePagePermission("risks.write");
   const sp = await props.searchParams;
   const systems = await db.aiSystem.findMany({ where: { orgId: user.orgId }, orderBy: { code: "asc" } });
   const dims = ["ACCURACY_EFFICACY", "BIAS_FAIRNESS", "ROBUSTNESS", "SAFETY", "SECURITY", "PRIVACY", "TRANSPARENCY_EXPLAINABILITY", "ACCOUNTABILITY", "AGENT_BEHAVIOR", "EXPOSURE"];

@@ -2,10 +2,12 @@ import { PageHeader } from "@/components/ui/page-header";
 import { createSystemAction } from "../actions";
 import { SystemForm } from "../system-form";
 import { getI18n } from "@/lib/i18n/server";
+import { requirePagePermission } from "@/lib/auth";
 
 export const metadata = { title: "Register AI system" };
 
 export default async function NewSystemPage() {
+  await requirePagePermission("systems.write");
   const { t } = await getI18n();
   return (
     <>

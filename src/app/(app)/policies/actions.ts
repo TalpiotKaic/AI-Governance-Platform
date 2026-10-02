@@ -1,17 +1,17 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
-import { requireRole } from "@/lib/auth";
+import { requirePermission } from "@/lib/auth";
 
 export async function createPolicyAction(formData: FormData) {
-  const user = await requireRole("GOVERNANCE_OWNER");
+  const user = await requirePermission("policies.write");
   const p = await db.policy.create({ data: { orgId: user.orgId, title: String(formData.get("title")), version: String(formData.get("version") || "1.0"), content: String(formData.get("content") ?? "") || null, status: "DRAFT", ownerId: user.id } });
   await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: "policy.created", entityType: "Policy", entityId: p.id, summary: p.title } });
   revalidatePath("/policies");
 }
 
 export async function setPolicyStatusAction(id: string, status: "DRAFT" | "ACTIVE" | "RETIRED") {
-  const user = await requireRole("GOVERNANCE_OWNER");
+  const user = await requirePermission("policies.write");
   const p = await db.policy.findFirstOrThrow({ where: { id, orgId: user.orgId } });
   await db.policy.update({ where: { id }, data: { status, effectiveDate: status === "ACTIVE" ? new Date() : p.effectiveDate } });
   if (status === "ACTIVE") {

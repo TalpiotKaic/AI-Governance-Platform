@@ -1,4 +1,4 @@
-import { requireUser } from "@/lib/auth";
+import { requirePagePermission } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,7 +12,7 @@ import { rt } from "@/lib/reports/dict";
 
 export default async function NewReportPage(props: PageProps<"/reports/new">) {
   const { t, L, locale } = await getI18n();
-  const user = await requireUser();
+  const user = await requirePagePermission("reports.generate");
   const sp = await props.searchParams;
   const systems = await db.aiSystem.findMany({ where: { orgId: user.orgId }, orderBy: { code: "asc" } });
   const systemId = typeof sp.systemId === "string" ? sp.systemId : systems[0]?.id;

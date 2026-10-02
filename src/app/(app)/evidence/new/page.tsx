@@ -1,4 +1,4 @@
-import { requireUser } from "@/lib/auth";
+import { requirePagePermission } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,7 +12,7 @@ const TYPES = ["MODEL_CARD", "AGENT_CARD", "RISK_ASSESSMENT", "IMPACT_ASSESSMENT
 
 export default async function NewEvidencePage(props: PageProps<"/evidence/new">) {
   const { t, L } = await getI18n();
-  const user = await requireUser();
+  const user = await requirePagePermission("evidence.write");
   const sp = await props.searchParams;
   const systems = await db.aiSystem.findMany({ where: { orgId: user.orgId }, orderBy: { code: "asc" } });
   const controls = await db.control.findMany({ orderBy: { sortOrder: "asc" } });

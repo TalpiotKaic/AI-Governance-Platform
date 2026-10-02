@@ -24,6 +24,19 @@ AI System → Risk → Regulation/Standard → Harmonized Control → Test Requi
 | **Public** | AI Trust Center per organisation (`/trust/<slug>`) |
 | **Integrate** | HTTP Evaluation API contract (`/evaluation-api`) with a built-in sample target; CI gate via report export |
 
+## Roles & permissions
+
+Access is capability-based (`src/lib/permissions.ts`), not a linear hierarchy, so reviewers and approvers cannot run the evaluations they sign off (segregation of duties). Server actions call `requirePermission()`, form pages call `requirePagePermission()` (redirects to `/forbidden`), and the sidebar, mobile nav and action buttons are filtered with `userCan()`. The full matrix is shown read-only under **Settings → Permission matrix**.
+
+| Role | Can |
+|---|---|
+| Admin | Everything, incl. users/roles/credentials |
+| Governance Owner | Register/edit systems, risks, plans, run evaluations, evidence, generate reports, decide approvals, policies, view settings & audit |
+| Approver | Approve/issue reports, decide approvals, tasks, incidents, audit |
+| Reviewer | Human annotation & finding status, review reports, decide approvals, tasks, incidents, audit |
+| Tester | Register/edit systems, risks, plans, run evaluations, annotate, evidence, generate reports, tasks, incidents |
+| Viewer | Read-only (no Approvals & Tasks or Settings menu) |
+
 ## Language / 언어
 
 The UI is bilingual (English / 한국어). Switch with the **한국어 | EN** toggle on the login page or in the top bar; the choice is stored in the `kveriai_locale` cookie (first visit follows `Accept-Language`). UI strings live in `src/lib/i18n/dict.ts` (English key → Korean), enum labels in `src/lib/i18n/labels.ts`. Reports and evidence packs are generated in the language chosen on the **Generate report** form (defaults to the current UI language); each report stores its `language`, versions are tracked per language, and any report page offers **Regenerate in Korean / English**. Report strings live in `src/lib/reports/dict.ts`.
