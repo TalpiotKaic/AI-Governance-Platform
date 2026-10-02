@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const PUBLIC_PREFIXES = ["/login", "/trust", "/print", "/api/public", "/api/evaluation-api", "/_next", "/favicon.ico", "/brand"];
+const PUBLIC_PREFIXES = ["/login", "/trust", "/print", "/api/public", "/api/evaluation-api", "/_next", "/favicon.ico", "/brand", "/kveriai_logo.jpg"];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -22,5 +22,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|brand/).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|brand/|kveriai_logo.jpg).*)"],
 };
