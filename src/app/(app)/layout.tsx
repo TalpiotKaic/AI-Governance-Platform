@@ -8,7 +8,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const org = await db.organization.findUnique({ where: { id: user.orgId }, select: { trustCenterEnabled: true } });
   return (
     <div className="flex min-h-screen">
-      <Sidebar orgName={user.orgName} orgSlug={user.orgSlug} trustEnabled={org?.trustCenterEnabled ?? false} />
+      <Sidebar orgName={user.orgName} orgSlug={user.orgSlug} trustEnabled={org?.trustCenterEnabled ?? false} role={user.role} />
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar user={user} />
         <main className="flex-1 px-4 py-6 md:px-8">{children}</main>

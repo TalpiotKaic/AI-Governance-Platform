@@ -1,12 +1,12 @@
 import { notFound } from "next/navigation";
-import { requireUser } from "@/lib/auth";
+import { requirePagePermission } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { PageHeader } from "@/components/ui/page-header";
 import { updateSystemAction } from "../../actions";
 import { SystemForm } from "../../system-form";
 
 export default async function EditSystemPage(props: PageProps<"/systems/[id]/edit">) {
-  const user = await requireUser();
+  const user = await requirePagePermission("systems.write");
   const { id } = await props.params;
   const s = await db.aiSystem.findFirst({ where: { id, orgId: user.orgId }, include: { models: true, agentProfile: true } });
   if (!s) notFound();

@@ -2,12 +2,12 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
-import { requireRole } from "@/lib/auth";
+import { requirePermission } from "@/lib/auth";
 import { nextCode, riskScore } from "@/lib/utils";
 import type { RiskDimension, RiskStatus } from "@/generated/prisma/client";
 
 export async function createRiskAction(formData: FormData) {
-  const user = await requireRole("TESTER");
+  const user = await requirePermission("risks.write");
   const systemId = String(formData.get("systemId"));
   await db.aiSystem.findFirstOrThrow({ where: { id: systemId, orgId: user.orgId } });
   const likelihood = Number(formData.get("likelihood")), severity = Number(formData.get("severity"));
@@ -19,7 +19,7 @@ export async function createRiskAction(formData: FormData) {
 }
 
 export async function updateRiskStatusAction(id: string, formData: FormData) {
-  const user = await requireRole("TESTER");
+  const user = await requirePermission("risks.write");
   const r = await db.risk.findFirstOrThrow({ where: { id, orgId: user.orgId } });
   const status = String(formData.get("status")) as RiskStatus;
   const residual = formData.get("residualScore") ? Number(formData.get("residualScore")) : undefined;

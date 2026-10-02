@@ -1,4 +1,4 @@
-import { requireUser } from "@/lib/auth";
+import { requirePagePermission } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { PageHeader } from "@/components/ui/page-header";
 import { createRunAction } from "../actions";
@@ -7,7 +7,7 @@ import { getI18n } from "@/lib/i18n/server";
 
 export default async function NewRunPage(props: PageProps<"/evaluations/new">) {
   const { t } = await getI18n();
-  const user = await requireUser();
+  const user = await requirePagePermission("evaluations.run");
   const sp = await props.searchParams;
   const systems = await db.aiSystem.findMany({ where: { orgId: user.orgId }, orderBy: { code: "asc" }, include: { plans: { orderBy: { createdAt: "desc" } } } });
   const scenarios = await db.testScenario.findMany({ orderBy: { code: "asc" }, include: { method: true } });

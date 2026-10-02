@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import { cache } from "react";
 import { db } from "@/lib/db";
 import type { Role } from "@/generated/prisma/client";
+import { can, type Permission } from "@/lib/permissions";
 
 const COOKIE = "kveriai_session";
 const encoder = new TextEncoder();
@@ -93,12 +94,31 @@ export function hasRole(user: SessionUser, minimum: Role) {
   return ROLE_RANK[user.role] >= ROLE_RANK[minimum];
 }
 
+/** @deprecated Prefer requirePermission — roles are not a strict hierarchy. Kept for ADMIN-only checks. */
 export async function requireRole(minimum: Role): Promise<SessionUser> {
   const user = await requireUser();
   if (!hasRole(user, minimum)) {
     throw new Error(`Forbidden: requires ${minimum}`);
   }
   return user;
+}
+
+/** Server-action guard: throws if the user's role lacks the capability. */
+export async function requirePermission(perm: Permission): Promise<SessionUser> {
+  const user = await requireUser();
+  if (!can(user.role, perm)) throw new Error(`Forbidden: requires permission ${perm}`);
+  return user;
+}
+
+/** Page guard: redirects to /forbidden instead of throwing. */
+export async function requirePagePermission(perm: Permission): Promise<SessionUser> {
+  const user = await requireUser();
+  if (!can(user.role, perm)) redirect(`/forbidden?need=${perm}`);
+  return user;
+}
+
+export function userCan(user: SessionUser, perm: Permission) {
+  return can(user.role, perm);
 }
 
 export async function verifyCredentials(email: string, password: string) {

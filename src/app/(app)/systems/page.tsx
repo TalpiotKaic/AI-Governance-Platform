@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import { requireUser } from "@/lib/auth";
+import { requireUser, userCan } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
@@ -17,8 +17,8 @@ export default async function SystemsPage() {
   const systems = await db.aiSystem.findMany({ where: { orgId: user.orgId }, orderBy: { code: "asc" }, include: { owner: true, models: true, _count: { select: { risks: true, runs: true, evidence: true } } } });
   return (
     <>
-      <PageHeader title={t("AI Inventory")} description={t("Every AI system, model and agent in scope — the top-level object that risks, controls, tests, evidence and reports attach to.")} actions={<Link href="/systems/new"><Button><Plus className="h-4 w-4" /> {t("Register AI system")}</Button></Link>} />
-      {systems.length === 0 ? <EmptyState title={t("No AI systems registered")} description={t("Register your first AI system to start the intake → risk → control → test → evidence chain.")} action={<Link href="/systems/new"><Button>{t("Register AI system")}</Button></Link>} /> : (
+      <PageHeader title={t("AI Inventory")} description={t("Every AI system, model and agent in scope — the top-level object that risks, controls, tests, evidence and reports attach to.")} actions={userCan(user, "systems.write") && <Link href="/systems/new"><Button><Plus className="h-4 w-4" /> {t("Register AI system")}</Button></Link>} />
+      {systems.length === 0 ? <EmptyState title={t("No AI systems registered")} description={t("Register your first AI system to start the intake → risk → control → test → evidence chain.")} action={userCan(user, "systems.write") ? <Link href="/systems/new"><Button>{t("Register AI system")}</Button></Link> : undefined} /> : (
         <div className="rounded-lg border border-border bg-surface">
           <Table>
             <THead><TR><TH>{t("Code")}</TH><TH>{t("System")}</TH><TH>{t("Type")}</TH><TH>{t("Stage")}</TH><TH>{t("EU AI Act")}</TH><TH>{t("Tier")}</TH><TH>{t("Assurance")}</TH><TH>{t("Risks")}</TH><TH>{t("Runs")}</TH><TH>{t("Evidence")}</TH><TH>{t("Owner")}</TH><TH>{t("Updated")}</TH></TR></THead>

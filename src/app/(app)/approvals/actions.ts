@@ -1,10 +1,10 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
-import { requireRole } from "@/lib/auth";
+import { requirePermission } from "@/lib/auth";
 
 export async function decideApprovalAction(id: string, formData: FormData) {
-  const user = await requireRole("REVIEWER");
+  const user = await requirePermission("approvals.decide");
   const a = await db.approval.findFirstOrThrow({ where: { id, orgId: user.orgId } });
   const decision = String(formData.get("decision")) as "APPROVED" | "REJECTED";
   const comment = String(formData.get("comment") ?? "") || null;
@@ -20,13 +20,13 @@ export async function decideApprovalAction(id: string, formData: FormData) {
 }
 
 export async function createTaskAction(formData: FormData) {
-  const user = await requireRole("TESTER");
+  const user = await requirePermission("tasks.write");
   await db.task.create({ data: { orgId: user.orgId, title: String(formData.get("title")), description: String(formData.get("description") ?? "") || null, assigneeId: String(formData.get("assigneeId") || "") || null, dueDate: formData.get("dueDate") ? new Date(String(formData.get("dueDate"))) : null, status: "OPEN" } });
   revalidatePath("/approvals");
 }
 
 export async function setTaskStatusAction(id: string, formData: FormData) {
-  const user = await requireRole("TESTER");
+  const user = await requirePermission("tasks.write");
   await db.task.findFirstOrThrow({ where: { id, orgId: user.orgId } });
   await db.task.update({ where: { id }, data: { status: String(formData.get("status")) as "OPEN" | "IN_PROGRESS" | "DONE" | "CANCELLED" } });
   revalidatePath("/approvals");

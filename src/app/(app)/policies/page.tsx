@@ -1,4 +1,4 @@
-import { requireUser, hasRole } from "@/lib/auth";
+import { requireUser, userCan } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -15,7 +15,7 @@ export default async function PoliciesPage() {
   const { t, L } = await getI18n();
   const user = await requireUser();
   const policies = await db.policy.findMany({ where: { orgId: user.orgId }, orderBy: [{ status: "asc" }, { updatedAt: "desc" }], include: { owner: true } });
-  const canEdit = hasRole(user, "GOVERNANCE_OWNER");
+  const canEdit = userCan(user, "policies.write");
   return (
     <>
       <PageHeader title={t("Policies")} description={t("AI policy library (ISO/IEC 42001 cl. 5.2, A.2.2) and internal standards. Activating a policy records versioned policy evidence linked to HC-01.")} />

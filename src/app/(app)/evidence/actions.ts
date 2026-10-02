@@ -4,12 +4,12 @@ import { revalidatePath } from "next/cache";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { db } from "@/lib/db";
-import { requireRole } from "@/lib/auth";
+import { requirePermission } from "@/lib/auth";
 import { sha256 } from "@/lib/crypto";
 import type { EvidenceType } from "@/generated/prisma/client";
 
 export async function createEvidenceAction(formData: FormData) {
-  const user = await requireRole("TESTER");
+  const user = await requirePermission("evidence.write");
   const systemId = String(formData.get("systemId") || "") || null;
   if (systemId) await db.aiSystem.findFirstOrThrow({ where: { id: systemId, orgId: user.orgId } });
   const controlIds = formData.getAll("controlIds").map(String).filter(Boolean);
@@ -36,14 +36,14 @@ export async function createEvidenceAction(formData: FormData) {
 }
 
 export async function setEvidenceStatusAction(id: string, status: "VALID" | "EXPIRED" | "SUPERSEDED" | "DRAFT") {
-  const user = await requireRole("TESTER");
+  const user = await requirePermission("evidence.write");
   await db.evidence.findFirstOrThrow({ where: { id, orgId: user.orgId } });
   await db.evidence.update({ where: { id }, data: { status } });
   revalidatePath(`/evidence/${id}`);
 }
 
 export async function linkEvidenceAction(id: string, formData: FormData) {
-  const user = await requireRole("TESTER");
+  const user = await requirePermission("evidence.write");
   await db.evidence.findFirstOrThrow({ where: { id, orgId: user.orgId } });
   const controlId = String(formData.get("controlId") || "") || null;
   const requirementId = String(formData.get("requirementId") || "") || null;
