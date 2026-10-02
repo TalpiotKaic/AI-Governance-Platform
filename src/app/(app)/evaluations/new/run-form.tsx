@@ -19,8 +19,16 @@ export function RunForm({ action, systems, scenarios, credentials, hasEnvKeys, i
   const sys = systems.find((s) => s.id === systemId);
   const applicable = useMemo(() => scenarios.filter((s) => !sys || s.applicableTo.includes(sys.type)), [scenarios, sys]);
   const liveAvailable = credentials.length > 0 || hasEnvKeys.anthropic || hasEnvKeys.openai || hasEnvKeys.ollama;
+  const handleSubmit = async (fd: FormData) => {
+    try {
+      await action(fd);
+    } catch (e) {
+      console.error(e);
+      alert(t("An error occurred. Please check your inputs."));
+    }
+  };
   return (
-    <form action={action} className="space-y-4">
+    <form action={handleSubmit} className="space-y-4" onKeyDown={(e) => { if (e.key === "Enter" && e.target instanceof HTMLInputElement) e.preventDefault(); }}>
       <Card><CardHeader><CardTitle>{t("1. Target system & scope")}</CardTitle></CardHeader><CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Field label={t("AI system")}><Select name="systemId" value={systemId} onChange={(e) => { setSystemId(e.target.value); setPlanId(""); }}>{systems.map((s) => <option key={s.id} value={s.id}>{s.code} · {s.name} ({L(s.type)})</option>)}</Select></Field>
         <Field label={t("Run name")}><Input name="name" defaultValue={sys ? `${sys.name} evaluation` : ""} /></Field>

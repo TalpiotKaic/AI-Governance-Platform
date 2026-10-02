@@ -16,8 +16,16 @@ export function SystemForm({ action, initial, submitLabel }: { action: (fd: Form
   const [type, setType] = useState(initial?.type ?? "LLM_APPLICATION");
   const isAgent = type === "AGENT" || type === "MULTI_AGENT";
   const toolsText = initial?.agent?.tools?.map((t) => `${t.name}|${t.riskLevel ?? "medium"}|${t.allowed === false ? "false" : "true"}|${(t.permissions ?? []).join(",")}`).join("\n") ?? "search_knowledge_base|low|true|\nlookup_customer|medium|true|customer:read\nsend_email|high|true|email:send\nexport_customer_data|critical|false|data:export\ndelete_customer_record|critical|false|customer:delete";
+  const handleSubmit = async (fd: FormData) => {
+    try {
+      await action(fd);
+    } catch (e) {
+      console.error(e);
+      alert(t("An error occurred. Please check your inputs."));
+    }
+  };
   return (
-    <form action={action} className="space-y-6">
+    <form action={handleSubmit} className="space-y-6" onKeyDown={(e) => { if (e.key === "Enter" && e.target instanceof HTMLInputElement) e.preventDefault(); }}>
       <Card>
         <CardHeader><CardTitle>{t("1. Identity & context (intake)")}</CardTitle><CardDescription>{t("Intake answers drive automatic risk tiering, EU AI Act classification prompts and the approval workflow.")}</CardDescription></CardHeader>
         <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
