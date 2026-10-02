@@ -26,7 +26,7 @@ AI System → Risk → Regulation/Standard → Harmonized Control → Test Requi
 
 ## Language / 언어
 
-The UI is bilingual (English / 한국어). Switch with the **한국어 | EN** toggle on the login page or in the top bar; the choice is stored in the `kveriai_locale` cookie (first visit follows `Accept-Language`). UI strings live in `src/lib/i18n/dict.ts` (English key → Korean), enum labels in `src/lib/i18n/labels.ts`. Generated reports and evidence packs are produced in English regardless of the UI language.
+The UI is bilingual (English / 한국어). Switch with the **한국어 | EN** toggle on the login page or in the top bar; the choice is stored in the `kveriai_locale` cookie (first visit follows `Accept-Language`). UI strings live in `src/lib/i18n/dict.ts` (English key → Korean), enum labels in `src/lib/i18n/labels.ts`. Reports and evidence packs are generated in the language chosen on the **Generate report** form (defaults to the current UI language); each report stores its `language`, versions are tracked per language, and any report page offers **Regenerate in Korean / English**. Report strings live in `src/lib/reports/dict.ts`.
 
 ## Quick start
 

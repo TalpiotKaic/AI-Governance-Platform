@@ -886,6 +886,7 @@ model Report {
   title        String
   version      Int          @default(1)
   status       ReportStatus @default(DRAFT)
+  language     String       @default("en") // report content language: en | ko
   content      Json         @default("{}") // structured sections rendered by the report renderer
   createdById  String?
   reviewerId   String?

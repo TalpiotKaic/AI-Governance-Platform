@@ -216,6 +216,8 @@ async function main() {
   await generateReport({ orgId: lab.id, systemId: sysIds["AIS-0001"], type: "KR_AI_BASIC_ACT_EVIDENCE_PACK", createdById: users.admin.id });
   await generateReport({ orgId: lab.id, systemId: sysIds["AIS-0001"], type: "AI_PASSPORT", createdById: users.admin.id });
   await generateReport({ orgId: lab.id, systemId: sysIds["AIS-0004"], type: "EVALUATION_REPORT", runIds: [run3.id], createdById: users.tester.id });
+  await generateReport({ orgId: lab.id, systemId: sysIds["AIS-0001"], type: "EVALUATION_REPORT", runIds: [run2.id], createdById: users.tester.id, language: "ko" });
+  await generateReport({ orgId: lab.id, systemId: sysIds["AIS-0001"], type: "KR_AI_BASIC_ACT_EVIDENCE_PACK", createdById: users.admin.id, language: "ko" });
   await generateReport({ orgId: lab.id, systemId: sysIds["AIS-0002"], type: "EU_AI_ACT_EVIDENCE_PACK", createdById: users.admin.id });
   // Move the first evaluation report through review → issued
   await db.report.update({ where: { id: r1.id }, data: { status: "ISSUED", reviewerId: users.reviewer.id, approverId: users.approver.id, reviewedAt: new Date(), approvedAt: new Date(), issuedAt: new Date() } });

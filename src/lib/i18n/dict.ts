@@ -124,6 +124,10 @@ export const ko: Record<string, string> = {
   "mode": "모드",
   "judge:": "판정기:",
   "by": "담당",
+  "Report language": "리포트 언어",
+  "Language of the generated report content. Versions are tracked per language.": "생성될 리포트 본문의 언어입니다. 버전은 언어별로 관리됩니다.",
+  "Regenerate in Korean": "한국어판 생성",
+  "Regenerate in English": "영문판 생성",
   "Language": "언어", "English": "English", "Korean": "한국어",
 };
 

@@ -12,6 +12,6 @@ export type Block =
 export interface Section { id: string; title: string; blocks: Block[] }
 
 export interface ReportContent {
-  meta: { reportType: string; generatedAt: string; systemName: string; systemCode: string; organization: string; frameworks?: string[]; runCodes?: string[]; mode?: string; disclaimer?: string };
+  meta: { reportType: string; language?: string; planId?: string; generatedAt: string; systemName: string; systemCode: string; organization: string; frameworks?: string[]; runCodes?: string[]; mode?: string; disclaimer?: string };
   sections: Section[];
 }
