@@ -1,8 +1,10 @@
 "use client";
+import { useI18n } from "@/lib/i18n/client";
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 
 export function ThemeToggle() {
+  const { t } = useI18n();
   const [dark, setDark] = useState(false);
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -17,7 +19,7 @@ export function ThemeToggle() {
     try { localStorage.setItem("kveriai-theme", next ? "dark" : "light"); } catch {}
   }
   return (
-    <button onClick={toggle} className="flex h-8 w-8 items-center justify-center rounded-md text-muted hover:bg-surface-2 hover:text-foreground" title="Toggle theme" type="button">
+    <button onClick={toggle} className="flex h-8 w-8 items-center justify-center rounded-md text-muted hover:bg-surface-2 hover:text-foreground" title={t("Toggle theme")} type="button">
       {mounted && dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </button>
   );

@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { getI18n } from "@/lib/i18n/server";
 
-export function PageHeader({ title, description, crumbs, actions }: { title: string; description?: string; crumbs?: { label: string; href?: string }[]; actions?: React.ReactNode }) {
+export async function PageHeader({ title, description, crumbs, actions }: { title: string; description?: string; crumbs?: { label: string; href?: string }[]; actions?: React.ReactNode }) {
+  const { t } = await getI18n();
   return (
     <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
       <div>
@@ -9,7 +11,7 @@ export function PageHeader({ title, description, crumbs, actions }: { title: str
           <nav className="mb-1 flex items-center gap-1 text-xs text-muted">
             {crumbs.map((c, i) => (
               <span key={i} className="flex items-center gap-1">
-                {c.href ? <Link href={c.href} className="hover:text-foreground">{c.label}</Link> : <span>{c.label}</span>}
+                {c.href ? <Link href={c.href} className="hover:text-foreground">{t(c.label)}</Link> : <span>{t(c.label)}</span>}
                 {i < crumbs.length - 1 && <ChevronRight className="h-3 w-3" />}
               </span>
             ))}

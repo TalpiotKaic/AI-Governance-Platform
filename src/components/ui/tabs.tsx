@@ -2,11 +2,13 @@
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n/client";
 
 /** URL-driven tabs: ?tab=xxx. */
 export function Tabs({ tabs, param = "tab", basePath }: { tabs: { key: string; label: string; count?: number }[]; param?: string; basePath?: string }) {
   const pathname = usePathname();
   const sp = useSearchParams();
+  const { t: tr } = useI18n();
   const active = sp.get(param) ?? tabs[0]?.key;
   return (
     <div className="mb-4 flex gap-1 overflow-x-auto border-b border-border scroll-thin">
@@ -24,7 +26,7 @@ export function Tabs({ tabs, param = "tab", basePath }: { tabs: { key: string; l
               isActive ? "border-primary font-medium text-foreground" : "border-transparent text-muted hover:text-foreground",
             )}
           >
-            {t.label}
+            {tr(t.label)}
             {t.count !== undefined && <span className="rounded-full bg-surface-2 px-1.5 text-[11px] text-muted">{t.count}</span>}
           </Link>
         );

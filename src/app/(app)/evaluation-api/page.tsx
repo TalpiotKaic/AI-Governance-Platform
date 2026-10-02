@@ -1,9 +1,11 @@
 import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { getI18n } from "@/lib/i18n/server";
 
 export const metadata = { title: "Evaluation API" };
 
-export default function EvaluationApiPage() {
+export default async function EvaluationApiPage() {
+  const { t } = await getI18n();
   const req = `POST https://your-agent.example/evaluate
 Content-Type: application/json
 Authorization: Bearer <optional>
@@ -25,11 +27,11 @@ Authorization: Bearer <optional>
 }`;
   return (
     <>
-      <PageHeader title="HTTP Evaluation API" description="Implement this contract on your model or agent to evaluate it in LIVE mode without sharing credentials. It mirrors the NIST AI 200-3 Evaluation API (OpenConnection / StartSession / GetResponse / CloseConnection): K-VeriAI sends the running dialogue and (for agents) the sandbox tool catalogue; your system returns the next assistant message and any tool calls. Tool calls are executed by the K-VeriAI sandbox (mocked, no side effects) and the results are fed back on the next request." />
+      <PageHeader title={t("HTTP Evaluation API")} description={t("Implement this contract on your model or agent to evaluate it in LIVE mode without sharing credentials. It mirrors the NIST AI 200-3 Evaluation API (OpenConnection / StartSession / GetResponse / CloseConnection): K-VeriAI sends the running dialogue and (for agents) the sandbox tool catalogue; your system returns the next assistant message and any tool calls. Tool calls are executed by the K-VeriAI sandbox (mocked, no side effects) and the results are fed back on the next request.")} />
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <Card><CardHeader><CardTitle>Request (per turn)</CardTitle></CardHeader><CardContent><pre className="overflow-x-auto rounded-md bg-surface-2 p-3 text-xs">{req}</pre></CardContent></Card>
-        <Card><CardHeader><CardTitle>Response</CardTitle></CardHeader><CardContent><pre className="overflow-x-auto rounded-md bg-surface-2 p-3 text-xs">{res}</pre></CardContent></Card>
-        <Card className="lg:col-span-2"><CardHeader><CardTitle>Try it</CardTitle><CardDescription>A sample target implementing this contract is built in. In a new LIVE evaluation choose adapter “HTTP Evaluation API” and set Base URL to <code>{"{origin}"}/api/evaluation-api/sample</code> (backed by the demo simulator). Judge adapter can be “Rule-based only” if you have no LLM credentials.</CardDescription></CardHeader><CardContent className="text-sm text-muted"><ul className="list-disc space-y-1 pl-5"><li>Statelessness: the full dialogue is sent each turn; you may key caches on <code>sessionId</code>.</li><li>Tool calling: return <code>toolCalls</code> with JSON arguments; K-VeriAI records them (DialogueTurn role TOOL) and evaluates tool-call accuracy, forbidden-tool use, unsafe actions and exfiltration attempts.</li><li>Timeouts: respond within 30 s per turn; a failed turn marks the session NOT_EVALUATED and continues the run.</li></ul></CardContent></Card>
+        <Card><CardHeader><CardTitle>{t("Request (per turn)")}</CardTitle></CardHeader><CardContent><pre className="overflow-x-auto rounded-md bg-surface-2 p-3 text-xs">{req}</pre></CardContent></Card>
+        <Card><CardHeader><CardTitle>{t("Response")}</CardTitle></CardHeader><CardContent><pre className="overflow-x-auto rounded-md bg-surface-2 p-3 text-xs">{res}</pre></CardContent></Card>
+        <Card className="lg:col-span-2"><CardHeader><CardTitle>{t("Try it")}</CardTitle><CardDescription>A sample target implementing this contract is built in. In a new LIVE evaluation choose adapter “HTTP Evaluation API” and set Base URL to <code>{"{origin}"}/api/evaluation-api/sample</code> (backed by the demo simulator). Judge adapter can be “Rule-based only” if you have no LLM credentials.</CardDescription></CardHeader><CardContent className="text-sm text-muted"><ul className="list-disc space-y-1 pl-5"><li>Statelessness: the full dialogue is sent each turn; you may key caches on <code>sessionId</code>.</li><li>Tool calling: return <code>toolCalls</code> with JSON arguments; K-VeriAI records them (DialogueTurn role TOOL) and evaluates tool-call accuracy, forbidden-tool use, unsafe actions and exfiltration attempts.</li><li>{t("Timeouts: respond within 30 s per turn; a failed turn marks the session NOT_EVALUATED and continues the run.")}</li></ul></CardContent></Card>
       </div>
     </>
   );

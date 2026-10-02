@@ -24,6 +24,10 @@ AI System → Risk → Regulation/Standard → Harmonized Control → Test Requi
 | **Public** | AI Trust Center per organisation (`/trust/<slug>`) |
 | **Integrate** | HTTP Evaluation API contract (`/evaluation-api`) with a built-in sample target; CI gate via report export |
 
+## Language / 언어
+
+The UI is bilingual (English / 한국어). Switch with the **한국어 | EN** toggle on the login page or in the top bar; the choice is stored in the `kveriai_locale` cookie (first visit follows `Accept-Language`). UI strings live in `src/lib/i18n/dict.ts` (English key → Korean), enum labels in `src/lib/i18n/labels.ts`. Generated reports and evidence packs are produced in English regardless of the UI language.
+
 ## Quick start
 
 ```bash

@@ -3,8 +3,10 @@ import { db } from "@/lib/db";
 import { PageHeader } from "@/components/ui/page-header";
 import { createRunAction } from "../actions";
 import { RunForm } from "./run-form";
+import { getI18n } from "@/lib/i18n/server";
 
 export default async function NewRunPage(props: PageProps<"/evaluations/new">) {
+  const { t } = await getI18n();
   const user = await requireUser();
   const sp = await props.searchParams;
   const systems = await db.aiSystem.findMany({ where: { orgId: user.orgId }, orderBy: { code: "asc" }, include: { plans: { orderBy: { createdAt: "desc" } } } });
@@ -13,7 +15,7 @@ export default async function NewRunPage(props: PageProps<"/evaluations/new">) {
   const hasEnvKeys = { anthropic: Boolean(process.env.ANTHROPIC_API_KEY), openai: Boolean(process.env.OPENAI_API_KEY), ollama: Boolean(process.env.OLLAMA_BASE_URL) };
   return (
     <>
-      <PageHeader title="New evaluation run" crumbs={[{ label: "Evaluation Runs", href: "/evaluations" }, { label: "New" }]} description="Choose the system, scenarios (or a plan), and the target. DEMO mode runs against a deterministic simulated target so the full pipeline can be exercised without API keys; LIVE mode calls the real model/agent and uses an LLM-as-judge." />
+      <PageHeader title={t("New evaluation run")} crumbs={[{ label: "Evaluation Runs", href: "/evaluations" }, { label: "New" }]} description={t("Choose the system, scenarios (or a plan), and the target. DEMO mode runs against a deterministic simulated target so the full pipeline can be exercised without API keys; LIVE mode calls the real model/agent and uses an LLM-as-judge.")} />
       <RunForm action={createRunAction} systems={systems.map((s) => ({ id: s.id, code: s.code, name: s.name, type: s.type, plans: s.plans.map((p) => ({ id: p.id, name: p.name })) }))} scenarios={scenarios.map((s) => ({ id: s.id, code: s.code, name: s.name, category: s.method.category, testingType: s.method.testingType, applicableTo: s.applicableTo, prompts: (s.prompts as unknown[]).length }))} credentials={credentials.map((c) => ({ provider: c.provider, label: c.label, defaultModel: c.defaultModel }))} hasEnvKeys={hasEnvKeys} initialSystemId={typeof sp.systemId === "string" ? sp.systemId : undefined} initialPlanId={typeof sp.planId === "string" ? sp.planId : undefined} />
     </>
   );

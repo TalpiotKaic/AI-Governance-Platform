@@ -1,7 +1,9 @@
 import { cn } from "@/lib/utils";
+import { getI18n } from "@/lib/i18n/server";
 
 /** Horizontal single-hue bar list (magnitude). Bars <= 24px, 4px rounded data-end, value at the tip. */
-export function BarList({ items, max, unit = "", tone = "primary", className }: { items: { label: string; value: number; hint?: string; href?: string }[]; max?: number; unit?: string; tone?: "primary" | "accent" | "status"; className?: string }) {
+export async function BarList({ items, max, unit = "", tone = "primary", className }: { items: { label: string; value: number; hint?: string; href?: string }[]; max?: number; unit?: string; tone?: "primary" | "accent" | "status"; className?: string }) {
+  const { t } = await getI18n();
   const m = max ?? Math.max(1, ...items.map((i) => i.value));
   return (
     <div className={cn("space-y-2", className)}>
@@ -20,7 +22,7 @@ export function BarList({ items, max, unit = "", tone = "primary", className }: 
           </div>
         );
       })}
-      {items.length === 0 && <p className="text-xs text-muted">No data.</p>}
+      {items.length === 0 && <p className="text-xs text-muted">{t("No data.")}</p>}
     </div>
   );
 }
