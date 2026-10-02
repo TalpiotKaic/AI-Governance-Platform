@@ -1,5 +1,5 @@
-import { ShieldCheck } from "lucide-react";
 import { redirect } from "next/navigation";
+import Image from "next/image";
 import { getSession } from "@/lib/auth";
 import { LoginForm } from "./login-form";
 import { getI18n } from "@/lib/i18n/server";
@@ -18,7 +18,7 @@ export default async function LoginPage(props: PageProps<"/login">) {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="w-full max-w-md">
         <div className="mb-6 flex items-center justify-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground"><ShieldCheck className="h-6 w-6" /></div>
+          <Image src="/kveriai_logo.jpg" alt="K-VeriAI Logo" width={40} height={40} className="h-10 w-10 rounded-lg object-cover" />
           <div>
             <div className="text-lg font-semibold tracking-tight">{t("K-VeriAI")}</div>
             <div className="text-xs text-muted">{t("AI Governance, Evaluation & Assurance Platform")}</div>

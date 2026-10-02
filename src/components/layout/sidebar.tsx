@@ -1,9 +1,10 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Boxes, ShieldAlert, Scale, FlaskConical, ClipboardList, Library, FolderCheck,
-  FileText, CheckSquare, Siren, BookOpen, Settings, ShieldCheck, Globe, Bot,
+  FileText, CheckSquare, Siren, BookOpen, Settings, Globe, Bot,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/client";
@@ -50,9 +51,7 @@ export function Sidebar({ orgName, orgSlug, trustEnabled }: { orgName: string; o
   return (
     <aside className="no-print hidden w-60 shrink-0 flex-col border-r border-border bg-surface md:flex">
       <div className="flex h-14 items-center gap-2 border-b border-border px-4">
-        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
-          <ShieldCheck className="h-5 w-5" />
-        </div>
+        <Image src="/kveriai_logo.jpg" alt="K-VeriAI Logo" width={32} height={32} className="h-8 w-8 rounded-md object-cover" />
         <div className="leading-tight">
           <div className="text-sm font-semibold tracking-tight">{t("K-VeriAI")}</div>
           <div className="text-[10px] text-muted">{t("AI Governance & Assurance")}</div>
