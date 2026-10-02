@@ -8,8 +8,9 @@ export const getLocale = cache(async (): Promise<Locale> => {
   const store = await cookies();
   const c = store.get(LOCALE_COOKIE)?.value;
   if (c === "ko" || c === "en") return c;
-  const accept = (await headers()).get("accept-language") ?? "";
-  return accept.toLowerCase().startsWith("ko") ? "ko" : "en";
+  // const accept = (await headers()).get("accept-language") ?? "";
+  // return accept.toLowerCase().startsWith("ko") ? "ko" : "en";
+  return "en";
 });
 
 /** Server-side i18n helpers: t() for UI strings, L() for enum values. */

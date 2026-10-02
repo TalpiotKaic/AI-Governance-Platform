@@ -13,10 +13,10 @@ export function proxy(request: NextRequest) {
   }
   const hasSession = request.cookies.has("kveriai_session");
   if (!hasSession) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    url.searchParams.set("next", pathname);
-    return NextResponse.redirect(url);
+    return new NextResponse(null, { 
+      status: 303, 
+      headers: { Location: `/login?next=${encodeURIComponent(pathname)}` } 
+    });
   }
   return NextResponse.next();
 }
