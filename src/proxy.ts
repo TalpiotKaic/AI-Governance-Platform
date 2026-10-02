@@ -13,9 +13,11 @@ export function proxy(request: NextRequest) {
   }
   const hasSession = request.cookies.has("kveriai_session");
   if (!hasSession) {
+    const host = request.headers.get("x-forwarded-host") || request.headers.get("host") || request.nextUrl.host;
+    const proto = request.headers.get("x-forwarded-proto") || request.nextUrl.protocol.replace(":", "");
     return new NextResponse(null, { 
       status: 303, 
-      headers: { Location: `/login?next=${encodeURIComponent(pathname)}` } 
+      headers: { Location: `${proto}://${host}/login?next=${encodeURIComponent(pathname)}` } 
     });
   }
   return NextResponse.next();
