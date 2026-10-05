@@ -19,7 +19,7 @@ export function SystemForm({ action, initial, submitLabel }: { action: (fd: Form
 
   useEffect(() => {
     try {
-      const saved = sessionStorage.getItem(draftKey);
+      const saved = localStorage.getItem(draftKey);
       if (saved) setDraft(JSON.parse(saved));
     } catch(e) {}
     setLoaded(true);
@@ -37,10 +37,10 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
   const handleSubmit = async (fd: FormData) => {
     try {
       await action(fd);
-      sessionStorage.removeItem(draftKey);
+      localStorage.removeItem(draftKey);
     } catch (e: any) {
       if (e?.digest?.startsWith("NEXT_REDIRECT")) {
-        sessionStorage.removeItem(draftKey);
+        localStorage.removeItem(draftKey);
         throw e;
       }
       console.error(e);
@@ -86,7 +86,7 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
             maxBudgetUsd: data.maxBudgetUsd ? Number(data.maxBudgetUsd) : null 
           };
         }
-        sessionStorage.setItem(draftKey, JSON.stringify(draftObj));
+        localStorage.setItem(draftKey, JSON.stringify(draftObj));
       }}
     >
       <Card>
