@@ -38,7 +38,11 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
     try {
       await action(fd);
       sessionStorage.removeItem(draftKey);
-    } catch (e) {
+    } catch (e: any) {
+      if (e?.digest?.startsWith("NEXT_REDIRECT")) {
+        sessionStorage.removeItem(draftKey);
+        throw e;
+      }
       console.error(e);
       alert(t("An error occurred. Please check your inputs."));
     }
@@ -46,7 +50,11 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
 
   return (
     <form 
-      action={handleSubmit} 
+      onSubmit={(e) => {
+        e.preventDefault();
+        const fd = new FormData(e.currentTarget);
+        handleSubmit(fd);
+      }}
       className="space-y-6" 
       onKeyDown={(e) => { if (e.key === "Enter" && e.target instanceof HTMLInputElement) e.preventDefault(); }}
       onChange={(e) => {
