@@ -1,4 +1,4 @@
-/** French (fr) — UI strings, enum labels and report strings. Keys are the English source strings. */
+﻿/** French (fr) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const fr: Record<string, string> = {
   // ── brand / shell ──
@@ -63,6 +63,14 @@ export const fr: Record<string, string> = {
   "You don't have permission for this page": "Vous n'avez pas l'autorisation d'accéder à cette page", "Your role": "Votre rôle", "Required permission": "Permission requise", "Ask an administrator to change your role in Settings → Users & roles.": "Demandez à un administrateur de modifier votre rôle dans Paramètres → Utilisateurs & rôles.", "Back to dashboard": "Retour au tableau de bord", "Permission matrix": "Matrice des permissions", "Permission": "Permission", "Capabilities per role. Roles are not a hierarchy: reviewers and approvers cannot run the evaluations they sign off (segregation of duties). Server actions enforce the same matrix.": "Capacités par rôle. Les rôles ne forment pas une hiérarchie : relecteurs et approbateurs ne peuvent pas exécuter les évaluations qu'ils signent (séparation des tâches). Les actions serveur appliquent la même matrice.",
   "perm.systems.write": "Enregistrer et modifier les systèmes d'IA, consigner les changements, définir le statut des contrôles", "perm.systems.delete": "Supprimer des systèmes d'IA", "perm.risks.write": "Ajouter des risques et modifier leur statut", "perm.plans.write": "Créer et clore des plans d'évaluation", "perm.evaluations.run": "Lancer et réexécuter des évaluations", "perm.evaluations.annotate": "Ajouter des annotations humaines, modifier le statut des constats", "perm.evidence.write": "Téléverser ou attester des preuves, les lier aux contrôles", "perm.reports.generate": "Générer rapports et dossiers de preuves, soumettre à la relecture", "perm.reports.review": "Marquer les rapports comme relus ou les renvoyer en brouillon", "perm.reports.approve": "Approuver et émettre des rapports", "perm.approvals.decide": "Décider des approbations de déploiement et d'acceptation des risques", "perm.tasks.write": "Créer et modifier des tâches", "perm.incidents.write": "Signaler et mettre à jour des incidents", "perm.policies.write": "Créer et activer des politiques", "perm.settings.view": "Consulter les paramètres de l'organisation", "perm.settings.manage": "Gérer utilisateurs, rôles, identifiants et organisation", "perm.audit.view": "Consulter la piste d'audit",
   "Language": "Langue", "English": "Anglais", "Korean": "Coréen", "German": "Allemand", "French": "Français", "Italian": "Italien", "Spanish": "Espagnol",
+  "Not yet classified.": "Pas encore classifié.",
+  "Most AI systems (e.g. spam filters). Unregulated.": "La plupart des systèmes d'IA (ex. filtres anti-spam). Non réglementé.",
+  "Systems interacting with humans (e.g. chatbots, deepfakes). Requires transparency.": "Systèmes interagissant avec des humains (ex. chatbots, deepfakes). Exige de la transparence.",
+  "Systems in biometrics, critical infrastructure, education, employment, essential services, law enforcement. Strict compliance required.": "Systèmes liés à la biométrie, l'infrastructure critique, l'éducation, l'emploi, les services essentiels, les forces de l'ordre. Conformité stricte requise.",
+  "Subliminal manipulation, social scoring, untargeted facial scraping. Banned.": "Manipulation subliminale, notation sociale, scraping facial aveugle. Interdit.",
+  "General Purpose AI models capable of wide range of tasks.": "Modèles d'IA à usage général capables d'un large éventail de tâches.",
+  "High-impact GPAI models trained with massive compute.": "Modèles GPAI à fort impact entraînés avec une puissance de calcul massive.",
+  "Show help": "Afficher l'aide",
 };
 
 export const FR_LABELS: Record<string, string> = {
@@ -88,6 +96,14 @@ export const FR_LABELS: Record<string, string> = {
   SYSTEM_DEPLOYMENT: "Déploiement du système", REPORT_ISSUANCE: "Émission du rapport", RISK_ACCEPTANCE: "Acceptation du risque", POLICY_EXCEPTION: "Exception à la politique", PENDING: "En attente", REJECTED: "Rejeté", DONE: "Terminé", REPORTED: "Signalé", INVESTIGATING: "En investigation",
   MODEL_VERSION: "Version du modèle", PROMPT: "Prompt", TOOL: "Outil", DATA_SOURCE: "Source de données", CONFIGURATION: "Configuration", VENDOR: "Fournisseur", THIRD_PARTY_API: "API tierce", CLOUD_MANAGED: "Cloud géré", SELF_HOSTED: "Auto-hébergé", ON_PREMISE: "Sur site", ACTIVE: "Actif",
   COVERED: "Couvert", PARTIAL: "Partiel", GAP: "Lacune", UNMAPPED: "Non relié",
+  "Not yet classified.": "Pas encore classifié.",
+  "Most AI systems (e.g. spam filters). Unregulated.": "La plupart des systèmes d'IA (ex. filtres anti-spam). Non réglementé.",
+  "Systems interacting with humans (e.g. chatbots, deepfakes). Requires transparency.": "Systèmes interagissant avec des humains (ex. chatbots, deepfakes). Exige de la transparence.",
+  "Systems in biometrics, critical infrastructure, education, employment, essential services, law enforcement. Strict compliance required.": "Systèmes liés à la biométrie, l'infrastructure critique, l'éducation, l'emploi, les services essentiels, les forces de l'ordre. Conformité stricte requise.",
+  "Subliminal manipulation, social scoring, untargeted facial scraping. Banned.": "Manipulation subliminale, notation sociale, scraping facial aveugle. Interdit.",
+  "General Purpose AI models capable of wide range of tasks.": "Modèles d'IA à usage général capables d'un large éventail de tâches.",
+  "High-impact GPAI models trained with massive compute.": "Modèles GPAI à fort impact entraînés avec une puissance de calcul massive.",
+  "Show help": "Afficher l'aide",
 };
 
 export const REPORT_FR: Record<string, string> = {
@@ -118,4 +134,12 @@ export const REPORT_FR: Record<string, string> = {
   "a simulated judge over ground-truth tags": "un juge simulé fondé sur des étiquettes de vérité terrain", "adapter (Anthropic / OpenAI-compatible / HTTP Evaluation API / demo)": "adaptateur (Anthropic / compatible OpenAI / HTTP Evaluation API / démo)", "all components": "tous les composants", "an LLM-as-judge with structured rationale and confidence": "un LLM-as-judge avec justification structurée et niveau de confiance", "autonomy:": "autonomie :", "budget cap": "plafond budgétaire", "built-in": "intégré", "controls": "contrôles", "critical": "critiques", "fail": "échec", "high": "élevés", "kill switch:": "arrêt d'urgence :", "n": "n", "n/a": "n/d", "no": "non", "no harmonized control mapped; attach evidence directly": "aucun contrôle harmonisé relié ; attacher la preuve directement", "not yet implemented": "non encore mis en œuvre", "pass": "réussite", "sessions.": "", "yes": "oui",
   "Results relate only to the items tested under the stated conditions.": "Les résultats ne concernent que les éléments testés dans les conditions indiquées.",
   "No entries": "Aucune entrée", "Recommendation:": "Recommandation :", "Signature / date": "Signature / date", "Generated": "Généré", "Runs:": "Exécutions :", "This document is generated from platform records; changes to the underlying system invalidate test-derived evidence until re-evaluation.": "Ce document est généré à partir des données de la plateforme ; toute modification du système sous-jacent invalide les preuves issues des tests jusqu'à réévaluation.", "Language": "Langue",
+  "Not yet classified.": "Pas encore classifié.",
+  "Most AI systems (e.g. spam filters). Unregulated.": "La plupart des systèmes d'IA (ex. filtres anti-spam). Non réglementé.",
+  "Systems interacting with humans (e.g. chatbots, deepfakes). Requires transparency.": "Systèmes interagissant avec des humains (ex. chatbots, deepfakes). Exige de la transparence.",
+  "Systems in biometrics, critical infrastructure, education, employment, essential services, law enforcement. Strict compliance required.": "Systèmes liés à la biométrie, l'infrastructure critique, l'éducation, l'emploi, les services essentiels, les forces de l'ordre. Conformité stricte requise.",
+  "Subliminal manipulation, social scoring, untargeted facial scraping. Banned.": "Manipulation subliminale, notation sociale, scraping facial aveugle. Interdit.",
+  "General Purpose AI models capable of wide range of tasks.": "Modèles d'IA à usage général capables d'un large éventail de tâches.",
+  "High-impact GPAI models trained with massive compute.": "Modèles GPAI à fort impact entraînés avec une puissance de calcul massive.",
+  "Show help": "Afficher l'aide",
 };
