@@ -91,39 +91,54 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
       setVal("maxBudgetUsd", initial.agent?.maxBudgetUsd);
     }
     
+    // PREVENT ACCIDENTAL REFRESH/NAVIGATION
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "You have unsaved changes. Are you sure you want to leave?";
+      return e.returnValue;
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
     const timer = setInterval(() => {
-      if (!formRef.current) return;
-      const fd = new FormData(formRef.current);
-      const data = Object.fromEntries(fd.entries());
-      const draftObj: any = { ...data };
-      draftObj.usesPersonalData = data.usesPersonalData === "on";
-      draftObj.usesSensitiveData = data.usesSensitiveData === "on";
-      draftObj.customerFacing = data.customerFacing === "on";
-      draftObj.automatedDecision = data.automatedDecision === "on";
-      draftObj.geographies = data.geographies ? String(data.geographies).split(",").map(s => s.trim()) : [];
-      draftObj.tags = data.tags ? String(data.tags).split(",").map(s => s.trim()) : [];
-      draftObj.model = { provider: data.modelProvider, name: data.modelName, version: data.modelVersion };
-      if (data.agentFramework || toolsText) {
-        draftObj.agent = { 
-          framework: data.agentFramework,
-          autonomyLevel: data.autonomyLevel,
-          tools: data.tools ? String(data.tools).split("\n").map(line => {
-            const [name, riskLevel = "medium", allowed = "true", perms = ""] = line.split("|");
-            return { name, riskLevel, allowed: allowed !== "false", permissions: perms.split(",") };
-          }) : [],
-          dataSources: data.dataSources ? String(data.dataSources).split("\n").map(n => ({ name: n })) : [],
-          mcpServers: data.mcpServers ? String(data.mcpServers).split("\n").map(n => ({ name: n })) : [],
-          killSwitch: data.killSwitch === "on",
-          maxBudgetUsd: data.maxBudgetUsd ? Number(data.maxBudgetUsd) : null 
-        };
-      }
-      const newSaved = JSON.stringify(draftObj);
-      if (localStorage.getItem(draftKey) !== newSaved) {
-        localStorage.setItem(draftKey, newSaved);
-        setLastSaved(new Date());
+      try {
+        if (!formRef.current) return;
+        const fd = new FormData(formRef.current);
+        const data = Object.fromEntries(fd.entries());
+        const draftObj: any = { ...data };
+        draftObj.usesPersonalData = data.usesPersonalData === "on";
+        draftObj.usesSensitiveData = data.usesSensitiveData === "on";
+        draftObj.customerFacing = data.customerFacing === "on";
+        draftObj.automatedDecision = data.automatedDecision === "on";
+        draftObj.geographies = data.geographies ? String(data.geographies).split(",").map(s => s.trim()) : [];
+        draftObj.tags = data.tags ? String(data.tags).split(",").map(s => s.trim()) : [];
+        draftObj.model = { provider: data.modelProvider, name: data.modelName, version: data.modelVersion };
+        if (data.agentFramework || toolsText) {
+          draftObj.agent = { 
+            framework: data.agentFramework,
+            autonomyLevel: data.autonomyLevel,
+            tools: data.tools ? String(data.tools).split("\n").map(line => {
+              const [name, riskLevel = "medium", allowed = "true", perms = ""] = line.split("|");
+              return { name, riskLevel, allowed: allowed !== "false", permissions: perms.split(",") };
+            }) : [],
+            dataSources: data.dataSources ? String(data.dataSources).split("\n").map(n => ({ name: n })) : [],
+            mcpServers: data.mcpServers ? String(data.mcpServers).split("\n").map(n => ({ name: n })) : [],
+            killSwitch: data.killSwitch === "on",
+            maxBudgetUsd: data.maxBudgetUsd ? Number(data.maxBudgetUsd) : null 
+          };
+        }
+        const newSaved = JSON.stringify(draftObj);
+        if (localStorage.getItem(draftKey) !== newSaved) {
+          localStorage.setItem(draftKey, newSaved);
+          setLastSaved(new Date());
+        }
+      } catch (err) {
+        console.error("Auto-save failed", err);
       }
     }, 1500);
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, [draftKey, toolsText, initial]);
 
   const handleSubmit = async (fd: FormData) => {
