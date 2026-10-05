@@ -14,7 +14,24 @@ type Initial = Partial<{
 export function SystemForm({ action, initial, submitLabel }: { action: (fd: FormData) => Promise<void>; initial?: Initial; submitLabel: string }) {
   const { t, L } = useI18n();
   const draftKey = `kveriai-system-draft-${initial?.name ?? "new"}`;
-  
+  const [loaded, setLoaded] = useState(false);
+  const [draft, setDraft] = useState<Initial | null>(null);
+
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem(draftKey);
+      if (saved) setDraft(JSON.parse(saved));
+    } catch(e) {}
+    setLoaded(true);
+  }, [draftKey]);
+
+  if (!loaded) return <div className="h-[500px] animate-pulse rounded-md bg-surface-2" />;
+
+  const mergedInitial = draft ? { ...initial, ...draft } : initial;
+  return <SystemFormInner action={action} initial={mergedInitial} submitLabel={submitLabel} draftKey={draftKey} t={t} L={L} />;
+}
+
+function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { action: any; initial: any; submitLabel: string; draftKey: string; t: any; L: any }) {
   const [type, setType] = useState(initial?.type ?? "LLM_APPLICATION");
   const isAgent = type === "AGENT" || type === "MULTI_AGENT";
   const toolsText = initial?.agent?.tools?.map((t: any) => `${t.name}|${t.riskLevel ?? "medium"}|${t.allowed === false ? "false" : "true"}|${(t.permissions ?? []).join(",")}`).join("\n") ?? "search_knowledge_base|low|true|\nlookup_customer|medium|true|customer:read\nsend_email|high|true|email:send\nexport_customer_data|critical|false|data:export\ndelete_customer_record|critical|false|customer:delete";
@@ -37,7 +54,7 @@ export function SystemForm({ action, initial, submitLabel }: { action: (fd: Form
       onChange={(e) => {
         const fd = new FormData(e.currentTarget);
         const data = Object.fromEntries(fd.entries());
-        // Map flat FormData back to Initial structure for draft
+        // Reconstruct draft object
         const draftObj: any = { ...data };
         draftObj.usesPersonalData = data.usesPersonalData === "on";
         draftObj.usesSensitiveData = data.usesSensitiveData === "on";
@@ -46,36 +63,24 @@ export function SystemForm({ action, initial, submitLabel }: { action: (fd: Form
         draftObj.geographies = data.geographies ? String(data.geographies).split(",").map(s => s.trim()) : [];
         draftObj.tags = data.tags ? String(data.tags).split(",").map(s => s.trim()) : [];
         draftObj.model = { provider: data.modelProvider, name: data.modelName, version: data.modelVersion };
-        if (data.agentFramework || data.tools) {
-          draftObj.agent = { framework: data.agentFramework, autonomyLevel: data.autonomyLevel, tools: [], killSwitch: data.killSwitch === "on", maxBudgetUsd: data.maxBudgetUsd ? Number(data.maxBudgetUsd) : null };
-          // We don't perfectly parse tools for the draft, but the Textarea uses the flat string anyway!
-          // Actually, Textarea uses `defaultValue={toolsText}` which is derived from `initial.agent.tools`.
-          // We can just save the raw text into a custom field.
+        if (data.agentFramework || toolsText) {
+          // toolsText is derived from the Textarea which is managed by the form, but wait...
+          // If we just store the flat form data in the draft, it won't map perfectly.
+          // BUT wait, we can just use the flat FormData if we map it correctly!
+          draftObj.agent = { 
+            framework: data.agentFramework, 
+            autonomyLevel: data.autonomyLevel, 
+            tools: data.tools ? String(data.tools).split("\n").map(line => {
+              const [name, riskLevel = "medium", allowed = "true", perms = ""] = line.split("|");
+              return { name, riskLevel, allowed: allowed !== "false", permissions: perms.split(",") };
+            }) : [],
+            dataSources: data.dataSources ? String(data.dataSources).split("\n").map(name => ({ name })) : [],
+            mcpServers: data.mcpServers ? String(data.mcpServers).split("\n").map(name => ({ name })) : [],
+            killSwitch: data.killSwitch === "on", 
+            maxBudgetUsd: data.maxBudgetUsd ? Number(data.maxBudgetUsd) : null 
+          };
         }
-        // Wait! It's much easier to just store the raw FormData entries and restore them into the DOM directly using the ref approach, BUT my ref approach was buggy?
-        // Let's just store the flat form data in sessionStorage!
-        sessionStorage.setItem(draftKey + "-flat", JSON.stringify(Object.fromEntries(fd.entries())));
-      }}
-      ref={(form) => {
-        if (form && !form.dataset.restored) {
-          form.dataset.restored = "true";
-          try {
-            const saved = sessionStorage.getItem(draftKey + "-flat");
-            if (saved) {
-              const data = JSON.parse(saved);
-              Object.keys(data).forEach((k) => {
-                const el = form.elements.namedItem(k);
-                if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement) {
-                  if (el.type === "checkbox") (el as HTMLInputElement).checked = data[k] === "on";
-                  else el.value = data[k] as string;
-                } else if (el instanceof RadioNodeList) {
-                  (el as any).value = data[k];
-                }
-              });
-              if (data.type) setType(data.type as string);
-            }
-          } catch(e) {}
-        }
+        sessionStorage.setItem(draftKey, JSON.stringify(draftObj));
       }}
     >
       <Card>
@@ -139,8 +144,8 @@ export function SystemForm({ action, initial, submitLabel }: { action: (fd: Form
             <Field label={t("Tools (one per line: name|riskLevel|allowed|permissions)")} className="md:col-span-2" hint={t("Sandbox tool names are evaluated against the built-in tool catalogue (search_knowledge_base, lookup_customer, get_account_balance, transfer_funds, send_email, export_customer_data, delete_customer_record, run_sql, read_patient_record, schedule_appointment, process_refund, escalate_to_human, book_flight, fetch_url).")}>
               <Textarea name="tools" className="min-h-[140px] font-mono text-xs" defaultValue={toolsText} />
             </Field>
-            <Field label={t("Data sources (one per line)")}><Textarea name="dataSources" defaultValue={initial?.agent?.dataSources?.map((d) => d.name).join("\n") ?? ""} /></Field>
-            <Field label={t("MCP servers (one per line)")}><Textarea name="mcpServers" defaultValue={initial?.agent?.mcpServers?.map((d) => d.name).join("\n") ?? ""} /></Field>
+            <Field label={t("Data sources (one per line)")}><Textarea name="dataSources" defaultValue={initial?.agent?.dataSources?.map((d: any) => d.name).join("\n") ?? ""} /></Field>
+            <Field label={t("MCP servers (one per line)")}><Textarea name="mcpServers" defaultValue={initial?.agent?.mcpServers?.map((d: any) => d.name).join("\n") ?? ""} /></Field>
             <Checkbox name="killSwitch" label={t("Kill switch / emergency stop implemented")} defaultChecked={initial?.agent?.killSwitch} />
             <Field label={t("Budget cap (USD per session)")}><Input name="maxBudgetUsd" type="number" step="0.01" defaultValue={initial?.agent?.maxBudgetUsd ?? ""} /></Field>
           </CardContent>
