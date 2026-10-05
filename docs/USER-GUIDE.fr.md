@@ -1,6 +1,6 @@
 # Guide d'utilisation K-VeriAI
 
-Au 2026-10-05 · Autres langues : [English](USER-GUIDE.en.md) · [한국어](USER-GUIDE.ko.md) · [Deutsch](USER-GUIDE.de.md)
+Au 2026-10-05 · Autres langues : [English](USER-GUIDE.en.md) · [한국어](USER-GUIDE.ko.md) · [Deutsch](USER-GUIDE.de.md) · [Italiano](USER-GUIDE.it.md) · [Español](USER-GUIDE.es.md)
 
 ## 1. À quoi sert K-VeriAI
 
@@ -26,7 +26,7 @@ K-VeriAI est une plateforme de gouvernance, d'évaluation et d'assurance de l'IA
 - **Mode DEMO** : parcourt toute la chaîne contre un simulateur déterministe, sans clé API. Il sert à la formation, à la démonstration et à la validation du flux ; ses résultats ne doivent jamais servir de preuve sur un système réel.
 - **Mode LIVE** : appelle le vrai modèle ou agent (Anthropic, OpenAI, compatible OpenAI, HTTP Evaluation API) et annote avec un LLM-as-judge.
 
-L'interface et les rapports existent en anglais, coréen, allemand et français. Changez de langue avec le sélecteur à drapeaux (**EN | KO | DE | FR**) sur la page de connexion ou dans la barre supérieure.
+L'interface et les rapports existent en anglais, coréen, allemand, français, italien et espagnol. Changez de langue avec le sélecteur à drapeaux (**EN | KO | DE | FR | IT | ES**) sur la page de connexion ou dans la barre supérieure.
 
 ## 2. Concepts clés et flux de travail
 
@@ -227,7 +227,7 @@ Générez huit types de rapports à partir des données de la plateforme (exécu
 
 **Flux du rapport** : brouillon → soumettre à la relecture → relu → approuvé → émis. L'émission crée un enregistrement d'approbation (preuve) et marque la version précédente « remplacée ». Un relecteur peut renvoyer un rapport en brouillon.
 
-- Le formulaire comporte une **langue du rapport** (anglais / coréen / allemand / français). Les versions sont suivies par langue, et la page du rapport propose « Régénérer en … » pour les autres langues.
+- Le formulaire comporte une **langue du rapport** (anglais / coréen / allemand / français / italien / espagnol). Les versions sont suivies par langue, et la page du rapport propose « Régénérer en … » pour les autres langues.
 - La page du rapport offre vue d'impression, téléchargement PDF et export JSON.
 - Conseil : pour une soumission externe, utilisez uniquement les rapports au statut « émis ». Seuls les rapports émis apparaissent dans le Centre de confiance IA.
 

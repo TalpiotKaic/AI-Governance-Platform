@@ -5,9 +5,11 @@
  */
 import { de } from "./locales/de";
 import { fr } from "./locales/fr";
+import { it } from "./locales/it";
+import { es } from "./locales/es";
 
-export type Locale = "en" | "ko" | "de" | "fr";
-export const LOCALES: Locale[] = ["en", "ko", "de", "fr"];
+export type Locale = "en" | "ko" | "de" | "fr" | "it" | "es";
+export const LOCALES: Locale[] = ["en", "ko", "de", "fr", "it", "es"];
 export const DEFAULT_LOCALE: Locale = "en";
 export const LOCALE_COOKIE = "kveriai_locale";
 
@@ -17,6 +19,8 @@ export const LOCALE_META: Record<Locale, { native: string; short: string; englis
   ko: { native: "한국어", short: "KO", english: "Korean" },
   de: { native: "Deutsch", short: "DE", english: "German" },
   fr: { native: "Français", short: "FR", english: "French" },
+  it: { native: "Italiano", short: "IT", english: "Italian" },
+  es: { native: "Español", short: "ES", english: "Spanish" },
 };
 
 export function isLocale(v: unknown): v is Locale {
@@ -186,7 +190,7 @@ export const ko: Record<string, string> = {
   "perm.settings.manage": "사용자·역할·자격증명·조직 관리",
   "perm.audit.view": "감사 추적 열람",
   "Regenerate in": "다른 언어판 생성:",
-  "Language": "언어", "English": "영어", "Korean": "한국어", "German": "독일어", "French": "프랑스어",
+  "Language": "언어", "English": "영어", "Korean": "한국어", "German": "독일어", "French": "프랑스어", "Italian": "이탈리아어", "Spanish": "스페인어",
 };
 
 export const en: Record<string, string> = {
@@ -209,7 +213,7 @@ export const en: Record<string, string> = {
   "perm.audit.view": "View the audit trail",
 };
 
-export const DICTS: Record<Locale, Record<string, string>> = { en, ko, de, fr };
+export const DICTS: Record<Locale, Record<string, string>> = { en, ko, de, fr, it, es };
 
 export function translate(locale: Locale, key: string): string {
   return DICTS[locale]?.[key] ?? en[key] ?? key;

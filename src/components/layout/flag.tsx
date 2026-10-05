@@ -1,6 +1,6 @@
 import type { Locale } from "@/lib/i18n/dict";
 
-/** Small, dependency-free SVG flags (16×12) for the language picker. Simplified designs, decorative only. */
+/** Small, dependency-free SVG flags (16×12) for the language picker (EN, KO, DE, FR, IT, ES). Simplified designs, decorative only. */
 export function Flag({ locale, className }: { locale: Locale; className?: string }) {
   const common = { width: 16, height: 12, viewBox: "0 0 16 12", className, "aria-hidden": true as const, style: { borderRadius: 2, boxShadow: "0 0 0 1px rgba(0,0,0,0.12)" } };
   switch (locale) {
@@ -42,6 +42,23 @@ export function Flag({ locale, className }: { locale: Locale; className?: string
           <rect width="5.33" height="12" x="0" fill="#0055A4" />
           <rect width="5.34" height="12" x="5.33" fill="#fff" />
           <rect width="5.33" height="12" x="10.67" fill="#EF4135" />
+        </svg>
+      );
+    case "it":
+      return (
+        <svg {...common}>
+          <rect width="5.33" height="12" x="0" fill="#009246" />
+          <rect width="5.34" height="12" x="5.33" fill="#fff" />
+          <rect width="5.33" height="12" x="10.67" fill="#CE2B37" />
+        </svg>
+      );
+    case "es":
+      return (
+        <svg {...common}>
+          <rect width="16" height="3" y="0" fill="#AA151B" />
+          <rect width="16" height="6" y="3" fill="#F1BF00" />
+          <rect width="16" height="3" y="9" fill="#AA151B" />
+          <rect width="2.2" height="2.6" x="4" y="4.7" rx="0.4" fill="#AA151B" fillOpacity="0.85" />
         </svg>
       );
     default:

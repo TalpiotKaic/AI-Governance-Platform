@@ -1,6 +1,6 @@
 # K-VeriAI Benutzerhandbuch
 
-Stand 2026-10-05 · Andere Sprachen: [English](USER-GUIDE.en.md) · [한국어](USER-GUIDE.ko.md) · [Français](USER-GUIDE.fr.md)
+Stand 2026-10-05 · Andere Sprachen: [English](USER-GUIDE.en.md) · [한국어](USER-GUIDE.ko.md) · [Français](USER-GUIDE.fr.md) · [Italiano](USER-GUIDE.it.md) · [Español](USER-GUIDE.es.md)
 
 ## 1. Wozu K-VeriAI dient
 
@@ -26,7 +26,7 @@ K-VeriAI ist eine Plattform für KI-Governance, -Evaluierung und -Assurance, die
 - **DEMO-Modus** durchläuft die gesamte Pipeline gegen einen deterministischen Simulator ohne API-Schlüssel. Er dient Schulung, Vorführung und Workflow-Validierung; seine Ergebnisse dürfen nie als Nachweis über ein reales System verwendet werden.
 - **LIVE-Modus** ruft das echte Modell oder den Agenten auf (Anthropic, OpenAI, OpenAI-kompatibel, HTTP Evaluation API) und annotiert mit einem LLM-as-Judge.
 
-Oberfläche und Berichte sind auf Englisch, Koreanisch, Deutsch und Französisch verfügbar. Umschalten über den Sprachwähler mit Flaggen (**EN | KO | DE | FR**) auf der Anmeldeseite oder in der Kopfleiste.
+Oberfläche und Berichte sind auf Englisch, Koreanisch, Deutsch, Französisch, Italienisch und Spanisch verfügbar. Umschalten über den Sprachwähler mit Flaggen (**EN | KO | DE | FR | IT | ES**) auf der Anmeldeseite oder in der Kopfleiste.
 
 ## 2. Kernkonzepte und Arbeitsablauf
 
@@ -227,7 +227,7 @@ Acht Berichtstypen aus Plattformdaten (Läufe, Risiken, Kontrollen, Nachweise) e
 
 **Berichts-Workflow**: Entwurf → zur Prüfung einreichen → geprüft → freigegeben → ausgestellt. Das Ausstellen erzeugt einen Freigabedatensatz (Nachweis) und markiert die Vorversion „ersetzt“. Ein Prüfer kann einen Bericht zurück in den Entwurf setzen.
 
-- Das Formular hat eine **Berichtssprache** (Englisch / Koreanisch / Deutsch / Französisch). Versionen werden je Sprache geführt; die Berichtsseite bietet „Neu erzeugen auf …“ für die übrigen Sprachen.
+- Das Formular hat eine **Berichtssprache** (Englisch / Koreanisch / Deutsch / Französisch / Italienisch / Spanisch). Versionen werden je Sprache geführt; die Berichtsseite bietet „Neu erzeugen auf …“ für die übrigen Sprachen.
 - Die Berichtsseite bietet Druckansicht, PDF-Download und JSON-Export.
 - Tipp: Für externe Einreichungen nur Berichte im Status „ausgestellt“ verwenden. Nur ausgestellte Berichte erscheinen im KI-Trust-Center.
 
