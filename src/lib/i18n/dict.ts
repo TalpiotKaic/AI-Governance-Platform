@@ -1,7 +1,37 @@
-/** UI dictionary. Keys are the English source strings; missing keys fall back to English. */
-export type Locale = "en" | "ko";
-export const LOCALES: Locale[] = ["en", "ko"];
+/**
+ * UI dictionary. Keys are the English source strings; missing keys fall back to English.
+ * To add a language: create src/lib/i18n/locales/<code>.ts exporting the UI dict, enum labels and
+ * report strings, then register it in LOCALE_META, DICTS (here), LABEL_MAPS (labels.ts) and REPORT_DICTS (reports/dict.ts).
+ */
+import { de } from "./locales/de";
+
+export type Locale = "en" | "ko" | "de";
+export const LOCALES: Locale[] = ["en", "ko", "de"];
+export const DEFAULT_LOCALE: Locale = "en";
 export const LOCALE_COOKIE = "kveriai_locale";
+
+/** Display metadata per locale: native name (for pickers) and short tag (for the compact toggle). */
+export const LOCALE_META: Record<Locale, { native: string; short: string; english: string }> = {
+  en: { native: "English", short: "EN", english: "English" },
+  ko: { native: "한국어", short: "KO", english: "Korean" },
+  de: { native: "Deutsch", short: "DE", english: "German" },
+};
+
+export function isLocale(v: unknown): v is Locale {
+  return typeof v === "string" && (LOCALES as string[]).includes(v);
+}
+/** Coerce any value (cookie, form field, DB column) to a supported locale. */
+export function toLocale(v: unknown, fallback: Locale = DEFAULT_LOCALE): Locale {
+  return isLocale(v) ? v : fallback;
+}
+/** Pick the best locale from an Accept-Language header. */
+export function localeFromAcceptLanguage(header: string | null | undefined): Locale {
+  for (const part of (header ?? "").split(",")) {
+    const tag = part.trim().split(";")[0].toLowerCase().split("-")[0];
+    if (isLocale(tag)) return tag;
+  }
+  return DEFAULT_LOCALE;
+}
 
 export const ko: Record<string, string> = {
   // ── brand / shell ──
@@ -153,7 +183,8 @@ export const ko: Record<string, string> = {
   "perm.settings.view": "조직 설정 열람",
   "perm.settings.manage": "사용자·역할·자격증명·조직 관리",
   "perm.audit.view": "감사 추적 열람",
-  "Language": "언어", "English": "English", "Korean": "한국어",
+  "Regenerate in": "다른 언어판 생성:",
+  "Language": "언어", "English": "영어", "Korean": "한국어", "German": "독일어",
 };
 
 export const en: Record<string, string> = {
@@ -176,7 +207,8 @@ export const en: Record<string, string> = {
   "perm.audit.view": "View the audit trail",
 };
 
+export const DICTS: Record<Locale, Record<string, string>> = { en, ko, de };
+
 export function translate(locale: Locale, key: string): string {
-  if (locale === "ko") return ko[key] ?? en[key] ?? key;
-  return en[key] ?? key;
+  return DICTS[locale]?.[key] ?? en[key] ?? key;
 }

@@ -42,9 +42,11 @@ Access is capability-based (`src/lib/permissions.ts`), not a linear hierarchy, s
 - English: [docs/USER-GUIDE.en.md](docs/USER-GUIDE.en.md)
 - 한국어: [docs/USER-GUIDE.ko.md](docs/USER-GUIDE.ko.md)
 
-## Language / 언어
+## Language / 언어 / Sprache
 
-The UI is bilingual (English / 한국어). Switch with the **한국어 | EN** toggle on the login page or in the top bar; the choice is stored in the `kveriai_locale` cookie (first visit follows `Accept-Language`). UI strings live in `src/lib/i18n/dict.ts` (English key → Korean), enum labels in `src/lib/i18n/labels.ts`. Reports and evidence packs are generated in the language chosen on the **Generate report** form (defaults to the current UI language); each report stores its `language`, versions are tracked per language, and any report page offers **Regenerate in Korean / English**. Report strings live in `src/lib/reports/dict.ts`.
+The UI and generated reports are available in English, Korean and German. Switch with the **EN | KO | DE** toggle on the login page or in the top bar; the choice is stored in the `kveriai_locale` cookie (first visit follows `Accept-Language`). Reports are generated in the language chosen on the **Generate report** form (defaults to the UI language); each report stores its `language`, versions are tracked per language, and the report page offers "Regenerate in …" for the other languages.
+
+**Adding a language**: create `src/lib/i18n/locales/<code>.ts` exporting the UI dictionary (English key → translation), the enum-label map and the report-string map (copy `de.ts` as a template), then register the code in `LOCALES`/`LOCALE_META`/`DICTS` (`src/lib/i18n/dict.ts`), `LABEL_MAPS` (`src/lib/i18n/labels.ts`) and `REPORT_DICTS` (`src/lib/reports/dict.ts`). Missing keys fall back to English.
 
 ## Quick start
 

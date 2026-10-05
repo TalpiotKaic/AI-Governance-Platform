@@ -4,7 +4,7 @@ import { ScoreRing } from "@/components/ui/progress";
 import { fmtDate } from "@/lib/utils";
 import { labelFor } from "@/lib/i18n/labels";
 import { rt } from "@/lib/reports/dict";
-import type { Locale } from "@/lib/i18n/dict";
+import { toLocale, type Locale } from "@/lib/i18n/dict";
 import { cn } from "@/lib/utils";
 
 function isStatusy(v: string) {
@@ -113,7 +113,7 @@ export function RenderBlock({ block, lang = "en" }: { block: Block; lang?: Local
 }
 
 export function ReportRenderer({ content, code, version, status, issuedAt }: { content: ReportContent; code: string; version: number; status: string; issuedAt?: Date | null }) {
-  const lang: Locale = content.meta.language === "ko" ? "ko" : "en";
+  const lang: Locale = toLocale(content.meta.language);
   const r = (k: string) => rt(lang, k);
   return (
     <article className="mx-auto max-w-4xl">

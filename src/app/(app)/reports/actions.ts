@@ -6,6 +6,7 @@ import { requirePermission } from "@/lib/auth";
 import { generateReport } from "@/lib/reports/service";
 import type { ReportType } from "@/generated/prisma/client";
 import { getLocale } from "@/lib/i18n/server";
+import { isLocale, type Locale } from "@/lib/i18n/dict";
 
 export async function generateReportAction(formData: FormData) {
   const user = await requirePermission("reports.generate");
@@ -16,14 +17,14 @@ export async function generateReportAction(formData: FormData) {
   const planId = String(formData.get("planId") || "") || undefined;
   const signers = { tester: String(formData.get("tester") || "") || undefined, reviewer: String(formData.get("reviewer") || "") || undefined, approver: String(formData.get("approver") || "") || undefined };
   const langRaw = String(formData.get("language") || "");
-  const language = langRaw === "ko" || langRaw === "en" ? langRaw : await getLocale();
+  const language: Locale = isLocale(langRaw) ? langRaw : await getLocale();
   const report = await generateReport({ orgId: user.orgId, systemId, type, runIds, planId, createdById: user.id, signers, language });
   revalidatePath("/reports");
   redirect(`/reports/${report.id}`);
 }
 
 /** Generate the same report in another language (same type, runs and plan). */
-export async function regenerateReportInLanguageAction(id: string, language: "en" | "ko") {
+export async function regenerateReportInLanguageAction(id: string, language: Locale) {
   const user = await requirePermission("reports.generate");
   const r = await db.report.findFirstOrThrow({ where: { id, orgId: user.orgId }, include: { runs: true } });
   const meta = (r.content as { meta?: { planId?: string } }).meta;

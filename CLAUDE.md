@@ -4,6 +4,7 @@
 - Prisma 7 with `@prisma/adapter-pg`; client generated to `src/generated/prisma` (gitignored) — run `pnpm prisma generate` after `pnpm install`. Config in `prisma.config.ts`; seed via `pnpm prisma db seed`.
 - Server Actions live in `actions.ts` next to pages and must only export async functions; always call `requireUser()` / `requireRole()` first.
 - Evaluation engine (`src/lib/eval`): keep DEMO mode deterministic (seeded PRNG) and keep `DemoJudge` key heuristics in sync with scenario annotation keys in `prisma/seed-data/library.ts`.
+- i18n: UI strings `src/lib/i18n/dict.ts` (en→xx), enum labels `labels.ts`, report strings `src/lib/reports/dict.ts`; per-language files in `src/lib/i18n/locales/`. New UI text must be wrapped in `t("…")` and added to every locale dict.
 - Framework requirements come from `docs/framework-control-library.md` → `python3 prisma/seed-data/build-frameworks.py` → `prisma/seed-data/frameworks.json`. Edit the markdown, not the JSON.
 - Checks before pushing: `pnpm tsc --noEmit && pnpm lint && pnpm build`.
 

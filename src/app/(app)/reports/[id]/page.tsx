@@ -11,6 +11,7 @@ import type { ReportContent } from "@/lib/reports/types";
 import { getI18n } from "@/lib/i18n/server";
 
 import { reportWorkflowAction, regenerateReportInLanguageAction } from "../actions";
+import { LOCALES, LOCALE_META, toLocale } from "@/lib/i18n/dict";
 
 export default async function ReportPage(props: PageProps<"/reports/[id]">) {
   const { t, L } = await getI18n();
@@ -29,11 +30,11 @@ export default async function ReportPage(props: PageProps<"/reports/[id]">) {
           <a href={`/api/reports/${r.id}/export`}><Button variant="outline"><FileJson className="h-4 w-4" /> JSON</Button></a>
         </>} />
       <div className="no-print mb-4 flex flex-wrap items-center gap-2 rounded-md border border-border bg-surface px-4 py-3 text-sm">
-        <Badge tone={toneForStatus(r.status)}>{L(r.status)}</Badge><span className="text-muted">v{r.version}</span><Badge tone="neutral">{r.language === "ko" ? "한국어" : "English"}</Badge>
+        <Badge tone={toneForStatus(r.status)}>{L(r.status)}</Badge><span className="text-muted">v{r.version}</span><Badge tone="neutral">{LOCALE_META[toLocale(r.language)].native}</Badge>
         <span className="text-xs text-muted">Created by {r.createdBy?.name}{r.reviewer && ` · reviewed by ${r.reviewer.name}`}{r.approver && ` · approved by ${r.approver.name}`}</span>
         {r.supersedes && <Link href={`/reports/${r.supersedesId}`} className="text-xs text-primary hover:underline">supersedes v{r.supersedes.version}</Link>}{r.supersededBy && <Link href={`/reports/${r.supersededBy.id}`} className="text-xs text-primary hover:underline">superseded by v{r.supersededBy.version}</Link>}
         <span className="flex-1" />
-        {userCan(user, "reports.generate") && <form action={regenerateReportInLanguageAction.bind(null, r.id, r.language === "ko" ? "en" : "ko")}><Button size="sm" type="submit" variant="ghost">{t(r.language === "ko" ? "Regenerate in English" : "Regenerate in Korean")}</Button></form>}
+        {userCan(user, "reports.generate") && LOCALES.filter((l) => l !== toLocale(r.language)).map((l) => <form key={l} action={regenerateReportInLanguageAction.bind(null, r.id, l)}><Button size="sm" type="submit" variant="ghost">{t("Regenerate in")} {LOCALE_META[l].native}</Button></form>)}
         {r.status === "DRAFT" && userCan(user, "reports.generate") && <form action={act("submit")}><Button size="sm" type="submit" variant="outline">{t("Submit for review")}</Button></form>}
         {r.status === "IN_REVIEW" && userCan(user, "reports.review") && <form action={act("review")}><Button size="sm" type="submit" variant="outline">{t("Mark reviewed")}</Button></form>}
         {(r.status === "IN_REVIEW") && userCan(user, "reports.approve") && <form action={act("approve")}><Button size="sm" type="submit" variant="outline">{t("Approve")}</Button></form>}

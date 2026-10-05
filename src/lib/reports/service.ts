@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import type { FrameworkCode, ReportType, Prisma } from "@/generated/prisma/client";
 import { buildAriaReport, buildEvaluationReport, buildEvidencePack, buildPassport, buildVerificationReport } from "./builders";
 import type { ReportContent } from "./types";
-import type { Locale } from "@/lib/i18n/dict";
+import { toLocale, type Locale } from "@/lib/i18n/dict";
 import { rt } from "./dict";
 
 const TITLES: Record<ReportType, string> = {
@@ -17,7 +17,7 @@ const TITLES: Record<ReportType, string> = {
 };
 
 export async function generateReport(opts: { orgId: string; systemId: string; type: ReportType; runIds?: string[]; planId?: string; createdById?: string; signers?: { tester?: string; reviewer?: string; approver?: string }; language?: Locale }) {
-  const lang: Locale = opts.language === "ko" ? "ko" : "en";
+  const lang: Locale = toLocale(opts.language);
   const title = rt(lang, TITLES[opts.type]);
   let content: ReportContent;
   switch (opts.type) {
