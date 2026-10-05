@@ -20,11 +20,21 @@ export default async function NewReportPage(props: PageProps<"/reports/new">) {
   const runs = await db.evaluationRun.findMany({ where: { orgId: user.orgId, systemId, status: "COMPLETED" }, orderBy: { createdAt: "desc" } });
   const plans = await db.evaluationPlan.findMany({ where: { orgId: user.orgId, systemId }, orderBy: { createdAt: "desc" } });
   const users = await db.user.findMany({ where: { orgId: user.orgId } });
-  const type = typeof sp.type === "string" ? sp.type : "EVALUATION_REPORT";
+  const type = typeof sp.type === "string" ? sp.type : (runs.length > 0 ? "EVALUATION_REPORT" : "AI_PASSPORT");
   const runId = typeof sp.runId === "string" ? sp.runId : runs[0]?.id;
   return (
     <>
       <PageHeader title={t("Generate report")} crumbs={[{ label: "Reports & Packs", href: "/reports" }, { label: "Generate" }]} description={t("Reports are built from platform records (runs, risks, controls, evidence). Change the system to reload its runs and plans.")} />
+      {sp.error === "run_required" && (
+        <div className="mb-4 rounded-md bg-red-50 p-4 border border-red-200 text-red-800 font-medium">
+          {t("This report type requires at least one completed evaluation run. Please select a run, or run an evaluation first.")}
+        </div>
+      )}
+      {sp.error === "plan_required" && (
+        <div className="mb-4 rounded-md bg-red-50 p-4 border border-red-200 text-red-800 font-medium">
+          {t("The ARIA report requires an evaluation plan. Please create a plan first.")}
+        </div>
+      )}
       <Card><CardHeader><CardTitle>{t("Report parameters")}</CardTitle><CardDescription>{t("Evidence packs need no run; evaluation & verification reports need at least one completed run; the ARIA report needs a plan.")}</CardDescription></CardHeader><CardContent>
         <form className="mb-4 flex items-end gap-2"><Field label={t("AI system")}><Select name="systemId" defaultValue={systemId} className="w-80">{systems.map((s) => <option key={s.id} value={s.id}>{s.code} · {s.name}</option>)}</Select></Field><input type="hidden" name="type" value={type} /><Button type="submit" variant="outline">{t("Load")}</Button></form>
         <form action={generateReportAction} className="grid grid-cols-1 gap-4 md:grid-cols-2">

@@ -15,6 +15,14 @@ export async function generateReportAction(formData: FormData) {
   const type = String(formData.get("type")) as ReportType;
   const runIds = formData.getAll("runIds").map(String).filter(Boolean);
   const planId = String(formData.get("planId") || "") || undefined;
+  
+  if ((type === "EVALUATION_REPORT" || type === "VERIFICATION_REPORT") && runIds.length === 0) {
+    redirect(`/reports/new?error=run_required&type=${type}&systemId=${systemId}`);
+  }
+  if (type === "NIST_ARIA_EVALUATION_REPORT" && !planId) {
+    redirect(`/reports/new?error=plan_required&type=${type}&systemId=${systemId}`);
+  }
+
   const signers = { tester: String(formData.get("tester") || "") || undefined, reviewer: String(formData.get("reviewer") || "") || undefined, approver: String(formData.get("approver") || "") || undefined };
   const langRaw = String(formData.get("language") || "");
   const language: Locale = isLocale(langRaw) ? langRaw : await getLocale();
