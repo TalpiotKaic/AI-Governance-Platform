@@ -25,10 +25,8 @@ export function SystemForm({ action, initial, submitLabel }: { action: (fd: Form
     setLoaded(true);
   }, [draftKey]);
 
-  if (!loaded) return <div className="h-[500px] animate-pulse rounded-md bg-surface-2" />;
-
   const mergedInitial = draft ? { ...initial, ...draft } : initial;
-  return <SystemFormInner action={action} initial={mergedInitial} submitLabel={submitLabel} draftKey={draftKey} t={t} L={L} />;
+  return <SystemFormInner key={loaded ? "loaded" : "initial"} action={action} initial={mergedInitial} submitLabel={submitLabel} draftKey={draftKey} t={t} L={L} />;
 }
 
 function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { action: any; initial: any; submitLabel: string; draftKey: string; t: any; L: any }) {
