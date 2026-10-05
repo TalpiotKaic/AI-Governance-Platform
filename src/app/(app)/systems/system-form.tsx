@@ -1,6 +1,6 @@
 "use client";
 import { useI18n } from "@/lib/i18n/client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox, Field, Input, Select, Textarea } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -34,6 +34,45 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
   const isAgent = type === "AGENT" || type === "MULTI_AGENT";
   const toolsText = initial?.agent?.tools?.map((t: any) => `${t.name}|${t.riskLevel ?? "medium"}|${t.allowed === false ? "false" : "true"}|${(t.permissions ?? []).join(",")}`).join("\n") ?? "search_knowledge_base|low|true|\nlookup_customer|medium|true|customer:read\nsend_email|high|true|email:send\nexport_customer_data|critical|false|data:export\ndelete_customer_record|critical|false|customer:delete";
 
+  const formRef = useRef<HTMLFormElement>(null);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (!formRef.current) return;
+      const fd = new FormData(formRef.current);
+      const data = Object.fromEntries(fd.entries());
+      const draftObj: any = { ...data };
+      draftObj.usesPersonalData = data.usesPersonalData === "on";
+      draftObj.usesSensitiveData = data.usesSensitiveData === "on";
+      draftObj.customerFacing = data.customerFacing === "on";
+      draftObj.automatedDecision = data.automatedDecision === "on";
+      draftObj.geographies = data.geographies ? String(data.geographies).split(",").map(s => s.trim()) : [];
+      draftObj.tags = data.tags ? String(data.tags).split(",").map(s => s.trim()) : [];
+      draftObj.model = { provider: data.modelProvider, name: data.modelName, version: data.modelVersion };
+      if (data.agentFramework || toolsText) {
+        draftObj.agent = { 
+          framework: data.agentFramework,
+          autonomyLevel: data.autonomyLevel,
+          tools: data.tools ? String(data.tools).split("\n").map(line => {
+            const [name, riskLevel = "medium", allowed = "true", perms = ""] = line.split("|");
+            return { name, riskLevel, allowed: allowed !== "false", permissions: perms.split(",") };
+          }) : [],
+          dataSources: data.dataSources ? String(data.dataSources).split("\n").map(n => ({ name: n })) : [],
+          mcpServers: data.mcpServers ? String(data.mcpServers).split("\n").map(n => ({ name: n })) : [],
+          killSwitch: data.killSwitch === "on",
+          maxBudgetUsd: data.maxBudgetUsd ? Number(data.maxBudgetUsd) : null 
+        };
+      }
+      const newSaved = JSON.stringify(draftObj);
+      if (localStorage.getItem(draftKey) !== newSaved) {
+        localStorage.setItem(draftKey, newSaved);
+        setLastSaved(new Date());
+      }
+    }, 1500);
+    return () => clearInterval(timer);
+  }, [draftKey, toolsText]);
+
   const handleSubmit = async (fd: FormData) => {
     try {
       await action(fd);
@@ -50,6 +89,7 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
 
   return (
     <form 
+      ref={formRef}
       onSubmit={(e) => {
         e.preventDefault();
         const fd = new FormData(e.currentTarget);
@@ -57,38 +97,10 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
       }}
       className="space-y-6" 
       onKeyDown={(e) => { if (e.key === "Enter" && e.target instanceof HTMLInputElement) e.preventDefault(); }}
-      onChange={(e) => {
-        const fd = new FormData(e.currentTarget);
-        const data = Object.fromEntries(fd.entries());
-        // Reconstruct draft object
-        const draftObj: any = { ...data };
-        draftObj.usesPersonalData = data.usesPersonalData === "on";
-        draftObj.usesSensitiveData = data.usesSensitiveData === "on";
-        draftObj.customerFacing = data.customerFacing === "on";
-        draftObj.automatedDecision = data.automatedDecision === "on";
-        draftObj.geographies = data.geographies ? String(data.geographies).split(",").map(s => s.trim()) : [];
-        draftObj.tags = data.tags ? String(data.tags).split(",").map(s => s.trim()) : [];
-        draftObj.model = { provider: data.modelProvider, name: data.modelName, version: data.modelVersion };
-        if (data.agentFramework || toolsText) {
-          // toolsText is derived from the Textarea which is managed by the form, but wait...
-          // If we just store the flat form data in the draft, it won't map perfectly.
-          // BUT wait, we can just use the flat FormData if we map it correctly!
-          draftObj.agent = { 
-            framework: data.agentFramework, 
-            autonomyLevel: data.autonomyLevel, 
-            tools: data.tools ? String(data.tools).split("\n").map(line => {
-              const [name, riskLevel = "medium", allowed = "true", perms = ""] = line.split("|");
-              return { name, riskLevel, allowed: allowed !== "false", permissions: perms.split(",") };
-            }) : [],
-            dataSources: data.dataSources ? String(data.dataSources).split("\n").map(name => ({ name })) : [],
-            mcpServers: data.mcpServers ? String(data.mcpServers).split("\n").map(name => ({ name })) : [],
-            killSwitch: data.killSwitch === "on", 
-            maxBudgetUsd: data.maxBudgetUsd ? Number(data.maxBudgetUsd) : null 
-          };
-        }
-        localStorage.setItem(draftKey, JSON.stringify(draftObj));
-      }}
     >
+      <div className="flex justify-end h-4">
+        {lastSaved && <span className="text-xs text-green-600 font-medium">{t("Draft auto-saved:")} {lastSaved.toLocaleTimeString()}</span>}
+      </div>
       <Card>
         <CardHeader><CardTitle>{t("1. Identity & context (intake)")}</CardTitle><CardDescription>{t("Intake answers drive automatic risk tiering, EU AI Act classification prompts and the approval workflow.")}</CardDescription></CardHeader>
         <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
