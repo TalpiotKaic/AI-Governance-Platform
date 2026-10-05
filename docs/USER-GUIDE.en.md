@@ -1,6 +1,6 @@
 # K-VeriAI User Guide
 
-As of 2026-10-02 · Korean edition: [USER-GUIDE.ko.md](USER-GUIDE.ko.md)
+As of 2026-10-05 · Other languages: [한국어](USER-GUIDE.ko.md) · [Deutsch](USER-GUIDE.de.md) · [Français](USER-GUIDE.fr.md) · [Italiano](USER-GUIDE.it.md) · [Español](USER-GUIDE.es.md)
 
 ## 1. What K-VeriAI is for
 
@@ -26,7 +26,7 @@ K-VeriAI is an AI governance, evaluation and assurance platform that manages an 
 - **DEMO mode** runs the whole pipeline against a deterministic simulator without any API key. It is for training, demonstration and workflow validation; its results must never be used as evidence about a real system.
 - **LIVE mode** calls the real model or agent (Anthropic, OpenAI, OpenAI-compatible, HTTP Evaluation API) and annotates with an LLM-as-judge.
 
-The UI and the reports are available in English and Korean. Switch with the **한국어 | EN** toggle on the login page or in the top bar.
+The UI and the reports are available in English, Korean, German, French, Italian and Spanish. Switch with the flag toggle (**EN | KO | DE | FR | IT | ES**) on the login page or in the top bar.
 
 ## 2. Core concepts and workflow
 
@@ -59,7 +59,7 @@ Dashed arrows are automatic feedback. HIGH/CRITICAL findings from a test are reg
 
 **Sign in** with your organisation account (email and password). Sessions last 7 days; sign out with the button at the right end of the top bar.
 
-**Language**: use the **한국어 | EN** toggle on the login page or in the top bar. The choice is stored in the browser for a year. The report language is chosen separately when a report is generated (default: the current UI language).
+**Language**: use the flag toggle (**EN | KO | DE | FR | IT | ES**) on the login page or in the top bar. The choice is stored in the browser for a year. The report language is chosen separately when a report is generated (default: the current UI language).
 
 **Screen layout**
 
@@ -227,7 +227,7 @@ Generate eight report types from platform records (runs, risks, controls, eviden
 
 **Report workflow**: draft → submit for review → reviewed → approved → issued. Issuing creates an approval record (evidence) and marks the previous version "superseded". A reviewer can return a report to draft.
 
-- The form has a **report language** selector (English / Korean). Versions are tracked per language, and the report page offers "Regenerate in Korean / English".
+- The form has a **report language** selector (English / Korean / German / French / Italian / Spanish). Versions are tracked per language, and the report page offers "Regenerate in Korean / English".
 - The report page offers print view, PDF download and JSON export.
 - Tip: for external submission use only reports in "issued" status. Only issued reports appear in the AI Trust Center.
 

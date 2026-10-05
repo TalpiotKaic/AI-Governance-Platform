@@ -1,16 +1,14 @@
 import "server-only";
 import { cookies, headers } from "next/headers";
 import { cache } from "react";
-import { LOCALE_COOKIE, translate, type Locale } from "./dict";
+import { LOCALE_COOKIE, translate, isLocale, localeFromAcceptLanguage, type Locale } from "./dict";
 import { labelFor } from "./labels";
 
 export const getLocale = cache(async (): Promise<Locale> => {
   const store = await cookies();
   const c = store.get(LOCALE_COOKIE)?.value;
-  if (c === "ko" || c === "en") return c;
-  // const accept = (await headers()).get("accept-language") ?? "";
-  // return accept.toLowerCase().startsWith("ko") ? "ko" : "en";
-  return "en";
+  if (isLocale(c)) return c;
+  return localeFromAcceptLanguage((await headers()).get("accept-language"));
 });
 
 /** Server-side i18n helpers: t() for UI strings, L() for enum values. */

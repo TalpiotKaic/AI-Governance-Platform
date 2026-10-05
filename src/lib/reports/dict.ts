@@ -1,4 +1,8 @@
 import type { Locale } from "@/lib/i18n/dict";
+import { REPORT_DE } from "@/lib/i18n/locales/de";
+import { REPORT_FR } from "@/lib/i18n/locales/fr";
+import { REPORT_IT } from "@/lib/i18n/locales/it";
+import { REPORT_ES } from "@/lib/i18n/locales/es";
 
 /** Report-content dictionary (English key → Korean). Used by builders at generation time and by the renderer for chrome. */
 export const REPORT_KO: Record<string, string> = {
@@ -35,7 +39,9 @@ export const REPORT_KO: Record<string, string> = {
   "No entries": "항목 없음", "Recommendation:": "권고:", "Signature / date": "서명 / 날짜", "Generated": "생성", "Runs:": "실행:", "This document is generated from platform records; changes to the underlying system invalidate test-derived evidence until re-evaluation.": "이 문서는 플랫폼 기록으로 생성되었습니다. 기반 시스템이 변경되면 재평가 전까지 시험 유래 증적은 효력을 잃습니다.", "Language": "언어",
 };
 
+const REPORT_DICTS: Partial<Record<Locale, Record<string, string>>> = { ko: REPORT_KO, de: REPORT_DE, fr: REPORT_FR, it: REPORT_IT, es: REPORT_ES };
+
 export function rt(locale: Locale, key: string): string {
-  if (locale === "ko") { const v = REPORT_KO[key]; return v === undefined ? key : v; }
-  return key;
+  const v = REPORT_DICTS[locale]?.[key];
+  return v === undefined ? key : v;
 }
