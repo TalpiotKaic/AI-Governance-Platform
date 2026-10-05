@@ -45,50 +45,60 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
   const toolsText = initial?.agent?.tools?.map((t: any) => `${t.name}|${t.riskLevel ?? "medium"}|${t.allowed === false ? "false" : "true"}|${(t.permissions ?? []).join(",")}`).join("\n") ?? "search_knowledge_base|low|true|\nlookup_customer|medium|true|customer:read\nsend_email|high|true|email:send\nexport_customer_data|critical|false|data:export\ndelete_customer_record|critical|false|customer:delete";
 
   const formRef = useRef<HTMLFormElement>(null);
-  const [lastSaved, setLastSaved] = useState<Date | null>(new Date());
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
   useEffect(() => {
-    // FORCE RESTORE TO DOM (Bypass React bugs)
-    if (formRef.current && initial) {
-      const form = formRef.current;
-      const setVal = (name: string, val: any) => {
-        if (!val) return;
-        const el = form.elements.namedItem(name);
-        if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement) {
-          if (el.type === "checkbox") {
-            (el as HTMLInputElement).checked = val === true || val === "on";
-          } else {
-            el.value = val;
+    setLastSaved(new Date());
+  }, []);
+
+  useEffect(() => {
+    try {
+      // FORCE RESTORE TO DOM (Bypass React bugs)
+      if (formRef.current && initial) {
+        const form = formRef.current;
+        const setVal = (name: string, val: any) => {
+          if (!val) return;
+          const el = form.elements.namedItem(name);
+          if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement) {
+            if (el.type === "checkbox") {
+              (el as HTMLInputElement).checked = val === true || val === "on";
+            } else {
+              el.value = val;
+            }
           }
-        }
-      };
-      setVal("name", initial.name);
-      setVal("type", initial.type);
-      setVal("sector", initial.sector);
-      setVal("purpose", initial.purpose);
-      setVal("deploymentContext", initial.deploymentContext);
-      setVal("lifecycleStage", initial.lifecycleStage);
-      setVal("euAiActCategory", initial.euAiActCategory);
-      setVal("euAiActAnnexIIIArea", initial.euAiActAnnexIIIArea);
-      setVal("intendedUsers", initial.intendedUsers);
-      setVal("affectedPersons", initial.affectedPersons);
-      setVal("humanOversight", initial.humanOversight);
-      setVal("usesPersonalData", initial.usesPersonalData);
-      setVal("usesSensitiveData", initial.usesSensitiveData);
-      setVal("customerFacing", initial.customerFacing);
-      setVal("automatedDecision", initial.automatedDecision);
-      setVal("geographies", initial.geographies?.join(", "));
-      setVal("tags", initial.tags?.join(", "));
-      setVal("modelProvider", initial.model?.provider);
-      setVal("modelName", initial.model?.name);
-      setVal("modelVersion", initial.model?.version);
-      setVal("agentFramework", initial.agent?.framework);
-      setVal("autonomyLevel", initial.agent?.autonomyLevel);
-      setVal("tools", toolsText);
-      setVal("dataSources", initial.agent?.dataSources?.map((d: any) => d.name).join("\n"));
-      setVal("mcpServers", initial.agent?.mcpServers?.map((m: any) => m.name).join("\n"));
-      setVal("killSwitch", initial.agent?.killSwitch);
-      setVal("maxBudgetUsd", initial.agent?.maxBudgetUsd);
+        };
+        setVal("name", initial.name);
+        setVal("type", initial.type);
+        setVal("sector", initial.sector);
+        setVal("purpose", initial.purpose);
+        setVal("deploymentContext", initial.deploymentContext);
+        setVal("lifecycleStage", initial.lifecycleStage);
+        setVal("euAiActCategory", initial.euAiActCategory);
+        setVal("euAiActAnnexIIIArea", initial.euAiActAnnexIIIArea);
+        setVal("intendedUsers", initial.intendedUsers);
+        setVal("affectedPersons", initial.affectedPersons);
+        setVal("humanOversight", initial.humanOversight);
+        setVal("usesPersonalData", initial.usesPersonalData);
+        setVal("usesSensitiveData", initial.usesSensitiveData);
+        setVal("customerFacing", initial.customerFacing);
+        setVal("automatedDecision", initial.automatedDecision);
+        setVal("geographies", initial.geographies?.join(", "));
+        setVal("tags", initial.tags?.join(", "));
+        setVal("modelProvider", initial.model?.provider);
+        setVal("modelName", initial.model?.name);
+        setVal("modelVersion", initial.model?.version);
+        setVal("agentFramework", initial.agent?.framework);
+        setVal("autonomyLevel", initial.agent?.autonomyLevel);
+        setVal("tools", toolsText);
+        setVal("dataSources", initial.agent?.dataSources?.map((d: any) => d.name).join("\n"));
+        setVal("mcpServers", initial.agent?.mcpServers?.map((m: any) => m.name).join("\n"));
+        setVal("killSwitch", initial.agent?.killSwitch);
+        setVal("maxBudgetUsd", initial.agent?.maxBudgetUsd);
+      }
+    } catch (e: any) {
+      console.error("DOM Restore Error:", e);
+      const debugEl = document.getElementById("debug-live-state");
+      if (debugEl) debugEl.innerText = "DOM RESTORE CRASHED: " + String(e);
     }
     
     // PREVENT ACCIDENTAL REFRESH/NAVIGATION
@@ -99,47 +109,53 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
 
-    const timer = setInterval(() => {
-      try {
-        if (!formRef.current) return;
-        const fd = new FormData(formRef.current);
-        const data = Object.fromEntries(fd.entries());
-        const draftObj: any = { ...data };
-        draftObj.usesPersonalData = data.usesPersonalData === "on";
-        draftObj.usesSensitiveData = data.usesSensitiveData === "on";
-        draftObj.customerFacing = data.customerFacing === "on";
-        draftObj.automatedDecision = data.automatedDecision === "on";
-        draftObj.geographies = data.geographies ? String(data.geographies).split(",").map(s => s.trim()) : [];
-        draftObj.tags = data.tags ? String(data.tags).split(",").map(s => s.trim()) : [];
-        draftObj.model = { provider: data.modelProvider, name: data.modelName, version: data.modelVersion };
-        if (data.agentFramework || toolsText) {
-          draftObj.agent = { 
-            framework: data.agentFramework,
-            autonomyLevel: data.autonomyLevel,
-            tools: data.tools ? String(data.tools).split("\n").map(line => {
-              const [name, riskLevel = "medium", allowed = "true", perms = ""] = line.split("|");
-              return { name, riskLevel, allowed: allowed !== "false", permissions: perms.split(",") };
-            }) : [],
-            dataSources: data.dataSources ? String(data.dataSources).split("\n").map(n => ({ name: n })) : [],
-            mcpServers: data.mcpServers ? String(data.mcpServers).split("\n").map(n => ({ name: n })) : [],
-            killSwitch: data.killSwitch === "on",
-            maxBudgetUsd: data.maxBudgetUsd ? Number(data.maxBudgetUsd) : null 
-          };
-        }
-        const newSaved = JSON.stringify(draftObj);
-        if (localStorage.getItem(draftKey) !== newSaved) {
-          localStorage.setItem(draftKey, newSaved);
-          setLastSaved(new Date());
-        }
-      } catch (err) {
-        console.error("Auto-save failed", err);
-      }
-    }, 1500);
     return () => {
-      clearInterval(timer);
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [draftKey, toolsText, initial]);
+
+  const saveDraft = () => {
+    try {
+      if (!formRef.current) return;
+      const fd = new FormData(formRef.current);
+      const data = Object.fromEntries(fd.entries());
+      const draftObj: any = { ...data };
+      draftObj.usesPersonalData = data.usesPersonalData === "on";
+      draftObj.usesSensitiveData = data.usesSensitiveData === "on";
+      draftObj.customerFacing = data.customerFacing === "on";
+      draftObj.automatedDecision = data.automatedDecision === "on";
+      draftObj.geographies = data.geographies ? String(data.geographies).split(",").map(s => s.trim()) : [];
+      draftObj.tags = data.tags ? String(data.tags).split(",").map(s => s.trim()) : [];
+      draftObj.model = { provider: data.modelProvider, name: data.modelName, version: data.modelVersion };
+      if (data.agentFramework || toolsText) {
+        draftObj.agent = { 
+          framework: data.agentFramework,
+          autonomyLevel: data.autonomyLevel,
+          tools: data.tools ? String(data.tools).split("\n").map(line => {
+            const [name, riskLevel = "medium", allowed = "true", perms = ""] = line.split("|");
+            return { name, riskLevel, allowed: allowed !== "false", permissions: perms.split(",") };
+          }) : [],
+          dataSources: data.dataSources ? String(data.dataSources).split("\n").map(n => ({ name: n })) : [],
+          mcpServers: data.mcpServers ? String(data.mcpServers).split("\n").map(n => ({ name: n })) : [],
+          killSwitch: data.killSwitch === "on",
+          maxBudgetUsd: data.maxBudgetUsd ? Number(data.maxBudgetUsd) : null 
+        };
+      }
+      const newSaved = JSON.stringify(draftObj);
+      
+      const debugEl = document.getElementById("debug-live-state");
+      if (debugEl) debugEl.innerText = "Event saved:\n" + newSaved;
+
+      if (localStorage.getItem(draftKey) !== newSaved) {
+        localStorage.setItem(draftKey, newSaved);
+        setLastSaved(new Date());
+      }
+    } catch (err: any) {
+      console.error("Auto-save failed", err);
+      const debugEl = document.getElementById("debug-live-state");
+      if (debugEl) debugEl.innerText = "ERROR SAVING TO LOCALSTORAGE: " + String(err);
+    }
+  };
 
   const handleSubmit = async (fd: FormData) => {
     try {
@@ -158,6 +174,8 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
   return (
     <form 
       ref={formRef}
+      onChange={saveDraft}
+      onKeyUp={saveDraft}
       onSubmit={(e) => {
         e.preventDefault();
         const fd = new FormData(e.currentTarget);
@@ -237,6 +255,13 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
           </CardContent>
         </Card>
       )}
+
+      <div className="bg-gray-100 p-4 rounded text-xs font-mono overflow-auto max-h-40">
+        <p className="font-bold mb-2">Live Data Capture Status:</p>
+        <p>If this stays empty when you type, your typing is not being captured!</p>
+        <p id="debug-live-state" className="text-blue-600 mt-2 break-all">Waiting for input...</p>
+      </div>
+
       <div className="flex justify-end gap-2"><Button type="submit">{submitLabel}</Button></div>
     </form>
   );
