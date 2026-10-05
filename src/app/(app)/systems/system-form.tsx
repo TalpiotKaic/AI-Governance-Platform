@@ -26,7 +26,17 @@ export function SystemForm({ action, initial, submitLabel }: { action: (fd: Form
   }, [draftKey]);
 
   const mergedInitial = draft ? { ...initial, ...draft } : initial;
-  return <SystemFormInner key={loaded ? "loaded" : "initial"} action={action} initial={mergedInitial} submitLabel={submitLabel} draftKey={draftKey} t={t} L={L} />;
+  return (
+    <div className="flex flex-col gap-4">
+      {draft && (
+        <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md">
+          <p className="font-bold">System Debug: Draft Restored!</p>
+          <p className="text-sm">We successfully found a saved draft in your browser. If the form below is empty, it means your browser prevented the form from showing the data.</p>
+        </div>
+      )}
+      <SystemFormInner key={loaded ? "loaded" : "initial"} action={action} initial={mergedInitial} submitLabel={submitLabel} draftKey={draftKey} t={t} L={L} />
+    </div>
+  );
 }
 
 function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { action: any; initial: any; submitLabel: string; draftKey: string; t: any; L: any }) {
@@ -38,6 +48,49 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
   const [lastSaved, setLastSaved] = useState<Date | null>(new Date());
 
   useEffect(() => {
+    // FORCE RESTORE TO DOM (Bypass React bugs)
+    if (formRef.current && initial) {
+      const form = formRef.current;
+      const setVal = (name: string, val: any) => {
+        if (!val) return;
+        const el = form.elements.namedItem(name);
+        if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement) {
+          if (el.type === "checkbox") {
+            (el as HTMLInputElement).checked = val === true || val === "on";
+          } else {
+            el.value = val;
+          }
+        }
+      };
+      setVal("name", initial.name);
+      setVal("type", initial.type);
+      setVal("sector", initial.sector);
+      setVal("purpose", initial.purpose);
+      setVal("deploymentContext", initial.deploymentContext);
+      setVal("lifecycleStage", initial.lifecycleStage);
+      setVal("euAiActCategory", initial.euAiActCategory);
+      setVal("euAiActAnnexIIIArea", initial.euAiActAnnexIIIArea);
+      setVal("intendedUsers", initial.intendedUsers);
+      setVal("affectedPersons", initial.affectedPersons);
+      setVal("humanOversight", initial.humanOversight);
+      setVal("usesPersonalData", initial.usesPersonalData);
+      setVal("usesSensitiveData", initial.usesSensitiveData);
+      setVal("customerFacing", initial.customerFacing);
+      setVal("automatedDecision", initial.automatedDecision);
+      setVal("geographies", initial.geographies?.join(", "));
+      setVal("tags", initial.tags?.join(", "));
+      setVal("modelProvider", initial.model?.provider);
+      setVal("modelName", initial.model?.name);
+      setVal("modelVersion", initial.model?.version);
+      setVal("agentFramework", initial.agent?.framework);
+      setVal("autonomyLevel", initial.agent?.autonomyLevel);
+      setVal("tools", toolsText);
+      setVal("dataSources", initial.agent?.dataSources?.map((d: any) => d.name).join("\n"));
+      setVal("mcpServers", initial.agent?.mcpServers?.map((m: any) => m.name).join("\n"));
+      setVal("killSwitch", initial.agent?.killSwitch);
+      setVal("maxBudgetUsd", initial.agent?.maxBudgetUsd);
+    }
+    
     const timer = setInterval(() => {
       if (!formRef.current) return;
       const fd = new FormData(formRef.current);
@@ -71,7 +124,7 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
       }
     }, 1500);
     return () => clearInterval(timer);
-  }, [draftKey, toolsText]);
+  }, [draftKey, toolsText, initial]);
 
   const handleSubmit = async (fd: FormData) => {
     try {
@@ -99,7 +152,7 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
       onKeyDown={(e) => { if (e.key === "Enter" && e.target instanceof HTMLInputElement) e.preventDefault(); }}
     >
       <div className="flex justify-end h-4">
-        {lastSaved && <span className="text-xs text-green-600 font-medium">{t("Draft auto-saved:")} {lastSaved.toLocaleTimeString()}</span>}
+        {lastSaved && <span style={{ color: "#16a34a", fontWeight: "bold" }} className="text-xs">{t("Draft auto-saved:")} {lastSaved.toLocaleTimeString()}</span>}
       </div>
       <Card>
         <CardHeader><CardTitle>{t("1. Identity & context (intake)")}</CardTitle><CardDescription>{t("Intake answers drive automatic risk tiering, EU AI Act classification prompts and the approval workflow.")}</CardDescription></CardHeader>
