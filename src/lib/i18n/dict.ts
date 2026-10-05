@@ -191,6 +191,14 @@ export const ko: Record<string, string> = {
   "perm.audit.view": "감사 추적 열람",
   "Regenerate in": "다른 언어판 생성:",
   "Language": "언어", "English": "영어", "Korean": "한국어", "German": "독일어", "French": "프랑스어", "Italian": "이탈리아어", "Spanish": "스페인어",
+  "Not yet classified.": "아직 분류되지 않음.",
+  "Most AI systems (e.g. spam filters). Unregulated.": "대다수의 AI 시스템 (예: 스팸 필터). 규제 대상 아님.",
+  "Systems interacting with humans (e.g. chatbots, deepfakes). Requires transparency.": "사람과 상호작용하는 시스템 (예: 챗봇, 딥페이크). 투명성 의무 부과.",
+  "Systems in biometrics, critical infrastructure, education, employment, essential services, law enforcement. Strict compliance required.": "생체인식, 핵심 인프라, 교육, 고용, 필수 서비스, 법 집행 분야의 시스템. 엄격한 규제 준수 필요.",
+  "Subliminal manipulation, social scoring, untargeted facial scraping. Banned.": "잠재의식 조작, 소셜 스코어링, 무차별적 안면 인식. 사용 금지.",
+  "General Purpose AI models capable of wide range of tasks.": "광범위한 작업을 수행할 수 있는 범용 AI 모델.",
+  "High-impact GPAI models trained with massive compute.": "막대한 컴퓨팅 자원으로 학습되어 시스템적 위험을 초래할 수 있는 고성능 GPAI 모델.",
+  "Show help": "도움말 보기",
 };
 
 export const en: Record<string, string> = {
