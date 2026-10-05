@@ -35,7 +35,7 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
   const toolsText = initial?.agent?.tools?.map((t: any) => `${t.name}|${t.riskLevel ?? "medium"}|${t.allowed === false ? "false" : "true"}|${(t.permissions ?? []).join(",")}`).join("\n") ?? "search_knowledge_base|low|true|\nlookup_customer|medium|true|customer:read\nsend_email|high|true|email:send\nexport_customer_data|critical|false|data:export\ndelete_customer_record|critical|false|customer:delete";
 
   const formRef = useRef<HTMLFormElement>(null);
-  const [lastSaved, setLastSaved] = useState<Date | null>(null);
+  const [lastSaved, setLastSaved] = useState<Date | null>(new Date());
 
   useEffect(() => {
     const timer = setInterval(() => {
