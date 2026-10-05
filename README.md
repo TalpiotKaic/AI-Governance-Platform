@@ -41,12 +41,14 @@ Access is capability-based (`src/lib/permissions.ts`), not a linear hierarchy, s
 
 - English: [docs/USER-GUIDE.en.md](docs/USER-GUIDE.en.md)
 - 한국어: [docs/USER-GUIDE.ko.md](docs/USER-GUIDE.ko.md)
+- Deutsch: [docs/USER-GUIDE.de.md](docs/USER-GUIDE.de.md)
+- Français: [docs/USER-GUIDE.fr.md](docs/USER-GUIDE.fr.md)
 
 ## Language / 언어 / Sprache
 
-The UI and generated reports are available in English, Korean and German. Switch with the **EN | KO | DE** toggle on the login page or in the top bar; the choice is stored in the `kveriai_locale` cookie (first visit follows `Accept-Language`). Reports are generated in the language chosen on the **Generate report** form (defaults to the UI language); each report stores its `language`, versions are tracked per language, and the report page offers "Regenerate in …" for the other languages.
+The UI and generated reports are available in English, Korean, German and French. Switch with the flag toggle (**EN | KO | DE | FR**, `src/components/layout/flag.tsx`) on the login page or in the top bar; the choice is stored in the `kveriai_locale` cookie (first visit follows `Accept-Language`). Reports are generated in the language chosen on the **Generate report** form (defaults to the UI language); each report stores its `language`, versions are tracked per language, and the report page offers "Regenerate in …" for the other languages.
 
-**Adding a language**: create `src/lib/i18n/locales/<code>.ts` exporting the UI dictionary (English key → translation), the enum-label map and the report-string map (copy `de.ts` as a template), then register the code in `LOCALES`/`LOCALE_META`/`DICTS` (`src/lib/i18n/dict.ts`), `LABEL_MAPS` (`src/lib/i18n/labels.ts`) and `REPORT_DICTS` (`src/lib/reports/dict.ts`). Missing keys fall back to English.
+**Adding a language**: create `src/lib/i18n/locales/<code>.ts` exporting the UI dictionary (English key → translation), the enum-label map and the report-string map (copy `de.ts` or `fr.ts` as a template), add a flag in `src/components/layout/flag.tsx`, then register the code in `LOCALES`/`LOCALE_META`/`DICTS` (`src/lib/i18n/dict.ts`), `LABEL_MAPS` (`src/lib/i18n/labels.ts`) and `REPORT_DICTS` (`src/lib/reports/dict.ts`). Missing keys fall back to English.
 
 ## Quick start
 

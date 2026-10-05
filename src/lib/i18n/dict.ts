@@ -4,9 +4,10 @@
  * report strings, then register it in LOCALE_META, DICTS (here), LABEL_MAPS (labels.ts) and REPORT_DICTS (reports/dict.ts).
  */
 import { de } from "./locales/de";
+import { fr } from "./locales/fr";
 
-export type Locale = "en" | "ko" | "de";
-export const LOCALES: Locale[] = ["en", "ko", "de"];
+export type Locale = "en" | "ko" | "de" | "fr";
+export const LOCALES: Locale[] = ["en", "ko", "de", "fr"];
 export const DEFAULT_LOCALE: Locale = "en";
 export const LOCALE_COOKIE = "kveriai_locale";
 
@@ -15,6 +16,7 @@ export const LOCALE_META: Record<Locale, { native: string; short: string; englis
   en: { native: "English", short: "EN", english: "English" },
   ko: { native: "한국어", short: "KO", english: "Korean" },
   de: { native: "Deutsch", short: "DE", english: "German" },
+  fr: { native: "Français", short: "FR", english: "French" },
 };
 
 export function isLocale(v: unknown): v is Locale {
@@ -184,7 +186,7 @@ export const ko: Record<string, string> = {
   "perm.settings.manage": "사용자·역할·자격증명·조직 관리",
   "perm.audit.view": "감사 추적 열람",
   "Regenerate in": "다른 언어판 생성:",
-  "Language": "언어", "English": "영어", "Korean": "한국어", "German": "독일어",
+  "Language": "언어", "English": "영어", "Korean": "한국어", "German": "독일어", "French": "프랑스어",
 };
 
 export const en: Record<string, string> = {
@@ -207,7 +209,7 @@ export const en: Record<string, string> = {
   "perm.audit.view": "View the audit trail",
 };
 
-export const DICTS: Record<Locale, Record<string, string>> = { en, ko, de };
+export const DICTS: Record<Locale, Record<string, string>> = { en, ko, de, fr };
 
 export function translate(locale: Locale, key: string): string {
   return DICTS[locale]?.[key] ?? en[key] ?? key;

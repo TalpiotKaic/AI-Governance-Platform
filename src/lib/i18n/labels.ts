@@ -1,6 +1,7 @@
 import type { Locale } from "./dict";
 import { enumLabel } from "@/lib/utils";
 import { DE_LABELS } from "./locales/de";
+import { FR_LABELS } from "./locales/fr";
 
 /** Korean labels for enum values; falls back to the English enumLabel. */
 const KO: Record<string, string> = {
@@ -48,7 +49,7 @@ const KO: Record<string, string> = {
   COVERED: "충족", PARTIAL: "부분", GAP: "갭", UNMAPPED: "미매핑",
 };
 
-const LABEL_MAPS: Partial<Record<Locale, Record<string, string>>> = { ko: KO, de: DE_LABELS };
+const LABEL_MAPS: Partial<Record<Locale, Record<string, string>>> = { ko: KO, de: DE_LABELS, fr: FR_LABELS };
 
 export function labelFor(locale: Locale, value: string | null | undefined): string {
   if (!value) return "—";
