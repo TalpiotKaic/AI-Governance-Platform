@@ -19,7 +19,13 @@ async function resolveChromium(): Promise<string | undefined> {
       }
     }
   }
-  for (const p of ["/usr/bin/chromium", "/usr/bin/chromium-browser", "/usr/bin/google-chrome"]) if (await exists(p)) return p;
+  for (const p of [
+    "/usr/bin/chromium", "/usr/bin/chromium-browser", "/usr/bin/google-chrome",
+    "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+    "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe",
+    "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+  ]) if (await exists(p)) return p;
   return undefined;
 }
 
@@ -29,7 +35,9 @@ export async function GET(req: Request, ctx: RouteContext<"/api/reports/[id]/pdf
   const { id } = await ctx.params;
   const r = await db.report.findFirst({ where: { id, orgId: session.orgId } });
   if (!r) return new Response("Not found", { status: 404 });
-  const origin = new URL(req.url).origin;
+  const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host");
+  const protocol = req.headers.get("x-forwarded-proto") ?? (req.url.startsWith("https") ? "https" : "http");
+  const origin = `${protocol}://${host}`;
   const printUrl = `${origin}/print/reports/${id}?token=${encodeURIComponent(process.env.AUTH_SECRET ?? "")}`;
   try {
     const { chromium } = await import("playwright-core");
