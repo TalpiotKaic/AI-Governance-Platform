@@ -1,6 +1,6 @@
 "use client";
 import { useI18n } from "@/lib/i18n/client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox, Field, Input, Select, Textarea } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -13,19 +13,71 @@ type Initial = Partial<{
 
 export function SystemForm({ action, initial, submitLabel }: { action: (fd: FormData) => Promise<void>; initial?: Initial; submitLabel: string }) {
   const { t, L } = useI18n();
+  const draftKey = `kveriai-system-draft-${initial?.name ?? "new"}`;
+  
   const [type, setType] = useState(initial?.type ?? "LLM_APPLICATION");
   const isAgent = type === "AGENT" || type === "MULTI_AGENT";
-  const toolsText = initial?.agent?.tools?.map((t) => `${t.name}|${t.riskLevel ?? "medium"}|${t.allowed === false ? "false" : "true"}|${(t.permissions ?? []).join(",")}`).join("\n") ?? "search_knowledge_base|low|true|\nlookup_customer|medium|true|customer:read\nsend_email|high|true|email:send\nexport_customer_data|critical|false|data:export\ndelete_customer_record|critical|false|customer:delete";
+  const toolsText = initial?.agent?.tools?.map((t: any) => `${t.name}|${t.riskLevel ?? "medium"}|${t.allowed === false ? "false" : "true"}|${(t.permissions ?? []).join(",")}`).join("\n") ?? "search_knowledge_base|low|true|\nlookup_customer|medium|true|customer:read\nsend_email|high|true|email:send\nexport_customer_data|critical|false|data:export\ndelete_customer_record|critical|false|customer:delete";
+
   const handleSubmit = async (fd: FormData) => {
     try {
       await action(fd);
+      sessionStorage.removeItem(draftKey);
     } catch (e) {
       console.error(e);
       alert(t("An error occurred. Please check your inputs."));
     }
   };
+
   return (
-    <form action={handleSubmit} className="space-y-6" onKeyDown={(e) => { if (e.key === "Enter" && e.target instanceof HTMLInputElement) e.preventDefault(); }}>
+    <form 
+      action={handleSubmit} 
+      className="space-y-6" 
+      onKeyDown={(e) => { if (e.key === "Enter" && e.target instanceof HTMLInputElement) e.preventDefault(); }}
+      onChange={(e) => {
+        const fd = new FormData(e.currentTarget);
+        const data = Object.fromEntries(fd.entries());
+        // Map flat FormData back to Initial structure for draft
+        const draftObj: any = { ...data };
+        draftObj.usesPersonalData = data.usesPersonalData === "on";
+        draftObj.usesSensitiveData = data.usesSensitiveData === "on";
+        draftObj.customerFacing = data.customerFacing === "on";
+        draftObj.automatedDecision = data.automatedDecision === "on";
+        draftObj.geographies = data.geographies ? String(data.geographies).split(",").map(s => s.trim()) : [];
+        draftObj.tags = data.tags ? String(data.tags).split(",").map(s => s.trim()) : [];
+        draftObj.model = { provider: data.modelProvider, name: data.modelName, version: data.modelVersion };
+        if (data.agentFramework || data.tools) {
+          draftObj.agent = { framework: data.agentFramework, autonomyLevel: data.autonomyLevel, tools: [], killSwitch: data.killSwitch === "on", maxBudgetUsd: data.maxBudgetUsd ? Number(data.maxBudgetUsd) : null };
+          // We don't perfectly parse tools for the draft, but the Textarea uses the flat string anyway!
+          // Actually, Textarea uses `defaultValue={toolsText}` which is derived from `initial.agent.tools`.
+          // We can just save the raw text into a custom field.
+        }
+        // Wait! It's much easier to just store the raw FormData entries and restore them into the DOM directly using the ref approach, BUT my ref approach was buggy?
+        // Let's just store the flat form data in sessionStorage!
+        sessionStorage.setItem(draftKey + "-flat", JSON.stringify(Object.fromEntries(fd.entries())));
+      }}
+      ref={(form) => {
+        if (form && !form.dataset.restored) {
+          form.dataset.restored = "true";
+          try {
+            const saved = sessionStorage.getItem(draftKey + "-flat");
+            if (saved) {
+              const data = JSON.parse(saved);
+              Object.keys(data).forEach((k) => {
+                const el = form.elements.namedItem(k);
+                if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement) {
+                  if (el.type === "checkbox") (el as HTMLInputElement).checked = data[k] === "on";
+                  else el.value = data[k] as string;
+                } else if (el instanceof RadioNodeList) {
+                  (el as any).value = data[k];
+                }
+              });
+              if (data.type) setType(data.type as string);
+            }
+          } catch(e) {}
+        }
+      }}
+    >
       <Card>
         <CardHeader><CardTitle>{t("1. Identity & context (intake)")}</CardTitle><CardDescription>{t("Intake answers drive automatic risk tiering, EU AI Act classification prompts and the approval workflow.")}</CardDescription></CardHeader>
         <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
