@@ -1,6 +1,9 @@
 /** French (fr) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const fr: Record<string, string> = {
+  "Keys are AES-256-GCM encrypted with AUTH_SECRET.": "Les clés sont chiffrées en AES-256-GCM avec AUTH_SECRET.",
+  "Environment keys detected:": "Clés détectées dans les variables d'environnement :",
+  "base URL": "URL de base",
   "mapped to harmonized controls": "associées à des contrôles harmonisés",
   "assessable requirements": "exigences évaluables",
   "General": "Général",
