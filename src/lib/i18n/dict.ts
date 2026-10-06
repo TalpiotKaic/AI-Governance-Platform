@@ -55,7 +55,7 @@ export const ko: Record<string, string> = {
   "AI Governance, Evaluation & Assurance Platform": "AI 거버넌스·평가·보증 플랫폼",
   "K-VeriAI AI Governance, Evaluation & Assurance Platform": "K-VeriAI AI 거버넌스·평가·보증 플랫폼",
   "Verification Body": "검증기관", "Enterprise": "기업", "Sign out": "로그아웃", "Sign in": "로그인", "Toggle theme": "테마 전환", "Open menu": "메뉴 열기", "Close": "닫기", "Public": "공개", "Overview": "개요", "Govern": "거버넌스", "Evaluate & Verify": "평가·검증", "Prove": "증명", "Admin": "관리",
-  "Use your organization account to continue.": "조직 계정으로 로그인하세요.", "Email": "이메일", "A user with this email address already exists in the system.": "이 이메일 주소를 사용하는 사용자가 이미 시스템에 존재합니다.", "Password": "비밀번호", "Signing in…": "로그인 중…", "Enter a valid email and password.": "올바른 이메일과 비밀번호를 입력하세요.", "Invalid credentials.": "이메일 또는 비밀번호가 올바르지 않습니다.", "Demo accounts (password: demo1234)": "데모 계정 (비밀번호: demo1234)",
+  "Use your organization account to continue.": "조직 계정으로 로그인하세요.", "Email": "이메일", "A user with this email address already exists in the system.": "이 이메일 주소를 사용하는 사용자가 이미 시스템에 존재합니다.", "Password": "비밀번호", "New password (optional)": "새 비밀번호 (선택)", "Cancel": "취소", "Signing in…": "로그인 중…", "Enter a valid email and password.": "올바른 이메일과 비밀번호를 입력하세요.", "Invalid credentials.": "이메일 또는 비밀번호가 올바르지 않습니다.", "Demo accounts (password: demo1234)": "데모 계정 (비밀번호: demo1234)",
   // ── nav ──
   "Dashboard": "대시보드", "AI Inventory": "AI 인벤토리", "Risk Register": "위험 레지스터", "Frameworks & Controls": "프레임워크·통제", "Policies": "정책", "Approvals & Tasks": "승인·태스크", "Incidents": "인시던트", "Evaluation Plans": "평가 계획", "Evaluation Runs": "평가 실행", "Test Library": "시험 라이브러리", "Evidence Center": "증적 센터", "Reports & Packs": "리포트·증적 팩", "Settings": "설정", "AI Trust Center": "AI 신뢰 센터",
   // ── common ──

@@ -28,7 +28,32 @@ export async function setUserRoleAction(id: string, formData: FormData) {
   const user = await requirePermission("settings.manage");
   await db.user.findFirstOrThrow({ where: { id, orgId: user.orgId } });
   await db.user.update({ where: { id }, data: { role: String(formData.get("role")) as Role } });
-  revalidatePath("/settings");
+  redirect("/settings");
+}
+
+export async function updateUserAction(id: string, formData: FormData) {
+  const user = await requirePermission("settings.manage");
+  await db.user.findFirstOrThrow({ where: { id, orgId: user.orgId } });
+  const email = String(formData.get("email")).toLowerCase().trim();
+  const existing = await db.user.findUnique({ where: { email } });
+  if (existing && existing.id !== id) {
+    redirect("/settings?error=email_exists");
+  }
+
+  const password = String(formData.get("password") || "");
+  const updateData: any = {
+    email,
+    name: String(formData.get("name")),
+    role: String(formData.get("role")) as Role,
+    title: String(formData.get("title") || "") || null,
+  };
+  
+  if (password.length >= 6) {
+    updateData.passwordHash = await hashPassword(password);
+  }
+
+  await db.user.update({ where: { id }, data: updateData });
+  redirect("/settings");
 }
 
 export async function addCredentialAction(formData: FormData) {
