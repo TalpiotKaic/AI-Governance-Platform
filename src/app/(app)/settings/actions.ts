@@ -21,7 +21,7 @@ export async function createUserAction(formData: FormData) {
     redirect("/settings?error=email_exists");
   }
   await db.user.create({ data: { orgId: user.orgId, email, name: String(formData.get("name")), role: String(formData.get("role")) as Role, title: String(formData.get("title") || "") || null, passwordHash: await hashPassword(String(formData.get("password") || "changeme123")) } });
-  revalidatePath("/settings");
+  redirect("/settings");
 }
 
 export async function setUserRoleAction(id: string, formData: FormData) {
