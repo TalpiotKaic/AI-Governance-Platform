@@ -11,9 +11,16 @@ export async function updateOrgAction(formData: FormData) {
   revalidatePath("/settings");
 }
 
+import { redirect } from "next/navigation";
+
 export async function createUserAction(formData: FormData) {
   const user = await requirePermission("settings.manage");
-  await db.user.create({ data: { orgId: user.orgId, email: String(formData.get("email")).toLowerCase().trim(), name: String(formData.get("name")), role: String(formData.get("role")) as Role, title: String(formData.get("title") || "") || null, passwordHash: await hashPassword(String(formData.get("password") || "changeme123")) } });
+  const email = String(formData.get("email")).toLowerCase().trim();
+  const existing = await db.user.findUnique({ where: { email } });
+  if (existing) {
+    redirect("/settings?error=email_exists");
+  }
+  await db.user.create({ data: { orgId: user.orgId, email, name: String(formData.get("name")), role: String(formData.get("role")) as Role, title: String(formData.get("title") || "") || null, passwordHash: await hashPassword(String(formData.get("password") || "changeme123")) } });
   revalidatePath("/settings");
 }
 
