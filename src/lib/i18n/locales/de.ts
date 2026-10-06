@@ -1,4 +1,4 @@
-﻿/** German (de) — UI strings, enum labels and report strings. Keys are the English source strings. */
+/** German (de) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const de: Record<string, string> = {
   // ── brand / shell ──
@@ -70,6 +70,12 @@ export const de: Record<string, string> = {
   "Subliminal manipulation, social scoring, untargeted facial scraping. Banned.": "Subliminale Manipulation, Social Scoring, ungerichtetes Gesichtsscrapping. Verboten.",
   "General Purpose AI models capable of wide range of tasks.": "Allzweck-KI-Modelle, die für eine Vielzahl von Aufgaben geeignet sind.",
   "High-impact GPAI models trained with massive compute.": "Hochwirksame GPAI-Modelle, die mit massiver Rechenleistung trainiert wurden.",
+  "Draft auto-saved:": "Entwurf automatisch gespeichert:",
+  "An error occurred. Please check your inputs.": "Ein Fehler ist aufgetreten. Bitte prüfen Sie Ihre Eingaben.",
+  "This report type requires at least one completed evaluation run. Please select a run, or run an evaluation first.": "Dieser Berichtstyp benötigt mindestens einen abgeschlossenen Evaluierungslauf. Wählen Sie einen Lauf oder führen Sie zuerst eine Evaluierung aus.",
+  "The ARIA report requires an evaluation plan. Please create a plan first.": "Der ARIA-Bericht benötigt einen Evaluierungsplan. Erstellen Sie zuerst einen Plan.",
+  "An unsaved draft from this browser was restored.": "Ein nicht gespeicherter Entwurf aus diesem Browser wurde wiederhergestellt.",
+  "Discard draft": "Entwurf verwerfen",
   "Show help": "Hilfe anzeigen",
 };
 
@@ -96,14 +102,6 @@ export const DE_LABELS: Record<string, string> = {
   SYSTEM_DEPLOYMENT: "Systemeinsatz", REPORT_ISSUANCE: "Berichtsausstellung", RISK_ACCEPTANCE: "Risikoakzeptanz", POLICY_EXCEPTION: "Richtlinienausnahme", PENDING: "Ausstehend", REJECTED: "Abgelehnt", DONE: "Erledigt", REPORTED: "Gemeldet", INVESTIGATING: "In Untersuchung",
   MODEL_VERSION: "Modellversion", PROMPT: "Prompt", TOOL: "Werkzeug", DATA_SOURCE: "Datenquelle", CONFIGURATION: "Konfiguration", VENDOR: "Anbieter", THIRD_PARTY_API: "Dritt-API", CLOUD_MANAGED: "Cloud (verwaltet)", SELF_HOSTED: "Selbst gehostet", ON_PREMISE: "On-Premise", ACTIVE: "Aktiv",
   COVERED: "Erfüllt", PARTIAL: "Teilweise", GAP: "Lücke", UNMAPPED: "Nicht zugeordnet",
-  "Not yet classified.": "Noch nicht klassifiziert.",
-  "Most AI systems (e.g. spam filters). Unregulated.": "Die meisten KI-Systeme (z. B. Spam-Filter). Unreguliert.",
-  "Systems interacting with humans (e.g. chatbots, deepfakes). Requires transparency.": "Systeme, die mit Menschen interagieren (z. B. Chatbots, Deepfakes). Erfordern Transparenz.",
-  "Systems in biometrics, critical infrastructure, education, employment, essential services, law enforcement. Strict compliance required.": "Systeme in den Bereichen Biometrie, kritische Infrastruktur, Bildung, Beschäftigung, wesentliche Dienste, Strafverfolgung. Strenge Konformität erforderlich.",
-  "Subliminal manipulation, social scoring, untargeted facial scraping. Banned.": "Subliminale Manipulation, Social Scoring, ungerichtetes Gesichtsscrapping. Verboten.",
-  "General Purpose AI models capable of wide range of tasks.": "Allzweck-KI-Modelle, die für eine Vielzahl von Aufgaben geeignet sind.",
-  "High-impact GPAI models trained with massive compute.": "Hochwirksame GPAI-Modelle, die mit massiver Rechenleistung trainiert wurden.",
-  "Show help": "Hilfe anzeigen",
 };
 
 export const REPORT_DE: Record<string, string> = {
@@ -134,12 +132,4 @@ export const REPORT_DE: Record<string, string> = {
   "a simulated judge over ground-truth tags": "einen simulierten Judge auf Basis von Ground-Truth-Tags", "adapter (Anthropic / OpenAI-compatible / HTTP Evaluation API / demo)": "Adapter (Anthropic / OpenAI-kompatibel / HTTP Evaluation API / Demo)", "all components": "alle Komponenten", "an LLM-as-judge with structured rationale and confidence": "einen LLM-as-Judge mit strukturierter Begründung und Konfidenz", "autonomy:": "Autonomie:", "budget cap": "Budgetgrenze", "built-in": "integriert", "controls": "Kontrollen", "critical": "kritisch", "fail": "nicht bestanden", "high": "hoch", "kill switch:": "Notabschaltung:", "n": "n", "n/a": "k. A.", "no": "nein", "no harmonized control mapped; attach evidence directly": "keine harmonisierte Kontrolle zugeordnet; Nachweis direkt anhängen", "not yet implemented": "noch nicht umgesetzt", "pass": "bestanden", "sessions.": "", "yes": "ja",
   "Results relate only to the items tested under the stated conditions.": "Die Ergebnisse beziehen sich nur auf die unter den genannten Bedingungen geprüften Gegenstände.",
   "No entries": "Keine Einträge", "Recommendation:": "Empfehlung:", "Signature / date": "Unterschrift / Datum", "Generated": "Erzeugt", "Runs:": "Läufe:", "This document is generated from platform records; changes to the underlying system invalidate test-derived evidence until re-evaluation.": "Dieses Dokument wurde aus Plattformdaten erzeugt; Änderungen am zugrunde liegenden System machen testbasierte Nachweise bis zur Neubewertung ungültig.", "Language": "Sprache",
-  "Not yet classified.": "Noch nicht klassifiziert.",
-  "Most AI systems (e.g. spam filters). Unregulated.": "Die meisten KI-Systeme (z. B. Spam-Filter). Unreguliert.",
-  "Systems interacting with humans (e.g. chatbots, deepfakes). Requires transparency.": "Systeme, die mit Menschen interagieren (z. B. Chatbots, Deepfakes). Erfordern Transparenz.",
-  "Systems in biometrics, critical infrastructure, education, employment, essential services, law enforcement. Strict compliance required.": "Systeme in den Bereichen Biometrie, kritische Infrastruktur, Bildung, Beschäftigung, wesentliche Dienste, Strafverfolgung. Strenge Konformität erforderlich.",
-  "Subliminal manipulation, social scoring, untargeted facial scraping. Banned.": "Subliminale Manipulation, Social Scoring, ungerichtetes Gesichtsscrapping. Verboten.",
-  "General Purpose AI models capable of wide range of tasks.": "Allzweck-KI-Modelle, die für eine Vielzahl von Aufgaben geeignet sind.",
-  "High-impact GPAI models trained with massive compute.": "Hochwirksame GPAI-Modelle, die mit massiver Rechenleistung trainiert wurden.",
-  "Show help": "Hilfe anzeigen",
 };

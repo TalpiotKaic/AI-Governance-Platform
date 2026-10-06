@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/auth";
+import { selfOrigin } from "@/lib/origin";
 import { db } from "@/lib/db";
 
 export const maxDuration = 60;
@@ -35,9 +36,7 @@ export async function GET(req: Request, ctx: RouteContext<"/api/reports/[id]/pdf
   const { id } = await ctx.params;
   const r = await db.report.findFirst({ where: { id, orgId: session.orgId } });
   if (!r) return new Response("Not found", { status: 404 });
-  const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host");
-  const protocol = req.headers.get("x-forwarded-proto") ?? (req.url.startsWith("https") ? "https" : "http");
-  const origin = `${protocol}://${host}`;
+  const origin = selfOrigin(req.headers, req.url);
   const printUrl = `${origin}/print/reports/${id}?token=${encodeURIComponent(process.env.AUTH_SECRET ?? "")}`;
   try {
     const { chromium } = await import("playwright-core");

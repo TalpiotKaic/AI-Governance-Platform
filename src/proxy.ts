@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { redirectLocation } from "@/lib/origin";
 
 const PUBLIC_PREFIXES = ["/login", "/trust", "/print", "/api/locale", "/api/public", "/api/evaluation-api", "/_next", "/favicon.ico", "/brand", "/kveriai_logo.jpg"];
 
@@ -13,12 +14,9 @@ export function proxy(request: NextRequest) {
   }
   const hasSession = request.cookies.has("kveriai_session");
   if (!hasSession) {
-    const host = request.headers.get("x-forwarded-host") || request.headers.get("host") || request.nextUrl.host;
-    const proto = request.headers.get("x-forwarded-proto") || request.nextUrl.protocol.replace(":", "");
-    return new NextResponse(null, { 
-      status: 303, 
-      headers: { Location: `${proto}://${host}/login?next=${encodeURIComponent(pathname)}` } 
-    });
+    // Proxy (middleware) responses need an absolute Location; fall back to Next's own notion of the request origin.
+    const location = redirectLocation(request.headers, request.url, `/login?next=${encodeURIComponent(pathname)}`);
+    return new NextResponse(null, { status: 303, headers: { Location: location.startsWith("/") ? new URL(location, request.nextUrl.origin).toString() : location } });
   }
   return NextResponse.next();
 }

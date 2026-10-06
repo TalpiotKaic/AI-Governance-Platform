@@ -1,4 +1,4 @@
-﻿/** Italian (it) — UI strings, enum labels and report strings. Keys are the English source strings. */
+/** Italian (it) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const it: Record<string, string> = {
   // ── brand / shell ──
@@ -70,6 +70,12 @@ export const it: Record<string, string> = {
   "Subliminal manipulation, social scoring, untargeted facial scraping. Banned.": "Manipolazione subliminale, social scoring, scraping facciale indiscriminato. Vietato.",
   "General Purpose AI models capable of wide range of tasks.": "Modelli IA per uso generale capaci di un'ampia gamma di compiti.",
   "High-impact GPAI models trained with massive compute.": "Modelli GPAI ad alto impatto addestrati con un'enorme potenza di calcolo.",
+  "Draft auto-saved:": "Bozza salvata automaticamente:",
+  "An error occurred. Please check your inputs.": "Si è verificato un errore. Controlla i dati inseriti.",
+  "This report type requires at least one completed evaluation run. Please select a run, or run an evaluation first.": "Questo tipo di report richiede almeno un'esecuzione di valutazione completata. Seleziona un'esecuzione o esegui prima una valutazione.",
+  "The ARIA report requires an evaluation plan. Please create a plan first.": "Il report ARIA richiede un piano di valutazione. Crea prima un piano.",
+  "An unsaved draft from this browser was restored.": "È stata ripristinata una bozza non salvata da questo browser.",
+  "Discard draft": "Scarta bozza",
   "Show help": "Mostra guida",
 };
 
@@ -96,14 +102,6 @@ export const IT_LABELS: Record<string, string> = {
   SYSTEM_DEPLOYMENT: "Rilascio del sistema", REPORT_ISSUANCE: "Emissione del report", RISK_ACCEPTANCE: "Accettazione del rischio", POLICY_EXCEPTION: "Eccezione alla politica", PENDING: "In attesa", REJECTED: "Rifiutato", DONE: "Completato", REPORTED: "Segnalato", INVESTIGATING: "In indagine",
   MODEL_VERSION: "Versione del modello", PROMPT: "Prompt", TOOL: "Strumento", DATA_SOURCE: "Fonte dati", CONFIGURATION: "Configurazione", VENDOR: "Fornitore", THIRD_PARTY_API: "API di terze parti", CLOUD_MANAGED: "Cloud gestito", SELF_HOSTED: "Self-hosted", ON_PREMISE: "On-premise", ACTIVE: "Attivo",
   COVERED: "Coperto", PARTIAL: "Parziale", GAP: "Lacuna", UNMAPPED: "Non mappato",
-  "Not yet classified.": "Non ancora classificato.",
-  "Most AI systems (e.g. spam filters). Unregulated.": "La maggior parte dei sistemi IA (es. filtri antispam). Non regolamentato.",
-  "Systems interacting with humans (e.g. chatbots, deepfakes). Requires transparency.": "Sistemi che interagiscono con gli esseri umani (es. chatbot, deepfake). Richiede trasparenza.",
-  "Systems in biometrics, critical infrastructure, education, employment, essential services, law enforcement. Strict compliance required.": "Sistemi in biometria, infrastrutture critiche, istruzione, occupazione, servizi essenziali, forze dell'ordine. È richiesta una rigorosa conformità.",
-  "Subliminal manipulation, social scoring, untargeted facial scraping. Banned.": "Manipolazione subliminale, social scoring, scraping facciale indiscriminato. Vietato.",
-  "General Purpose AI models capable of wide range of tasks.": "Modelli IA per uso generale capaci di un'ampia gamma di compiti.",
-  "High-impact GPAI models trained with massive compute.": "Modelli GPAI ad alto impatto addestrati con un'enorme potenza di calcolo.",
-  "Show help": "Mostra guida",
 };
 
 export const REPORT_IT: Record<string, string> = {
@@ -134,12 +132,4 @@ export const REPORT_IT: Record<string, string> = {
   "a simulated judge over ground-truth tags": "un giudice simulato basato su tag di ground truth", "adapter (Anthropic / OpenAI-compatible / HTTP Evaluation API / demo)": "adattatore (Anthropic / compatibile OpenAI / HTTP Evaluation API / demo)", "all components": "tutti i componenti", "an LLM-as-judge with structured rationale and confidence": "un LLM-as-judge con motivazione strutturata e confidenza", "autonomy:": "autonomia:", "budget cap": "tetto di budget", "built-in": "integrato", "controls": "controlli", "critical": "critici", "fail": "non superato", "high": "alti", "kill switch:": "arresto di emergenza:", "n": "n", "n/a": "n/d", "no": "no", "no harmonized control mapped; attach evidence directly": "nessun controllo armonizzato mappato; allegare l'evidenza direttamente", "not yet implemented": "non ancora implementati", "pass": "superato", "sessions.": "", "yes": "sì",
   "Results relate only to the items tested under the stated conditions.": "I risultati si riferiscono solo agli elementi provati nelle condizioni indicate.",
   "No entries": "Nessuna voce", "Recommendation:": "Raccomandazione:", "Signature / date": "Firma / data", "Generated": "Generato", "Runs:": "Esecuzioni:", "This document is generated from platform records; changes to the underlying system invalidate test-derived evidence until re-evaluation.": "Questo documento è generato dai dati della piattaforma; le modifiche al sistema sottostante invalidano le evidenze derivate dai test fino a nuova valutazione.", "Language": "Lingua",
-  "Not yet classified.": "Non ancora classificato.",
-  "Most AI systems (e.g. spam filters). Unregulated.": "La maggior parte dei sistemi IA (es. filtri antispam). Non regolamentato.",
-  "Systems interacting with humans (e.g. chatbots, deepfakes). Requires transparency.": "Sistemi che interagiscono con gli esseri umani (es. chatbot, deepfake). Richiede trasparenza.",
-  "Systems in biometrics, critical infrastructure, education, employment, essential services, law enforcement. Strict compliance required.": "Sistemi in biometria, infrastrutture critiche, istruzione, occupazione, servizi essenziali, forze dell'ordine. È richiesta una rigorosa conformità.",
-  "Subliminal manipulation, social scoring, untargeted facial scraping. Banned.": "Manipolazione subliminale, social scoring, scraping facciale indiscriminato. Vietato.",
-  "General Purpose AI models capable of wide range of tasks.": "Modelli IA per uso generale capaci di un'ampia gamma di compiti.",
-  "High-impact GPAI models trained with massive compute.": "Modelli GPAI ad alto impatto addestrati con un'enorme potenza di calcolo.",
-  "Show help": "Mostra guida",
 };

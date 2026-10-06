@@ -11,158 +11,136 @@ type Initial = Partial<{
   agent: { framework: string | null; autonomyLevel: string; tools: { name: string; riskLevel?: string; allowed?: boolean; permissions?: string[] }[]; dataSources: { name: string }[]; mcpServers: { name: string }[]; killSwitch: boolean; maxBudgetUsd: number | null } | null;
 }>;
 
+type Tool = { name: string; riskLevel?: string; allowed?: boolean; permissions?: string[] };
+type Named = { name: string };
+type Translate = (key: string) => string;
+type LabelFor = (v: string | null | undefined) => string;
+
+const DEFAULT_TOOLS = "search_knowledge_base|low|true|\nlookup_customer|medium|true|customer:read\nsend_email|high|true|email:send\nexport_customer_data|critical|false|data:export\ndelete_customer_record|critical|false|customer:delete";
+
+function toolsToText(tools: Tool[] | undefined): string {
+  if (!tools) return DEFAULT_TOOLS;
+  return tools.map((t) => `${t.name}|${t.riskLevel ?? "medium"}|${t.allowed === false ? "false" : "true"}|${(t.permissions ?? []).join(",")}`).join("\n");
+}
+
+/** Draft key is scoped to the current route, so /systems/new and each /systems/<id>/edit page keep separate drafts. */
+function draftKeyFor(): string {
+  return `kveriai-system-draft:${typeof window === "undefined" ? "ssr" : window.location.pathname}`;
+}
+
 export function SystemForm({ action, initial, submitLabel }: { action: (fd: FormData) => Promise<void>; initial?: Initial; submitLabel: string }) {
   const { t, L } = useI18n();
-  const draftKey = `kveriai-system-draft-${initial?.name ?? "new"}`;
-  const [loaded, setLoaded] = useState(false);
-  const [draft, setDraft] = useState<Initial | null>(null);
+  const [state, setState] = useState<{ loaded: boolean; draft: Initial | null; key: string }>({ loaded: false, draft: null, key: "" });
 
   useEffect(() => {
+    // Read the browser draft after mount (localStorage is not available during SSR); deferred to avoid a synchronous setState in the effect.
+    const key = draftKeyFor();
+    let draft: Initial | null = null;
     try {
-      const saved = localStorage.getItem(draftKey);
-      if (saved) setDraft(JSON.parse(saved));
-    } catch(e) {}
-    setLoaded(true);
-  }, [draftKey]);
+      const saved = localStorage.getItem(key);
+      if (saved) draft = JSON.parse(saved) as Initial;
+    } catch {
+      draft = null;
+    }
+    const id = requestAnimationFrame(() => setState({ loaded: true, draft, key }));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
-  const mergedInitial = draft ? { ...initial, ...draft } : initial;
+  const discardDraft = () => {
+    try { localStorage.removeItem(state.key); } catch { /* ignore */ }
+    setState((s) => ({ ...s, draft: null }));
+  };
+
+  const mergedInitial = state.draft ? { ...initial, ...state.draft } : initial;
   return (
     <div className="flex flex-col gap-4">
-      {draft && (
-        <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md">
-          <p className="font-bold">System Debug: Draft Restored!</p>
-          <p className="text-sm">We successfully found a saved draft in your browser. If the form below is empty, it means your browser prevented the form from showing the data.</p>
+      {state.draft && (
+        <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-warning/40 bg-warning-soft/40 px-3 py-2 text-xs">
+          <span>{t("An unsaved draft from this browser was restored.")}</span>
+          <Button type="button" size="sm" variant="ghost" onClick={discardDraft}>{t("Discard draft")}</Button>
         </div>
       )}
-      <SystemFormInner key={loaded ? "loaded" : "initial"} action={action} initial={mergedInitial} submitLabel={submitLabel} draftKey={draftKey} t={t} L={L} />
+      <SystemFormInner key={state.loaded ? `loaded:${state.draft ? "draft" : "clean"}` : "initial"} action={action} initial={mergedInitial} submitLabel={submitLabel} draftKey={state.key} t={t} L={L} />
     </div>
   );
 }
 
-function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { action: any; initial: any; submitLabel: string; draftKey: string; t: any; L: any }) {
+function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { action: (fd: FormData) => Promise<void>; initial?: Initial; submitLabel: string; draftKey: string; t: Translate; L: LabelFor }) {
   const [type, setType] = useState(initial?.type ?? "LLM_APPLICATION");
   const isAgent = type === "AGENT" || type === "MULTI_AGENT";
-  const toolsText = initial?.agent?.tools?.map((t: any) => `${t.name}|${t.riskLevel ?? "medium"}|${t.allowed === false ? "false" : "true"}|${(t.permissions ?? []).join(",")}`).join("\n") ?? "search_knowledge_base|low|true|\nlookup_customer|medium|true|customer:read\nsend_email|high|true|email:send\nexport_customer_data|critical|false|data:export\ndelete_customer_record|critical|false|customer:delete";
+  const toolsText = toolsToText(initial?.agent?.tools);
 
   const formRef = useRef<HTMLFormElement>(null);
+  const dirtyRef = useRef(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
   useEffect(() => {
-    setLastSaved(new Date());
-  }, []);
-
-  useEffect(() => {
-    try {
-      // FORCE RESTORE TO DOM (Bypass React bugs)
-      if (formRef.current && initial) {
-        const form = formRef.current;
-        const setVal = (name: string, val: any) => {
-          if (!val) return;
-          const el = form.elements.namedItem(name);
-          if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement) {
-            if (el.type === "checkbox") {
-              (el as HTMLInputElement).checked = val === true || val === "on";
-            } else {
-              el.value = val;
-            }
-          }
-        };
-        setVal("name", initial.name);
-        setVal("type", initial.type);
-        setVal("sector", initial.sector);
-        setVal("purpose", initial.purpose);
-        setVal("deploymentContext", initial.deploymentContext);
-        setVal("lifecycleStage", initial.lifecycleStage);
-        setVal("euAiActCategory", initial.euAiActCategory);
-        setVal("euAiActAnnexIIIArea", initial.euAiActAnnexIIIArea);
-        setVal("intendedUsers", initial.intendedUsers);
-        setVal("affectedPersons", initial.affectedPersons);
-        setVal("humanOversight", initial.humanOversight);
-        setVal("usesPersonalData", initial.usesPersonalData);
-        setVal("usesSensitiveData", initial.usesSensitiveData);
-        setVal("customerFacing", initial.customerFacing);
-        setVal("automatedDecision", initial.automatedDecision);
-        setVal("geographies", initial.geographies?.join(", "));
-        setVal("tags", initial.tags?.join(", "));
-        setVal("modelProvider", initial.model?.provider);
-        setVal("modelName", initial.model?.name);
-        setVal("modelVersion", initial.model?.version);
-        setVal("agentFramework", initial.agent?.framework);
-        setVal("autonomyLevel", initial.agent?.autonomyLevel);
-        setVal("tools", toolsText);
-        setVal("dataSources", initial.agent?.dataSources?.map((d: any) => d.name).join("\n"));
-        setVal("mcpServers", initial.agent?.mcpServers?.map((m: any) => m.name).join("\n"));
-        setVal("killSwitch", initial.agent?.killSwitch);
-        setVal("maxBudgetUsd", initial.agent?.maxBudgetUsd);
-      }
-    } catch (e: any) {
-      console.error("DOM Restore Error:", e);
-      const debugEl = document.getElementById("debug-live-state");
-      if (debugEl) debugEl.innerText = "DOM RESTORE CRASHED: " + String(e);
+    // Restore values into the (uncontrolled) inputs after a remount with a draft.
+    const form = formRef.current;
+    if (form && initial) {
+      const setVal = (name: string, val: unknown) => {
+        const el = form.elements.namedItem(name);
+        if (el instanceof HTMLInputElement && el.type === "checkbox") { el.checked = val === true || val === "on"; return; }
+        if (val === undefined || val === null) return;
+        if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement) el.value = String(val);
+      };
+      setVal("name", initial.name); setVal("type", initial.type); setVal("sector", initial.sector); setVal("purpose", initial.purpose); setVal("description", initial.description);
+      setVal("deploymentContext", initial.deploymentContext); setVal("lifecycleStage", initial.lifecycleStage); setVal("euAiActCategory", initial.euAiActCategory); setVal("euAiActAnnexIIIArea", initial.euAiActAnnexIIIArea);
+      setVal("intendedUsers", initial.intendedUsers); setVal("affectedPersons", initial.affectedPersons); setVal("humanOversight", initial.humanOversight);
+      setVal("usesPersonalData", initial.usesPersonalData); setVal("usesSensitiveData", initial.usesSensitiveData); setVal("customerFacing", initial.customerFacing); setVal("automatedDecision", initial.automatedDecision);
+      setVal("geographies", initial.geographies?.join(", ")); setVal("tags", initial.tags?.join(", "));
+      setVal("modelProvider", initial.model?.provider); setVal("modelName", initial.model?.name); setVal("modelVersion", initial.model?.version);
+      setVal("agentFramework", initial.agent?.framework); setVal("autonomyLevel", initial.agent?.autonomyLevel); setVal("tools", toolsText);
+      setVal("dataSources", initial.agent?.dataSources?.map((d) => d.name).join("\n")); setVal("mcpServers", initial.agent?.mcpServers?.map((m) => m.name).join("\n"));
+      setVal("killSwitch", initial.agent?.killSwitch); setVal("maxBudgetUsd", initial.agent?.maxBudgetUsd);
     }
-    
-    // PREVENT ACCIDENTAL REFRESH/NAVIGATION
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-      e.returnValue = "You have unsaved changes. Are you sure you want to leave?";
-      return e.returnValue;
-    };
+    // Warn before leaving only when there are unsaved edits.
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => { if (dirtyRef.current) e.preventDefault(); };
     window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [draftKey, toolsText, initial]);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [toolsText, initial]);
 
   const saveDraft = () => {
+    if (!formRef.current || !draftKey) return;
     try {
-      if (!formRef.current) return;
       const fd = new FormData(formRef.current);
-      const data = Object.fromEntries(fd.entries());
-      const draftObj: any = { ...data };
-      draftObj.usesPersonalData = data.usesPersonalData === "on";
-      draftObj.usesSensitiveData = data.usesSensitiveData === "on";
-      draftObj.customerFacing = data.customerFacing === "on";
-      draftObj.automatedDecision = data.automatedDecision === "on";
-      draftObj.geographies = data.geographies ? String(data.geographies).split(",").map(s => s.trim()) : [];
-      draftObj.tags = data.tags ? String(data.tags).split(",").map(s => s.trim()) : [];
-      draftObj.model = { provider: data.modelProvider, name: data.modelName, version: data.modelVersion };
-      if (data.agentFramework || toolsText) {
-        draftObj.agent = { 
-          framework: data.agentFramework,
-          autonomyLevel: data.autonomyLevel,
-          tools: data.tools ? String(data.tools).split("\n").map(line => {
-            const [name, riskLevel = "medium", allowed = "true", perms = ""] = line.split("|");
-            return { name, riskLevel, allowed: allowed !== "false", permissions: perms.split(",") };
-          }) : [],
-          dataSources: data.dataSources ? String(data.dataSources).split("\n").map(n => ({ name: n })) : [],
-          mcpServers: data.mcpServers ? String(data.mcpServers).split("\n").map(n => ({ name: n })) : [],
-          killSwitch: data.killSwitch === "on",
-          maxBudgetUsd: data.maxBudgetUsd ? Number(data.maxBudgetUsd) : null 
+      const data = Object.fromEntries(fd.entries()) as Record<string, string>;
+      const draftObj: Initial = {
+        name: data.name, description: data.description, type: data.type, sector: data.sector, purpose: data.purpose, deploymentContext: data.deploymentContext,
+        lifecycleStage: data.lifecycleStage, euAiActCategory: data.euAiActCategory, euAiActAnnexIIIArea: data.euAiActAnnexIIIArea, intendedUsers: data.intendedUsers,
+        affectedPersons: data.affectedPersons, humanOversight: data.humanOversight,
+        usesPersonalData: data.usesPersonalData === "on", usesSensitiveData: data.usesSensitiveData === "on", customerFacing: data.customerFacing === "on", automatedDecision: data.automatedDecision === "on",
+        geographies: data.geographies ? data.geographies.split(",").map((x) => x.trim()).filter(Boolean) : [], tags: data.tags ? data.tags.split(",").map((x) => x.trim()).filter(Boolean) : [],
+        model: { provider: data.modelProvider ?? "", name: data.modelName ?? "", version: data.modelVersion || null },
+      };
+      if (data.type === "AGENT" || data.type === "MULTI_AGENT") {
+        draftObj.agent = {
+          framework: data.agentFramework || null, autonomyLevel: data.autonomyLevel ?? "SUPERVISED",
+          tools: (data.tools ?? "").split("\n").filter(Boolean).map((line) => { const [name, riskLevel = "medium", allowed = "true", perms = ""] = line.split("|"); return { name, riskLevel, allowed: allowed !== "false", permissions: perms.split(",").filter(Boolean) }; }),
+          dataSources: (data.dataSources ?? "").split("\n").filter(Boolean).map((name): Named => ({ name })),
+          mcpServers: (data.mcpServers ?? "").split("\n").filter(Boolean).map((name): Named => ({ name })),
+          killSwitch: data.killSwitch === "on", maxBudgetUsd: data.maxBudgetUsd ? Number(data.maxBudgetUsd) : null,
         };
       }
-      const newSaved = JSON.stringify(draftObj);
-      
-      const debugEl = document.getElementById("debug-live-state");
-      if (debugEl) debugEl.innerText = "Event saved:\n" + newSaved;
-
-      if (localStorage.getItem(draftKey) !== newSaved) {
-        localStorage.setItem(draftKey, newSaved);
+      const serialized = JSON.stringify(draftObj);
+      if (localStorage.getItem(draftKey) !== serialized) {
+        localStorage.setItem(draftKey, serialized);
+        dirtyRef.current = true;
         setLastSaved(new Date());
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("Auto-save failed", err);
-      const debugEl = document.getElementById("debug-live-state");
-      if (debugEl) debugEl.innerText = "ERROR SAVING TO LOCALSTORAGE: " + String(err);
     }
   };
 
   const handleSubmit = async (fd: FormData) => {
     try {
       await action(fd);
+      dirtyRef.current = false;
       localStorage.removeItem(draftKey);
-    } catch (e: any) {
-      if (e?.digest?.startsWith("NEXT_REDIRECT")) {
+    } catch (e) {
+      if (typeof e === "object" && e !== null && "digest" in e && String((e as { digest?: string }).digest).startsWith("NEXT_REDIRECT")) {
+        dirtyRef.current = false;
         localStorage.removeItem(draftKey);
         throw e;
       }
@@ -185,7 +163,7 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
       onKeyDown={(e) => { if (e.key === "Enter" && e.target instanceof HTMLInputElement) e.preventDefault(); }}
     >
       <div className="flex justify-end h-4">
-        {lastSaved && <span style={{ color: "#16a34a", fontWeight: "bold" }} className="text-xs">{t("Draft auto-saved:")} {lastSaved.toLocaleTimeString()}</span>}
+        {lastSaved && <span className="text-xs font-medium text-success">{t("Draft auto-saved:")} {lastSaved.toLocaleTimeString()}</span>}
       </div>
       <Card>
         <CardHeader><CardTitle>{t("1. Identity & context (intake)")}</CardTitle><CardDescription>{t("Intake answers drive automatic risk tiering, EU AI Act classification prompts and the approval workflow.")}</CardDescription></CardHeader>
@@ -267,19 +245,14 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
             <Field label={t("Tools (one per line: name|riskLevel|allowed|permissions)")} className="md:col-span-2" hint={t("Sandbox tool names are evaluated against the built-in tool catalogue (search_knowledge_base, lookup_customer, get_account_balance, transfer_funds, send_email, export_customer_data, delete_customer_record, run_sql, read_patient_record, schedule_appointment, process_refund, escalate_to_human, book_flight, fetch_url).")}>
               <Textarea name="tools" className="min-h-[140px] font-mono text-xs" defaultValue={toolsText} />
             </Field>
-            <Field label={t("Data sources (one per line)")}><Textarea name="dataSources" defaultValue={initial?.agent?.dataSources?.map((d: any) => d.name).join("\n") ?? ""} /></Field>
-            <Field label={t("MCP servers (one per line)")}><Textarea name="mcpServers" defaultValue={initial?.agent?.mcpServers?.map((d: any) => d.name).join("\n") ?? ""} /></Field>
+            <Field label={t("Data sources (one per line)")}><Textarea name="dataSources" defaultValue={initial?.agent?.dataSources?.map((d) => d.name).join("\n") ?? ""} /></Field>
+            <Field label={t("MCP servers (one per line)")}><Textarea name="mcpServers" defaultValue={initial?.agent?.mcpServers?.map((d) => d.name).join("\n") ?? ""} /></Field>
             <Checkbox name="killSwitch" label={t("Kill switch / emergency stop implemented")} defaultChecked={initial?.agent?.killSwitch} />
             <Field label={t("Budget cap (USD per session)")}><Input name="maxBudgetUsd" type="number" step="0.01" defaultValue={initial?.agent?.maxBudgetUsd ?? ""} /></Field>
           </CardContent>
         </Card>
       )}
 
-      <div className="bg-gray-100 p-4 rounded text-xs font-mono overflow-auto max-h-40">
-        <p className="font-bold mb-2">Live Data Capture Status:</p>
-        <p>If this stays empty when you type, your typing is not being captured!</p>
-        <p id="debug-live-state" className="text-blue-600 mt-2 break-all">Waiting for input...</p>
-      </div>
 
       <div className="flex justify-end gap-2"><Button type="submit">{submitLabel}</Button></div>
     </form>

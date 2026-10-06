@@ -37,6 +37,10 @@ Access is capability-based (`src/lib/permissions.ts`), not a linear hierarchy, s
 | Tester | Register/edit systems, risks, plans, run evaluations, annotate, evidence, generate reports, tasks, incidents |
 | Viewer | Read-only (no Approvals & Tasks or Settings menu) |
 
+## Running behind a tunnel or reverse proxy
+
+Set `APP_ORIGIN` (e.g. `https://kveriai.example.com`) so login/locale redirects and the PDF renderer use the public origin. Without it, redirects are relative and the PDF renderer uses the request's own origin. `TRUST_PROXY_HEADERS=1` derives the origin from `X-Forwarded-Host`/`X-Forwarded-Proto` instead; enable it only behind a proxy you control, since those headers are otherwise attacker-controlled. For `next dev` through a tunnel add the hostname to `NEXT_ALLOWED_DEV_ORIGINS`. `pnpm tsx scripts/add-org.ts <slug> <name> <adminEmail> <password>` creates an organisation with an admin user.
+
 ## User guide / 사용 설명서
 
 - English: [docs/USER-GUIDE.en.md](docs/USER-GUIDE.en.md)

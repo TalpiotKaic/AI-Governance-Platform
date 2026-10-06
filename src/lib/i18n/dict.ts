@@ -198,6 +198,12 @@ export const ko: Record<string, string> = {
   "Subliminal manipulation, social scoring, untargeted facial scraping. Banned.": "잠재의식 조작, 소셜 스코어링, 무차별적 안면 인식. 사용 금지.",
   "General Purpose AI models capable of wide range of tasks.": "광범위한 작업을 수행할 수 있는 범용 AI 모델.",
   "High-impact GPAI models trained with massive compute.": "막대한 컴퓨팅 자원으로 학습되어 시스템적 위험을 초래할 수 있는 고성능 GPAI 모델.",
+  "Draft auto-saved:": "초안 자동 저장:",
+  "An error occurred. Please check your inputs.": "오류가 발생했습니다. 입력 내용을 확인하세요.",
+  "This report type requires at least one completed evaluation run. Please select a run, or run an evaluation first.": "이 리포트 유형은 완료된 평가 실행이 1건 이상 필요합니다. 실행을 선택하거나 먼저 평가를 실행하세요.",
+  "The ARIA report requires an evaluation plan. Please create a plan first.": "ARIA 리포트는 평가 계획이 필요합니다. 먼저 계획을 만드세요.",
+  "An unsaved draft from this browser was restored.": "이 브라우저에 저장된 임시 초안을 복원했습니다.",
+  "Discard draft": "초안 버리기",
   "Show help": "도움말 보기",
 };
 
