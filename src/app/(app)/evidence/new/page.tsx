@@ -5,17 +5,18 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Select, Textarea } from "@/components/ui/input";
 import { getI18n } from "@/lib/i18n/server";
+import { localizeControl } from "@/lib/i18n/content";
 
 import { createEvidenceAction } from "../actions";
 
 const TYPES = ["MODEL_CARD", "AGENT_CARD", "RISK_ASSESSMENT", "IMPACT_ASSESSMENT", "DPIA", "BIAS_FAIRNESS_REPORT", "ROBUSTNESS_TEST_REPORT", "SECURITY_ASSESSMENT", "RED_TEAM_REPORT", "USER_TESTING_REPORT", "EVALUATION_METRICS", "EVALUATION_PLAN", "TEST_REPORT", "HUMAN_OVERSIGHT_PLAN", "POST_MARKET_MONITORING_PLAN", "AUDIT_REPORT", "CONFORMITY_ASSESSMENT", "POLICY_DOCUMENT", "APPROVAL_RECORD", "INCIDENT_RECORD", "TRAINING_RECORD", "OTHER"];
 
 export default async function NewEvidencePage(props: PageProps<"/evidence/new">) {
-  const { t, L } = await getI18n();
+  const { locale, t, L } = await getI18n();
   const user = await requirePagePermission("evidence.write");
   const sp = await props.searchParams;
   const systems = await db.aiSystem.findMany({ where: { orgId: user.orgId }, orderBy: { code: "asc" } });
-  const controls = await db.control.findMany({ orderBy: { sortOrder: "asc" } });
+  const controls = (await db.control.findMany({ orderBy: { sortOrder: "asc" } })).map((c) => localizeControl(locale, c));
   return (
     <>
       <PageHeader title={t("Add evidence")} crumbs={[{ label: "Evidence Center", href: "/evidence" }, { label: "New" }]} description={t("Upload a document or record an attestation and link it to harmonized controls so it is reused across every framework pack.")} />

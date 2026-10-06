@@ -1,6 +1,12 @@
 /** Spanish (es) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const es: Record<string, string> = {
+  "mapped to harmonized controls": "asignados a controles armonizados",
+  "assessable requirements": "requisitos evaluables",
+  "General": "General",
+  "Tests": "Pruebas",
+  "Implementation status aggregated across your systems.": "Estado de implementación agregado en todos sus sistemas.",
+  "Controls backed by test methods are verified automatically from evaluation runs; the rest are documentary (policy, procedure, attestation).": "Los controles respaldados por métodos de prueba se verifican automáticamente a partir de las ejecuciones de evaluación; el resto son documentales (política, procedimiento, declaración).",
   // ── brand / shell ──
   "K-VeriAI": "K-VeriAI",
   "AI Governance & Assurance": "Gobernanza y aseguramiento de la IA",

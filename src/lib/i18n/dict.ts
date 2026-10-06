@@ -40,6 +40,12 @@ export function localeFromAcceptLanguage(header: string | null | undefined): Loc
 }
 
 export const ko: Record<string, string> = {
+  "mapped to harmonized controls": "개가 조화 통제에 매핑됨",
+  "assessable requirements": "개 평가 대상 요구사항",
+  "General": "일반",
+  "Tests": "테스트",
+  "Implementation status aggregated across your systems.": "조직 내 전체 시스템의 이행 현황을 집계한 값입니다.",
+  "Controls backed by test methods are verified automatically from evaluation runs; the rest are documentary (policy, procedure, attestation).": "테스트 방법이 연결된 통제는 평가 실행 결과로 자동 검증되며, 나머지는 문서형(정책·절차·확인서) 통제입니다.",
   // ── brand / shell ──
   "K-VeriAI": "K-VeriAI",
   "AI Governance & Assurance": "AI 거버넌스 & 보증",

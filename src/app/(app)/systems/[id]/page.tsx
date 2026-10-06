@@ -16,16 +16,17 @@ import { fmtDate, fmtAgo} from "@/lib/utils";
 import { recordChangeAction, updateControlStatusAction } from "../actions";
 import { Suspense } from "react";
 import { getI18n } from "@/lib/i18n/server";
+import { localizeControl } from "@/lib/i18n/content";
 
 export default async function SystemDetailPage(props: PageProps<"/systems/[id]">) {
-  const { t, L } = await getI18n();
+  const { locale, t, L } = await getI18n();
   const user = await requireUser();
   const { id } = await props.params;
   const sp = await props.searchParams;
   const tab = typeof sp.tab === "string" ? sp.tab : "overview";
   const s = await db.aiSystem.findFirst({ where: { id, orgId: user.orgId }, include: { owner: true, technicalOwner: true, models: true, agentProfile: true, datasets: { include: { dataset: true } }, vendors: { include: { vendor: true } }, risks: { orderBy: { score: "desc" }, include: { owner: true } }, runs: { orderBy: { createdAt: "desc" } }, plans: { orderBy: { createdAt: "desc" } }, evidence: { orderBy: { createdAt: "desc" }, include: { links: { include: { control: true } } } }, reports: { orderBy: { createdAt: "desc" } }, changeEvents: { orderBy: { createdAt: "desc" } }, findings: { where: { status: { in: ["OPEN", "MITIGATING"] } }, orderBy: { severity: "desc" } }, incidents: true } });
   if (!s) notFound();
-  const controls = await db.control.findMany({ orderBy: { sortOrder: "asc" }, include: { impls: { where: { systemId: id } }, requirements: { include: { requirement: { include: { framework: true } } } }, testMethods: { include: { testMethod: true } }, evidenceLinks: { where: { evidence: { systemId: id, status: "VALID" } } } } });
+  const controls = (await db.control.findMany({ orderBy: { sortOrder: "asc" }, include: { impls: { where: { systemId: id } }, requirements: { include: { requirement: { include: { framework: true } } } }, testMethods: { include: { testMethod: true } }, evidenceLinks: { where: { evidence: { systemId: id, status: "VALID" } } } } })).map((c) => localizeControl(locale, c));
   const approvals = await db.approval.findMany({ where: { orgId: user.orgId, subjectId: id }, orderBy: { requestedAt: "asc" }, include: { approver: true } });
   const tools = (s.agentProfile?.tools as { name: string; riskLevel?: string; allowed?: boolean; permissions?: string[]; requiresApproval?: boolean }[] | undefined) ?? [];
   const retestNeeded = s.changeEvents.some((c) => c.requiresRetest && (!s.runs[0] || c.createdAt > (s.runs[0].finishedAt ?? s.runs[0].createdAt)));
@@ -87,7 +88,7 @@ export default async function SystemDetailPage(props: PageProps<"/systems/[id]">
         <Card><CardHeader><CardTitle>{t("Harmonized controls (28)")}</CardTitle><CardDescription>{t("One control satisfies requirements across ISO/IEC 42001, EU AI Act, NIST AI RMF and the KR AI Basic Act. Controls with test methods are VERIFIED automatically when linked test metrics pass.")}</CardDescription></CardHeader><CardContent className="px-0 pb-0">
           <Table><THead><TR><TH>{t("Control")}</TH><TH>{t("Maps to")}</TH><TH>{t("Test methods")}</TH><TH>{t("Evidence")}</TH><TH>{t("Status")}</TH><TH>{t("Update")}</TH></TR></THead><TBody>
             {controls.map((c) => { const impl = c.impls[0]; const fws = [...new Set(c.requirements.map((r) => L(r.requirement.framework.code)))]; return (
-              <TR key={c.id}><TD><div className="font-medium"><span className="font-mono text-xs text-muted">{c.code}</span> {c.name}</div><div className="text-xs text-muted">{c.category}</div></TD><TD className="text-xs">{fws.join(" · ")}<div className="text-muted">{c.requirements.length} requirements</div></TD><TD className="text-xs">{c.testMethods.map((t) => t.testMethod.code).join(", ") || <span className="text-muted">{t("documentary")}</span>}</TD><TD className="tabular-nums">{c.evidenceLinks.length}</TD><TD><Badge tone={toneForStatus(impl?.status ?? "NOT_STARTED")}>{L(impl?.status ?? "NOT_STARTED")}</Badge>{impl?.lastVerifiedAt && <div className="text-[10px] text-muted">verified {fmtDate(impl.lastVerifiedAt)}</div>}</TD>
+              <TR key={c.id}><TD><div className="font-medium"><span className="font-mono text-xs text-muted">{c.code}</span> {c.name}</div><div className="text-xs text-muted">{c.category}</div></TD><TD className="text-xs">{fws.join(" · ")}<div className="text-muted">{c.requirements.length} {t("requirements")}</div></TD><TD className="text-xs">{c.testMethods.map((t) => t.testMethod.code).join(", ") || <span className="text-muted">{t("documentary")}</span>}</TD><TD className="tabular-nums">{c.evidenceLinks.length}</TD><TD><Badge tone={toneForStatus(impl?.status ?? "NOT_STARTED")}>{L(impl?.status ?? "NOT_STARTED")}</Badge>{impl?.lastVerifiedAt && <div className="text-[10px] text-muted">verified {fmtDate(impl.lastVerifiedAt)}</div>}</TD>
                 <TD>{userCan(user, "systems.write") ? <form action={updateControlStatusAction.bind(null, s.id, c.id)} className="flex items-center gap-1"><Select name="status" defaultValue={impl?.status ?? "NOT_STARTED"} className="h-7 w-36 text-xs"><option value="NOT_STARTED">{t("Not started")}</option><option value="IN_PROGRESS">{t("In progress")}</option><option value="IMPLEMENTED">{t("Implemented")}</option><option value="VERIFIED">{t("Verified")}</option><option value="NOT_APPLICABLE">{t("N/A")}</option></Select><Button size="sm" variant="ghost" type="submit">{t("Save")}</Button></form> : <Badge>{L(impl?.status ?? "NOT_STARTED")}</Badge>}</TD></TR>); })}
           </TBody></Table>
         </CardContent></Card>

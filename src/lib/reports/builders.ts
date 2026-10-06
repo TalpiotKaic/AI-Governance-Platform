@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { fmtDate, num, pct } from "@/lib/utils";
 import type { Locale } from "@/lib/i18n/dict";
+import { localizeControl, localizeFramework, localizeRequirement } from "@/lib/i18n/content";
 import { labelFor } from "@/lib/i18n/labels";
 import { rt } from "./dict";
 import type { Block, ReportContent, Section } from "./types";
@@ -118,7 +119,7 @@ async function traceabilityBlocks(methodIds: string[], systemId: string, locale:
   for (const m of methods) for (const cm of m.controls) {
     const c = cm.control;
     const refs = c.requirements.map((rc) => `${L(rc.requirement.framework.code)} ${rc.requirement.ref}`).slice(0, 8).join("; ");
-    rows.push([m.code, m.name, c.code, c.name, c.impls[0]?.status ?? "NOT_STARTED", refs]);
+    rows.push([m.code, m.name, c.code, localizeControl(locale, c).name, c.impls[0]?.status ?? "NOT_STARTED", refs]);
   }
   return [{ type: "paragraph", text: tr("Each test method is mapped to harmonized controls, which in turn map to framework requirements. Passing metrics mark the control as VERIFIED for this system and attach generated evidence.") }, { type: "table", columns: [tr("Method"), tr("Test method"), tr("Control"), tr("Harmonized control"), tr("Status"), tr("Requirements")], rows, badgeColumns: [4] }];
 }
@@ -219,7 +220,8 @@ export async function buildAriaReport(planId: string, locale: Locale = "en"): Pr
 export async function buildEvidencePack(systemId: string, frameworkCode: FrameworkCode, locale: Locale = "en"): Promise<ReportContent> {
   const { tr, L } = i18n(locale);
   const s = await loadSystem(systemId);
-  const fw = await db.framework.findUniqueOrThrow({ where: { code: frameworkCode }, include: { requirements: { orderBy: { sortOrder: "asc" }, include: { controls: { include: { control: { include: { impls: { where: { systemId } }, evidenceLinks: { include: { evidence: true } } } } } }, evidenceLinks: { include: { evidence: true } } } } } });
+  const fwRaw = await db.framework.findUniqueOrThrow({ where: { code: frameworkCode }, include: { requirements: { orderBy: { sortOrder: "asc" }, include: { controls: { include: { control: { include: { impls: { where: { systemId } }, evidenceLinks: { include: { evidence: true } } } } } }, evidenceLinks: { include: { evidence: true } } } } } });
+  const fw = localizeFramework(locale, { ...fwRaw, requirements: fwRaw.requirements.map((r) => localizeRequirement(locale, frameworkCode, r)) });
   const sysEvidence = await db.evidence.findMany({ where: { systemId, status: "VALID" }, include: { links: { include: { control: true, requirement: true } } }, orderBy: { createdAt: "desc" } });
   const runs = await db.evaluationRun.findMany({ where: { systemId, status: "COMPLETED" }, orderBy: { finishedAt: "desc" } });
   let covered = 0, partial = 0, total = 0;
@@ -274,7 +276,7 @@ export async function buildPassport(systemId: string, locale: Locale = "en"): Pr
       { type: "table", columns: [tr("Vendor"), tr("Role"), tr("Service"), tr("Country"), tr("Risk score")], rows: s.vendors.map((v) => [v.vendor.name, v.role ?? "—", v.vendor.serviceType ?? "—", v.vendor.country ?? "—", v.vendor.riskScore === null ? "—" : String(v.vendor.riskScore)]) },
     ] },
     { id: "assurance", title: tr("Assurance history"), blocks: [{ type: "table", columns: [tr("Run"), tr("Date"), tr("Mode"), tr("Verdict"), tr("Score"), tr("Findings")], rows: runs.map((r) => [r.code, fmtDate(r.finishedAt ?? r.createdAt), r.mode, r.verdict, String((r.summary as Summary).assuranceScore ?? "—"), String(r.findings.length)]), badgeColumns: [3] }] },
-    { id: "controls", title: tr("Control implementation status"), blocks: [{ type: "table", columns: [tr("Control"), tr("Name"), tr("Status"), tr("Last verified")], rows: impls.map((i) => [i.control.code, i.control.name, i.status, fmtDate(i.lastVerifiedAt)]), badgeColumns: [2] }] },
+    { id: "controls", title: tr("Control implementation status"), blocks: [{ type: "table", columns: [tr("Control"), tr("Name"), tr("Status"), tr("Last verified")], rows: impls.map((i) => [i.control.code, localizeControl(locale, i.control).name, i.status, fmtDate(i.lastVerifiedAt)]), badgeColumns: [2] }] },
     { id: "risks", title: tr("Risk register"), blocks: [{ type: "table", columns: [tr("Code"), tr("Risk"), tr("Dimension"), tr("Score"), tr("Status"), tr("Source")], rows: s.risks.map((r) => [r.code, r.title, L(r.dimension), String(Math.round(r.score)), r.status, r.source]), badgeColumns: [4] }] },
     { id: "changes", title: tr("Change events (re-test triggers)"), blocks: s.changeEvents.length ? [{ type: "table", columns: [tr("Date"), tr("Type"), tr("Description"), tr("Re-test required"), tr("Categories")], rows: s.changeEvents.map((c) => [fmtDate(c.createdAt), L(c.type), c.description, c.requiresRetest ? tr("Yes") : tr("No"), c.retestCategories.map((x) => L(x)).join(", ") || "—"]) }] : [{ type: "paragraph", text: tr("No change events recorded."), tone: "muted" }] },
     { id: "docs", title: tr("Evidence & reports"), blocks: [

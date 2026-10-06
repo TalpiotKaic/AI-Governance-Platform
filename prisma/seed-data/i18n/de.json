@@ -1,0 +1,1532 @@
+{
+ "frameworks": {
+  "ISO_42001": {
+   "name": "ISO/IEC 42001:2023 — KI-Managementsystem (AIMS)",
+   "description": "Anforderungen an die Einführung, Umsetzung, Aufrechterhaltung und fortlaufende Verbesserung eines KI-Managementsystems. Abschnitte 4–10 sowie Referenzmaßnahmen des Anhangs A (9 Ziele, 38 Maßnahmen)."
+  },
+  "EU_AI_ACT": {
+   "name": "EU-KI-Verordnung — Verordnung (EU) 2024/1689 (in der durch Reg. (EU) 2026/1744 geänderten Fassung)",
+   "description": "Risikobasierte Pflichten für KI-Systeme: verbotene Praktiken (Art. 5), Anforderungen an Hochrisiko-KI-Systeme (Art. 8–15) und Pflichten (Art. 16–27), Transparenz (Art. 50), KI-Modelle mit allgemeinem Verwendungszweck (Art. 51–56), Konformitätsbewertung, Registrierung, Beobachtung nach dem Inverkehrbringen und Meldung schwerwiegender Vorfälle. Die Pflichten für Hochrisiko-KI nach Anhang III gelten ab dem 2. Dezember 2027 (Omnibus)."
+  },
+  "NIST_AI_RMF": {
+   "name": "NIST AI Risk Management Framework 1.0 (AI 100-1) + Generative AI Profile (AI 600-1)",
+   "description": "Freiwilliges Rahmenwerk mit vier Funktionen — GOVERN, MAP, MEASURE, MANAGE — sowie 19 Kategorien und 72 Unterkategorien; das GenAI-Profil ergänzt 12 Risikokategorien für generative KI. Evaluationen nach ARIA-Vorbild (AI 200-3) setzen die Funktion MEASURE um."
+  },
+  "NIST_ARIA": {
+   "name": "NIST AI 200-3 — ARIA Evaluation Planning Manual (Sept. 2026)",
+   "description": "Elemente von Evaluationen nach ARIA-Vorbild zur Bewertung realer Risiken und Auswirkungen durch die Kombination von Modelltests, Red Teaming und Nutzertests: Umfang, Design, Materialien, Infrastruktur, Durchführung, mit den Arbeitsblättern B.1–B.5."
+  },
+  "KR_AI_BASIC_ACT": {
+   "name": "인공지능 발전과 신뢰 기반 조성 등에 관한 기본법 (Koreanisches KI-Grundgesetz)",
+   "description": "Koreanisches KI-Grundgesetz. Zentrale Pflichten für KI mit hoher Auswirkung und generative KI: Transparenz (제31조), Sicherheit (제32조), Bestätigung von KI mit hoher Auswirkung (제33조), Pflichten der Betreiber einschließlich Risikomanagement, Erklärung, Nutzerschutz, menschlicher Aufsicht und Dokumentation (제34조), Folgenabschätzung (제35조). Für Bußgelder gilt eine Übergangsfrist von mindestens einem Jahr."
+  }
+ },
+ "requirements": {
+  "ISO_42001|4": {
+   "title": "Kontext der Organisation",
+   "description": "Den externen/internen Kontext festlegen, in dem das AIMS betrieben wird.",
+   "category": "Abschnitt 4",
+   "evidenceHint": null
+  },
+  "ISO_42001|4.1": {
+   "title": "Verstehen der Organisation und ihres Kontextes",
+   "description": "Externe/interne Themen bestimmen, die für den Zweck relevant sind; die Rolle(n) der Organisation in Bezug auf KI-Systeme bestimmen (Anbieter, Hersteller, Nutzer/Betreiber, Partner, Betroffener usw.); die Relevanz des Klimawandels berücksichtigen (Amd.).",
+   "category": "Abschnitt 4",
+   "evidenceHint": "Kontextanalyse, Erklärung zur KI-Rolle (EV-POL)"
+  },
+  "ISO_42001|4.2": {
+   "title": "Verstehen der Erfordernisse und Erwartungen interessierter Parteien",
+   "description": "Interessierte Parteien und ihre relevanten Anforderungen (einschließlich gesetzlicher/regulatorischer, vertraglicher, ethischer) für das AIMS und die KI-Systeme ermitteln.",
+   "category": "Abschnitt 4",
+   "evidenceHint": "Register interessierter Parteien und Anforderungen, Rechts-/Regulierungsregister (EV-POL, EV-RISK)"
+  },
+  "ISO_42001|4.3": {
+   "title": "Festlegen des Anwendungsbereichs des KI-Managementsystems",
+   "description": "Grenzen und Anwendbarkeit des AIMS unter Berücksichtigung von 4.1/4.2 sowie der erfassten KI-Systeme/Produkte/Dienstleistungen festlegen und dokumentieren.",
+   "category": "Abschnitt 4",
+   "evidenceHint": "Erklärung zum Anwendungsbereich des AIMS (EV-POL)"
+  },
+  "ISO_42001|4.4": {
+   "title": "KI-Managementsystem",
+   "description": "Das AIMS einschließlich der Prozesse und ihrer Wechselwirkungen einführen, umsetzen, aufrechterhalten und fortlaufend verbessern.",
+   "category": "Abschnitt 4",
+   "evidenceHint": "AIMS-Handbuch / Prozesslandkarte (EV-PROC)"
+  },
+  "ISO_42001|5": {
+   "title": "Führung",
+   "description": null,
+   "category": "Abschnitt 5",
+   "evidenceHint": null
+  },
+  "ISO_42001|5.1": {
+   "title": "Führung und Verpflichtung",
+   "description": "Die oberste Leitung zeigt Verpflichtung: KI-Politik und -Ziele im Einklang mit der Strategie, Ressourcen, Integration in Geschäftsprozesse, Kommunikation, Anleitung/Unterstützung, Förderung der fortlaufenden Verbesserung.",
+   "category": "Abschnitt 5",
+   "evidenceHint": "Unterzeichnete Politik, Ressourcenentscheidungen, Kommunikation der Leitung (EV-POL, EV-MR)"
+  },
+  "ISO_42001|5.2": {
+   "title": "KI-Politik",
+   "description": "Eine dem Zweck angemessene KI-Politik festlegen; Rahmen für KI-Ziele; Verpflichtung zur Erfüllung geltender Anforderungen und zur fortlaufenden Verbesserung; dokumentiert, kommuniziert, für interessierte Parteien verfügbar.",
+   "category": "Abschnitt 5",
+   "evidenceHint": "KI-Politik-Dokument (EV-POL)"
+  },
+  "ISO_42001|5.3": {
+   "title": "Rollen, Verantwortlichkeiten und Befugnisse",
+   "description": "Verantwortlichkeiten/Befugnisse für die Konformität des AIMS und die Berichterstattung über die AIMS-Leistung zuweisen und kommunizieren.",
+   "category": "Abschnitt 5",
+   "evidenceHint": "Rollen- und Verantwortlichkeitsmatrix, Ernennungsschreiben (EV-RACI)"
+  },
+  "ISO_42001|6": {
+   "title": "Planung",
+   "description": null,
+   "category": "Abschnitt 6",
+   "evidenceHint": null
+  },
+  "ISO_42001|6.1": {
+   "title": "Maßnahmen zum Umgang mit Risiken und Chancen",
+   "description": null,
+   "category": "Abschnitt 6",
+   "evidenceHint": null
+  },
+  "ISO_42001|6.1.1": {
+   "title": "Allgemeines",
+   "description": "Zu behandelnde Risiken/Chancen unter Berücksichtigung von 4.1/4.2 bestimmen; KI-Risikokriterien (einschließlich Risikoakzeptanz) festlegen, Maßnahmen planen und integrieren.",
+   "category": "Abschnitt 6",
+   "evidenceHint": "Erklärung zu Risikokriterien, Risikomethodik (EV-PROC, EV-RISK)"
+  },
+  "ISO_42001|6.1.2": {
+   "title": "KI-Risikobewertung",
+   "description": "Einen wiederholbaren Prozess zur KI-Risikobewertung festlegen und anwenden: Risiken identifizieren, analysieren (Folgen/Wahrscheinlichkeit), anhand der Kriterien bewerten; für die Behandlung priorisieren; dokumentierte Information aufbewahren.",
+   "category": "Abschnitt 6",
+   "evidenceHint": "Aufzeichnung der KI-Risikobewertung / Risikoregister (EV-RISK)"
+  },
+  "ISO_42001|6.1.3": {
+   "title": "KI-Risikobehandlung",
+   "description": "Behandlungsoptionen auswählen, Maßnahmen bestimmen (Abgleich mit Anhang A), Erklärung zur Anwendbarkeit mit Begründungen für Aufnahme/Ausschluss erstellen, Risikobehandlungsplan formulieren, Genehmigung der Risikoeigner und Akzeptanz des Restrisikos einholen.",
+   "category": "Abschnitt 6",
+   "evidenceHint": "Erklärung zur Anwendbarkeit, Risikobehandlungsplan, Akzeptanz des Restrisikos (EV-SOA, EV-RISK)"
+  },
+  "ISO_42001|6.1.4": {
+   "title": "Folgenabschätzung für KI-Systeme",
+   "description": "Einen Prozess festlegen und anwenden, um potenzielle Folgen von KI-Systemen für Einzelpersonen/Gruppen und die Gesellschaft über den gesamten Lebenszyklus zu bewerten; Ergebnisse dokumentieren und in der Risikobewertung nutzen.",
+   "category": "Abschnitt 6",
+   "evidenceHint": "Folgenabschätzung für KI-Systeme (EV-IA)"
+  },
+  "ISO_42001|6.2": {
+   "title": "KI-Ziele und Planung zu deren Erreichung",
+   "description": "Messbare, mit der Politik konsistente KI-Ziele festlegen; planen, was/wer/wann/wie bewertet wird.",
+   "category": "Abschnitt 6",
+   "evidenceHint": "Register der KI-Ziele und KPI-Plan (EV-POL)"
+  },
+  "ISO_42001|6.3": {
+   "title": "Planung von Änderungen",
+   "description": "Änderungen am AIMS werden geplant durchgeführt.",
+   "category": "Abschnitt 6",
+   "evidenceHint": "Änderungspläne / Änderungsprotokoll (EV-CHG)"
+  },
+  "ISO_42001|7": {
+   "title": "Unterstützung",
+   "description": null,
+   "category": "Abschnitt 7",
+   "evidenceHint": null
+  },
+  "ISO_42001|7.1": {
+   "title": "Ressourcen",
+   "description": "Ressourcen für das AIMS bestimmen und bereitstellen.",
+   "category": "Abschnitt 7",
+   "evidenceHint": "Ressourcenplan, Budgetfreigaben (EV-MR)"
+  },
+  "ISO_42001|7.2": {
+   "title": "Kompetenz",
+   "description": "Erforderliche Kompetenz bestimmen, Kompetenz durch Ausbildung/Schulung/Erfahrung sicherstellen, Maßnahmen ergreifen und deren Wirksamkeit bewerten; Nachweise aufbewahren.",
+   "category": "Abschnitt 7",
+   "evidenceHint": "Schulungsnachweise, Kompetenzmatrix (EV-TRAIN)"
+  },
+  "ISO_42001|7.3": {
+   "title": "Bewusstsein",
+   "description": "Personen sind sich der KI-Politik, ihres Beitrags und der Folgen von Nichtkonformität bewusst.",
+   "category": "Abschnitt 7",
+   "evidenceHint": "Sensibilisierungskampagnen, Bestätigungen (EV-TRAIN)"
+  },
+  "ISO_42001|7.4": {
+   "title": "Kommunikation",
+   "description": "Interne/externe Kommunikation bestimmen: was, wann, mit wem, wie.",
+   "category": "Abschnitt 7",
+   "evidenceHint": "Kommunikationsplan (EV-COMM)"
+  },
+  "ISO_42001|7.5": {
+   "title": "Dokumentierte Information",
+   "description": null,
+   "category": "Abschnitt 7",
+   "evidenceHint": null
+  },
+  "ISO_42001|7.5.1": {
+   "title": "Allgemeines",
+   "description": "Das AIMS umfasst die von der Norm geforderte und die als notwendig für die Wirksamkeit bestimmte dokumentierte Information.",
+   "category": "Abschnitt 7",
+   "evidenceHint": "Dokumentenregister (EV-PROC)"
+  },
+  "ISO_42001|7.5.2": {
+   "title": "Erstellen und Aktualisieren",
+   "description": "Kennzeichnung/Beschreibung, Format/Medium, Überprüfung und Genehmigung hinsichtlich Eignung und Angemessenheit.",
+   "category": "Abschnitt 7",
+   "evidenceHint": "Aufzeichnungen zur Dokumentenlenkung (EV-PROC)"
+  },
+  "ISO_42001|7.5.3": {
+   "title": "Lenkung dokumentierter Information",
+   "description": "Verfügbarkeit/Eignung, Schutz; Verteilung, Zugriff, Speicherung, Änderungslenkung, Aufbewahrung, Verfügung; Lenkung externer Dokumente.",
+   "category": "Abschnitt 7",
+   "evidenceHint": "Verfahren zur Dokumentenlenkung, Zugriffsprotokolle (EV-PROC, EV-LOG)"
+  },
+  "ISO_42001|8": {
+   "title": "Betrieb",
+   "description": null,
+   "category": "Abschnitt 8",
+   "evidenceHint": null
+  },
+  "ISO_42001|8.1": {
+   "title": "Betriebliche Planung und Steuerung",
+   "description": "Prozesse planen, umsetzen und steuern, um Anforderungen zu erfüllen und die Maßnahmen aus 6.x umzusetzen; geplante Änderungen steuern, unbeabsichtigte Änderungen überprüfen; extern bereitgestellte Prozesse/Produkte/Dienstleistungen steuern.",
+   "category": "Abschnitt 8",
+   "evidenceHint": "Betriebsverfahren, Prozess-KPIs, Änderungsaufzeichnungen (EV-PROC, EV-CHG)"
+  },
+  "ISO_42001|8.2": {
+   "title": "KI-Risikobewertung",
+   "description": "KI-Risikobewertungen in geplanten Abständen oder bei wesentlichen Änderungen durchführen; Ergebnisse aufbewahren.",
+   "category": "Abschnitt 8",
+   "evidenceHint": "Aufzeichnungen periodischer Risikobewertungen (EV-RISK)"
+  },
+  "ISO_42001|8.3": {
+   "title": "KI-Risikobehandlung",
+   "description": "Risikobehandlungsplan umsetzen; Wirksamkeit verifizieren; bei neuen Risiken erneut bewerten; Ergebnisse aufbewahren.",
+   "category": "Abschnitt 8",
+   "evidenceHint": "Nachweise der Umsetzung der Behandlung, Wirksamkeitstests der Maßnahmen (EV-RISK, EV-TEST)"
+  },
+  "ISO_42001|8.4": {
+   "title": "Folgenabschätzung für KI-Systeme",
+   "description": "Folgenabschätzungen für KI-Systeme in geplanten Abständen oder bei wesentlichen Änderungen durchführen; Ergebnisse aufbewahren.",
+   "category": "Abschnitt 8",
+   "evidenceHint": "Aktualisierte Folgenabschätzungen (EV-IA)"
+  },
+  "ISO_42001|9": {
+   "title": "Bewertung der Leistung",
+   "description": null,
+   "category": "Abschnitt 9",
+   "evidenceHint": null
+  },
+  "ISO_42001|9.1": {
+   "title": "Überwachung, Messung, Analyse und Bewertung",
+   "description": "Bestimmen, was zu überwachen/messen ist, Methoden, Zeitpunkt, wer analysiert; Leistung und Wirksamkeit des AIMS bewerten; Nachweise aufbewahren.",
+   "category": "Abschnitt 9",
+   "evidenceHint": "AIMS-KPI-Berichte, Monitoring-Dashboards (EV-PMM, EV-TEST)"
+  },
+  "ISO_42001|9.2": {
+   "title": "Internes Audit",
+   "description": null,
+   "category": "Abschnitt 9",
+   "evidenceHint": null
+  },
+  "ISO_42001|9.2.1": {
+   "title": "Allgemeines",
+   "description": "Interne Audits in geplanten Abständen durchführen, um zu bestätigen, dass das AIMS den eigenen Anforderungen und der Norm entspricht und wirksam umgesetzt ist.",
+   "category": "Abschnitt 9",
+   "evidenceHint": "Interner Auditbericht (EV-AUDIT)"
+  },
+  "ISO_42001|9.2.2": {
+   "title": "Internes Auditprogramm",
+   "description": "Auditprogramm(e) planen/einrichten/aufrechterhalten: Häufigkeit, Methoden, Verantwortlichkeiten, Berichterstattung; Kriterien und Umfang festlegen; Objektivität der Auditoren; Bericht an die Leitung; Nachweise aufbewahren.",
+   "category": "Abschnitt 9",
+   "evidenceHint": "Auditprogramm, Auditpläne, Nachweise zur Unabhängigkeit der Auditoren (EV-AUDIT)"
+  },
+  "ISO_42001|9.3": {
+   "title": "Managementbewertung",
+   "description": null,
+   "category": "Abschnitt 9",
+   "evidenceHint": null
+  },
+  "ISO_42001|9.3.1": {
+   "title": "Allgemeines",
+   "description": "Die oberste Leitung bewertet das AIMS in geplanten Abständen hinsichtlich Eignung, Angemessenheit und Wirksamkeit.",
+   "category": "Abschnitt 9",
+   "evidenceHint": "Protokolle der Managementbewertung (EV-MR)"
+  },
+  "ISO_42001|9.3.2": {
+   "title": "Eingaben für die Managementbewertung",
+   "description": "Status früherer Maßnahmen; Änderungen bei Themen; Änderungen der Erfordernisse interessierter Parteien; AIMS-Leistung einschließlich Nichtkonformitäten/CAPA, Überwachungsergebnisse, Auditergebnisse; Chancen zur fortlaufenden Verbesserung.",
+   "category": "Abschnitt 9",
+   "evidenceHint": "Eingabepaket für die Managementbewertung (EV-MR)"
+  },
+  "ISO_42001|9.3.3": {
+   "title": "Ergebnisse der Managementbewertung",
+   "description": "Entscheidungen zu Chancen der fortlaufenden Verbesserung und erforderlichen Änderungen am AIMS; dokumentierte Information aufbewahren.",
+   "category": "Abschnitt 9",
+   "evidenceHint": "Entscheidungen der Managementbewertung / Maßnahmenprotokoll (EV-MR)"
+  },
+  "ISO_42001|10": {
+   "title": "Verbesserung",
+   "description": null,
+   "category": "Abschnitt 10",
+   "evidenceHint": null
+  },
+  "ISO_42001|10.1": {
+   "title": "Fortlaufende Verbesserung",
+   "description": "Eignung, Angemessenheit und Wirksamkeit des AIMS fortlaufend verbessern.",
+   "category": "Abschnitt 10",
+   "evidenceHint": "Verbesserungsregister (EV-AUDIT, EV-MR)"
+  },
+  "ISO_42001|10.2": {
+   "title": "Nichtkonformität und Korrekturmaßnahmen",
+   "description": "Auf Nichtkonformitäten reagieren, Notwendigkeit der Ursachenbeseitigung bewerten, Maßnahmen umsetzen, Wirksamkeit überprüfen, AIMS bei Bedarf aktualisieren; Nachweise über Art der Nichtkonformitäten, Maßnahmen und Ergebnisse aufbewahren.",
+   "category": "Abschnitt 10",
+   "evidenceHint": "Aufzeichnungen zu Nichtkonformitäten und CAPA (EV-AUDIT)"
+  },
+  "ISO_42001|A.2": {
+   "title": "Richtlinien im Zusammenhang mit KI",
+   "description": "Ziel: Vorgaben und Unterstützung der Leitung für KI-Systeme entsprechend den Geschäftsanforderungen bereitstellen.",
+   "category": "Anhang A.2",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.2.2": {
+   "title": "KI-Politik",
+   "description": "Eine Politik für die Entwicklung oder Nutzung von KI-Systemen dokumentieren.",
+   "category": "Anhang A.2",
+   "evidenceHint": "KI-Politik (EV-POL)"
+  },
+  "ISO_42001|A.2.3": {
+   "title": "Abstimmung mit anderen Organisationsrichtlinien",
+   "description": "Bestimmen, wo andere Richtlinien (Sicherheit, Datenschutz, Qualität, Personal usw.) von KI-Zielen betroffen sind oder darauf anwendbar sind.",
+   "category": "Anhang A.2",
+   "evidenceHint": "Querverweiskarte der Richtlinien (EV-POL)"
+  },
+  "ISO_42001|A.2.4": {
+   "title": "Überprüfung der KI-Politik",
+   "description": "KI-Politik in geplanten Abständen oder bei wesentlichen Änderungen auf fortdauernde Eignung, Angemessenheit und Wirksamkeit überprüfen.",
+   "category": "Anhang A.2",
+   "evidenceHint": "Aufzeichnungen zur Richtlinienüberprüfung (EV-MR)"
+  },
+  "ISO_42001|A.3": {
+   "title": "Interne Organisation",
+   "description": "Ziel: Rechenschaftspflicht innerhalb der Organisation zur Wahrung verantwortungsvoller KI etablieren.",
+   "category": "Anhang A.3",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.3.2": {
+   "title": "KI-Rollen und -Verantwortlichkeiten",
+   "description": "Rollen und Verantwortlichkeiten für KI entsprechend den Erfordernissen der Organisation definieren und zuweisen.",
+   "category": "Anhang A.3",
+   "evidenceHint": "RACI, Stellenbeschreibungen (EV-RACI)"
+  },
+  "ISO_42001|A.3.3": {
+   "title": "Meldung von Bedenken",
+   "description": "Einen Prozess zur Meldung von Bedenken hinsichtlich der Rolle der Organisation in Bezug auf ein KI-System über dessen gesamten Lebenszyklus definieren und einrichten.",
+   "category": "Anhang A.3",
+   "evidenceHint": "Hinweisgeber-/Meldekanal, Fallprotokoll (EV-COMM)"
+  },
+  "ISO_42001|A.4": {
+   "title": "Ressourcen für KI-Systeme",
+   "description": "Ziel: sicherstellen, dass die Organisation die Ressourcen des KI-Systems (einschließlich Komponenten und Assets) erfasst, um Risiken und Auswirkungen vollständig zu verstehen und zu adressieren.",
+   "category": "Anhang A.4",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.4.2": {
+   "title": "Ressourcendokumentation",
+   "description": "Relevante Ressourcen identifizieren und dokumentieren, die für KI-System-Aktivitäten in bestimmten Lebenszyklusphasen erforderlich sind.",
+   "category": "Anhang A.4",
+   "evidenceHint": "Ressourceninventar je System (EV-INV)"
+  },
+  "ISO_42001|A.4.3": {
+   "title": "Datenressourcen",
+   "description": "Informationen über die für das KI-System genutzten Datenressourcen dokumentieren (Herkunft, Kategorien, Kennzeichnung, Verwendungszweck usw.).",
+   "category": "Anhang A.4",
+   "evidenceHint": "Datenblätter, Dateninventar (EV-DATA) · Tests: T-DQ"
+  },
+  "ISO_42001|A.4.4": {
+   "title": "Werkzeugressourcen",
+   "description": "Informationen über Werkzeugressourcen dokumentieren (Frameworks, Bibliotheken, Pipelines, Evaluationswerkzeuge).",
+   "category": "Anhang A.4",
+   "evidenceHint": "Werkzeug-/SBOM-ähnliches Inventar (EV-INV)"
+  },
+  "ISO_42001|A.4.5": {
+   "title": "System- und Rechenressourcen",
+   "description": "Informationen über System- und Rechenressourcen dokumentieren (Hardware, Cloud, Rechenleistung).",
+   "category": "Anhang A.4",
+   "evidenceHint": "Infrastrukturinventar, Rechenaufzeichnungen (EV-INV) · Tests: T-ENV"
+  },
+  "ISO_42001|A.4.6": {
+   "title": "Personelle Ressourcen",
+   "description": "Informationen über personelle Ressourcen und ihre Kompetenzen für Entwicklung, Bereitstellung, Betrieb, Änderungsmanagement, Wartung, Übergabe, Außerbetriebnahme, Verifizierung und Integration dokumentieren.",
+   "category": "Anhang A.4",
+   "evidenceHint": "Kompetenzmatrix, Personalplan (EV-TRAIN, EV-RACI)"
+  },
+  "ISO_42001|A.5": {
+   "title": "Bewertung der Auswirkungen von KI-Systemen",
+   "description": "Ziel: Auswirkungen des KI-Systems auf Einzelpersonen oder Gruppen von Einzelpersonen oder beide sowie auf die vom KI-System betroffenen Gesellschaften über den gesamten Lebenszyklus bewerten.",
+   "category": "Anhang A.5",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.5.2": {
+   "title": "Prozess der Folgenabschätzung für KI-Systeme",
+   "description": "Einen Prozess zur Bewertung potenzieller Folgen für Einzelpersonen/Gruppen/Gesellschaften über den gesamten Lebenszyklus einrichten.",
+   "category": "Anhang A.5",
+   "evidenceHint": "Verfahren zur Folgenabschätzung (EV-PROC)"
+  },
+  "ISO_42001|A.5.3": {
+   "title": "Dokumentation der Folgenabschätzungen für KI-Systeme",
+   "description": "Ergebnisse der Folgenabschätzungen dokumentieren und für einen festgelegten Zeitraum aufbewahren.",
+   "category": "Anhang A.5",
+   "evidenceHint": "Berichte zur Folgenabschätzung (EV-IA)"
+  },
+  "ISO_42001|A.5.4": {
+   "title": "Bewertung der Auswirkungen von KI-Systemen auf Einzelpersonen oder Gruppen von Einzelpersonen",
+   "description": "Potenzielle Auswirkungen auf Einzelpersonen/Gruppen (Fairness, Sicherheit, Datenschutz, Rechte usw.) bewerten und dokumentieren.",
+   "category": "Anhang A.5",
+   "evidenceHint": "Abschnitt zu Einzelpersonen/Gruppen in der Folgenabschätzung (EV-IA) · Tests: T-BIAS, T-PRIV, T-SAFE"
+  },
+  "ISO_42001|A.5.5": {
+   "title": "Bewertung gesellschaftlicher Auswirkungen von KI-Systemen",
+   "description": "Potenzielle gesellschaftliche Auswirkungen (Umwelt, Wirtschaft, demokratische Prozesse, Gesundheit und Sicherheit, Kultur, Missbrauch) bewerten und dokumentieren.",
+   "category": "Anhang A.5",
+   "evidenceHint": "Abschnitt zu gesellschaftlichen Auswirkungen in der Folgenabschätzung (EV-IA) · Tests: T-ENV, T-SAFE"
+  },
+  "ISO_42001|A.6": {
+   "title": "Lebenszyklus von KI-Systemen",
+   "description": "—",
+   "category": "Anhang A.6",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.6.1": {
+   "title": "Leitlinien der Leitung für die Entwicklung von KI-Systemen",
+   "description": "Ziel: sicherstellen, dass die Organisation Ziele identifiziert und dokumentiert sowie Prozesse für die verantwortungsvolle Gestaltung und Entwicklung von KI-Systemen umsetzt.",
+   "category": "Anhang A.6",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.6.1.2": {
+   "title": "Ziele für die verantwortungsvolle Entwicklung von KI-Systemen",
+   "description": "Ziele zur Steuerung der verantwortungsvollen Entwicklung identifizieren und dokumentieren und Maßnahmen zu deren Erreichung in den Lebenszyklus integrieren.",
+   "category": "Anhang A.6",
+   "evidenceHint": "Ziele für verantwortungsvolle KI / Gestaltungsprinzipien (EV-POL)"
+  },
+  "ISO_42001|A.6.1.3": {
+   "title": "Prozesse für die verantwortungsvolle Gestaltung und Entwicklung von KI-Systemen",
+   "description": "Spezifische Prozesse für die verantwortungsvolle Gestaltung und Entwicklung definieren und dokumentieren.",
+   "category": "Anhang A.6",
+   "evidenceHint": "Verfahren zum Entwicklungslebenszyklus (SDLC/MLOps) (EV-PROC)"
+  },
+  "ISO_42001|A.6.2": {
+   "title": "Lebenszyklus von KI-Systemen",
+   "description": "Ziel: Kriterien und Anforderungen für jede Phase des Lebenszyklus festlegen.",
+   "category": "Anhang A.6",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.6.2.2": {
+   "title": "Anforderungen und Spezifikation von KI-Systemen",
+   "description": "Anforderungen an neue KI-Systeme oder wesentliche Erweiterungen spezifizieren und dokumentieren.",
+   "category": "Anhang A.6",
+   "evidenceHint": "Anforderungsspezifikation (EV-TECHDOC)"
+  },
+  "ISO_42001|A.6.2.3": {
+   "title": "Dokumentation der Gestaltung und Entwicklung von KI-Systemen",
+   "description": "Gestaltung und Entwicklung auf Grundlage der Organisationsziele, dokumentierter Anforderungen und Spezifikationskriterien dokumentieren.",
+   "category": "Anhang A.6",
+   "evidenceHint": "Designdokumente, Architektur, Model Cards (EV-TECHDOC)"
+  },
+  "ISO_42001|A.6.2.4": {
+   "title": "Verifizierung und Validierung von KI-Systemen",
+   "description": "Verifizierungs- und Validierungsmaßnahmen definieren und dokumentieren sowie Kriterien für deren Anwendung festlegen (Testmethoden, Testdaten, Freigabekriterien).",
+   "category": "Anhang A.6",
+   "evidenceHint": "Testpläne und -berichte, Abnahmekriterien (EV-TEST) · Tests: T-ACC, T-ROB, T-BIAS, T-SEC, T-HALL, T-SAFE"
+  },
+  "ISO_42001|A.6.2.5": {
+   "title": "Bereitstellung von KI-Systemen",
+   "description": "Einen Bereitstellungsplan dokumentieren und sicherstellen, dass die Anforderungen vor der Bereitstellung erfüllt sind.",
+   "category": "Anhang A.6",
+   "evidenceHint": "Bereitstellungsplan, Go-live-Checkliste/-Freigabe (EV-CHG) · Tests: T-CONF"
+  },
+  "ISO_42001|A.6.2.6": {
+   "title": "Betrieb und Überwachung von KI-Systemen",
+   "description": "Notwendige Elemente für den laufenden Betrieb definieren und dokumentieren (Leistungsüberwachung, Vorfallbehandlung, Reparatur, Updates, Support).",
+   "category": "Anhang A.6",
+   "evidenceHint": "Betriebshandbuch, Überwachungsberichte (EV-PMM) · Tests: T-DRIFT"
+  },
+  "ISO_42001|A.6.2.7": {
+   "title": "Technische Dokumentation von KI-Systemen",
+   "description": "Bestimmen, welche technische Dokumentation für jede Kategorie interessierter Parteien erforderlich ist, und diese in geeigneter Form bereitstellen.",
+   "category": "Anhang A.6",
+   "evidenceHint": "Satz technischer Dokumentation (EV-TECHDOC)"
+  },
+  "ISO_42001|A.6.2.8": {
+   "title": "Aufzeichnung von Ereignisprotokollen durch KI-Systeme",
+   "description": "Bestimmen, in welchen Phasen Ereignisprotokolle aktiviert werden sollen, mindestens während der Nutzung des Systems.",
+   "category": "Anhang A.6",
+   "evidenceHint": "Protokollierungskonfiguration, Protokollbeispiele, Aufbewahrungsrichtlinie (EV-LOG) · Tests: T-LOG"
+  },
+  "ISO_42001|A.7": {
+   "title": "Daten für KI-Systeme",
+   "description": "Ziel: sicherstellen, dass die Organisation die Rolle und die Auswirkungen von Daten in KI-Systemen über den gesamten Lebenszyklus versteht.",
+   "category": "Anhang A.7",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.7.2": {
+   "title": "Daten für die Entwicklung und Verbesserung von KI-Systemen",
+   "description": "Datenmanagementprozesse im Zusammenhang mit der Entwicklung von KI-Systemen definieren, dokumentieren und umsetzen (Datenschutz/Sicherheit, Bedrohungen, Transparenz, Repräsentativität, Genauigkeit, Integrität).",
+   "category": "Anhang A.7",
+   "evidenceHint": "Datenmanagementverfahren (EV-PROC, EV-DATA) · Tests: T-DQ"
+  },
+  "ISO_42001|A.7.3": {
+   "title": "Beschaffung von Daten",
+   "description": "Einzelheiten zur Beschaffung und Auswahl von Daten bestimmen und dokumentieren (Quellen, Rechte, Demografie, Einwilligung).",
+   "category": "Anhang A.7",
+   "evidenceHint": "Datenbeschaffungsnachweise, Lizenzen, Auftragsverarbeitungsverträge (EV-DATA, EV-SUP) · Tests: T-IP, T-DQ"
+  },
+  "ISO_42001|A.7.4": {
+   "title": "Qualität der Daten für KI-Systeme",
+   "description": "Datenqualitätsanforderungen definieren und dokumentieren und sicherstellen, dass die Daten diese erfüllen.",
+   "category": "Anhang A.7",
+   "evidenceHint": "Bericht zur Datenqualitätsbewertung (EV-DATA) · Tests: T-DQ, T-BIAS"
+  },
+  "ISO_42001|A.7.5": {
+   "title": "Datenherkunft",
+   "description": "Einen Prozess zur Aufzeichnung der Herkunft von Daten über ihren Lebenszyklus definieren und dokumentieren.",
+   "category": "Anhang A.7",
+   "evidenceHint": "Herkunfts-/Lineage-Register (EV-DATA) · Tests: T-DQ"
+  },
+  "ISO_42001|A.7.6": {
+   "title": "Datenaufbereitung",
+   "description": "Kriterien und Methoden für die Datenaufbereitung definieren und dokumentieren (Bereinigung, Kennzeichnung, Transformation, Augmentierung).",
+   "category": "Anhang A.7",
+   "evidenceHint": "Aufbereitungs-/Kennzeichnungsrichtlinien, Pipeline-Aufzeichnungen (EV-DATA) · Tests: T-DQ"
+  },
+  "ISO_42001|A.8": {
+   "title": "Informationen für interessierte Parteien von KI-Systemen",
+   "description": "Ziel: sicherstellen, dass relevante interessierte Parteien über die notwendigen Informationen verfügen, um die Risiken und ihre Auswirkungen zu verstehen und zu bewerten.",
+   "category": "Anhang A.8",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.8.2": {
+   "title": "Systemdokumentation und Informationen für Nutzer",
+   "description": "Notwendige Informationen für Nutzer bestimmen und bereitstellen (Zweck, Betrieb, Aufsichtsbedarf, Grenzen, Auswirkungen).",
+   "category": "Anhang A.8",
+   "evidenceHint": "Betriebsanleitungen, Nutzerdokumentation (EV-UI, EV-TECHDOC) · Tests: T-TRANS"
+  },
+  "ISO_42001|A.8.3": {
+   "title": "Externe Berichterstattung",
+   "description": "Interessierten Parteien Möglichkeiten bieten, nachteilige Auswirkungen des KI-Systems zu melden.",
+   "category": "Anhang A.8",
+   "evidenceHint": "Externer Meldekanal, Fallaufzeichnungen (EV-COMM)"
+  },
+  "ISO_42001|A.8.4": {
+   "title": "Kommunikation von Vorfällen",
+   "description": "Einen Plan zur Kommunikation von Vorfällen an Nutzer bestimmen und dokumentieren.",
+   "category": "Anhang A.8",
+   "evidenceHint": "Kommunikationsplan für Vorfälle, versandte Benachrichtigungen (EV-INC)"
+  },
+  "ISO_42001|A.8.5": {
+   "title": "Informationen für interessierte Parteien",
+   "description": "Pflichten zur Meldung von Informationen über das KI-System an interessierte Parteien (Aufsichtsbehörden, Kunden, Öffentlichkeit) bestimmen und dokumentieren.",
+   "category": "Anhang A.8",
+   "evidenceHint": "Register regulatorischer Meldepflichten (EV-COMM)"
+  },
+  "ISO_42001|A.9": {
+   "title": "Nutzung von KI-Systemen",
+   "description": "Ziel: sicherstellen, dass die Organisation KI-Systeme verantwortungsvoll und gemäß den Organisationsrichtlinien nutzt.",
+   "category": "Anhang A.9",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.9.2": {
+   "title": "Prozesse für die verantwortungsvolle Nutzung von KI",
+   "description": "Prozesse für die verantwortungsvolle Nutzung von KI-Systemen definieren und dokumentieren.",
+   "category": "Anhang A.9",
+   "evidenceHint": "Verfahren zur zulässigen Nutzung von KI (EV-PROC)"
+  },
+  "ISO_42001|A.9.3": {
+   "title": "Ziele für die verantwortungsvolle Nutzung von KI-Systemen",
+   "description": "Ziele zur Steuerung der verantwortungsvollen Nutzung identifizieren und dokumentieren und Maßnahmen zu deren Erreichung integrieren.",
+   "category": "Anhang A.9",
+   "evidenceHint": "Ziele für die verantwortungsvolle Nutzung (EV-POL)"
+  },
+  "ISO_42001|A.9.4": {
+   "title": "Verwendungszweck des KI-Systems",
+   "description": "Sicherstellen, dass das KI-System entsprechend seinem Verwendungszweck und der begleitenden Dokumentation genutzt wird.",
+   "category": "Anhang A.9",
+   "evidenceHint": "Freigabenachweise für Anwendungsfälle, Nutzungsüberwachung (EV-INV, EV-PMM) · Tests: T-DRIFT, T-AGENT"
+  },
+  "ISO_42001|A.10": {
+   "title": "Beziehungen zu Dritten und Kunden",
+   "description": "Ziel: sicherstellen, dass Verantwortlichkeiten verstanden werden, die Rechenschaftspflicht gewahrt bleibt und Risiken angemessen verteilt werden, wenn Dritte in einer Lebenszyklusphase beteiligt sind.",
+   "category": "Anhang A.10",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.10.2": {
+   "title": "Zuweisung von Verantwortlichkeiten",
+   "description": "Sicherstellen, dass Verantwortlichkeiten im KI-Lebenszyklus zwischen der Organisation, ihren Partnern, Lieferanten, Kunden und Dritten zugewiesen sind.",
+   "category": "Anhang A.10",
+   "evidenceHint": "Matrix geteilter Verantwortung, Verträge (EV-SUP, EV-RACI)"
+  },
+  "ISO_42001|A.10.3": {
+   "title": "Lieferanten",
+   "description": "Einen Prozess einrichten, um sicherzustellen, dass Dienstleistungen/Produkte/Materialien von Lieferanten mit dem Ansatz der Organisation für verantwortungsvolle KI übereinstimmen.",
+   "category": "Anhang A.10",
+   "evidenceHint": "Lieferanten-Due-Diligence, Model Cards Dritter, SLAs (EV-SUP) · Tests: T-SEC, T-ACC (bei gelieferten Modellen)"
+  },
+  "ISO_42001|A.10.4": {
+   "title": "Kunden",
+   "description": "Sicherstellen, dass der Ansatz der Organisation für verantwortungsvolle KI die Erwartungen und Erfordernisse der Kunden berücksichtigt.",
+   "category": "Anhang A.10",
+   "evidenceHint": "Analyse der Kundenanforderungen, vertragliche Zusagen (EV-SUP, EV-COMM)"
+  },
+  "EU_AI_ACT|Art. 5": {
+   "title": "Verbotene Praktiken im KI-Bereich",
+   "description": "Verbietet manipulative/täuschende Techniken mit erheblichem Schaden, die Ausnutzung von Schwächen, Social Scoring, individuelle Kriminalitätsprognosen allein auf Basis von Profiling, das ungezielte Auslesen von Gesichtsbildern, Emotionserkennung am Arbeitsplatz/in Bildungseinrichtungen (außer aus medizinischen/Sicherheitsgründen), sensible biometrische Kategorisierung sowie biometrische Echtzeit-Fernidentifizierung zu Strafverfolgungszwecken (enge Ausnahmen). Gilt seit dem 2. Februar 2025.",
+   "category": "Einstufung",
+   "evidenceHint": "Nachweis der Prüfung auf verbotene Praktiken in der Aufnahmebewertung (EV-RISK)"
+  },
+  "EU_AI_ACT|Art. 6": {
+   "title": "Einstufungsvorschriften für Hochrisiko-KI-Systeme (Anhang I / Anhang III)",
+   "description": "Ein KI-System ist hochriskant, wenn es Sicherheitsbauteil eines Produkts (oder selbst ein Produkt) unter den Harmonisierungsrechtsvorschriften des Anhangs I ist, das eine Konformitätsbewertung durch Dritte erfordert, oder unter einen Bereich des Anhangs III fällt (Biometrie; kritische Infrastruktur; Bildung; Beschäftigung; wesentliche Dienste einschließlich Kreditwürdigkeitsprüfung und Versicherung; Strafverfolgung; Migration/Grenzkontrolle; Rechtspflege und demokratische Prozesse). Enge Ausnahme nach Art. 6(3) für verfahrensbezogene/vorbereitende Aufgaben; Profiling ist stets hochriskant.",
+   "category": "Einstufung",
+   "evidenceHint": "Begründung der Einstufung und Erfassung des Anhang-III-Bereichs im KI-Inventar (EV-INV, EV-DEC)"
+  },
+  "EU_AI_ACT|Art. 8": {
+   "title": "Einhaltung der Anforderungen",
+   "description": "Hochrisiko-KI-Systeme erfüllen die Anforderungen des Abschnitts 2 unter Berücksichtigung der Zweckbestimmung und des allgemein anerkannten Stands der Technik; Anbieter von Produkten nach Anhang I können die Einhaltung der KI-Verordnung in bestehende Produktdokumentation/-verfahren integrieren.",
+   "category": "Anforderungen an Hochrisiko-KI (Kap. III Abschn. 2)",
+   "evidenceHint": "Compliance-Matrix, die Art. 9–15 auf Maßnahmen abbildet (EV-SOA-ähnlich), integrierte technische Akte (EV-TECHDOC). · Tests: T-CONF."
+  },
+  "EU_AI_ACT|Art. 9": {
+   "title": "Risikomanagementsystem",
+   "description": "Ein kontinuierliches, iteratives Risikomanagementsystem über den gesamten Lebenszyklus einrichten, umsetzen, dokumentieren und aufrechterhalten: (a) bekannte und vernünftigerweise vorhersehbare Risiken für Gesundheit, Sicherheit und Grundrechte im Rahmen der Zweckbestimmung ermitteln/analysieren; (b) Risiken bei bestimmungsgemäßer Verwendung und vernünftigerweise vorhersehbarer Fehlanwendung abschätzen/bewerten; (c) weitere Risiken aus Daten der Beobachtung nach dem Inverkehrbringen bewerten; (d) gezielte Risikomanagementmaßnahmen ergreifen. Restrisiko vertretbar; durch Konzeption beseitigen/verringern, mindern/kontrollieren, Betreibern Informationen und Schulungen bereitstellen. Vor dem Inverkehrbringen anhand zuvor festgelegter Metriken und probabilistischer Schwellenwerte testen, ggf. einschließlich Tests unter Realbedingungen (Art. 60). Auswirkungen auf Personen unter 18 Jahren und andere schutzbedürftige Gruppen berücksichtigen.",
+   "category": "Anforderungen an Hochrisiko-KI (Kap. III Abschn. 2)",
+   "evidenceHint": "Risikomanagementplan und -verfahren (EV-PROC), Risikoregister mit Gefährdung/Wahrscheinlichkeit/Schwere/Minderung (EV-RISK), Akzeptanz des Restrisikos, Definition der Testschwellenwerte und Testergebnisse (EV-TEST), Rückkopplungsnachweise von PMM zum Risikomanagement (EV-PMM). · Tests: T-ACC (Schwellenwertverifizierung), T-ROB, T-SAFE, T-BIAS, T-RT; Tests von Fehlanwendungsszenarien; Real-/Feldtests T-UX."
+  },
+  "EU_AI_ACT|Art. 10": {
+   "title": "Daten und Daten-Governance",
+   "description": "Trainings-, Validierungs- und Testdatensätze unterliegen Daten-Governance- und Datenverwaltungsverfahren, die Folgendes abdecken: (a) Konzeptionsentscheidungen; (b) Datenerhebungsverfahren und Herkunft der Daten, ursprünglicher Zweck bei personenbezogenen Daten; (c) Datenaufbereitungsvorgänge (Annotation, Kennzeichnung, Bereinigung, Aktualisierung, Anreicherung, Aggregation); (d) Annahmen darüber, was die Daten messen/darstellen; (e) Bewertung von Verfügbarkeit, Menge und Eignung; (f) Untersuchung auf mögliche Verzerrungen, die Gesundheit/Sicherheit/Grundrechte beeinträchtigen oder zu verbotener Diskriminierung führen könnten; (g) Maßnahmen zur Erkennung, Verhinderung und Minderung solcher Verzerrungen; (h) Ermittlung von Datenlücken/-mängeln und deren Behebung. Datensätze relevant, hinreichend repräsentativ, so weit wie möglich fehlerfrei und im Hinblick auf die Zweckbestimmung vollständig; geeignete statistische Eigenschaften, auch in Bezug auf Personen/Gruppen, bei denen das System eingesetzt wird; Berücksichtigung des spezifischen geografischen, kontextuellen, verhaltensbezogenen oder funktionalen Umfelds. Art. 10(5): Verarbeitung besonderer Kategorien personenbezogener Daten zur Erkennung/Korrektur von Verzerrungen unter strengen Schutzvorkehrungen zulässig (Erforderlichkeit, keine Alternativen, Sicherheit, keine Weitergabe, Löschung). Art. 10(6): Systeme ohne Modelltraining wenden (b)–(h) weiterhin auf Testdaten an.",
+   "category": "Anforderungen an Hochrisiko-KI (Kap. III Abschn. 2)",
+   "evidenceHint": "Daten-Governance-Verfahren (EV-PROC), Datenblätter für jeden Datensatz einschließlich Herkunft, Erhebung, Kennzeichnung, Bereinigung (EV-DATA), Bericht zur Bias-Untersuchung und Nachweis der Minderung (EV-DATA, EV-TEST), Repräsentativitätsanalyse, Begründung für besondere Datenkategorien und DSFA (EV-IA). · Tests: T-DQ (Vollständigkeit, Fehlerquote, Labelqualität, Repräsentativität gegenüber Zielpopulation, Leakage, Duplikate), T-BIAS (Analysen von Bias in Daten und Bias in Ausgaben), T-PRIV (Prüfung der Handhabung besonderer Kategorien)."
+  },
+  "EU_AI_ACT|Art. 11": {
+   "title": "Technische Dokumentation (+ Anhang IV)",
+   "description": "Technische Dokumentation vor dem Inverkehrbringen/der Inbetriebnahme erstellen und auf dem neuesten Stand halten; Einhaltung des Abschnitts 2 nachweisen; mindestens die Elemente des Anhangs IV enthalten; KMU/Kleinstunternehmen (und nach dem Omnibus auch SMCs) können ein vereinfachtes Formular (Vorlage der Kommission) verwenden. Produkte nach Anhang I: ein einziger Dokumentationssatz.",
+   "category": "Anforderungen an Hochrisiko-KI (Kap. III Abschn. 2)",
+   "evidenceHint": "Vollständige technische Akte nach Anhang IV (EV-TECHDOC), unterzeichnete/datierte Testberichte (EV-TEST), Datenblätter (EV-DATA), Kopie der Konformitätserklärung (EV-DEC), PMM-Plan (EV-PMM), Änderungsprotokoll (EV-CHG). · Tests: alle Testarten fließen in Anhang IV §2 (Validierung und Tests) und §3 (Fähigkeiten/Grenzen) ein — T-ACC, T-ROB, T-BIAS, T-SEC, T-ADV, T-HO."
+  },
+  "EU_AI_ACT|Art. 12": {
+   "title": "Aufzeichnungspflichten",
+   "description": "Technisch die automatische Aufzeichnung von Ereignissen (Protokolle) über die gesamte Lebensdauer des Systems ermöglichen; die Protokollierungsfunktion gewährleistet eine der Zweckbestimmung angemessene Rückverfolgbarkeit und ermöglicht: die Erkennung von Situationen, die ein Risiko darstellen können (Art. 79(1)) oder eine wesentliche Änderung bedeuten; die Erleichterung der Beobachtung nach dem Inverkehrbringen (Art. 72); die Überwachung des Betriebs durch Betreiber (Art. 26(5)). Für RBI-Systeme nach Anhang III Nummer 1(a) enthalten die Protokolle mindestens: Zeitraum jeder Verwendung (Beginn/Ende mit Datum und Uhrzeit), Referenzdatenbank, mit der die Eingabedaten abgeglichen wurden, Eingabedaten, bei denen die Suche zu einem Treffer führte, Identifizierung der an der Überprüfung der Ergebnisse beteiligten natürlichen Personen (Art. 14(5)). Aufbewahrung durch Anbieter (Art. 19) und Betreiber (Art. 26(6)) mindestens 6 Monate, sofern nicht anderes Recht gilt.",
+   "category": "Anforderungen an Hochrisiko-KI (Kap. III Abschn. 2)",
+   "evidenceHint": "Protokollierungsspezifikation, Protokollschema, Aufbewahrungskonfiguration, Beispiel-Protokollexporte, Zugriffskontrollen auf Protokolle (EV-LOG, EV-TECHDOC). · Tests: T-LOG (Test der Ereignisabdeckung, Manipulationssicherheits-/Integritätstest, Test der Entscheidungsrekonstruktion, Verifizierung der Aufbewahrung); T-AGENT Trace-Protokollierung für agentische Systeme."
+  },
+  "EU_AI_ACT|Art. 13": {
+   "title": "Transparenz und Bereitstellung von Informationen für die Betreiber",
+   "description": "So konzipieren, dass der Betrieb hinreichend transparent ist, damit Betreiber die Ausgabe angemessen interpretieren und verwenden können; Betriebsanleitungen (digital oder anderweitig) beifügen, die präzise, vollständige, korrekte und klare Informationen enthalten: (a) Identität/Kontaktdaten des Anbieters; (b) Merkmale, Fähigkeiten und Leistungsgrenzen einschließlich Zweckbestimmung; Maß an Genauigkeit (einschließlich Metriken), Robustheit und Cybersicherheit, das getestet/validiert wurde, sowie bekannte/vorhersehbare Umstände, die diese beeinträchtigen können; bekannte/vorhersehbare Umstände, die zu Risiken für Gesundheit, Sicherheit oder Grundrechte führen können; technische Fähigkeiten und Merkmale zur Bereitstellung von Informationen, die für die Erklärung der Ausgabe relevant sind; Leistung in Bezug auf bestimmte Personen/Gruppen; Spezifikationen für Eingabedaten oder sonstige Informationen zu Trainings-/Validierungs-/Testdatensätzen; Informationen, die Betreibern die Interpretation und angemessene Verwendung der Ausgabe ermöglichen; (c) vorab festgelegte Änderungen; (d) Maßnahmen der menschlichen Aufsicht (Art. 14) einschließlich technischer Maßnahmen zur Erleichterung der Interpretation der Ausgaben; (e) erforderliche Rechen- und Hardwareressourcen, erwartete Lebensdauer, notwendige Wartungs- und Pflegemaßnahmen einschließlich Software-Updates; (f) Beschreibung der Mechanismen, mit denen Betreiber Protokolle erfassen, speichern und interpretieren können.",
+   "category": "Anforderungen an Hochrisiko-KI (Kap. III Abschn. 2)",
+   "evidenceHint": "Betriebsanleitungen / Betreiberdokumentation (EV-UI, EV-TECHDOC), Model/System Card, deklarierte Metriken (EV-TEST). · Tests: T-ACC (deklarierte Metriken müssen reproduziert werden), T-EXP (Verifizierung der Erklärungsfähigkeit), T-TRANS (Prüfung der Vollständigkeit der Dokumentation), Verständnistest bei Betreibern T-UX."
+  },
+  "EU_AI_ACT|Art. 14": {
+   "title": "Menschliche Aufsicht",
+   "description": "So konzipieren (einschließlich Mensch-Maschine-Schnittstellen), dass natürliche Personen das System während der Verwendung wirksam beaufsichtigen können; Ziel ist, Risiken für Gesundheit, Sicherheit und Grundrechte zu verhindern/zu minimieren; Maßnahmen vom Anbieter eingebaut und/oder zur Umsetzung durch den Betreiber festgelegt; die mit der Aufsicht betrauten Personen werden, soweit angemessen und verhältnismäßig, in die Lage versetzt: (a) die relevanten Fähigkeiten und Grenzen richtig zu verstehen und den Betrieb ordnungsgemäß zu überwachen, auch um Anomalien, Fehlfunktionen und unerwartete Leistung zu erkennen und zu beheben; (b) sich eines Automatisierungsbias bewusst zu bleiben; (c) die Ausgabe unter Berücksichtigung verfügbarer Interpretationswerkzeuge/-methoden richtig zu interpretieren; (d) zu entscheiden, das System nicht zu verwenden oder die Ausgabe anderweitig außer Acht zu lassen, außer Kraft zu setzen oder rückgängig zu machen; (e) in den Betrieb einzugreifen oder ihn über eine „Stopp“-Taste oder ein ähnliches Verfahren zu unterbrechen, das ein Anhalten in einem sicheren Zustand ermöglicht. Art. 14(5): Bei RBI nach Anhang III 1(a) keine Maßnahme/Entscheidung auf Grundlage der Identifizierung, sofern diese nicht von mindestens zwei kompetenten natürlichen Personen getrennt überprüft und bestätigt wurde (Ausnahmen für Strafverfolgung/Migration bei Unverhältnismäßigkeit).",
+   "category": "Anforderungen an Hochrisiko-KI (Kap. III Abschn. 2)",
+   "evidenceHint": "Konzeptionsspezifikation der menschlichen Aufsicht, HMI-Beschreibung, Bedienverfahren, Schulungsmaterialien für Aufsichtspersonal (EV-TECHDOC, EV-PROC, EV-TRAIN), Aufzeichnungen von Aufsichtstests (EV-TEST), Override-/Stopp-Protokolle (EV-LOG). · Tests: T-HO (HITL-Eskalationstest, Override-/Rückgängigmachungstest, Stopp-Taste/sicherer Zustand, Anomaliealarmierung, UX-Studie zu Automatisierungsbias, Workflow-Test der Vier-Augen-Verifizierung bei RBI), T-AGENT (Freigabeschranken für Agentenaktionen), T-UX."
+  },
+  "EU_AI_ACT|Art. 15": {
+   "title": "Genauigkeit, Robustheit und Cybersicherheit",
+   "description": "Ein angemessenes Maß an Genauigkeit, Robustheit und Cybersicherheit erreichen und während des gesamten Lebenszyklus beständig leisten; die Kommission fördert Benchmarks/Messmethoden; Genauigkeitsgrade und relevante Metriken in den Betriebsanleitungen angeben; so widerstandsfähig wie möglich gegenüber Fehlern, Störungen oder Unstimmigkeiten innerhalb des Systems oder seiner Umgebung sein, auch durch technische Redundanz (Backup- oder Fail-Safe-Pläne); Systeme, die nach der Bereitstellung weiterlernen, adressieren das Risiko rückgekoppelter verzerrter Ausgaben (Rückkopplungsschleifen) mit Minderungsmaßnahmen; widerstandsfähig gegen Versuche unbefugter Dritter, Verwendung, Ausgaben oder Leistung durch Ausnutzung von Schwachstellen zu verändern; Cybersicherheitslösungen den Umständen und Risiken angemessen; Maßnahmen zur Verhinderung, Erkennung, Beantwortung, Behebung und Kontrolle von Angriffen einschließlich Datenvergiftung, Modellvergiftung, Adversarial Examples / Modellumgehung, Vertraulichkeitsangriffen und Modellfehlern.",
+   "category": "Anforderungen an Hochrisiko-KI (Kap. III Abschn. 2)",
+   "evidenceHint": "Testberichte zu Genauigkeit/Robustheit/Cybersicherheit (EV-TEST), deklarierte Metriken in der Betriebsanleitung (EV-UI), Bedrohungsmodell und Sicherheitsarchitektur (EV-TECHDOC), Redundanz-/Fail-Safe-Design, Kontrollen für Rückkopplungsschleifen, Penetrations-/Red-Team-Berichte (EV-TEST). · Tests: T-ACC (Genauigkeitsmetriken je Aufgabe und je Teilgruppe, Kalibrierung), T-ROB (Störungen, Verteilungsverschiebung, Stress, Fehlerinjektion, Fail-Safe-Verhalten), T-ADV (Adversarial Examples, Umgehung, Poisoning-Proben), T-SEC (Prompt Injection, Jailbreak, Daten-/Modellextraktion, Vertraulichkeitsangriffe, Schwachstellenscan der Lieferkette, Abdeckung der OWASP LLM Top 10), T-DRIFT (Überwachung von Rückkopplungsschleifen/Bias-Drift), T-RT."
+  },
+  "EU_AI_ACT|Art. 16": {
+   "title": "Pflichten der Anbieter von Hochrisiko-KI-Systemen",
+   "description": "Anbieter müssen: (a) die Einhaltung des Abschnitts 2 sicherstellen; (b) Name, eingetragenen Handelsnamen/eingetragene Marke und Kontaktanschrift auf dem System oder, falls nicht möglich, auf Verpackung/Dokumentation angeben; (c) über ein QMS verfügen (Art. 17); (d) Dokumentation aufbewahren (Art. 18 — 10 Jahre); (e) automatisch erzeugte Protokolle unter ihrer Kontrolle aufbewahren (Art. 19 — ≥6 Monate); (f) das Konformitätsbewertungsverfahren (Art. 43) vor dem Inverkehrbringen sicherstellen; (g) die EU-Konformitätserklärung ausstellen (Art. 47); (h) die CE-Kennzeichnung anbringen (Art. 48); (i) die Registrierungspflichten erfüllen (Art. 49); (j) Korrekturmaßnahmen ergreifen und Informationen bereitstellen (Art. 20); (k) auf begründete Anfrage die Konformität gegenüber einer zuständigen nationalen Behörde nachweisen; (l) die Barrierefreiheitsanforderungen gemäß den Richtlinien (EU) 2016/2102 und (EU) 2019/882 sicherstellen.",
+   "category": "Pflichten der Anbieter und Betreiber",
+   "evidenceHint": "Checkliste der Anbieterpflichten, Nachweise zu Kennzeichnung/Identifizierung (EV-UI), QMS-Handbuch (EV-PROC), Aufzeichnungen zur Dokumentenaufbewahrung, Konformitätserklärung (EV-DEC), Nachweis der CE-Kennzeichnung, Bestätigung der Registrierung in der EU-Datenbank (EV-DEC), Aufzeichnungen zu Korrekturmaßnahmen (EV-INC, EV-CHG), Bericht zur Barrierefreiheitskonformität. · Tests: T-CONF; Barrierefreiheitstests (WCAG/EN 301 549) als T-UX."
+  },
+  "EU_AI_ACT|Art. 17": {
+   "title": "Qualitätsmanagementsystem",
+   "description": "Ein QMS einrichten, das die Einhaltung sicherstellt und systematisch in Form schriftlicher Regeln, Verfahren und Anweisungen dokumentiert ist, einschließlich mindestens:",
+   "category": "Pflichten der Anbieter und Betreiber",
+   "evidenceHint": "QMS-Handbuch und Verfahren zu (a)–(m) (EV-PROC), ISO 9001-/ISO 42001-Zertifikat, falls als Nachweis genutzt (EV-DEC), Test-/Validierungsverfahrensdokumente (EV-TEST), Datenmanagementverfahren (EV-DATA), PMM- und Vorfallverfahren (EV-PMM, EV-INC), Rechenschaftsrahmen (EV-RACI), internes Audit des QMS (EV-AUDIT). · Tests: T-CONF (QMS-Audit); Nachweise der Testverfahrensdurchführung aus allen T-*-Arten unter (d)."
+  },
+  "EU_AI_ACT|Art. 26": {
+   "title": "Pflichten der Betreiber von Hochrisiko-KI-Systemen",
+   "description": "Verwendung gemäß Betriebsanleitung; menschliche Aufsicht natürlichen Personen mit erforderlicher Kompetenz, Schulung, Befugnis und Unterstützung übertragen; soweit der Betreiber die Eingabedaten kontrolliert, deren Relevanz und hinreichende Repräsentativität sicherstellen; den Betrieb gemäß Betriebsanleitung überwachen und Anbieter/Händler sowie Marktüberwachungsbehörde über Risiken informieren (Art. 79(1)) und die Verwendung aussetzen; Anbieter/Einführer/Händler und Behörden über schwerwiegende Vorfälle informieren; Protokolle unter ihrer Kontrolle ≥6 Monate aufbewahren; vor Inbetriebnahme am Arbeitsplatz Arbeitnehmervertreter und betroffene Beschäftigte informieren; Betreiber, die Behörden/EU-Einrichtungen sind, registrieren sich (Art. 49); Informationen nach Art. 13 ggf. für die DSFA nutzen; nachträgliche biometrische Fernidentifizierung: gerichtliche/behördliche Genehmigung (Art. 26(10)); natürliche Personen informieren, dass sie einem Hochrisiko-KI-System unterliegen, das Entscheidungen über sie trifft oder unterstützt (Art. 26(11)); mit Behörden zusammenarbeiten.",
+   "category": "Pflichten der Anbieter und Betreiber",
+   "evidenceHint": "Bereitstellungsverfahren und Checkliste zur Einhaltung der Betriebsanleitung (EV-PROC), Zuweisung der Aufsichtsrollen und Kompetenznachweise (EV-RACI, EV-TRAIN), Repräsentativitätsanalyse der Eingabedaten (EV-DATA), Überwachungsberichte (EV-PMM), Nachweis der Protokollaufbewahrung (EV-LOG), Nachweise der Beschäftigteninformation, Registrierungsbestätigung, DSFA (EV-IA), Vorlagen für die Information Einzelner (EV-UI). · Tests: T-DQ (Prüfung der Eingabedaten), T-HO, T-DRIFT, T-LOG, T-TRANS (UX der Benachrichtigung)."
+  },
+  "EU_AI_ACT|Art. 27": {
+   "title": "Grundrechte-Folgenabschätzung (FRIA)",
+   "description": "Vor der Inbetriebnahme eines Hochrisiko-Systems nach Anhang III (außer Bereich 2 kritische Infrastruktur) führen Betreiber, die Einrichtungen des öffentlichen Rechts sind, private Einrichtungen, die öffentliche Dienste erbringen, sowie Betreiber von Systemen nach Anhang III 5(b) (Kreditwürdigkeit/Kreditscoring) und 5(c) (Risikobewertung und Preisbildung bei Lebens-/Krankenversicherungen) eine Abschätzung durch, die Folgendes umfasst: (a) Prozesse des Betreibers, in denen das System im Einklang mit der Zweckbestimmung verwendet wird; (b) Zeitraum und Häufigkeit der Verwendung; (c) Kategorien natürlicher Personen und Gruppen, die wahrscheinlich betroffen sind; (d) spezifische Schadensrisiken, die diese Kategorien wahrscheinlich betreffen, unter Berücksichtigung der Informationen des Anbieters nach Art. 13; (e) Umsetzung der Maßnahmen der menschlichen Aufsicht gemäß Betriebsanleitung; (f) Maßnahmen bei Eintritt der Risiken einschließlich interner Governance und Beschwerdemechanismen. Ergebnisse der Marktüberwachungsbehörde mitteilen (Fragebogenvorlage des KI-Büros, ggf. automatisiertes Werkzeug); bei Überschneidung Rückgriff auf die DSFA möglich; bei Änderung der Elemente aktualisieren. Omnibus: Der FRIA-Zeitpunkt folgt dem Geltungsbeginn für Hochrisiko-KI nach Anhang III (2. Dez. 2027) V.",
+   "category": "Pflichten der Anbieter und Betreiber",
+   "evidenceHint": "FRIA-Bericht (EV-IA), Mitteilung an die Behörde (EV-COMM), Querverweis zur DSFA, Beschreibung des Beschwerdemechanismus. · Tests: Ergebnisse von T-BIAS und T-HO als Eingaben für (d)/(e); T-UX mit betroffenen Gruppen."
+  },
+  "EU_AI_ACT|Art. 43": {
+   "title": "Konformitätsbewertung",
+   "description": "Anhang III Nummer 1 (Biometrie): Bei Anwendung harmonisierter Normen (Art. 40) oder gemeinsamer Spezifikationen (Art. 41) Wahl zwischen interner Kontrolle (Anhang VI) oder Bewertung des QMS und der technischen Dokumentation durch eine notifizierte Stelle (Anhang VII); bei Nicht-/Teilanwendung oder fehlenden Normen Anhang VII mit notifizierter Stelle. Anhang III Nummern 2–8: interne Kontrolle (Anhang VI), keine notifizierte Stelle. Produkte nach Anhang I Abschnitt A: sektorales Konformitätsverfahren durch Dritte mit integrierten Anforderungen des Abschnitts 2 und Anhang VII Nummern 4.3–4.5 sowie 4.6 Absatz 5. Neue Konformitätsbewertung bei wesentlicher Änderung (vom Anbieter vorab festgelegte und bei der Erstbewertung bewertete Änderungen sind keine wesentlichen Änderungen); vorab festgelegte Änderungen weiterlernender Systeme sind abgedeckt. Die Kommission kann die Anhänge VI/VII ändern und die Nummern 2–8 per delegiertem Rechtsakt auf die Bewertung durch Dritte umstellen.",
+   "category": "Konformität, Registrierung und Nachmarktphase",
+   "evidenceHint": "Konformitätsbewertungsbericht / Nachweis der internen Kontrolle nach Anhang VI, Bescheinigung der notifizierten Stelle (Anhang VII), soweit zutreffend, Nachweis der Anwendung harmonisierter Normen, Verfahren zur Bewertung wesentlicher Änderungen (EV-DEC, EV-CHG, EV-TECHDOC). · Tests: T-CONF; vollständiges T-*-Testpaket als technische Eingabe für Anhang VI/VII."
+  },
+  "EU_AI_ACT|Art. 47": {
+   "title": "EU-Konformitätserklärung",
+   "description": "Für jedes Hochrisiko-System eine schriftliche, maschinenlesbare, physisch oder elektronisch unterzeichnete Konformitätserklärung ausstellen; 10 Jahre aufbewahren; auf Anfrage Kopie bereitstellen; das System identifizieren; die Einhaltung des Abschnitts 2 (und ggf. anderer Unionsvorschriften, die eine Konformitätserklärung erfordern, über eine einzige Erklärung) erklären; Informationen nach Anhang V enthalten (Name/Anschrift des Anbieters; Erklärung in alleiniger Verantwortung; Name, Typ und eindeutige Referenz des Systems; Erklärung der Konformität mit der Verordnung und anderem einschlägigen Unionsrecht, z. B. Datenschutz; Verweise auf harmonisierte Normen/gemeinsame Spezifikationen; ggf. Name/Nummer der notifizierten Stelle, Verfahren und Bescheinigung; Ort und Datum, Name/Funktion des Unterzeichners); in eine von den Mitgliedstaaten geforderte Sprache übersetzen; auf dem neuesten Stand halten.",
+   "category": "Konformität, Registrierung und Nachmarktphase",
+   "evidenceHint": "Unterzeichnete Konformitätserklärung (EV-DEC), Liste der Normverweise, Bescheinigung der notifizierten Stelle. · Tests: T-CONF."
+  },
+  "EU_AI_ACT|Art. 49": {
+   "title": "Registrierung V (Omnibus-Details U)",
+   "description": "Vor dem Inverkehrbringen/der Inbetriebnahme eines Hochrisiko-Systems nach Anhang III (außer Bereich 2) registriert der Anbieter (oder Bevollmächtigte) sich selbst und das System in der EU-Datenbank (Art. 71) mit den Informationen nach Anhang VIII Abschnitt A; Anbieter, die nach Art. 6(3) zu dem Schluss kommen, dass ein System nicht hochriskant ist, registrieren nach Anhang VIII Abschnitt B (der Omnibus-Vorschlag hat diese Selbstbewertungsregistrierung gestrichen/vereinfacht — Status U, als „im konsolidierten Text prüfen“ behandeln); Betreiber, die Behörden/EU-Einrichtungen sind, registrieren nach Anhang VIII Abschnitt C; Systeme für Strafverfolgung, Migration, Asyl und Grenzkontrolle werden in einem sicheren, nicht öffentlichen Bereich registriert. Omnibus: erforderliche Registrierungsinformationen vereinfacht V.",
+   "category": "Konformität, Registrierung und Nachmarktphase",
+   "evidenceHint": "Registrierungsnachweis/-bestätigung in der EU-Datenbank (EV-DEC), Datenpaket nach Anhang VIII. · Tests: keine technischen (Vollständigkeitsprüfung T-CONF)."
+  },
+  "EU_AI_ACT|Art. 72": {
+   "title": "Beobachtung nach dem Inverkehrbringen durch die Anbieter und Plan für die Beobachtung nach dem Inverkehrbringen",
+   "description": "Ein PMM-System einrichten und dokumentieren, das der Art der KI-Technologien und den Risiken angemessen ist; relevante Leistungsdaten über die gesamte Lebensdauer aktiv und systematisch erfassen, dokumentieren und analysieren (von Betreibern bereitgestellt oder über andere Quellen erhoben, ggf. einschließlich der Interaktion mit anderen KI-Systemen; ausgenommen sensible operative Daten von Strafverfolgungsbetreibern); die fortlaufende Einhaltung des Abschnitts 2 bewerten; auf Grundlage eines PMM-Plans, der Teil der technischen Dokumentation nach Anhang IV ist (Nummer 9); Durchführungsrechtsakt der Kommission mit PMM-Planvorlage (fällig bis 2. Feb. 2026); für Produkte nach Anhang I Abschnitt A in bestehende PMM-Systeme integrieren; Finanzinstitute können bestehende Vorschriften nutzen.",
+   "category": "Konformität, Registrierung und Nachmarktphase",
+   "evidenceHint": "PMM-Plan (EV-PMM), PMM-Berichte/Dashboards, Leistungstrendanalyse, Aufzeichnungen des Betreiber-Feedbacks, Nachweise der Verknüpfung von PMM und Risikomanagement (EV-RISK). · Tests: T-DRIFT (Leistungsabfall, Daten-/Konzeptdrift), periodische Wiederholung von T-ACC/T-BIAS/T-SEC in der Produktion, T-LOG-Analyse."
+  },
+  "EU_AI_ACT|Art. 73": {
+   "title": "Meldung schwerwiegender Vorfälle",
+   "description": "Anbieter von auf dem Unionsmarkt in Verkehr gebrachten Hochrisiko-Systemen melden jeden schwerwiegenden Vorfall (Art. 3(49): Tod oder schwere Gesundheitsschädigung; schwere und unumkehrbare Störung der Verwaltung/des Betriebs kritischer Infrastruktur; Verletzung von Grundrechtspflichten nach Unionsrecht; schwerer Schaden an Eigentum oder Umwelt) den Marktüberwachungsbehörden des Mitgliedstaats, in dem er eingetreten ist; unverzüglich nach Feststellung eines Kausalzusammenhangs oder dessen hinreichender Wahrscheinlichkeit und spätestens 15 Tage nach Kenntnis; ≤2 Tage bei weitverbreiteter Verletzung oder schwerwiegendem Vorfall mit kritischer Infrastruktur; ≤10 Tage bei Tod; unvollständige Erstmeldung zulässig; Untersuchung und Risikobewertung durchführen, Korrekturmaßnahmen ergreifen, mit Behörden zusammenarbeiten, keine Veränderung vor Information der Behörde; für Systeme nach Anhang I Abschnitt A mit gleichwertiger sektoraler Meldepflicht nur Vorfälle, die Grundrechtspflichten verletzen; für Medizinprodukte (MDR/IVDR) Meldung über das bestehende Rahmenwerk. Betreiber melden nach Art. 26(5).",
+   "category": "Konformität, Registrierung und Nachmarktphase",
+   "evidenceHint": "Verfahren für das Vorfallmanagement (EV-PROC), Vorfallregister mit Schweregradklassifizierung und Zeitstempeln für den Fristbeginn (EV-INC), Kopien der Behördenmeldungen, Ursachenanalysen, Aufzeichnungen zu Korrekturmaßnahmen (EV-CHG). · Tests: Aufzeichnungen von Incident-Response-Planspielen/Übungen (T-HO-Variante), T-LOG (Fähigkeit zur Rekonstruktion des Vorfalls), Verifizierung der T-DRIFT-Alarmierung."
+  },
+  "EU_AI_ACT|Art. 50": {
+   "title": "Transparenzpflichten für Anbieter und Betreiber bestimmter KI-Systeme",
+   "description": "Natürliche Personen darüber informieren, dass sie mit einem KI-System interagieren; synthetische Audio-/Bild-/Video-/Textausgaben maschinenlesbar und erkennbar kennzeichnen; Personen informieren, die Emotionserkennung/biometrischer Kategorisierung ausgesetzt sind; Deepfakes und KI-generierte Texte von öffentlichem Interesse kennzeichnen; Informationen klar bei der ersten Interaktion bereitstellen. Gilt ab dem 2. August 2026.",
+   "category": "Transparenz (Art. 50)",
+   "evidenceHint": "UX-Texte und Screenshots der Offenlegung (EV-UI), Implementierungsspezifikation für Wasserzeichen/Metadaten (z. B. C2PA) (EV-TECHDOC), Richtlinie zur Deepfake-Kennzeichnung, Erklärung zur redaktionellen Verantwortung (EV-POL). · Tests: T-TRANS (Vorhandensein der KI-Offenlegung bei der ersten Interaktion; Vorhandensein, Persistenz über Transformationen und Erkennbarkeit des Wasserzeichens; Erhalt der Metadaten; Sichtbarkeit der Kennzeichnung), T-UX (Nutzerverständnis der Hinweise), T-SEC (Robustheit des Wasserzeichens gegen Entfernung)."
+  },
+  "EU_AI_ACT|Art. 51": {
+   "title": "Einstufung und Mitteilung (Art. 51–52)",
+   "description": "Systemisches Risiko bei Fähigkeiten mit hoher Wirkkraft (bewertet anhand von Benchmarks/Indikatoren) oder durch Beschluss der Kommission; Vermutung bei kumulierter Trainingsrechenleistung > 10^25 FLOPs; der Anbieter teilt dies der Kommission innerhalb von 2 Wochen nach Erreichen/Absehen des Schwellenwerts mit; kann Argumente gegen die Einstufung vorbringen.",
+   "category": "KI-Modelle mit allgemeinem Verwendungszweck (Kap. V)",
+   "evidenceHint": "Nachweis der Rechenleistungsbilanz, Mitteilungskorrespondenz (EV-COMM, EV-TECHDOC). Tests: Rechenleistungsbilanz nach Art von T-ENV; Fähigkeitsevaluationen T-ACC."
+  },
+  "EU_AI_ACT|Art. 53": {
+   "title": "Pflichten für Anbieter von KI-Modellen mit allgemeinem Verwendungszweck",
+   "description": "(a) technische Dokumentation des Modells einschließlich Trainings- und Testprozess sowie Evaluationsergebnissen (Anhang XI) erstellen und auf dem neuesten Stand halten, für das KI-Büro / die zuständigen nationalen Behörden auf Anfrage; (b) Informationen und Dokumentation für nachgelagerte Anbieter, die das Modell integrieren, erstellen, aktualisieren und bereitstellen (Anhang XII), damit diese Fähigkeiten und Grenzen verstehen und ihre Pflichten erfüllen können; (c) eine Strategie zur Einhaltung des Urheberrechts der Union einführen, einschließlich der Ermittlung und Einhaltung von Rechtsvorbehalten nach Art. 4(3) der Richtlinie (EU) 2019/790 (Text-und-Data-Mining-Opt-outs) mittels modernster Technologien; (d) eine hinreichend detaillierte Zusammenfassung der für das Training verwendeten Inhalte gemäß Vorlage des KI-Büros erstellen und öffentlich zugänglich machen (Vorlage veröffentlicht Juli 2025 V*). Open-Source-Ausnahme von (a)/(b) (nicht (c)/(d)), sofern kein systemisches Risiko. Die Einhaltung kann über Praxisleitfäden (Art. 56; GPAI-Praxisleitfaden veröffentlicht am 10. Juli 2025 mit den Kapiteln Transparenz, Urheberrecht sowie Sicherheit V*) oder harmonisierte Normen nachgewiesen werden.",
+   "category": "KI-Modelle mit allgemeinem Verwendungszweck (Kap. V)",
+   "evidenceHint": "Technische Dokumentation nach Anhang XI (EV-TECHDOC), nachgelagerte Dokumentation nach Anhang XII / Model Card (EV-TECHDOC, EV-SUP), Urheberrechts-Compliance-Strategie und Nachweise zur Opt-out-Behandlung (EV-POL, EV-DATA), öffentliche Zusammenfassung der Trainingsinhalte (EV-DATA), Status als Unterzeichner des Praxisleitfadens (EV-DEC). · Tests: T-ACC (Evaluationsergebnisse in der Dokumentation), T-IP (Regurgitations-/Memorisierungstests, Verifizierung der Opt-out-Einhaltung durch Crawler), T-DQ (Herkunft der Trainingsdaten)."
+  },
+  "EU_AI_ACT|Art. 54": {
+   "title": "Bevollmächtigte von in Drittländern niedergelassenen GPAI-Anbietern V* (Kurzfassung)",
+   "description": "EU-Bevollmächtigten durch schriftlichen Auftrag benennen; Nachweis: Auftrag (EV-DEC).",
+   "category": "KI-Modelle mit allgemeinem Verwendungszweck (Kap. V)",
+   "evidenceHint": null
+  },
+  "EU_AI_ACT|Art. 55": {
+   "title": "Pflichten für Anbieter von KI-Modellen mit allgemeinem Verwendungszweck mit systemischem Risiko",
+   "description": "Anforderung (zusätzlich zu Art. 53): (a) Modellevaluation nach standardisierten Protokollen und Werkzeugen gemäß Stand der Technik durchführen, einschließlich Durchführung und Dokumentation von Angriffstests zur Ermittlung und Minderung systemischer Risiken; (b) mögliche systemische Risiken auf Unionsebene, einschließlich ihrer Quellen, bewerten und mindern, die aus Entwicklung, Inverkehrbringen oder Verwendung entstehen können; (c) schwerwiegende Vorfälle und mögliche Abhilfemaßnahmen erfassen, dokumentieren und dem KI-Büro sowie ggf. den zuständigen nationalen Behörden unverzüglich melden; (d) ein angemessenes Maß an Cybersicherheit für das Modell und seine physische Infrastruktur gewährleisten. Praxisleitfäden (Kapitel Sicherheit) als Weg zur Konformitätsvermutung.",
+   "category": "KI-Modelle mit allgemeinem Verwendungszweck (Kap. V)",
+   "evidenceHint": "Modellevaluationsberichte einschließlich Evaluationen gefährlicher Fähigkeiten (EV-TEST), Red-Team-Berichte (EV-TEST), Bewertung und Minderung systemischer Risiken (Safety & Security Framework) (EV-RISK), Vorfallmeldungen an das KI-Büro (EV-INC), Cybersicherheitsmaßnahmen und -bewertungen (Schutz der Modellgewichte, Insider-Bedrohungen, Infrastruktur) (EV-TECHDOC, EV-TEST). · Tests: T-RT (Angriffs-/Red-Teaming zu CBRN, Cyberangriffen, Kontrollverlust, Manipulation), T-SAFE (Evaluationen gefährlicher Fähigkeiten), T-SEC (Widerstand gegen Exfiltration der Modellgewichte, Infrastruktur-Pentest), T-ACC (Fähigkeits-Benchmarks), T-ADV."
+  },
+  "EU_AI_ACT|Art. 56": {
+   "title": "Praxisleitfäden",
+   "description": "Das KI-Büro fördert Praxisleitfäden; GPAI-Praxisleitfaden (10. Juli 2025); Überwachung und Überprüfung; die Kommission kann sie per Durchführungsrechtsakt genehmigen.",
+   "category": "KI-Modelle mit allgemeinem Verwendungszweck (Kap. V)",
+   "evidenceHint": null
+  },
+  "EU_AI_ACT|Art. 4": {
+   "title": "KI-Kompetenz",
+   "description": "Anbieter und Betreiber ergreifen Maßnahmen, um ein ausreichendes Maß an KI-Kompetenz ihres Personals und anderer Personen sicherzustellen, die mit dem Betrieb und der Nutzung von KI-Systemen befasst sind (durch den Omnibus neu gefasst).",
+   "category": "Pflichten der Anbieter und Betreiber",
+   "evidenceHint": "Nachweise und Lehrpläne für KI-Kompetenzschulungen (EV-TRAIN)"
+  },
+  "EU_AI_ACT|Art. 18": {
+   "title": "Aufbewahrung der Dokumentation",
+   "description": "Anbieter halten die technische Dokumentation, die QMS-Dokumentation, Entscheidungen notifizierter Stellen und die EU-Konformitätserklärung für die Behörden 10 Jahre nach dem Inverkehrbringen bereit.",
+   "category": "Pflichten der Anbieter und Betreiber",
+   "evidenceHint": "Richtlinie und Register zur Dokumentenaufbewahrung (EV-TECHDOC, EV-PROC)"
+  },
+  "EU_AI_ACT|Art. 19": {
+   "title": "Automatisch erzeugte Protokolle",
+   "description": "Anbieter von Hochrisiko-KI-Systemen bewahren die automatisch erzeugten Protokolle unter ihrer Kontrolle für einen der Zweckbestimmung angemessenen Zeitraum auf, mindestens sechs Monate.",
+   "category": "Pflichten der Anbieter und Betreiber",
+   "evidenceHint": "Konfiguration der Protokollaufbewahrung, Protokollbeispiele (EV-LOG) · Tests: T-LOG"
+  },
+  "EU_AI_ACT|Art. 20": {
+   "title": "Korrekturmaßnahmen und Informationspflicht",
+   "description": "Anbieter, die ein Hochrisiko-KI-System als nicht konform ansehen, ergreifen unverzüglich Korrekturmaßnahmen (Rücknahme, Deaktivierung, Rückruf) und informieren Händler, Betreiber, Bevollmächtigte und Einführer.",
+   "category": "Pflichten der Anbieter und Betreiber",
+   "evidenceHint": "Aufzeichnungen zu Korrekturmaßnahmen, Benachrichtigungen (EV-AUDIT, EV-COMM)"
+  },
+  "EU_AI_ACT|Art. 22": {
+   "title": "Bevollmächtigte der Anbieter von Hochrisiko-KI-Systemen",
+   "description": "Außerhalb der Union niedergelassene Anbieter benennen vor der Bereitstellung des Systems durch schriftlichen Auftrag einen in der Union niedergelassenen Bevollmächtigten.",
+   "category": "Pflichten der Anbieter und Betreiber",
+   "evidenceHint": "Auftragsschreiben (EV-RACI)"
+  },
+  "EU_AI_ACT|Art. 25": {
+   "title": "Verantwortlichkeiten entlang der KI-Wertschöpfungskette",
+   "description": "Händler, Einführer, Betreiber oder Dritte werden zu Anbietern, wenn sie ein Hochrisiko-KI-System mit ihrem Namen versehen, wesentlich verändern oder dessen Zweckbestimmung ändern; schriftliche Vereinbarungen über Informationen und technischen Zugang mit Lieferanten von Komponenten.",
+   "category": "Pflichten der Anbieter und Betreiber",
+   "evidenceHint": "Vereinbarungen entlang der Wertschöpfungskette, Matrix geteilter Verantwortung (EV-SUP)"
+  },
+  "EU_AI_ACT|Art. 40": {
+   "title": "Harmonisierte Normen und Normungsdokumente",
+   "description": "Hochrisiko-KI-Systeme oder GPAI-Modelle, die mit im Amtsblatt der EU veröffentlichten harmonisierten Normen übereinstimmen, gelten als konform mit den entsprechenden Anforderungen.",
+   "category": "Konformität, Registrierung und Nachmarktphase",
+   "evidenceHint": "Checkliste zur Normkonformität (EV-DEC) · Tests: T-CONF"
+  },
+  "EU_AI_ACT|Art. 48": {
+   "title": "CE-Kennzeichnung",
+   "description": "Die CE-Kennzeichnung wird sichtbar, lesbar und dauerhaft an Hochrisiko-KI-Systemen angebracht (bzw. digital, soweit zutreffend), ggf. gefolgt von der Kennnummer der notifizierten Stelle.",
+   "category": "Konformität, Registrierung und Nachmarktphase",
+   "evidenceHint": "Nachweis der CE-Kennzeichnung (EV-DEC)"
+  },
+  "EU_AI_ACT|Art. 85": {
+   "title": "Recht auf Beschwerde bei einer Marktüberwachungsbehörde",
+   "description": "Jede natürliche oder juristische Person, die Grund zu der Annahme hat, dass ein Verstoß vorliegt, kann bei der zuständigen Marktüberwachungsbehörde Beschwerde einlegen.",
+   "category": "Sonstiges",
+   "evidenceHint": "Aufzeichnungen zur Beschwerdebearbeitung (EV-COMM)"
+  },
+  "EU_AI_ACT|Art. 86": {
+   "title": "Recht auf Erläuterung der Entscheidungsfindung im Einzelfall",
+   "description": "Betroffene Personen, die einer Entscheidung unterliegen, die ein Betreiber auf Grundlage der Ausgabe eines Hochrisiko-KI-Systems nach Anhang III trifft und die rechtliche oder ähnlich erhebliche Wirkung entfaltet, haben das Recht auf klare und aussagekräftige Erläuterungen zur Rolle des KI-Systems und zu den wichtigsten Elementen der Entscheidung.",
+   "category": "Sonstiges",
+   "evidenceHint": "Erläuterungsverfahren und -vorlagen (EV-UI, EV-PROC) · Tests: T-EXP"
+  },
+  "EU_AI_ACT|Art. 95": {
+   "title": "Verhaltenskodizes für die freiwillige Anwendung bestimmter Anforderungen",
+   "description": "Das KI-Büro und die Mitgliedstaaten fördern Verhaltenskodizes, die die freiwillige Anwendung der Hochrisiko-Anforderungen auf andere KI-Systeme unterstützen, einschließlich ökologischer Nachhaltigkeit, KI-Kompetenz, inklusiver Gestaltung und Beteiligung von Interessengruppen.",
+   "category": "Sonstiges",
+   "evidenceHint": "Nachweis der Einhaltung eines Verhaltenskodex (EV-POL)"
+  },
+  "NIST_AI_RMF|GOVERN 1": {
+   "title": "Richtlinien, Prozesse, Verfahren und Praktiken für die Abbildung, Messung und Steuerung von KI-Risiken sind in der gesamten Organisation vorhanden, transparent und wirksam umgesetzt.",
+   "description": null,
+   "category": "GOVERN",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|GOVERN 1.1": {
+   "title": "Rechtliche und regulatorische Anforderungen im Zusammenhang mit KI sind verstanden, gesteuert und dokumentiert.",
+   "description": "Rechtliche und regulatorische Anforderungen im Zusammenhang mit KI sind verstanden, gesteuert und dokumentiert.",
+   "category": "GOVERN",
+   "evidenceHint": "Rechts-/Regulierungsregister (EV-POL)"
+  },
+  "NIST_AI_RMF|GOVERN 1.2": {
+   "title": "Die Merkmale vertrauenswürdiger KI sind in die Richtlinien, Prozesse, Verfahren und Praktiken der Organisation integriert.",
+   "description": "Die Merkmale vertrauenswürdiger KI sind in die Richtlinien, Prozesse, Verfahren und Praktiken der Organisation integriert.",
+   "category": "GOVERN",
+   "evidenceHint": "KI-Politik, Grundsätze verantwortungsvoller KI (EV-POL)"
+  },
+  "NIST_AI_RMF|GOVERN 1.3": {
+   "title": "Prozesse, Verfahren und Praktiken sind vorhanden, um das erforderliche Niveau der Risikomanagementaktivitäten auf Grund…",
+   "description": "Prozesse, Verfahren und Praktiken sind vorhanden, um das erforderliche Niveau der Risikomanagementaktivitäten auf Grundlage der Risikotoleranz der Organisation zu bestimmen.",
+   "category": "GOVERN",
+   "evidenceHint": "Methodik zur Risikoeinstufung (EV-PROC, EV-RISK)"
+  },
+  "NIST_AI_RMF|GOVERN 1.4": {
+   "title": "Der Risikomanagementprozess und seine Ergebnisse werden durch transparente Richtlinien, Verfahren und andere Kontrollen…",
+   "description": "Der Risikomanagementprozess und seine Ergebnisse werden durch transparente Richtlinien, Verfahren und andere Kontrollen auf Grundlage der Risikoprioritäten der Organisation festgelegt.",
+   "category": "GOVERN",
+   "evidenceHint": "Risikomanagementverfahren (EV-PROC)"
+  },
+  "NIST_AI_RMF|GOVERN 1.5": {
+   "title": "Die laufende Überwachung und regelmäßige Überprüfung des Risikomanagementprozesses und seiner Ergebnisse sind geplant,…",
+   "description": "Die laufende Überwachung und regelmäßige Überprüfung des Risikomanagementprozesses und seiner Ergebnisse sind geplant, und organisatorische Rollen und Verantwortlichkeiten sind klar definiert, einschließlich der Festlegung der Häufigkeit der regelmäßigen Überprüfung.",
+   "category": "GOVERN",
+   "evidenceHint": "Überprüfungsplan, Protokolle der Managementbewertung (EV-MR)"
+  },
+  "NIST_AI_RMF|GOVERN 1.6": {
+   "title": "Mechanismen zur Inventarisierung von KI-Systemen sind vorhanden und entsprechend den Risikoprioritäten der Organisation mit Ressourcen ausgestattet.",
+   "description": "Mechanismen zur Inventarisierung von KI-Systemen sind vorhanden und entsprechend den Risikoprioritäten der Organisation mit Ressourcen ausgestattet.",
+   "category": "GOVERN",
+   "evidenceHint": "KI-Inventar (EV-INV)"
+  },
+  "NIST_AI_RMF|GOVERN 1.7": {
+   "title": "Prozesse und Verfahren sind vorhanden, um KI-Systeme sicher und auf eine Weise außer Betrieb zu nehmen und auslaufen zu…",
+   "description": "Prozesse und Verfahren sind vorhanden, um KI-Systeme sicher und auf eine Weise außer Betrieb zu nehmen und auslaufen zu lassen, die Risiken nicht erhöht und die Vertrauenswürdigkeit der Organisation nicht mindert.",
+   "category": "GOVERN",
+   "evidenceHint": "Verfahren und Aufzeichnungen zur Außerbetriebnahme (EV-PROC, EV-CHG)"
+  },
+  "NIST_AI_RMF|GOVERN 2": {
+   "title": "Rechenschaftsstrukturen sind vorhanden, sodass die geeigneten Teams und Personen befugt, verantwortlich und geschult sind, KI-Risiken abzubilden, zu messen und zu steuern.",
+   "description": null,
+   "category": "GOVERN",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|GOVERN 2.1": {
+   "title": "Rollen und Verantwortlichkeiten sowie Kommunikationswege für die Abbildung, Messung und Steuerung von KI-Risiken sind d…",
+   "description": "Rollen und Verantwortlichkeiten sowie Kommunikationswege für die Abbildung, Messung und Steuerung von KI-Risiken sind dokumentiert und für Personen und Teams in der gesamten Organisation klar.",
+   "category": "GOVERN",
+   "evidenceHint": "RACI (EV-RACI)"
+  },
+  "NIST_AI_RMF|GOVERN 2.2": {
+   "title": "Das Personal und die Partner der Organisation erhalten Schulungen zum KI-Risikomanagement, damit sie ihre Aufgaben und…",
+   "description": "Das Personal und die Partner der Organisation erhalten Schulungen zum KI-Risikomanagement, damit sie ihre Aufgaben und Verantwortlichkeiten im Einklang mit den zugehörigen Richtlinien, Verfahren und Vereinbarungen wahrnehmen können.",
+   "category": "GOVERN",
+   "evidenceHint": "Schulungsnachweise (EV-TRAIN)"
+  },
+  "NIST_AI_RMF|GOVERN 2.3": {
+   "title": "Die Geschäftsleitung der Organisation übernimmt die Verantwortung für Entscheidungen über Risiken im Zusammenhang mit d…",
+   "description": "Die Geschäftsleitung der Organisation übernimmt die Verantwortung für Entscheidungen über Risiken im Zusammenhang mit der Entwicklung und Bereitstellung von KI-Systemen.",
+   "category": "GOVERN",
+   "evidenceHint": "Freigaben der Geschäftsleitung, Vorstandsprotokolle (EV-MR)"
+  },
+  "NIST_AI_RMF|GOVERN 3": {
+   "title": "Prozesse für Vielfalt, Gleichstellung, Inklusion und Barrierefreiheit in der Belegschaft werden bei der Abbildung, Messung und Steuerung von KI-Risiken über den gesamten Lebenszyklus priorisiert.",
+   "description": null,
+   "category": "GOVERN",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|GOVERN 3.1": {
+   "title": "Die Entscheidungsfindung zur Abbildung, Messung und Steuerung von KI-Risiken über den gesamten Lebenszyklus wird durch…",
+   "description": "Die Entscheidungsfindung zur Abbildung, Messung und Steuerung von KI-Risiken über den gesamten Lebenszyklus wird durch ein vielfältiges Team gestützt (z. B. Vielfalt in Demografie, Disziplinen, Erfahrung, Fachwissen und Hintergründen).",
+   "category": "GOVERN",
+   "evidenceHint": "Aufzeichnungen zur Teamzusammensetzung, Satzungen von Prüfgremien (EV-RACI)"
+  },
+  "NIST_AI_RMF|GOVERN 3.2": {
+   "title": "Richtlinien und Verfahren sind vorhanden, um Rollen und Verantwortlichkeiten für Mensch-KI-Konfigurationen und die Aufs…",
+   "description": "Richtlinien und Verfahren sind vorhanden, um Rollen und Verantwortlichkeiten für Mensch-KI-Konfigurationen und die Aufsicht über KI-Systeme zu definieren und zu differenzieren.",
+   "category": "GOVERN",
+   "evidenceHint": "Rollendefinitionen der menschlichen Aufsicht (EV-PROC, EV-RACI) · Tests: T-HO"
+  },
+  "NIST_AI_RMF|GOVERN 4": {
+   "title": "Die Teams der Organisation verpflichten sich zu einer Kultur, die KI-Risiken berücksichtigt und kommuniziert.",
+   "description": null,
+   "category": "GOVERN",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|GOVERN 4.1": {
+   "title": "Richtlinien und Praktiken der Organisation sind vorhanden, um bei Gestaltung, Entwicklung, Bereitstellung und Nutzung v…",
+   "description": "Richtlinien und Praktiken der Organisation sind vorhanden, um bei Gestaltung, Entwicklung, Bereitstellung und Nutzung von KI-Systemen eine Denkweise des kritischen Denkens und der Sicherheit zuerst zu fördern und potenzielle negative Auswirkungen zu minimieren.",
+   "category": "GOVERN",
+   "evidenceHint": "Richtlinie zur Sicherheitskultur, Checklisten für Design-Reviews (EV-POL)"
+  },
+  "NIST_AI_RMF|GOVERN 4.2": {
+   "title": "Die Teams der Organisation dokumentieren die Risiken und potenziellen Auswirkungen der KI-Technologie, die sie gestalte…",
+   "description": "Die Teams der Organisation dokumentieren die Risiken und potenziellen Auswirkungen der KI-Technologie, die sie gestalten, entwickeln, bereitstellen, evaluieren und nutzen, und kommunizieren die Auswirkungen breiter.",
+   "category": "GOVERN",
+   "evidenceHint": "Risiko-/Auswirkungsdokumentation, System Cards (EV-RISK, EV-IA)"
+  },
+  "NIST_AI_RMF|GOVERN 4.3": {
+   "title": "Praktiken der Organisation sind vorhanden, um KI-Tests, die Erkennung von Vorfällen und den Informationsaustausch zu ermöglichen.",
+   "description": "Praktiken der Organisation sind vorhanden, um KI-Tests, die Erkennung von Vorfällen und den Informationsaustausch zu ermöglichen.",
+   "category": "GOVERN",
+   "evidenceHint": "Testrichtlinie, Verfahren zum Austausch von Vorfallinformationen (EV-PROC, EV-INC) · Tests: T-RT, T-SEC"
+  },
+  "NIST_AI_RMF|GOVERN 5": {
+   "title": "Prozesse für eine belastbare Einbindung relevanter KI-Akteure sind vorhanden.",
+   "description": null,
+   "category": "GOVERN",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|GOVERN 5.1": {
+   "title": "Richtlinien und Praktiken der Organisation sind vorhanden, um Rückmeldungen von Personen außerhalb des Teams, das das K…",
+   "description": "Richtlinien und Praktiken der Organisation sind vorhanden, um Rückmeldungen von Personen außerhalb des Teams, das das KI-System entwickelt oder bereitgestellt hat, zu den potenziellen individuellen und gesellschaftlichen Auswirkungen von KI-Risiken zu sammeln, zu berücksichtigen, zu priorisieren und zu integrieren.",
+   "category": "GOVERN",
+   "evidenceHint": "Richtlinie zur Einbindung von Interessengruppen, Feedback-Protokolle (EV-COMM) · Tests: T-UX"
+  },
+  "NIST_AI_RMF|GOVERN 5.2": {
+   "title": "Mechanismen sind eingerichtet, damit das Team, das KI-Systeme entwickelt oder bereitgestellt hat, geprüfte Rückmeldunge…",
+   "description": "Mechanismen sind eingerichtet, damit das Team, das KI-Systeme entwickelt oder bereitgestellt hat, geprüfte Rückmeldungen relevanter KI-Akteure regelmäßig in Systemdesign und -umsetzung einfließen lassen kann.",
+   "category": "GOVERN",
+   "evidenceHint": "Rückverfolgbarkeit von Feedback zum Backlog (EV-CHG)"
+  },
+  "NIST_AI_RMF|GOVERN 6": {
+   "title": "Richtlinien und Verfahren zum Umgang mit KI-Risiken und -Nutzen aus Software und Daten Dritter sowie anderen Lieferkettenfragen sind vorhanden.",
+   "description": null,
+   "category": "GOVERN",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|GOVERN 6.1": {
+   "title": "Richtlinien und Verfahren sind vorhanden, die KI-Risiken im Zusammenhang mit Dritten adressieren, einschließlich des Ri…",
+   "description": "Richtlinien und Verfahren sind vorhanden, die KI-Risiken im Zusammenhang mit Dritten adressieren, einschließlich des Risikos der Verletzung von geistigem Eigentum oder anderen Rechten Dritter.",
+   "category": "GOVERN",
+   "evidenceHint": "Richtlinie für KI Dritter, Lieferantenbewertungen (EV-SUP) · Tests: T-IP"
+  },
+  "NIST_AI_RMF|GOVERN 6.2": {
+   "title": "Notfallprozesse sind vorhanden, um Ausfälle oder Vorfälle in Daten oder KI-Systemen Dritter zu bewältigen, die als hoch…",
+   "description": "Notfallprozesse sind vorhanden, um Ausfälle oder Vorfälle in Daten oder KI-Systemen Dritter zu bewältigen, die als hochriskant eingestuft werden.",
+   "category": "GOVERN",
+   "evidenceHint": "Notfall-/Ausweichpläne (EV-PROC) · Tests: T-ROB (Fallback-Test)"
+  },
+  "NIST_AI_RMF|MAP 1": {
+   "title": "Der Kontext ist festgelegt und verstanden.",
+   "description": null,
+   "category": "MAP",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MAP 1.1": {
+   "title": "Zweckbestimmungen, potenziell nützliche Verwendungen, kontextspezifische Gesetze, Normen und Erwartungen sowie die vora…",
+   "description": "Zweckbestimmungen, potenziell nützliche Verwendungen, kontextspezifische Gesetze, Normen und Erwartungen sowie die voraussichtlichen Einsatzumgebungen des KI-Systems sind verstanden und dokumentiert (Nutzer und Erwartungen; positive/negative Auswirkungen auf Einzelpersonen, Gemeinschaften, Organisationen, Gesellschaft, Planet; Annahmen und Grenzen; zugehörige TEVV- und Systemmetriken).",
+   "category": "MAP",
+   "evidenceHint": "Anwendungsfalldefinition / Erklärung zur Zweckbestimmung (EV-INV, EV-TECHDOC)"
+  },
+  "NIST_AI_RMF|MAP 1.2": {
+   "title": "Interdisziplinäre KI-Akteure, Kompetenzen, Fähigkeiten und Kapazitäten zur Festlegung des Kontexts spiegeln demografisc…",
+   "description": "Interdisziplinäre KI-Akteure, Kompetenzen, Fähigkeiten und Kapazitäten zur Festlegung des Kontexts spiegeln demografische Vielfalt sowie breites Fach- und Nutzererfahrungswissen wider, und ihre Beteiligung ist dokumentiert.",
+   "category": "MAP",
+   "evidenceHint": "Team-/Interessengruppenverzeichnis (EV-RACI)"
+  },
+  "NIST_AI_RMF|MAP 1.3": {
+   "title": "Die Mission der Organisation und die relevanten Ziele für KI-Technologie sind verstanden und dokumentiert.",
+   "description": "Die Mission der Organisation und die relevanten Ziele für KI-Technologie sind verstanden und dokumentiert.",
+   "category": "MAP",
+   "evidenceHint": "KI-Strategie (EV-POL)"
+  },
+  "NIST_AI_RMF|MAP 1.4": {
+   "title": "Der geschäftliche Nutzen oder der Kontext der geschäftlichen Nutzung wurde klar definiert oder — bei der Bewertung best…",
+   "description": "Der geschäftliche Nutzen oder der Kontext der geschäftlichen Nutzung wurde klar definiert oder — bei der Bewertung bestehender KI-Systeme — neu bewertet.",
+   "category": "MAP",
+   "evidenceHint": "Business Case (EV-INV)"
+  },
+  "NIST_AI_RMF|MAP 1.5": {
+   "title": "Die Risikotoleranzen der Organisation sind bestimmt und dokumentiert.",
+   "description": "Die Risikotoleranzen der Organisation sind bestimmt und dokumentiert.",
+   "category": "MAP",
+   "evidenceHint": "Erklärung zu Risikoappetit/-toleranz (EV-POL, EV-RISK)"
+  },
+  "NIST_AI_RMF|MAP 1.6": {
+   "title": "Systemanforderungen (z. B. „das System muss die Privatsphäre seiner Nutzer respektieren“) werden von relevanten KI-Akte…",
+   "description": "Systemanforderungen (z. B. „das System muss die Privatsphäre seiner Nutzer respektieren“) werden von relevanten KI-Akteuren erhoben und verstanden; Designentscheidungen berücksichtigen soziotechnische Implikationen.",
+   "category": "MAP",
+   "evidenceHint": "Anforderungsspezifikation (EV-TECHDOC)"
+  },
+  "NIST_AI_RMF|MAP 2": {
+   "title": "Die Kategorisierung des KI-Systems wird durchgeführt.",
+   "description": null,
+   "category": "MAP",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MAP 2.1": {
+   "title": "Die spezifischen Aufgaben und die Methoden zu ihrer Umsetzung, die das KI-System unterstützen wird, sind definiert (z.…",
+   "description": "Die spezifischen Aufgaben und die Methoden zu ihrer Umsetzung, die das KI-System unterstützen wird, sind definiert (z. B. Klassifikatoren, generative Modelle, Empfehlungssysteme).",
+   "category": "MAP",
+   "evidenceHint": "System-/Model Card (EV-INV)"
+  },
+  "NIST_AI_RMF|MAP 2.2": {
+   "title": "Informationen über die Wissensgrenzen des KI-Systems und darüber, wie Systemausgaben von Menschen genutzt und beaufsich…",
+   "description": "Informationen über die Wissensgrenzen des KI-Systems und darüber, wie Systemausgaben von Menschen genutzt und beaufsichtigt werden können, sind dokumentiert; ausreichend, um KI-Akteure bei Entscheidungen und Folgemaßnahmen zu unterstützen.",
+   "category": "MAP",
+   "evidenceHint": "Erklärung zu Grenzen, Leitfaden zur Aufsicht (EV-TECHDOC, EV-UI) · Tests: T-HO"
+  },
+  "NIST_AI_RMF|MAP 2.3": {
+   "title": "Überlegungen zu wissenschaftlicher Integrität und TEVV sind identifiziert und dokumentiert, einschließlich solcher zu V…",
+   "description": "Überlegungen zu wissenschaftlicher Integrität und TEVV sind identifiziert und dokumentiert, einschließlich solcher zu Versuchsdesign, Datenerhebung und -auswahl (Verfügbarkeit, Repräsentativität, Eignung), Systemvertrauenswürdigkeit und Konstruktvalidierung.",
+   "category": "MAP",
+   "evidenceHint": "TEVV-Plan (EV-TEST), Analyse der Dateneignung (EV-DATA) · Tests: T-DQ"
+  },
+  "NIST_AI_RMF|MAP 3": {
+   "title": "KI-Fähigkeiten, angestrebte Nutzung, Ziele sowie erwarteter Nutzen und erwartete Kosten im Vergleich zu geeigneten Benchmarks sind verstanden.",
+   "description": null,
+   "category": "MAP",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MAP 3.1": {
+   "title": "Potenzieller Nutzen der beabsichtigten Funktionalität und Leistung des KI-Systems wird untersucht und dokumentiert.",
+   "description": "Potenzieller Nutzen der beabsichtigten Funktionalität und Leistung des KI-Systems wird untersucht und dokumentiert.",
+   "category": "MAP",
+   "evidenceHint": "Nutzenanalyse (EV-IA)"
+  },
+  "NIST_AI_RMF|MAP 3.2": {
+   "title": "Potenzielle Kosten, einschließlich nichtmonetärer Kosten, die aus erwarteten oder eingetretenen KI-Fehlern oder aus Sys…",
+   "description": "Potenzielle Kosten, einschließlich nichtmonetärer Kosten, die aus erwarteten oder eingetretenen KI-Fehlern oder aus Systemfunktionalität und Vertrauenswürdigkeit resultieren — in Verbindung mit der Risikotoleranz der Organisation — werden untersucht und dokumentiert.",
+   "category": "MAP",
+   "evidenceHint": "Kosten-/Schadensanalyse (EV-IA, EV-RISK)"
+  },
+  "NIST_AI_RMF|MAP 3.3": {
+   "title": "Der angestrebte Anwendungsbereich wird auf Grundlage der Systemfähigkeit, des festgelegten Kontexts und der Kategorisie…",
+   "description": "Der angestrebte Anwendungsbereich wird auf Grundlage der Systemfähigkeit, des festgelegten Kontexts und der Kategorisierung des KI-Systems spezifiziert und dokumentiert.",
+   "category": "MAP",
+   "evidenceHint": "Erklärung zum Anwendungsbereich / Grenzen der bestimmungsgemäßen Nutzung (EV-INV)"
+  },
+  "NIST_AI_RMF|MAP 3.4": {
+   "title": "Prozesse für die Befähigung von Bedienern und Fachkräften im Umgang mit Leistung und Vertrauenswürdigkeit des KI-System…",
+   "description": "Prozesse für die Befähigung von Bedienern und Fachkräften im Umgang mit Leistung und Vertrauenswürdigkeit des KI-Systems — sowie relevante technische Normen und Zertifizierungen — sind definiert, bewertet und dokumentiert.",
+   "category": "MAP",
+   "evidenceHint": "Kompetenzanforderungen an Bediener (EV-TRAIN)"
+  },
+  "NIST_AI_RMF|MAP 3.5": {
+   "title": "Prozesse für die menschliche Aufsicht sind im Einklang mit den Richtlinien der Organisation aus der Funktion GOVERN def…",
+   "description": "Prozesse für die menschliche Aufsicht sind im Einklang mit den Richtlinien der Organisation aus der Funktion GOVERN definiert, bewertet und dokumentiert.",
+   "category": "MAP",
+   "evidenceHint": "Konzeption der menschlichen Aufsicht (EV-PROC, EV-TECHDOC) · Tests: T-HO"
+  },
+  "NIST_AI_RMF|MAP 4": {
+   "title": "Risiken und Nutzen werden für alle Komponenten des KI-Systems einschließlich Software und Daten Dritter abgebildet.",
+   "description": null,
+   "category": "MAP",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MAP 4.1": {
+   "title": "Ansätze zur Abbildung von KI-Technologie- und Rechtsrisiken ihrer Komponenten — einschließlich der Nutzung von Daten od…",
+   "description": "Ansätze zur Abbildung von KI-Technologie- und Rechtsrisiken ihrer Komponenten — einschließlich der Nutzung von Daten oder Software Dritter — sind vorhanden, werden befolgt und dokumentiert, ebenso Risiken der Verletzung von geistigem Eigentum oder anderen Rechten Dritter.",
+   "category": "MAP",
+   "evidenceHint": "Risikokarte für Komponenten/Abhängigkeiten, Lizenzaudit (EV-SUP, EV-RISK) · Tests: T-IP, T-SEC (Lieferkettenscan)"
+  },
+  "NIST_AI_RMF|MAP 4.2": {
+   "title": "Interne Risikokontrollen für Komponenten des KI-Systems, einschließlich KI-Technologien Dritter, sind identifiziert und…",
+   "description": "Interne Risikokontrollen für Komponenten des KI-Systems, einschließlich KI-Technologien Dritter, sind identifiziert und dokumentiert.",
+   "category": "MAP",
+   "evidenceHint": "Kontrollzuordnung je Komponente (EV-RISK)"
+  },
+  "NIST_AI_RMF|MAP 5": {
+   "title": "Auswirkungen auf Einzelpersonen, Gruppen, Gemeinschaften, Organisationen und die Gesellschaft werden charakterisiert.",
+   "description": null,
+   "category": "MAP",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MAP 5.1": {
+   "title": "Wahrscheinlichkeit und Ausmaß jeder identifizierten Auswirkung (sowohl potenziell nützlich als auch schädlich) auf Grun…",
+   "description": "Wahrscheinlichkeit und Ausmaß jeder identifizierten Auswirkung (sowohl potenziell nützlich als auch schädlich) auf Grundlage der erwarteten Nutzung, früherer Nutzungen von KI-Systemen in ähnlichen Kontexten, öffentlicher Vorfallberichte, Rückmeldungen von Personen außerhalb des Teams oder anderer Daten werden identifiziert und dokumentiert.",
+   "category": "MAP",
+   "evidenceHint": "Folgenabschätzung mit Wahrscheinlichkeit/Ausmaß (EV-IA) · Tests: T-UX"
+  },
+  "NIST_AI_RMF|MAP 5.2": {
+   "title": "Praktiken und Personal zur Unterstützung der regelmäßigen Einbindung relevanter KI-Akteure und zur Integration von Rück…",
+   "description": "Praktiken und Personal zur Unterstützung der regelmäßigen Einbindung relevanter KI-Akteure und zur Integration von Rückmeldungen zu positiven, negativen und unerwarteten Auswirkungen sind vorhanden und dokumentiert.",
+   "category": "MAP",
+   "evidenceHint": "Einbindungsplan, Feedback-Aufzeichnungen (EV-COMM) · Tests: T-UX"
+  },
+  "NIST_AI_RMF|MEASURE 1": {
+   "title": "Geeignete Methoden und Metriken werden identifiziert und angewendet.",
+   "description": null,
+   "category": "MEASURE",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MEASURE 1.1": {
+   "title": "Ansätze und Metriken zur Messung der in MAP aufgeführten KI-Risiken werden zur Umsetzung ausgewählt, beginnend mit den…",
+   "description": "Ansätze und Metriken zur Messung der in MAP aufgeführten KI-Risiken werden zur Umsetzung ausgewählt, beginnend mit den bedeutendsten KI-Risiken; Risiken oder Merkmale der Vertrauenswürdigkeit, die nicht gemessen werden — oder nicht gemessen werden können — werden ordnungsgemäß dokumentiert.",
+   "category": "MEASURE",
+   "evidenceHint": "Nachweis der Metrikauswahl, Register „nicht gemessener Risiken“ (EV-TEST, EV-RISK) · Tests: alle"
+  },
+  "NIST_AI_RMF|MEASURE 1.2": {
+   "title": "Die Angemessenheit der KI-Metriken und die Wirksamkeit bestehender Kontrollen werden regelmäßig bewertet und aktualisie…",
+   "description": "Die Angemessenheit der KI-Metriken und die Wirksamkeit bestehender Kontrollen werden regelmäßig bewertet und aktualisiert, einschließlich Fehlerberichten und potenzieller Auswirkungen auf betroffene Gemeinschaften.",
+   "category": "MEASURE",
+   "evidenceHint": "Protokoll der Metriküberprüfung (EV-TEST)"
+  },
+  "NIST_AI_RMF|MEASURE 1.3": {
+   "title": "Interne Experten, die nicht als unmittelbare Entwickler des Systems tätig waren, und/oder unabhängige Prüfer sind an re…",
+   "description": "Interne Experten, die nicht als unmittelbare Entwickler des Systems tätig waren, und/oder unabhängige Prüfer sind an regelmäßigen Bewertungen und Aktualisierungen beteiligt; Fachexperten, Nutzer, externe KI-Akteure und betroffene Gemeinschaften werden bei Bedarf konsultiert.",
+   "category": "MEASURE",
+   "evidenceHint": "Unabhängige Bewertungsberichte, Bestätigung der Unabhängigkeit der Prüfer (EV-AUDIT, EV-TEST) · Tests: unabhängige Wiederholung von T-*"
+  },
+  "NIST_AI_RMF|MEASURE 2": {
+   "title": "KI-Systeme werden auf Merkmale der Vertrauenswürdigkeit hin evaluiert.",
+   "description": null,
+   "category": "MEASURE",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MEASURE 2.1": {
+   "title": "Testsätze, Metriken und Einzelheiten zu den während TEVV verwendeten Werkzeugen sind dokumentiert.",
+   "description": "Testsätze, Metriken und Einzelheiten zu den während TEVV verwendeten Werkzeugen sind dokumentiert.",
+   "category": "MEASURE",
+   "evidenceHint": "TEVV-Dokumentation: Testsätze, Metriken, Werkzeugversionen (EV-TEST) · Tests: alle (T-*-Metadaten)"
+  },
+  "NIST_AI_RMF|MEASURE 2.2": {
+   "title": "Evaluationen mit menschlichen Probanden erfüllen die geltenden Anforderungen (einschließlich des Schutzes von Probanden…",
+   "description": "Evaluationen mit menschlichen Probanden erfüllen die geltenden Anforderungen (einschließlich des Schutzes von Probanden) und sind repräsentativ für die relevante Population.",
+   "category": "MEASURE",
+   "evidenceHint": "IRB-/Ethikgenehmigungen, Demografie der Teilnehmenden (EV-TEST) · Tests: T-UX, T-RT (menschlich)"
+  },
+  "NIST_AI_RMF|MEASURE 2.3": {
+   "title": "Leistungs- oder Zusicherungskriterien des KI-Systems werden qualitativ oder quantitativ gemessen und für Bedingungen na…",
+   "description": "Leistungs- oder Zusicherungskriterien des KI-Systems werden qualitativ oder quantitativ gemessen und für Bedingungen nachgewiesen, die der/den Einsatzumgebung(en) ähneln; die Messungen werden dokumentiert.",
+   "category": "MEASURE",
+   "evidenceHint": "Leistungsbericht unter einsatznahen Bedingungen (EV-TEST) · Tests: T-ACC, T-ROB"
+  },
+  "NIST_AI_RMF|MEASURE 2.4": {
+   "title": "Die Funktionalität und das Verhalten des KI-Systems und seiner Komponenten — wie in MAP identifiziert — werden in der P…",
+   "description": "Die Funktionalität und das Verhalten des KI-Systems und seiner Komponenten — wie in MAP identifiziert — werden in der Produktion überwacht.",
+   "category": "MEASURE",
+   "evidenceHint": "Produktions-Monitoring-Dashboards (EV-PMM) · Tests: T-DRIFT"
+  },
+  "NIST_AI_RMF|MEASURE 2.5": {
+   "title": "Für das bereitzustellende KI-System wird nachgewiesen, dass es valide und zuverlässig ist; Grenzen der Generalisierbark…",
+   "description": "Für das bereitzustellende KI-System wird nachgewiesen, dass es valide und zuverlässig ist; Grenzen der Generalisierbarkeit über die Entwicklungsbedingungen hinaus werden dokumentiert.",
+   "category": "MEASURE",
+   "evidenceHint": "Bericht zu Validität und Zuverlässigkeit, Generalisierungsgrenzen (EV-TEST) · Tests: T-ACC, T-ROB, T-HALL"
+  },
+  "NIST_AI_RMF|MEASURE 2.6": {
+   "title": "Das KI-System wird regelmäßig auf Sicherheitsrisiken evaluiert — wie in MAP identifiziert; es wird nachgewiesen, dass e…",
+   "description": "Das KI-System wird regelmäßig auf Sicherheitsrisiken evaluiert — wie in MAP identifiziert; es wird nachgewiesen, dass es sicher ist, das negative Restrisiko innerhalb der Toleranz liegt und es insbesondere jenseits der Wissensgrenzen sicher ausfallen kann; Sicherheitsmetriken spiegeln Zuverlässigkeit und Robustheit, Echtzeitüberwachung und Reaktionszeiten bei Ausfällen wider.",
+   "category": "MEASURE",
+   "evidenceHint": "Sicherheitsevaluationsbericht, Fail-Safe-Testergebnisse (EV-TEST) · Tests: T-SAFE, T-ROB, T-HO"
+  },
+  "NIST_AI_RMF|MEASURE 2.7": {
+   "title": "Sicherheit und Widerstandsfähigkeit des KI-Systems — wie in MAP identifiziert — werden evaluiert und dokumentiert.",
+   "description": "Sicherheit und Widerstandsfähigkeit des KI-Systems — wie in MAP identifiziert — werden evaluiert und dokumentiert.",
+   "category": "MEASURE",
+   "evidenceHint": "Sicherheitstestbericht, Pentest-/Red-Team-Bericht (EV-TEST) · Tests: T-SEC, T-ADV, T-RT"
+  },
+  "NIST_AI_RMF|MEASURE 2.8": {
+   "title": "Risiken im Zusammenhang mit Transparenz und Rechenschaftspflicht — wie in MAP identifiziert — werden untersucht und dokumentiert.",
+   "description": "Risiken im Zusammenhang mit Transparenz und Rechenschaftspflicht — wie in MAP identifiziert — werden untersucht und dokumentiert.",
+   "category": "MEASURE",
+   "evidenceHint": "Transparenzbewertung, Rechenschaftsnachweis (EV-TEST, EV-LOG) · Tests: T-TRANS, T-LOG"
+  },
+  "NIST_AI_RMF|MEASURE 2.9": {
+   "title": "Das KI-Modell wird erklärt, validiert und dokumentiert, und die Ausgabe des KI-Systems wird in ihrem Kontext — wie in M…",
+   "description": "Das KI-Modell wird erklärt, validiert und dokumentiert, und die Ausgabe des KI-Systems wird in ihrem Kontext — wie in MAP identifiziert — interpretiert, um verantwortungsvolle Nutzung und Governance zu unterstützen.",
+   "category": "MEASURE",
+   "evidenceHint": "Erklärbarkeitsbericht, Modelldokumentation (EV-TEST, EV-TECHDOC) · Tests: T-EXP"
+  },
+  "NIST_AI_RMF|MEASURE 2.10": {
+   "title": "Das Datenschutzrisiko des KI-Systems — wie in MAP identifiziert — wird untersucht und dokumentiert.",
+   "description": "Das Datenschutzrisiko des KI-Systems — wie in MAP identifiziert — wird untersucht und dokumentiert.",
+   "category": "MEASURE",
+   "evidenceHint": "Datenschutz-Testbericht, DSFA (EV-TEST, EV-IA) · Tests: T-PRIV"
+  },
+  "NIST_AI_RMF|MEASURE 2.11": {
+   "title": "Fairness und Verzerrung — wie in MAP identifiziert — werden evaluiert und die Ergebnisse dokumentiert.",
+   "description": "Fairness und Verzerrung — wie in MAP identifiziert — werden evaluiert und die Ergebnisse dokumentiert.",
+   "category": "MEASURE",
+   "evidenceHint": "Fairness-/Bias-Evaluationsbericht (EV-TEST) · Tests: T-BIAS, T-DQ"
+  },
+  "NIST_AI_RMF|MEASURE 2.12": {
+   "title": "Umweltauswirkungen und Nachhaltigkeit des Trainings und der Verwaltung von KI-Modellen — wie in MAP identifiziert — wer…",
+   "description": "Umweltauswirkungen und Nachhaltigkeit des Trainings und der Verwaltung von KI-Modellen — wie in MAP identifiziert — werden bewertet und dokumentiert.",
+   "category": "MEASURE",
+   "evidenceHint": "Energie-/CO2-Bericht (EV-TEST) · Tests: T-ENV"
+  },
+  "NIST_AI_RMF|MEASURE 2.13": {
+   "title": "Die Wirksamkeit der eingesetzten TEVV-Metriken und -Prozesse in der Funktion MEASURE wird evaluiert und dokumentiert.",
+   "description": "Die Wirksamkeit der eingesetzten TEVV-Metriken und -Prozesse in der Funktion MEASURE wird evaluiert und dokumentiert.",
+   "category": "MEASURE",
+   "evidenceHint": "Überprüfung der TEVV-Wirksamkeit (EV-TEST, EV-AUDIT) · Tests: Meta-Evaluation von T-*"
+  },
+  "NIST_AI_RMF|MEASURE 3": {
+   "title": "Mechanismen zur Nachverfolgung identifizierter KI-Risiken im Zeitverlauf sind vorhanden.",
+   "description": null,
+   "category": "MEASURE",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MEASURE 3.1": {
+   "title": "Ansätze, Personal und Dokumentation sind vorhanden, um bestehende, unerwartete und neu auftretende KI-Risiken auf Grund…",
+   "description": "Ansätze, Personal und Dokumentation sind vorhanden, um bestehende, unerwartete und neu auftretende KI-Risiken auf Grundlage von Faktoren wie beabsichtigter und tatsächlicher Leistung in Einsatzkontexten regelmäßig zu identifizieren und nachzuverfolgen.",
+   "category": "MEASURE",
+   "evidenceHint": "Register zur Risikonachverfolgung, Überwachungsrollen (EV-RISK, EV-PMM) · Tests: T-DRIFT"
+  },
+  "NIST_AI_RMF|MEASURE 3.2": {
+   "title": "Ansätze zur Risikonachverfolgung werden für Umgebungen in Betracht gezogen, in denen KI-Risiken mit derzeit verfügbaren…",
+   "description": "Ansätze zur Risikonachverfolgung werden für Umgebungen in Betracht gezogen, in denen KI-Risiken mit derzeit verfügbaren Messtechniken schwer zu bewerten sind oder Metriken noch nicht verfügbar sind.",
+   "category": "MEASURE",
+   "evidenceHint": "Notizen zur qualitativen Risikonachverfolgung (EV-RISK) · Tests: T-UX, T-RT"
+  },
+  "NIST_AI_RMF|MEASURE 3.3": {
+   "title": "Feedbackprozesse, über die Endnutzer und betroffene Gemeinschaften Probleme melden und Systemergebnisse anfechten könne…",
+   "description": "Feedbackprozesse, über die Endnutzer und betroffene Gemeinschaften Probleme melden und Systemergebnisse anfechten können, sind eingerichtet und in die Evaluationsmetriken des KI-Systems integriert.",
+   "category": "MEASURE",
+   "evidenceHint": "Nutzerfeedback- und Einspruchskanal, Integration in Metriken (EV-COMM, EV-PMM) · Tests: T-UX"
+  },
+  "NIST_AI_RMF|MEASURE 4": {
+   "title": "Rückmeldungen zur Wirksamkeit der Messung werden gesammelt und bewertet.",
+   "description": null,
+   "category": "MEASURE",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MEASURE 4.1": {
+   "title": "Messansätze zur Identifizierung von KI-Risiken sind mit dem/den Einsatzkontext(en) verknüpft und werden durch Konsultat…",
+   "description": "Messansätze zur Identifizierung von KI-Risiken sind mit dem/den Einsatzkontext(en) verknüpft und werden durch Konsultation von Fachexperten und anderen Endnutzern gestützt; die Ansätze sind dokumentiert.",
+   "category": "MEASURE",
+   "evidenceHint": "Dokumentation des Messansatzes mit Expertenkonsultation (EV-TEST) · Tests: T-UX"
+  },
+  "NIST_AI_RMF|MEASURE 4.2": {
+   "title": "Messergebnisse zur Vertrauenswürdigkeit des KI-Systems im/in den Einsatzkontext(en) und über den gesamten KI-Lebenszykl…",
+   "description": "Messergebnisse zur Vertrauenswürdigkeit des KI-Systems im/in den Einsatzkontext(en) und über den gesamten KI-Lebenszyklus werden durch Beiträge von Fachexperten und relevanten KI-Akteuren gestützt, um zu validieren, ob das System beständig wie beabsichtigt arbeitet; die Ergebnisse werden dokumentiert.",
+   "category": "MEASURE",
+   "evidenceHint": "Validierungsaufzeichnungen mit Beiträgen von Interessengruppen (EV-TEST) · Tests: T-UX, T-DRIFT"
+  },
+  "NIST_AI_RMF|MEASURE 4.3": {
+   "title": "Messbare Leistungsverbesserungen oder -verschlechterungen auf Grundlage von Konsultationen mit relevanten KI-Akteuren,…",
+   "description": "Messbare Leistungsverbesserungen oder -verschlechterungen auf Grundlage von Konsultationen mit relevanten KI-Akteuren, einschließlich betroffener Gemeinschaften, und Felddaten zu kontextrelevanten Risiken und Merkmalen der Vertrauenswürdigkeit werden identifiziert und dokumentiert.",
+   "category": "MEASURE",
+   "evidenceHint": "Trendanalyse, Felddatenberichte (EV-PMM) · Tests: T-DRIFT, T-UX"
+  },
+  "NIST_AI_RMF|MANAGE 1": {
+   "title": "KI-Risiken werden auf Grundlage der Bewertungen und anderer analytischer Ergebnisse aus MAP und MEASURE priorisiert, behandelt und gesteuert.",
+   "description": null,
+   "category": "MANAGE",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MANAGE 1.1": {
+   "title": "Es wird festgestellt, ob das KI-System seine Zweckbestimmungen und erklärten Ziele erreicht und ob seine Entwicklung od…",
+   "description": "Es wird festgestellt, ob das KI-System seine Zweckbestimmungen und erklärten Ziele erreicht und ob seine Entwicklung oder Bereitstellung fortgesetzt werden soll.",
+   "category": "MANAGE",
+   "evidenceHint": "Nachweis der Go/No-Go-Entscheidung (EV-MR, EV-CHG) · Tests: Freigabeschranke auf Basis der T-*-Ergebnisse"
+  },
+  "NIST_AI_RMF|MANAGE 1.2": {
+   "title": "Die Behandlung dokumentierter KI-Risiken wird auf Grundlage von Auswirkung, Wahrscheinlichkeit und verfügbaren Ressourcen oder Methoden priorisiert.",
+   "description": "Die Behandlung dokumentierter KI-Risiken wird auf Grundlage von Auswirkung, Wahrscheinlichkeit und verfügbaren Ressourcen oder Methoden priorisiert.",
+   "category": "MANAGE",
+   "evidenceHint": "Priorisierter Risikobehandlungsplan (EV-RISK)"
+  },
+  "NIST_AI_RMF|MANAGE 1.3": {
+   "title": "Reaktionen auf die als hoch priorisiert eingestuften KI-Risiken, wie in MAP identifiziert, werden entwickelt, geplant u…",
+   "description": "Reaktionen auf die als hoch priorisiert eingestuften KI-Risiken, wie in MAP identifiziert, werden entwickelt, geplant und dokumentiert; Optionen umfassen Mindern, Übertragen, Vermeiden oder Akzeptieren.",
+   "category": "MANAGE",
+   "evidenceHint": "Risikoreaktionspläne (EV-RISK)"
+  },
+  "NIST_AI_RMF|MANAGE 1.4": {
+   "title": "Negative Restrisiken (die Summe aller nicht geminderten Risiken) sowohl für nachgelagerte Erwerber von KI-Systemen als…",
+   "description": "Negative Restrisiken (die Summe aller nicht geminderten Risiken) sowohl für nachgelagerte Erwerber von KI-Systemen als auch für Endnutzer werden dokumentiert.",
+   "category": "MANAGE",
+   "evidenceHint": "Erklärung zum Restrisiko, Offenlegung gegenüber nachgelagerten Parteien (EV-RISK, EV-UI)"
+  },
+  "NIST_AI_RMF|MANAGE 2": {
+   "title": "Strategien zur Maximierung des KI-Nutzens und zur Minimierung negativer Auswirkungen werden geplant, vorbereitet, umgesetzt, dokumentiert und durch Beiträge relevanter KI-Akteure gestützt.",
+   "description": null,
+   "category": "MANAGE",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MANAGE 2.1": {
+   "title": "Die zur Steuerung von KI-Risiken erforderlichen Ressourcen werden berücksichtigt — zusammen mit tragfähigen Nicht-KI-Al…",
+   "description": "Die zur Steuerung von KI-Risiken erforderlichen Ressourcen werden berücksichtigt — zusammen mit tragfähigen Nicht-KI-Alternativsystemen, -ansätzen oder -methoden — um Ausmaß oder Wahrscheinlichkeit potenzieller Auswirkungen zu verringern.",
+   "category": "MANAGE",
+   "evidenceHint": "Ressourcenplan, Alternativenanalyse (EV-RISK, EV-MR)"
+  },
+  "NIST_AI_RMF|MANAGE 2.2": {
+   "title": "Mechanismen zur Erhaltung des Werts bereitgestellter KI-Systeme sind vorhanden und werden angewendet.",
+   "description": "Mechanismen zur Erhaltung des Werts bereitgestellter KI-Systeme sind vorhanden und werden angewendet.",
+   "category": "MANAGE",
+   "evidenceHint": "Wartungs-/Nachtrainingsplan (EV-PMM) · Tests: T-DRIFT"
+  },
+  "NIST_AI_RMF|MANAGE 2.3": {
+   "title": "Verfahren werden befolgt, um auf ein zuvor unbekanntes Risiko zu reagieren und sich davon zu erholen, sobald es identifiziert wird.",
+   "description": "Verfahren werden befolgt, um auf ein zuvor unbekanntes Risiko zu reagieren und sich davon zu erholen, sobald es identifiziert wird.",
+   "category": "MANAGE",
+   "evidenceHint": "Verfahren und Aufzeichnungen zur Reaktion auf neu auftretende Risiken (EV-PROC, EV-INC) · Tests: Vorfallübungen"
+  },
+  "NIST_AI_RMF|MANAGE 2.4": {
+   "title": "Mechanismen sind vorhanden und werden angewendet, und Verantwortlichkeiten sind zugewiesen und verstanden, um KI-System…",
+   "description": "Mechanismen sind vorhanden und werden angewendet, und Verantwortlichkeiten sind zugewiesen und verstanden, um KI-Systeme abzulösen, abzukoppeln oder zu deaktivieren, deren Leistung oder Ergebnisse nicht mit der bestimmungsgemäßen Nutzung übereinstimmen.",
+   "category": "MANAGE",
+   "evidenceHint": "Kill-Switch-/Deaktivierungsverfahren, Zuweisung der Befugnis (EV-PROC, EV-RACI) · Tests: T-HO (Stopp-Test), T-AGENT"
+  },
+  "NIST_AI_RMF|MANAGE 3": {
+   "title": "KI-Risiken und -Nutzen aus Beziehungen zu Dritten werden gesteuert.",
+   "description": null,
+   "category": "MANAGE",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MANAGE 3.1": {
+   "title": "KI-Risiken und -Nutzen aus Ressourcen Dritter werden regelmäßig überwacht, und Risikokontrollen werden angewendet und dokumentiert.",
+   "description": "KI-Risiken und -Nutzen aus Ressourcen Dritter werden regelmäßig überwacht, und Risikokontrollen werden angewendet und dokumentiert.",
+   "category": "MANAGE",
+   "evidenceHint": "Aufzeichnungen zur Lieferantenüberwachung (EV-SUP) · Tests: T-SEC, T-ACC bei Komponenten Dritter"
+  },
+  "NIST_AI_RMF|MANAGE 3.2": {
+   "title": "Vortrainierte Modelle, die für die Entwicklung verwendet werden, werden im Rahmen der regelmäßigen Überwachung und Wartung des KI-Systems überwacht.",
+   "description": "Vortrainierte Modelle, die für die Entwicklung verwendet werden, werden im Rahmen der regelmäßigen Überwachung und Wartung des KI-Systems überwacht.",
+   "category": "MANAGE",
+   "evidenceHint": "Versionsverfolgung des Basismodells, Neubewertung bei Upgrade (EV-SUP, EV-CHG) · Tests: T-ACC, T-SAFE Regression"
+  },
+  "NIST_AI_RMF|MANAGE 4": {
+   "title": "Risikobehandlungen, einschließlich Reaktion und Wiederherstellung, sowie Kommunikationspläne für die identifizierten und gemessenen KI-Risiken werden dokumentiert und regelmäßig überwacht.",
+   "description": null,
+   "category": "MANAGE",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MANAGE 4.1": {
+   "title": "Pläne zur Überwachung des KI-Systems nach der Bereitstellung werden umgesetzt, einschließlich Mechanismen zur Erfassung…",
+   "description": "Pläne zur Überwachung des KI-Systems nach der Bereitstellung werden umgesetzt, einschließlich Mechanismen zur Erfassung und Bewertung von Beiträgen von Nutzern und anderen relevanten KI-Akteuren, Einspruch und Override, Außerbetriebnahme, Reaktion auf Vorfälle, Wiederherstellung und Änderungsmanagement.",
+   "category": "MANAGE",
+   "evidenceHint": "Überwachungsplan und -berichte nach der Bereitstellung (EV-PMM), Einspruchs-/Override-Aufzeichnungen, Änderungsmanagement (EV-CHG) · Tests: T-DRIFT, T-HO"
+  },
+  "NIST_AI_RMF|MANAGE 4.2": {
+   "title": "Messbare Aktivitäten zur fortlaufenden Verbesserung sind in Aktualisierungen des KI-Systems integriert und umfassen die…",
+   "description": "Messbare Aktivitäten zur fortlaufenden Verbesserung sind in Aktualisierungen des KI-Systems integriert und umfassen die regelmäßige Einbindung interessierter Parteien, einschließlich relevanter KI-Akteure.",
+   "category": "MANAGE",
+   "evidenceHint": "Verbesserungs-Backlog, Release Notes (EV-CHG) · Tests: Regression T-*"
+  },
+  "NIST_AI_RMF|MANAGE 4.3": {
+   "title": "Vorfälle und Fehler werden relevanten KI-Akteuren, einschließlich betroffener Gemeinschaften, kommuniziert; Prozesse zu…",
+   "description": "Vorfälle und Fehler werden relevanten KI-Akteuren, einschließlich betroffener Gemeinschaften, kommuniziert; Prozesse zur Nachverfolgung, Reaktion und Wiederherstellung bei Vorfällen und Fehlern werden befolgt und dokumentiert.",
+   "category": "MANAGE",
+   "evidenceHint": "Vorfallregister, Kommunikation, Post-Mortems (EV-INC, EV-COMM)"
+  },
+  "NIST_ARIA|Scope": {
+   "title": "Umfang — KI-Anwendungen, Sektor, Anwendungsfälle, Zielkonzept",
+   "description": "Die evaluierte(n) KI-Anwendung(en), den Sektor, repräsentative Anwendungsfälle und das zu messende Zielkonzept (Merkmal der Vertrauenswürdigkeit) festlegen (Arbeitsblatt B.1).",
+   "category": "ARIA-Elemente",
+   "evidenceHint": "Ausgefülltes Arbeitsblatt B.1; Nachweis des Umfangs im Evaluationsplan"
+  },
+  "NIST_ARIA|Design": {
+   "title": "Design — Modelltests, Red Teaming, Nutzertests, Verteilung der Tester",
+   "description": "Das Ziel jeder eingesetzten Testart angeben sowie die Verteilung der Tester auf Anwendungen und Szenarien (Within-/Between-Subjects/gemischt) (Arbeitsblatt B.2).",
+   "category": "ARIA-Elemente",
+   "evidenceHint": "Ausgefülltes Arbeitsblatt B.2; Begründung des Designs; Poweranalyse beim Vergleich von Systemen"
+  },
+  "NIST_ARIA|Materials": {
+   "title": "Materialien — Szenarien, Prompt-Sets, Anweisungen, Fragebögen, Annotationsschema",
+   "description": "Szenarien (Anwendungsfall, Sektor, Nutzer, beabsichtigte Ergebnisse, erwartete Auswirkungen, KPIs), Prompt-Sets, Anweisungen für Tester, allgemeine und szenariospezifische Fragebögen sowie das Annotationsschema entwickeln (Arbeitsblatt B.3).",
+   "category": "ARIA-Elemente",
+   "evidenceHint": "Einträge in der Szenariobibliothek; Prompt-Sets; Anweisungen; Fragebögen; Annotationsschema"
+  },
+  "NIST_ARIA|Infrastructure": {
+   "title": "Infrastruktur — Evaluation API, Datenschema, Testplattform, Annotationswerkzeug, Bewertungswerkzeug",
+   "description": "Die Evaluation API (OpenConnection/CloseConnection/StartSession/GetResponse), das Datenschema (SessionID, Date/Time, TesterID, ApplicationID, ScenarioID, TestingType; Dialogues, Questionnaires, Annotations), die Testplattform, das Annotationswerkzeug und das Bewertungswerkzeug implementieren (Arbeitsblatt B.4).",
+   "category": "ARIA-Elemente",
+   "evidenceHint": "Plattformkonfiguration; Export des Datenschemas; Sitzungs-/Dialog-/Annotationsprotokolle"
+  },
+  "NIST_ARIA|Implementation": {
+   "title": "Durchführung — Rekrutierung, Datenerhebung, Datenanalyse, Ergebnisberichterstattung",
+   "description": "Menschliche Tester und Annotatoren rekrutieren (Stichprobenrahmen, Eignung, Stichprobengröße, IRB/Einwilligung), Daten erheben, analysieren (deskriptive/inferenzielle Statistik, Schweregewichtung, Messbäume) und Methoden sowie Ergebnisse berichten (Arbeitsblatt B.5).",
+   "category": "ARIA-Elemente",
+   "evidenceHint": "Ausgefülltes Arbeitsblatt B.5; Analyseergebnisse; Evaluationsbericht"
+  },
+  "KR_AI_BASIC_ACT|제2조": {
+   "title": "Begriffsbestimmung — KI mit hoher Auswirkung",
+   "description": "KI-System, das in Bereichen eingesetzt wird, in denen es erhebliche Auswirkungen auf Leben, körperliche Sicherheit und Grundrechte von Menschen haben oder entsprechende Risiken verursachen kann (Energie, Trinkwasser, Gesundheitswesen, Medizinprodukte, Kernenergie, biometrische Erkennung in der Strafverfolgung, Beurteilungen/Bewertungen mit erheblichen Auswirkungen auf Rechte und Pflichten Einzelner wie Einstellung und Kreditvergabe usw.).",
+   "category": "Pflichten für KI mit hoher Auswirkung und generative KI",
+   "evidenceHint": "Nachweis der Beurteilung im KI-Inventar, ob KI mit hoher Auswirkung vorliegt (EV-INV)"
+  },
+  "KR_AI_BASIC_ACT|제31조": {
+   "title": "Pflicht zur Sicherstellung der Transparenz von KI",
+   "description": "Bei der Bereitstellung von Produkten/Diensten mit KI mit hoher Auswirkung oder generativer KI die Nutzer vorab darüber informieren, dass der Betrieb KI-basiert ist, Ergebnisse generativer KI als solche kennzeichnen und bei Ergebnissen, die schwer von der Realität zu unterscheiden sind (z. B. Deepfakes), diesen Umstand klar mitteilen.",
+   "category": "Pflichten für KI mit hoher Auswirkung und generative KI",
+   "evidenceHint": "UX-Nachweise zu Hinweis und Kennzeichnung, Richtliniendokumente (EV-UI, EV-POL) · Tests: T-TRANS"
+  },
+  "KR_AI_BASIC_ACT|제32조": {
+   "title": "Pflicht zur Sicherstellung der Sicherheit von KI",
+   "description": "Betreiber von Hochleistungs-KI oberhalb bestimmter Schwellenwerte richten ein System zur Identifizierung, Bewertung und Minderung von Risiken über den gesamten Lebenszyklus sowie zur Überwachung und Reaktion auf Sicherheitsvorfälle ein, betreiben es und legen die Ergebnisse dem Minister für Wissenschaft und IKT vor.",
+   "category": "Pflichten für KI mit hoher Auswirkung und generative KI",
+   "evidenceHint": "Dokumentation des Risikomanagementsystems, System zur Reaktion auf Sicherheitsvorfälle, Einreichungshistorie (EV-RISK, EV-INC, EV-PMM) · Tests: T-SAFE, T-SEC, T-ROB, T-RT"
+  },
+  "KR_AI_BASIC_ACT|제33조": {
+   "title": "Bestätigung von KI mit hoher Auswirkung",
+   "description": "Betreiber prüfen vorab, ob die bereitzustellende KI als KI mit hoher Auswirkung einzustufen ist, und können bei Bedarf beim Minister für Wissenschaft und IKT eine Bestätigung beantragen.",
+   "category": "Pflichten für KI mit hoher Auswirkung und generative KI",
+   "evidenceHint": "Aufzeichnungen zur Prüfung und Bestätigung der Einstufung als KI mit hoher Auswirkung (EV-INV, EV-DEC) · Tests: T-CONF"
+  },
+  "KR_AI_BASIC_ACT|제34조": {
+   "title": "Pflichten der Betreiber von KI mit hoher Auswirkung",
+   "description": "①1 Aufstellung und Betrieb eines Risikomanagementplans, ①2 Aufstellung und Umsetzung eines Erklärungskonzepts zu den Endergebnissen der KI, den wesentlichen Kriterien und einer Übersicht über die Trainingsdaten, ①3 Maßnahmen zum Schutz der Nutzer, ①4 menschliche Verwaltung und Aufsicht, ①5 Erstellung und Aufbewahrung von Dokumenten, mit denen die Maßnahmen zur Sicherstellung von Sicherheit und Vertrauenswürdigkeit nachgewiesen werden können.",
+   "category": "Pflichten für KI mit hoher Auswirkung und generative KI",
+   "evidenceHint": "Risikomanagementplan, Erklärungskonzept, Nutzerschutzmaßnahmen, Verwaltungs- und Aufsichtssystem, Dokumentation zu Sicherheit und Vertrauenswürdigkeit (EV-RISK, EV-TECHDOC, EV-COMM, EV-PROC, EV-TEST) · Tests: T-ACC, T-BIAS, T-SEC, T-HO, T-HALL"
+  },
+  "KR_AI_BASIC_ACT|제35조": {
+   "title": "KI-Folgenabschätzung",
+   "description": "Bemühen, die Auswirkungen von Produkten/Diensten mit KI mit hoher Auswirkung auf die Grundrechte von Menschen vorab zu bewerten; staatliche Stellen usw. können Produkte/Dienste, für die eine Folgenabschätzung durchgeführt wurde, bevorzugt berücksichtigen.",
+   "category": "Pflichten für KI mit hoher Auswirkung und generative KI",
+   "evidenceHint": "KI-Folgenabschätzungsbericht (EV-IA) · Tests: T-BIAS, T-UX"
+  },
+  "KR_AI_BASIC_ACT|제40조": {
+   "title": "Sachverhaltsermittlung und Anordnung von Korrekturmaßnahmen",
+   "description": "Der Minister für Wissenschaft und IKT kann bei Verdacht auf einen Gesetzesverstoß eine Sachverhaltsermittlung durchführen und dem verstoßenden Betreiber erforderliche Maßnahmen wie Einstellung oder Korrektur anordnen.",
+   "category": "Pflichten für KI mit hoher Auswirkung und generative KI",
+   "evidenceHint": "Aufzeichnungen zur Reaktion auf Ermittlungen, Nachweise der Umsetzung von Korrekturmaßnahmen (EV-AUDIT, EV-COMM)"
+  },
+  "KR_AI_BASIC_ACT|제36조": {
+   "title": "Benennung eines inländischen Vertreters",
+   "description": "Ausländische Betreiber oberhalb bestimmter Schwellenwerte ohne Anschrift oder Niederlassung in Korea benennen einen inländischen Vertreter, der die Aufgaben im Zusammenhang mit Sicherheit und Vertrauenswürdigkeit stellvertretend wahrnimmt.",
+   "category": "Pflichten für KI mit hoher Auswirkung und generative KI",
+   "evidenceHint": "Unterlagen zur Benennung des inländischen Vertreters (EV-RACI)"
+  }
+ },
+ "controls": {
+  "HC-01": {
+   "name": "KI-Richtlinie und Governance-Rahmen",
+   "category": "Governance"
+  },
+  "HC-02": {
+   "name": "Rollen, Verantwortlichkeiten und Rechenschaftspflicht",
+   "category": "Governance"
+  },
+  "HC-03": {
+   "name": "Inventar und Klassifizierung von KI-Systemen",
+   "category": "Inventar"
+  },
+  "HC-04": {
+   "name": "KI-Risikobewertung und -behandlung",
+   "category": "Risiko"
+  },
+  "HC-05": {
+   "name": "Folgenabschätzung für KI-Systeme / Grundrechte-Folgenabschätzung",
+   "category": "Risiko"
+  },
+  "HC-06": {
+   "name": "Daten-Governance und Datenqualität",
+   "category": "Daten"
+  },
+  "HC-07": {
+   "name": "Prüfung auf Verzerrung (Bias) und Fairness",
+   "category": "Technische Prüfung"
+  },
+  "HC-08": {
+   "name": "Prüfung von Genauigkeit, Validität und Robustheit",
+   "category": "Technische Prüfung"
+  },
+  "HC-09": {
+   "name": "Prüfung von KI-Sicherheit und Widerstandsfähigkeit gegen Angriffe",
+   "category": "Technische Prüfung"
+  },
+  "HC-10": {
+   "name": "Transparenz, technische Dokumentation und Erklärbarkeit",
+   "category": "Transparenz"
+  },
+  "HC-11": {
+   "name": "Menschliche Aufsicht",
+   "category": "Menschliche Aufsicht"
+  },
+  "HC-12": {
+   "name": "Protokollierung, Rückverfolgbarkeit und Aufzeichnungspflichten",
+   "category": "Protokollierung"
+  },
+  "HC-13": {
+   "name": "Beobachtung nach dem Inverkehrbringen / Produktionsüberwachung",
+   "category": "Überwachung"
+  },
+  "HC-14": {
+   "name": "Vorfallmanagement und Meldung",
+   "category": "Vorfälle"
+  },
+  "HC-15": {
+   "name": "Lieferanten-/Drittparteien- und Wertschöpfungskettenmanagement",
+   "category": "Dritte"
+  },
+  "HC-16": {
+   "name": "Änderungsmanagement und wesentliche Änderung",
+   "category": "Änderungsmanagement"
+  },
+  "HC-17": {
+   "name": "Kompetenz, Schulung und KI-Kompetenz",
+   "category": "Kompetenz"
+  },
+  "HC-18": {
+   "name": "Interne Audits und unabhängige Bewertung",
+   "category": "Audit"
+  },
+  "HC-19": {
+   "name": "Managementbewertung und Rechenschaftspflicht der Leitung",
+   "category": "Governance"
+  },
+  "HC-20": {
+   "name": "Fortlaufende Verbesserung und Korrekturmaßnahmen",
+   "category": "Verbesserung"
+  },
+  "HC-21": {
+   "name": "Modellevaluation (Fähigkeits-, Sicherheits- und Systemrisiko-Evaluationen)",
+   "category": "Technische Prüfung"
+  },
+  "HC-22": {
+   "name": "Red Teaming und Prüfung gegen Angriffe",
+   "category": "Technische Prüfung"
+  },
+  "HC-23": {
+   "name": "Kontrolle von Agenten und Werkzeugnutzung (Autonomiegrenzen)",
+   "category": "Agenten-Governance"
+  },
+  "HC-24": {
+   "name": "Nutzerbenachrichtigung, Offenlegung und Kennzeichnung synthetischer Inhalte",
+   "category": "Transparenz"
+  },
+  "HC-25": {
+   "name": "Konformitätsbewertung, Erklärung und Registrierung",
+   "category": "Konformität"
+  },
+  "HC-26": {
+   "name": "Datenschutz und Schutz personenbezogener Daten in der KI",
+   "category": "Datenschutz"
+  },
+  "HC-27": {
+   "name": "Umweltauswirkungen von KI",
+   "category": "Umwelt"
+  },
+  "HC-28": {
+   "name": "Einbindung von Interessengruppen und externe Berichterstattung / Beschwerden",
+   "category": "Interessengruppen"
+  }
+ }
+}

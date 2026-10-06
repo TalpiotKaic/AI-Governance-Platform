@@ -1,0 +1,1532 @@
+{
+ "frameworks": {
+  "ISO_42001": {
+   "name": "ISO/IEC 42001:2023 — Sistema de gestión de la IA (SGIA)",
+   "description": "Requisitos para establecer, implementar, mantener y mejorar continuamente un sistema de gestión de la inteligencia artificial. Cláusulas 4–10 más los controles de referencia del Anexo A (9 objetivos, 38 controles)."
+  },
+  "EU_AI_ACT": {
+   "name": "Reglamento de IA de la UE — Reglamento (UE) 2024/1689 (modificado por el Reg. (EU) 2026/1744)",
+   "description": "Obligaciones basadas en el riesgo para los sistemas de IA: prácticas prohibidas (Art. 5), requisitos de alto riesgo (Arts. 8–15) y obligaciones (Arts. 16–27), transparencia (Art. 50), modelos de IA de uso general (Arts. 51–56), evaluación de la conformidad, registro, vigilancia poscomercialización y notificación de incidentes graves. Las obligaciones de alto riesgo del Anexo III se aplican a partir del 2 de diciembre de 2027 (Ómnibus)."
+  },
+  "NIST_AI_RMF": {
+   "name": "NIST AI Risk Management Framework 1.0 (AI 100-1) + Perfil de IA generativa (AI 600-1)",
+   "description": "Marco voluntario organizado en cuatro funciones — GOVERN, MAP, MEASURE, MANAGE — con 19 categorías y 72 subcategorías; el Perfil de IA generativa añade 12 categorías de riesgo de la IA generativa. Las evaluaciones de tipo ARIA (AI 200-3) implementan la función MEASURE."
+  },
+  "NIST_ARIA": {
+   "name": "NIST AI 200-3 — Manual de planificación de evaluaciones ARIA (sept. 2026)",
+   "description": "Elementos de las evaluaciones de tipo ARIA que valoran riesgos e impactos en el mundo real combinando pruebas de modelos, red teaming y pruebas con usuarios: alcance, diseño, materiales, infraestructura e implementación, con las hojas de trabajo B.1–B.5."
+  },
+  "KR_AI_BASIC_ACT": {
+   "name": "인공지능 발전과 신뢰 기반 조성 등에 관한 기본법 (Ley Básica de IA de Corea)",
+   "description": "Ley Básica de IA de Corea. Obligaciones clave para la IA de alto impacto y la IA generativa: transparencia (제31조), seguridad (제32조), confirmación de IA de alto impacto (제33조), deberes de los operadores, incl. gestión de riesgos, explicación, protección de los usuarios, supervisión humana y documentación (제34조), evaluación de impacto (제35조). Se aplica un período de gracia de al menos un año a las multas."
+  }
+ },
+ "requirements": {
+  "ISO_42001|4": {
+   "title": "Contexto de la organización",
+   "description": "Establecer el contexto externo e interno en el que opera el SGIA.",
+   "category": "Cláusula 4",
+   "evidenceHint": null
+  },
+  "ISO_42001|4.1": {
+   "title": "Comprensión de la organización y de su contexto",
+   "description": "Determinar las cuestiones externas e internas pertinentes para su propósito; determinar la(s) función(es) de la organización respecto a los sistemas de IA (proveedor, productor, usuario/responsable del despliegue, socio, sujeto, etc.); considerar la pertinencia del cambio climático cuando sea aplicable (Enm.).",
+   "category": "Cláusula 4",
+   "evidenceHint": "Análisis del contexto, declaración de la función en materia de IA (EV-POL)"
+  },
+  "ISO_42001|4.2": {
+   "title": "Comprensión de las necesidades y expectativas de las partes interesadas",
+   "description": "Identificar las partes interesadas y sus requisitos pertinentes (incl. legales/reglamentarios, contractuales y éticos) para el SGIA y los sistemas de IA.",
+   "category": "Cláusula 4",
+   "evidenceHint": "Registro de partes interesadas y requisitos, registro legal/reglamentario (EV-POL, EV-RISK)"
+  },
+  "ISO_42001|4.3": {
+   "title": "Determinación del alcance del sistema de gestión de la IA",
+   "description": "Definir y documentar los límites y la aplicabilidad del SGIA, considerando 4.1/4.2 y los sistemas/productos/servicios de IA cubiertos.",
+   "category": "Cláusula 4",
+   "evidenceHint": "Declaración del alcance del SGIA (EV-POL)"
+  },
+  "ISO_42001|4.4": {
+   "title": "Sistema de gestión de la IA",
+   "description": "Establecer, implementar, mantener y mejorar continuamente el SGIA, incl. los procesos y sus interacciones.",
+   "category": "Cláusula 4",
+   "evidenceHint": "Manual del SGIA / mapa de procesos (EV-PROC)"
+  },
+  "ISO_42001|5": {
+   "title": "Liderazgo",
+   "description": null,
+   "category": "Cláusula 5",
+   "evidenceHint": null
+  },
+  "ISO_42001|5.1": {
+   "title": "Liderazgo y compromiso",
+   "description": "La alta dirección demuestra su compromiso: política y objetivos de IA alineados con la estrategia, recursos, integración en los procesos de negocio, comunicación, dirección/apoyo y promoción de la mejora continua.",
+   "category": "Cláusula 5",
+   "evidenceHint": "Política firmada, decisiones de asignación de recursos, comunicaciones de la dirección (EV-POL, EV-MR)"
+  },
+  "ISO_42001|5.2": {
+   "title": "Política de IA",
+   "description": "Establecer una política de IA adecuada al propósito; marco para los objetivos de IA; compromiso con los requisitos aplicables y la mejora continua; documentada, comunicada y disponible para las partes interesadas.",
+   "category": "Cláusula 5",
+   "evidenceHint": "Documento de política de IA (EV-POL)"
+  },
+  "ISO_42001|5.3": {
+   "title": "Roles, responsabilidades y autoridades",
+   "description": "Asignar y comunicar las responsabilidades/autoridades para la conformidad del SGIA y para informar sobre su desempeño.",
+   "category": "Cláusula 5",
+   "evidenceHint": "Matriz de roles y responsabilidades, cartas de nombramiento (EV-RACI)"
+  },
+  "ISO_42001|6": {
+   "title": "Planificación",
+   "description": null,
+   "category": "Cláusula 6",
+   "evidenceHint": null
+  },
+  "ISO_42001|6.1": {
+   "title": "Acciones para abordar riesgos y oportunidades",
+   "description": null,
+   "category": "Cláusula 6",
+   "evidenceHint": null
+  },
+  "ISO_42001|6.1.1": {
+   "title": "Generalidades",
+   "description": "Determinar los riesgos/oportunidades a abordar considerando 4.1/4.2; definir los criterios de riesgo de IA (incl. aceptación del riesgo), planificar las acciones e integrarlas.",
+   "category": "Cláusula 6",
+   "evidenceHint": "Declaración de criterios de riesgo, metodología de riesgos (EV-PROC, EV-RISK)"
+  },
+  "ISO_42001|6.1.2": {
+   "title": "Evaluación de riesgos de la IA",
+   "description": "Definir y aplicar un proceso repetible de evaluación de riesgos de IA: identificar, analizar (consecuencias/probabilidad) y evaluar los riesgos frente a los criterios; priorizar para su tratamiento; conservar información documentada.",
+   "category": "Cláusula 6",
+   "evidenceHint": "Registro de evaluación de riesgos de IA / registro de riesgos (EV-RISK)"
+  },
+  "ISO_42001|6.1.3": {
+   "title": "Tratamiento de riesgos de la IA",
+   "description": "Seleccionar opciones de tratamiento, determinar controles (comparar con el Anexo A), elaborar la Declaración de Aplicabilidad con justificaciones de inclusión/exclusión, formular el plan de tratamiento de riesgos y obtener la aprobación del propietario del riesgo y la aceptación del riesgo residual.",
+   "category": "Cláusula 6",
+   "evidenceHint": "Declaración de Aplicabilidad, plan de tratamiento de riesgos, aceptación del riesgo residual (EV-SOA, EV-RISK)"
+  },
+  "ISO_42001|6.1.4": {
+   "title": "Evaluación de impacto del sistema de IA",
+   "description": "Definir y aplicar un proceso para evaluar las posibles consecuencias de los sistemas de IA para las personas/grupos y la sociedad a lo largo del ciclo de vida; resultados documentados y utilizados en la evaluación de riesgos.",
+   "category": "Cláusula 6",
+   "evidenceHint": "Evaluación de impacto del sistema de IA (EV-IA)"
+  },
+  "ISO_42001|6.2": {
+   "title": "Objetivos de IA y planificación para lograrlos",
+   "description": "Establecer objetivos de IA medibles y coherentes con la política; planificar qué/quién/cuándo/cómo se evalúan.",
+   "category": "Cláusula 6",
+   "evidenceHint": "Registro de objetivos de IA y plan de KPI (EV-POL)"
+  },
+  "ISO_42001|6.3": {
+   "title": "Planificación de los cambios",
+   "description": "Los cambios en el SGIA se llevan a cabo de manera planificada.",
+   "category": "Cláusula 6",
+   "evidenceHint": "Planes de cambio / registro de cambios (EV-CHG)"
+  },
+  "ISO_42001|7": {
+   "title": "Apoyo",
+   "description": null,
+   "category": "Cláusula 7",
+   "evidenceHint": null
+  },
+  "ISO_42001|7.1": {
+   "title": "Recursos",
+   "description": "Determinar y proporcionar los recursos para el SGIA.",
+   "category": "Cláusula 7",
+   "evidenceHint": "Plan de recursos, aprobaciones presupuestarias (EV-MR)"
+  },
+  "ISO_42001|7.2": {
+   "title": "Competencia",
+   "description": "Determinar la competencia necesaria, asegurarla mediante educación/formación/experiencia, tomar acciones y evaluar su eficacia; conservar evidencias.",
+   "category": "Cláusula 7",
+   "evidenceHint": "Registros de formación, matriz de competencias (EV-TRAIN)"
+  },
+  "ISO_42001|7.3": {
+   "title": "Toma de conciencia",
+   "description": "Las personas son conscientes de la política de IA, de su contribución y de las implicaciones del incumplimiento.",
+   "category": "Cláusula 7",
+   "evidenceHint": "Campañas de concienciación, atestaciones (EV-TRAIN)"
+  },
+  "ISO_42001|7.4": {
+   "title": "Comunicación",
+   "description": "Determinar las comunicaciones internas/externas: qué, cuándo, a quién y cómo.",
+   "category": "Cláusula 7",
+   "evidenceHint": "Plan de comunicación (EV-COMM)"
+  },
+  "ISO_42001|7.5": {
+   "title": "Información documentada",
+   "description": null,
+   "category": "Cláusula 7",
+   "evidenceHint": null
+  },
+  "ISO_42001|7.5.1": {
+   "title": "Generalidades",
+   "description": "El SGIA incluye la información documentada requerida por la norma y la que se determine necesaria para su eficacia.",
+   "category": "Cláusula 7",
+   "evidenceHint": "Registro de documentos (EV-PROC)"
+  },
+  "ISO_42001|7.5.2": {
+   "title": "Creación y actualización",
+   "description": "Identificación/descripción, formato/soporte, revisión y aprobación en cuanto a idoneidad y adecuación.",
+   "category": "Cláusula 7",
+   "evidenceHint": "Registros de control documental (EV-PROC)"
+  },
+  "ISO_42001|7.5.3": {
+   "title": "Control de la información documentada",
+   "description": "Disponibilidad/idoneidad, protección; distribución, acceso, almacenamiento, control de cambios, conservación y disposición; control de documentos externos.",
+   "category": "Cláusula 7",
+   "evidenceHint": "Procedimiento de control documental, registros de acceso (EV-PROC, EV-LOG)"
+  },
+  "ISO_42001|8": {
+   "title": "Operación",
+   "description": null,
+   "category": "Cláusula 8",
+   "evidenceHint": null
+  },
+  "ISO_42001|8.1": {
+   "title": "Planificación y control operacional",
+   "description": "Planificar, implementar y controlar los procesos para cumplir los requisitos e implementar las acciones del 6.x; controlar los cambios planificados, revisar los cambios no previstos; controlar los procesos/productos/servicios suministrados externamente.",
+   "category": "Cláusula 8",
+   "evidenceHint": "Procedimientos operativos, KPI de procesos, registros de cambios (EV-PROC, EV-CHG)"
+  },
+  "ISO_42001|8.2": {
+   "title": "Evaluación de riesgos de la IA",
+   "description": "Realizar evaluaciones de riesgos de IA a intervalos planificados o ante cambios significativos; conservar los resultados.",
+   "category": "Cláusula 8",
+   "evidenceHint": "Registros de evaluaciones periódicas de riesgos (EV-RISK)"
+  },
+  "ISO_42001|8.3": {
+   "title": "Tratamiento de riesgos de la IA",
+   "description": "Implementar el plan de tratamiento de riesgos; verificar su eficacia; reevaluar cuando surjan nuevos riesgos; conservar los resultados.",
+   "category": "Cláusula 8",
+   "evidenceHint": "Evidencias de implementación del tratamiento, pruebas de eficacia de los controles (EV-RISK, EV-TEST)"
+  },
+  "ISO_42001|8.4": {
+   "title": "Evaluación de impacto del sistema de IA",
+   "description": "Realizar evaluaciones de impacto del sistema de IA a intervalos planificados o ante cambios significativos; conservar los resultados.",
+   "category": "Cláusula 8",
+   "evidenceHint": "Evaluaciones de impacto actualizadas (EV-IA)"
+  },
+  "ISO_42001|9": {
+   "title": "Evaluación del desempeño",
+   "description": null,
+   "category": "Cláusula 9",
+   "evidenceHint": null
+  },
+  "ISO_42001|9.1": {
+   "title": "Seguimiento, medición, análisis y evaluación",
+   "description": "Determinar qué debe seguirse/medirse, los métodos, cuándo y quién analiza; evaluar el desempeño y la eficacia del SGIA; conservar evidencias.",
+   "category": "Cláusula 9",
+   "evidenceHint": "Informes de KPI del SGIA, paneles de monitorización (EV-PMM, EV-TEST)"
+  },
+  "ISO_42001|9.2": {
+   "title": "Auditoría interna",
+   "description": null,
+   "category": "Cláusula 9",
+   "evidenceHint": null
+  },
+  "ISO_42001|9.2.1": {
+   "title": "Generalidades",
+   "description": "Realizar auditorías internas a intervalos planificados para confirmar que el SGIA es conforme con los propios requisitos y con la norma, y que está implementado eficazmente.",
+   "category": "Cláusula 9",
+   "evidenceHint": "Informe de auditoría interna (EV-AUDIT)"
+  },
+  "ISO_42001|9.2.2": {
+   "title": "Programa de auditoría interna",
+   "description": "Planificar/establecer/mantener el/los programa(s) de auditoría: frecuencia, métodos, responsabilidades, informes; definir criterios y alcance; objetividad de los auditores; informar a la dirección; conservar evidencias.",
+   "category": "Cláusula 9",
+   "evidenceHint": "Programa de auditoría, planes de auditoría, registros de independencia de los auditores (EV-AUDIT)"
+  },
+  "ISO_42001|9.3": {
+   "title": "Revisión por la dirección",
+   "description": null,
+   "category": "Cláusula 9",
+   "evidenceHint": null
+  },
+  "ISO_42001|9.3.1": {
+   "title": "Generalidades",
+   "description": "La alta dirección revisa el SGIA a intervalos planificados en cuanto a idoneidad, adecuación y eficacia.",
+   "category": "Cláusula 9",
+   "evidenceHint": "Actas de la revisión por la dirección (EV-MR)"
+  },
+  "ISO_42001|9.3.2": {
+   "title": "Entradas de la revisión por la dirección",
+   "description": "Estado de acciones previas; cambios en las cuestiones; cambios en las necesidades de las partes interesadas; desempeño del SGIA incl. no conformidades/CAPA, resultados de seguimiento y de auditoría; oportunidades de mejora continua.",
+   "category": "Cláusula 9",
+   "evidenceHint": "Paquete de entradas de la revisión por la dirección (EV-MR)"
+  },
+  "ISO_42001|9.3.3": {
+   "title": "Resultados de la revisión por la dirección",
+   "description": "Decisiones sobre oportunidades de mejora continua y cualquier cambio necesario en el SGIA; conservar información documentada.",
+   "category": "Cláusula 9",
+   "evidenceHint": "Decisiones de la revisión por la dirección / registro de acciones (EV-MR)"
+  },
+  "ISO_42001|10": {
+   "title": "Mejora",
+   "description": null,
+   "category": "Cláusula 10",
+   "evidenceHint": null
+  },
+  "ISO_42001|10.1": {
+   "title": "Mejora continua",
+   "description": "Mejorar continuamente la idoneidad, adecuación y eficacia del SGIA.",
+   "category": "Cláusula 10",
+   "evidenceHint": "Registro de mejoras (EV-AUDIT, EV-MR)"
+  },
+  "ISO_42001|10.2": {
+   "title": "No conformidad y acción correctiva",
+   "description": "Reaccionar ante las no conformidades, evaluar la necesidad de eliminar las causas, implementar acciones, revisar su eficacia y actualizar el SGIA si es necesario; conservar evidencias de la naturaleza de las no conformidades, las acciones y los resultados.",
+   "category": "Cláusula 10",
+   "evidenceHint": "Registros de no conformidades y CAPA (EV-AUDIT)"
+  },
+  "ISO_42001|A.2": {
+   "title": "Políticas relacionadas con la IA",
+   "description": "Objetivo: proporcionar dirección y apoyo de la dirección a los sistemas de IA de acuerdo con los requisitos del negocio.",
+   "category": "Anexo A.2",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.2.2": {
+   "title": "Política de IA",
+   "description": "Documentar una política para el desarrollo o uso de sistemas de IA.",
+   "category": "Anexo A.2",
+   "evidenceHint": "Política de IA (EV-POL)"
+  },
+  "ISO_42001|A.2.3": {
+   "title": "Alineación con otras políticas de la organización",
+   "description": "Determinar dónde otras políticas (seguridad, privacidad, calidad, RR. HH., etc.) se ven afectadas por los objetivos de IA o les son aplicables.",
+   "category": "Anexo A.2",
+   "evidenceHint": "Mapa de referencias cruzadas de políticas (EV-POL)"
+  },
+  "ISO_42001|A.2.4": {
+   "title": "Revisión de la política de IA",
+   "description": "Revisar la política de IA a intervalos planificados o ante cambios significativos para asegurar su continua idoneidad, adecuación y eficacia.",
+   "category": "Anexo A.2",
+   "evidenceHint": "Registros de revisión de la política (EV-MR)"
+  },
+  "ISO_42001|A.3": {
+   "title": "Organización interna",
+   "description": "Objetivo: establecer la rendición de cuentas dentro de la organización para sostener una IA responsable.",
+   "category": "Anexo A.3",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.3.2": {
+   "title": "Roles y responsabilidades en materia de IA",
+   "description": "Definir y asignar roles y responsabilidades en materia de IA según las necesidades de la organización.",
+   "category": "Anexo A.3",
+   "evidenceHint": "RACI, descripciones de puestos (EV-RACI)"
+  },
+  "ISO_42001|A.3.3": {
+   "title": "Notificación de inquietudes",
+   "description": "Definir e implantar un proceso para notificar inquietudes sobre la función de la organización respecto a un sistema de IA a lo largo de su ciclo de vida.",
+   "category": "Anexo A.3",
+   "evidenceHint": "Canal de denuncias/inquietudes, registro de casos (EV-COMM)"
+  },
+  "ISO_42001|A.4": {
+   "title": "Recursos para los sistemas de IA",
+   "description": "Objetivo: asegurar que la organización tiene en cuenta los recursos (incl. componentes y activos del sistema de IA) del sistema de IA para comprender y abordar plenamente los riesgos e impactos.",
+   "category": "Anexo A.4",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.4.2": {
+   "title": "Documentación de los recursos",
+   "description": "Identificar y documentar los recursos pertinentes necesarios para las actividades del sistema de IA en cada etapa del ciclo de vida.",
+   "category": "Anexo A.4",
+   "evidenceHint": "Inventario de recursos por sistema (EV-INV)"
+  },
+  "ISO_42001|A.4.3": {
+   "title": "Recursos de datos",
+   "description": "Documentar información sobre los recursos de datos utilizados por el sistema de IA (procedencia, categorías, etiquetado, uso previsto, etc.).",
+   "category": "Anexo A.4",
+   "evidenceHint": "Fichas de datos (datasheets), inventario de datos (EV-DATA) · Tests: T-DQ"
+  },
+  "ISO_42001|A.4.4": {
+   "title": "Recursos de herramientas",
+   "description": "Documentar información sobre los recursos de herramientas (frameworks, bibliotecas, pipelines, herramientas de evaluación).",
+   "category": "Anexo A.4",
+   "evidenceHint": "Inventario de herramientas / tipo SBOM (EV-INV)"
+  },
+  "ISO_42001|A.4.5": {
+   "title": "Recursos de sistema y de cómputo",
+   "description": "Documentar información sobre los recursos de sistema y de cómputo (hardware, nube, capacidad de cómputo).",
+   "category": "Anexo A.4",
+   "evidenceHint": "Inventario de infraestructura, registros de cómputo (EV-INV) · Tests: T-ENV"
+  },
+  "ISO_42001|A.4.6": {
+   "title": "Recursos humanos",
+   "description": "Documentar información sobre los recursos humanos y sus competencias para el desarrollo, despliegue, operación, gestión de cambios, mantenimiento, transferencia, retirada, verificación e integración.",
+   "category": "Anexo A.4",
+   "evidenceHint": "Matriz de competencias, plan de dotación de personal (EV-TRAIN, EV-RACI)"
+  },
+  "ISO_42001|A.5": {
+   "title": "Evaluación de los impactos de los sistemas de IA",
+   "description": "Objetivo: evaluar los impactos del sistema de IA sobre las personas o grupos de personas, o ambos, y sobre las sociedades afectadas por el sistema de IA a lo largo de su ciclo de vida.",
+   "category": "Anexo A.5",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.5.2": {
+   "title": "Proceso de evaluación de impacto del sistema de IA",
+   "description": "Establecer un proceso para evaluar las posibles consecuencias para las personas/grupos/sociedades a lo largo del ciclo de vida.",
+   "category": "Anexo A.5",
+   "evidenceHint": "Procedimiento de evaluación de impacto (EV-PROC)"
+  },
+  "ISO_42001|A.5.3": {
+   "title": "Documentación de las evaluaciones de impacto del sistema de IA",
+   "description": "Documentar los resultados de las evaluaciones de impacto y conservarlos durante un período definido.",
+   "category": "Anexo A.5",
+   "evidenceHint": "Informes de evaluación de impacto (EV-IA)"
+  },
+  "ISO_42001|A.5.4": {
+   "title": "Evaluación del impacto del sistema de IA sobre las personas o grupos de personas",
+   "description": "Evaluar y documentar los posibles impactos sobre las personas/grupos (equidad, seguridad, privacidad, derechos, etc.).",
+   "category": "Anexo A.5",
+   "evidenceHint": "Sección de impacto individual/grupal de la EI (EV-IA) · Tests: T-BIAS, T-PRIV, T-SAFE"
+  },
+  "ISO_42001|A.5.5": {
+   "title": "Evaluación de los impactos sociales de los sistemas de IA",
+   "description": "Evaluar y documentar los posibles impactos sociales (medio ambiente, economía, procesos democráticos, salud y seguridad, cultura, uso indebido).",
+   "category": "Anexo A.5",
+   "evidenceHint": "Sección de impacto social de la EI (EV-IA) · Tests: T-ENV, T-SAFE"
+  },
+  "ISO_42001|A.6": {
+   "title": "Ciclo de vida del sistema de IA",
+   "description": "—",
+   "category": "Anexo A.6",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.6.1": {
+   "title": "Orientación de la dirección para el desarrollo de sistemas de IA",
+   "description": "Objetivo: asegurar que la organización identifica y documenta objetivos e implementa procesos para el diseño y desarrollo responsables de sistemas de IA.",
+   "category": "Anexo A.6",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.6.1.2": {
+   "title": "Objetivos para el desarrollo responsable de sistemas de IA",
+   "description": "Identificar y documentar objetivos que guíen el desarrollo responsable e integrar en el ciclo de vida las medidas para alcanzarlos.",
+   "category": "Anexo A.6",
+   "evidenceHint": "Objetivos de IA responsable / principios de diseño (EV-POL)"
+  },
+  "ISO_42001|A.6.1.3": {
+   "title": "Procesos para el diseño y desarrollo responsables de sistemas de IA",
+   "description": "Definir y documentar procesos específicos para el diseño y desarrollo responsables.",
+   "category": "Anexo A.6",
+   "evidenceHint": "Procedimiento del ciclo de vida de desarrollo (SDLC/MLOps) (EV-PROC)"
+  },
+  "ISO_42001|A.6.2": {
+   "title": "Ciclo de vida del sistema de IA",
+   "description": "Objetivo: definir criterios y requisitos para cada etapa del ciclo de vida.",
+   "category": "Anexo A.6",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.6.2.2": {
+   "title": "Requisitos y especificación del sistema de IA",
+   "description": "Especificar y documentar los requisitos de los nuevos sistemas de IA o de las mejoras sustanciales.",
+   "category": "Anexo A.6",
+   "evidenceHint": "Especificación de requisitos (EV-TECHDOC)"
+  },
+  "ISO_42001|A.6.2.3": {
+   "title": "Documentación del diseño y desarrollo del sistema de IA",
+   "description": "Documentar el diseño y el desarrollo con base en los objetivos de la organización, los requisitos documentados y los criterios de especificación.",
+   "category": "Anexo A.6",
+   "evidenceHint": "Documentos de diseño, arquitectura, fichas de modelo (model cards) (EV-TECHDOC)"
+  },
+  "ISO_42001|A.6.2.4": {
+   "title": "Verificación y validación del sistema de IA",
+   "description": "Definir y documentar las medidas de verificación y validación y especificar los criterios para su uso (métodos de prueba, datos de prueba, criterios de liberación).",
+   "category": "Anexo A.6",
+   "evidenceHint": "Planes e informes de pruebas, criterios de aceptación (EV-TEST) · Tests: T-ACC, T-ROB, T-BIAS, T-SEC, T-HALL, T-SAFE"
+  },
+  "ISO_42001|A.6.2.5": {
+   "title": "Despliegue del sistema de IA",
+   "description": "Documentar un plan de despliegue y asegurar que se cumplen los requisitos antes del despliegue.",
+   "category": "Anexo A.6",
+   "evidenceHint": "Plan de despliegue, lista de verificación/aprobación de puesta en producción (EV-CHG) · Tests: T-CONF"
+  },
+  "ISO_42001|A.6.2.6": {
+   "title": "Operación y monitorización del sistema de IA",
+   "description": "Definir y documentar los elementos necesarios para la operación continua (monitorización del rendimiento, gestión de incidentes, reparación, actualizaciones, soporte).",
+   "category": "Anexo A.6",
+   "evidenceHint": "Manual de operaciones (runbook), informes de monitorización (EV-PMM) · Tests: T-DRIFT"
+  },
+  "ISO_42001|A.6.2.7": {
+   "title": "Documentación técnica del sistema de IA",
+   "description": "Determinar qué documentación técnica se necesita para cada categoría de partes interesadas y proporcionarla en la forma adecuada.",
+   "category": "Anexo A.6",
+   "evidenceHint": "Conjunto de documentación técnica (EV-TECHDOC)"
+  },
+  "ISO_42001|A.6.2.8": {
+   "title": "Registro de eventos del sistema de IA",
+   "description": "Determinar en qué fases deben habilitarse los registros de eventos, como mínimo mientras el sistema está en uso.",
+   "category": "Anexo A.6",
+   "evidenceHint": "Configuración de registro, muestras de registros, política de conservación (EV-LOG) · Tests: T-LOG"
+  },
+  "ISO_42001|A.7": {
+   "title": "Datos para los sistemas de IA",
+   "description": "Objetivo: asegurar que la organización comprende el papel y los impactos de los datos en los sistemas de IA a lo largo del ciclo de vida.",
+   "category": "Anexo A.7",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.7.2": {
+   "title": "Datos para el desarrollo y la mejora del sistema de IA",
+   "description": "Definir, documentar e implementar procesos de gestión de datos relacionados con el desarrollo de sistemas de IA (privacidad/seguridad, amenazas, transparencia, representatividad, exactitud, integridad).",
+   "category": "Anexo A.7",
+   "evidenceHint": "Procedimiento de gestión de datos (EV-PROC, EV-DATA) · Tests: T-DQ"
+  },
+  "ISO_42001|A.7.3": {
+   "title": "Adquisición de datos",
+   "description": "Determinar y documentar los detalles sobre la adquisición y selección de datos (fuentes, derechos, demografía, consentimiento).",
+   "category": "Anexo A.7",
+   "evidenceHint": "Registros de adquisición de datos, licencias, acuerdos de tratamiento de datos (EV-DATA, EV-SUP) · Tests: T-IP, T-DQ"
+  },
+  "ISO_42001|A.7.4": {
+   "title": "Calidad de los datos para los sistemas de IA",
+   "description": "Definir y documentar los requisitos de calidad de los datos y asegurar que los datos los cumplen.",
+   "category": "Anexo A.7",
+   "evidenceHint": "Informe de evaluación de la calidad de los datos (EV-DATA) · Tests: T-DQ, T-BIAS"
+  },
+  "ISO_42001|A.7.5": {
+   "title": "Procedencia de los datos",
+   "description": "Definir y documentar un proceso para registrar la procedencia de los datos a lo largo de su ciclo de vida.",
+   "category": "Anexo A.7",
+   "evidenceHint": "Libro de procedencia/linaje de datos (EV-DATA) · Tests: T-DQ"
+  },
+  "ISO_42001|A.7.6": {
+   "title": "Preparación de los datos",
+   "description": "Definir y documentar criterios y métodos para la preparación de los datos (limpieza, etiquetado, transformación, aumento).",
+   "category": "Anexo A.7",
+   "evidenceHint": "Directrices de preparación/etiquetado, registros de pipelines (EV-DATA) · Tests: T-DQ"
+  },
+  "ISO_42001|A.8": {
+   "title": "Información para las partes interesadas de los sistemas de IA",
+   "description": "Objetivo: asegurar que las partes interesadas pertinentes disponen de la información necesaria para comprender y evaluar los riesgos y sus impactos.",
+   "category": "Anexo A.8",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.8.2": {
+   "title": "Documentación del sistema e información para los usuarios",
+   "description": "Determinar y proporcionar a los usuarios la información necesaria (propósito, funcionamiento, necesidades de supervisión, limitaciones, impactos).",
+   "category": "Anexo A.8",
+   "evidenceHint": "Instrucciones de uso, documentación para el usuario (EV-UI, EV-TECHDOC) · Tests: T-TRANS"
+  },
+  "ISO_42001|A.8.3": {
+   "title": "Notificación externa",
+   "description": "Proporcionar a las partes interesadas capacidades para notificar impactos adversos del sistema de IA.",
+   "category": "Anexo A.8",
+   "evidenceHint": "Canal de notificación externa, registros de casos (EV-COMM)"
+  },
+  "ISO_42001|A.8.4": {
+   "title": "Comunicación de incidentes",
+   "description": "Determinar y documentar un plan para comunicar incidentes a los usuarios.",
+   "category": "Anexo A.8",
+   "evidenceHint": "Plan de comunicación de incidentes, notificaciones enviadas (EV-INC)"
+  },
+  "ISO_42001|A.8.5": {
+   "title": "Información para las partes interesadas",
+   "description": "Determinar y documentar las obligaciones de informar sobre el sistema de IA a las partes interesadas (reguladores, clientes, público).",
+   "category": "Anexo A.8",
+   "evidenceHint": "Registro de obligaciones de información regulatoria (EV-COMM)"
+  },
+  "ISO_42001|A.9": {
+   "title": "Uso de sistemas de IA",
+   "description": "Objetivo: asegurar que la organización utiliza los sistemas de IA de forma responsable y conforme a las políticas de la organización.",
+   "category": "Anexo A.9",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.9.2": {
+   "title": "Procesos para el uso responsable de la IA",
+   "description": "Definir y documentar procesos para el uso responsable de los sistemas de IA.",
+   "category": "Anexo A.9",
+   "evidenceHint": "Procedimiento de uso aceptable de la IA (EV-PROC)"
+  },
+  "ISO_42001|A.9.3": {
+   "title": "Objetivos para el uso responsable del sistema de IA",
+   "description": "Identificar y documentar objetivos que guíen el uso responsable e integrar las medidas para alcanzarlos.",
+   "category": "Anexo A.9",
+   "evidenceHint": "Objetivos de uso responsable (EV-POL)"
+  },
+  "ISO_42001|A.9.4": {
+   "title": "Uso previsto del sistema de IA",
+   "description": "Asegurar que el sistema de IA se utiliza conforme a sus usos previstos y a la documentación que lo acompaña.",
+   "category": "Anexo A.9",
+   "evidenceHint": "Registros de aprobación de casos de uso, monitorización del uso (EV-INV, EV-PMM) · Tests: T-DRIFT, T-AGENT"
+  },
+  "ISO_42001|A.10": {
+   "title": "Relaciones con terceros y clientes",
+   "description": "Objetivo: asegurar la comprensión de las responsabilidades y mantener la rendición de cuentas, y que los riesgos se distribuyen adecuadamente, cuando intervienen terceros en cualquier etapa del ciclo de vida.",
+   "category": "Anexo A.10",
+   "evidenceHint": null
+  },
+  "ISO_42001|A.10.2": {
+   "title": "Asignación de responsabilidades",
+   "description": "Asegurar que las responsabilidades dentro del ciclo de vida de la IA se asignan entre la organización, sus socios, proveedores, clientes y terceros.",
+   "category": "Anexo A.10",
+   "evidenceHint": "Matriz de responsabilidad compartida, contratos (EV-SUP, EV-RACI)"
+  },
+  "ISO_42001|A.10.3": {
+   "title": "Proveedores",
+   "description": "Establecer un proceso para asegurar que los servicios/productos/materiales de los proveedores se alinean con el enfoque de IA responsable de la organización.",
+   "category": "Anexo A.10",
+   "evidenceHint": "Diligencia debida de proveedores, fichas de modelos de terceros, SLA (EV-SUP) · Tests: T-SEC, T-ACC (sobre modelos suministrados)"
+  },
+  "ISO_42001|A.10.4": {
+   "title": "Clientes",
+   "description": "Asegurar que el enfoque de IA responsable de la organización tiene en cuenta las expectativas y necesidades de los clientes.",
+   "category": "Anexo A.10",
+   "evidenceHint": "Análisis de requisitos de clientes, compromisos contractuales (EV-SUP, EV-COMM)"
+  },
+  "EU_AI_ACT|Art. 5": {
+   "title": "Prácticas de IA prohibidas",
+   "description": "Prohíbe las técnicas manipuladoras/engañosas que causen perjuicios considerables, la explotación de vulnerabilidades, la puntuación social, la predicción individual de delitos basada únicamente en la elaboración de perfiles, la extracción no selectiva de imágenes faciales, el reconocimiento de emociones en el lugar de trabajo/educación (salvo por motivos médicos/de seguridad), la categorización biométrica sensible y la identificación biométrica remota en tiempo real con fines policiales (excepciones limitadas). Aplicable desde el 2 de febrero de 2025.",
+   "category": "Clasificación",
+   "evidenceHint": "Registro de cribado de prácticas prohibidas en la evaluación de admisión (EV-RISK)"
+  },
+  "EU_AI_ACT|Art. 6": {
+   "title": "Reglas de clasificación de los sistemas de IA de alto riesgo (Anexo I / Anexo III)",
+   "description": "Un sistema de IA es de alto riesgo si es un componente de seguridad de (o es en sí mismo) un producto cubierto por la legislación de armonización del Anexo I que requiere una evaluación de la conformidad por terceros, o si entra en un ámbito del Anexo III (biometría; infraestructuras críticas; educación; empleo; servicios esenciales, incl. calificación crediticia y seguros; aplicación de la ley; migración/fronteras; justicia y procesos democráticos). Exención limitada del Art. 6(3) para tareas procedimentales/preparatorias; la elaboración de perfiles siempre es de alto riesgo.",
+   "category": "Clasificación",
+   "evidenceHint": "Justificación de la clasificación y registro del ámbito del Anexo III en el inventario de IA (EV-INV, EV-DEC)"
+  },
+  "EU_AI_ACT|Art. 8": {
+   "title": "Cumplimiento de los requisitos",
+   "description": "Los sistemas de IA de alto riesgo cumplen los requisitos de la Sección 2 teniendo en cuenta su finalidad prevista y el estado actual de la técnica generalmente reconocido; los proveedores de productos del Anexo I pueden integrar el cumplimiento del Reglamento de IA en la documentación/procedimientos de producto existentes.",
+   "category": "Requisitos de alto riesgo (Cap. III, sec. 2)",
+   "evidenceHint": "Matriz de cumplimiento que asigna los Arts. 9–15 a controles (tipo EV-SOA), expediente técnico integrado (EV-TECHDOC). · Tests: T-CONF."
+  },
+  "EU_AI_ACT|Art. 9": {
+   "title": "Sistema de gestión de riesgos",
+   "description": "Establecer, implantar, documentar y mantener un sistema de gestión de riesgos continuo e iterativo a lo largo de todo el ciclo de vida: (a) identificar/analizar los riesgos conocidos y razonablemente previsibles para la salud, la seguridad y los derechos fundamentales conforme a la finalidad prevista; (b) estimar/evaluar los riesgos en el uso previsto y en el uso indebido razonablemente previsible; (c) evaluar otros riesgos a partir de los datos de vigilancia poscomercialización; (d) adoptar medidas de gestión de riesgos específicas. Riesgo residual aceptable; eliminar/reducir desde el diseño, mitigar/controlar, facilitar información y formación a los responsables del despliegue. Realizar pruebas frente a métricas definidas previamente y umbrales probabilísticos, incl. pruebas en condiciones reales cuando proceda (Art. 60), antes de la introducción en el mercado. Considerar los impactos sobre menores de 18 años y otros grupos vulnerables.",
+   "category": "Requisitos de alto riesgo (Cap. III, sec. 2)",
+   "evidenceHint": "Plan y procedimiento de gestión de riesgos (EV-PROC), registro de riesgos con peligro/probabilidad/gravedad/mitigación (EV-RISK), aceptación del riesgo residual, definición de umbrales de prueba y resultados de las pruebas (EV-TEST), registros de retroalimentación de la vigilancia poscomercialización hacia la gestión de riesgos (EV-PMM). · Tests: T-ACC (verificación de umbrales), T-ROB, T-SAFE, T-BIAS, T-RT; pruebas de escenarios de uso indebido; pruebas en condiciones reales/de campo T-UX."
+  },
+  "EU_AI_ACT|Art. 10": {
+   "title": "Datos y gobernanza de datos",
+   "description": "Los conjuntos de datos de entrenamiento, validación y prueba están sujetos a prácticas de gobernanza y gestión de datos que abarcan: (a) decisiones de diseño; (b) procesos de recogida de datos y su origen, finalidad original en el caso de datos personales; (c) operaciones de preparación (anotación, etiquetado, depuración, actualización, enriquecimiento, agregación); (d) supuestos sobre lo que los datos miden/representan; (e) evaluación de la disponibilidad, cantidad e idoneidad; (f) examen de posibles sesgos que puedan afectar a la salud/seguridad/derechos fundamentales o dar lugar a discriminación prohibida; (g) medidas para detectar, prevenir y mitigar dichos sesgos; (h) identificación de lagunas/deficiencias en los datos y cómo se abordan. Conjuntos de datos pertinentes, suficientemente representativos, en la medida de lo posible sin errores y completos para la finalidad prevista; propiedades estadísticas adecuadas, incl. respecto a las personas/grupos sobre los que se utiliza el sistema; tener en cuenta el entorno geográfico, contextual, conductual o funcional específico. Art. 10(5): se permite el tratamiento de categorías especiales de datos personales para la detección/corrección de sesgos bajo estrictas salvaguardias (necesidad, ausencia de alternativas, seguridad, no transferencia ulterior, supresión). Art. 10(6): los sistemas que no usan entrenamiento de modelos aplican igualmente (b)–(h) a los datos de prueba.",
+   "category": "Requisitos de alto riesgo (Cap. III, sec. 2)",
+   "evidenceHint": "Procedimiento de gobernanza de datos (EV-PROC), fichas de datos de cada conjunto incl. procedencia, recogida, etiquetado, depuración (EV-DATA), informe de examen de sesgos y registro de mitigación (EV-DATA, EV-TEST), análisis de representatividad, justificación del uso de datos de categorías especiales y EIPD (EV-IA). · Tests: T-DQ (completitud, tasa de error, calidad de las etiquetas, representatividad frente a la población objetivo, fugas, duplicados), T-BIAS (análisis de sesgo en los datos y en las salidas), T-PRIV (comprobaciones del tratamiento de categorías especiales)."
+  },
+  "EU_AI_ACT|Art. 11": {
+   "title": "Documentación técnica (+ Anexo IV)",
+   "description": "Elaborar la documentación técnica antes de la introducción en el mercado/puesta en servicio y mantenerla actualizada; demostrar el cumplimiento de la Sección 2; contener como mínimo los elementos del Anexo IV; las pymes/microempresas (y, con el Ómnibus, las empresas de pequeña y mediana capitalización) pueden usar un formato simplificado (plantilla de la Comisión). Productos del Anexo I: un único conjunto de documentación.",
+   "category": "Requisitos de alto riesgo (Cap. III, sec. 2)",
+   "evidenceHint": "Expediente técnico completo del Anexo IV (EV-TECHDOC), informes de prueba firmados/fechados (EV-TEST), fichas de datos (EV-DATA), copia de la declaración de conformidad (EV-DEC), plan de vigilancia poscomercialización (EV-PMM), registro de cambios (EV-CHG). · Tests: todos los tipos de prueba alimentan el Anexo IV §2 (validación y pruebas) y §3 (capacidades/limitaciones) — T-ACC, T-ROB, T-BIAS, T-SEC, T-ADV, T-HO."
+  },
+  "EU_AI_ACT|Art. 12": {
+   "title": "Conservación de registros",
+   "description": "Permitir técnicamente el registro automático de eventos (logs) durante toda la vida útil del sistema; la capacidad de registro garantiza una trazabilidad adecuada a la finalidad prevista, que permita: identificar situaciones que puedan presentar un riesgo (Art. 79(1)) o una modificación sustancial; facilitar la vigilancia poscomercialización (Art. 72); monitorizar el funcionamiento por parte de los responsables del despliegue (Art. 26(5)). Para los sistemas de IBR del Anexo III, punto 1(a), los registros incluyen como mínimo: el período de cada uso (fecha y hora de inicio/fin), la base de datos de referencia con la que se cotejaron los datos de entrada, los datos de entrada cuya búsqueda produjo una coincidencia y la identificación de las personas físicas que participaron en la verificación de los resultados (Art. 14(5)). Conservación por el proveedor (Art. 19) y el responsable del despliegue (Art. 26(6)) durante al menos 6 meses, salvo que otra norma disponga lo contrario.",
+   "category": "Requisitos de alto riesgo (Cap. III, sec. 2)",
+   "evidenceHint": "Especificación de registro, esquema de logs, configuración de conservación, exportaciones de logs de muestra, controles de acceso a los logs (EV-LOG, EV-TECHDOC). · Tests: T-LOG (prueba de cobertura de eventos, prueba de evidencia de manipulación/integridad, prueba de reconstrucción de decisiones, verificación de la conservación); registro de trazas T-AGENT para sistemas agénticos."
+  },
+  "EU_AI_ACT|Art. 13": {
+   "title": "Transparencia y comunicación de información a los responsables del despliegue",
+   "description": "Diseñar el sistema de modo que su funcionamiento sea suficientemente transparente para que los responsables del despliegue puedan interpretar y usar adecuadamente sus resultados; acompañarlo de instrucciones de uso (en formato digital u otro) con información concisa, completa, correcta y clara: (a) identidad/datos de contacto del proveedor; (b) características, capacidades y limitaciones del funcionamiento, incl. la finalidad prevista; nivel de precisión (incl. métricas), solidez y ciberseguridad probados/validados y cualquier circunstancia conocida/previsible que pueda afectarlos; circunstancias conocidas/previsibles que puedan dar lugar a riesgos para la salud, la seguridad o los derechos fundamentales; capacidades y características técnicas para facilitar información pertinente que explique los resultados; funcionamiento respecto a personas/grupos específicos; especificaciones de los datos de entrada u otra información sobre los conjuntos de datos de entrenamiento/validación/prueba; información que permita a los responsables del despliegue interpretar los resultados y usarlos adecuadamente; (c) cambios predeterminados; (d) medidas de supervisión humana (Art. 14), incl. medidas técnicas para facilitar la interpretación de los resultados; (e) recursos computacionales y de hardware necesarios, vida útil prevista, medidas de mantenimiento y cuidado necesarias, incl. actualizaciones de software; (f) descripción de los mecanismos que permiten a los responsables del despliegue recopilar, almacenar e interpretar los registros.",
+   "category": "Requisitos de alto riesgo (Cap. III, sec. 2)",
+   "evidenceHint": "Instrucciones de uso / documentación para el responsable del despliegue (EV-UI, EV-TECHDOC), ficha de modelo/sistema, métricas declaradas (EV-TEST). · Tests: T-ACC (las métricas declaradas deben reproducirse), T-EXP (verificación de la capacidad de explicación), T-TRANS (comprobación de la completitud de la documentación), comprensión por el responsable del despliegue T-UX."
+  },
+  "EU_AI_ACT|Art. 14": {
+   "title": "Supervisión humana",
+   "description": "Diseñar el sistema (incl. herramientas de interfaz humano-máquina) de modo que las personas físicas puedan supervisarlo eficazmente durante su uso; el objetivo es prevenir/minimizar los riesgos para la salud, la seguridad y los derechos fundamentales; medidas integradas por el proveedor y/o identificadas para su implementación por el responsable del despliegue; las personas encargadas de la supervisión pueden, según proceda y de forma proporcionada: (a) comprender adecuadamente las capacidades y limitaciones pertinentes y vigilar debidamente el funcionamiento, incl. para detectar y abordar anomalías, disfunciones y rendimientos inesperados; (b) ser conscientes del sesgo de automatización; (c) interpretar correctamente los resultados considerando las herramientas/métodos de interpretación disponibles; (d) decidir no usar el sistema o, de otro modo, descartar, anular o revertir los resultados; (e) intervenir en el funcionamiento o interrumpirlo mediante un botón de \"parada\" o un procedimiento similar que permita detener el sistema en un estado seguro. Art. 14(5): para la IBR del Anexo III, 1(a), ninguna acción/decisión sobre la base de la identificación salvo verificación y confirmación separadas por al menos dos personas físicas competentes (excepciones para aplicación de la ley/migración cuando resulte desproporcionado).",
+   "category": "Requisitos de alto riesgo (Cap. III, sec. 2)",
+   "evidenceHint": "Especificación de diseño de la supervisión humana, descripción de la IHM, procedimientos para operadores, materiales de formación del personal de supervisión (EV-TECHDOC, EV-PROC, EV-TRAIN), registros de pruebas de supervisión (EV-TEST), registros de anulación/parada (EV-LOG). · Tests: T-HO (prueba de escalado con humano en el bucle, prueba de anulación/reversión, prueba de botón de parada/estado seguro, prueba de alertas de anomalías, estudio de UX sobre sesgo de automatización, prueba del flujo de verificación por dos personas para IBR), T-AGENT (puertas de aprobación en acciones de agentes), T-UX."
+  },
+  "EU_AI_ACT|Art. 15": {
+   "title": "Precisión, solidez y ciberseguridad",
+   "description": "Alcanzar un nivel adecuado de precisión, solidez y ciberseguridad y funcionar de manera consistente durante todo el ciclo de vida; la Comisión fomentará parámetros de referencia/metodologías de medición; declarar los niveles de precisión y las métricas pertinentes en las instrucciones de uso; ser lo más resiliente posible frente a errores, fallos o incoherencias dentro del sistema o de su entorno, incl. mediante redundancia técnica (planes de respaldo o a prueba de fallos); los sistemas que siguen aprendiendo tras el despliegue abordan el riesgo de que resultados sesgados se retroalimenten (bucles de retroalimentación) con medidas de mitigación; resilientes frente a los intentos de terceros no autorizados de alterar su uso, resultados o funcionamiento explotando vulnerabilidades; soluciones de ciberseguridad adecuadas a las circunstancias y los riesgos; medidas para prevenir, detectar, responder, resolver y controlar ataques, incl. envenenamiento de datos, envenenamiento de modelos, ejemplos adversarios / evasión del modelo, ataques a la confidencialidad y defectos del modelo.",
+   "category": "Requisitos de alto riesgo (Cap. III, sec. 2)",
+   "evidenceHint": "Informes de prueba de precisión/solidez/ciberseguridad (EV-TEST), métricas declaradas en las instrucciones de uso (EV-UI), modelo de amenazas y arquitectura de seguridad (EV-TECHDOC), diseño de redundancia/a prueba de fallos, controles de bucles de retroalimentación, informes de pruebas de penetración/red team (EV-TEST). · Tests: T-ACC (métricas de precisión por tarea y por subgrupo, calibración), T-ROB (perturbaciones, cambio de distribución, estrés, inyección de fallos, comportamiento a prueba de fallos), T-ADV (ejemplos adversarios, evasión, sondas de envenenamiento), T-SEC (inyección de prompts, jailbreak, extracción de datos/modelos, ataques a la confidencialidad, escaneo de vulnerabilidades de la cadena de suministro, cobertura del OWASP LLM Top-10), T-DRIFT (monitorización de bucles de retroalimentación/deriva de sesgos), T-RT."
+  },
+  "EU_AI_ACT|Art. 16": {
+   "title": "Obligaciones de los proveedores de sistemas de IA de alto riesgo",
+   "description": "Los proveedores deberán: (a) garantizar el cumplimiento de la Sección 2; (b) indicar su nombre, nombre comercial registrado/marca y dirección de contacto en el sistema o, cuando no sea posible, en el embalaje/documentación; (c) disponer de un SGC (Art. 17); (d) conservar la documentación (Art. 18 — 10 años); (e) conservar los registros generados automáticamente que estén bajo su control (Art. 19 — ≥6 meses); (f) garantizar el procedimiento de evaluación de la conformidad (Art. 43) antes de la introducción en el mercado; (g) elaborar la declaración UE de conformidad (Art. 47); (h) colocar el marcado CE (Art. 48); (i) cumplir las obligaciones de registro (Art. 49); (j) adoptar medidas correctoras y facilitar información (Art. 20); (k) previa solicitud motivada, demostrar la conformidad ante una autoridad nacional competente; (l) garantizar los requisitos de accesibilidad conforme a las Directivas (UE) 2016/2102 y (UE) 2019/882.",
+   "category": "Obligaciones de proveedores y responsables del despliegue",
+   "evidenceHint": "Lista de verificación de obligaciones del proveedor, evidencias de etiquetado/identificación (EV-UI), manual del SGC (EV-PROC), registros de conservación documental, declaración de conformidad (EV-DEC), evidencia del marcado CE, confirmación de registro en la base de datos de la UE (EV-DEC), registros de medidas correctoras (EV-INC, EV-CHG), informe de conformidad de accesibilidad. · Tests: T-CONF; pruebas de accesibilidad (WCAG/EN 301 549) como T-UX."
+  },
+  "EU_AI_ACT|Art. 17": {
+   "title": "Sistema de gestión de la calidad",
+   "description": "Implantar un SGC que garantice el cumplimiento, documentado de manera sistemática mediante políticas, procedimientos e instrucciones escritos, que incluya al menos:",
+   "category": "Obligaciones de proveedores y responsables del despliegue",
+   "evidenceHint": "Manual y procedimientos del SGC que cubran (a)–(m) (EV-PROC), certificado ISO 9001/ISO 42001 si se usa como evidencia (EV-DEC), documentos de procedimientos de prueba/validación (EV-TEST), procedimiento de gestión de datos (EV-DATA), procedimientos de vigilancia poscomercialización e incidentes (EV-PMM, EV-INC), marco de rendición de cuentas (EV-RACI), auditoría interna del SGC (EV-AUDIT). · Tests: T-CONF (auditoría del SGC); evidencias de ejecución de los procedimientos de prueba de todos los tipos T-* conforme a (d)."
+  },
+  "EU_AI_ACT|Art. 26": {
+   "title": "Obligaciones de los responsables del despliegue de sistemas de IA de alto riesgo",
+   "description": "Usar el sistema conforme a las instrucciones de uso; encomendar la supervisión humana a personas físicas con la competencia, formación, autoridad y apoyo necesarios; cuando el responsable del despliegue controle los datos de entrada, garantizar que sean pertinentes y suficientemente representativos; vigilar el funcionamiento conforme a las instrucciones de uso e informar al proveedor/distribuidor y a la autoridad de vigilancia del mercado de los riesgos (Art. 79(1)) y suspender el uso; informar al proveedor/importador/distribuidor y a las autoridades de los incidentes graves; conservar los registros bajo su control durante ≥6 meses; antes de la puesta en servicio en el lugar de trabajo, informar a los representantes de los trabajadores y a los trabajadores afectados; los responsables del despliegue que sean autoridades públicas/organismos de la UE se registran (Art. 49); usar la información del Art. 13 para la EIPD cuando proceda; IBR en diferido: autorización judicial/administrativa (Art. 26(10)); informar a las personas físicas de que están sujetas a un sistema de IA de alto riesgo utilizado para tomar o apoyar decisiones que les conciernen (Art. 26(11)); cooperar con las autoridades.",
+   "category": "Obligaciones de proveedores y responsables del despliegue",
+   "evidenceHint": "Procedimiento de despliegue y lista de verificación de adhesión a las instrucciones de uso (EV-PROC), asignación de roles de supervisión y registros de competencia (EV-RACI, EV-TRAIN), análisis de representatividad de los datos de entrada (EV-DATA), informes de monitorización (EV-PMM), evidencias de conservación de registros (EV-LOG), registros de notificación a los trabajadores, confirmación de registro, EIPD (EV-IA), plantillas de notificación individual (EV-UI). · Tests: T-DQ (comprobaciones de los datos de entrada), T-HO, T-DRIFT, T-LOG, T-TRANS (UX de la notificación)."
+  },
+  "EU_AI_ACT|Art. 27": {
+   "title": "Evaluación de impacto relativa a los derechos fundamentales (EIDF)",
+   "description": "Antes de desplegar un sistema de alto riesgo del Anexo III (excepto el ámbito 2, infraestructuras críticas), los responsables del despliegue que sean organismos de Derecho público, entidades privadas que presten servicios públicos y los responsables del despliegue de sistemas del Anexo III 5(b) (solvencia/calificación crediticia) y 5(c) (evaluación de riesgos y fijación de precios en seguros de vida/salud) realizan una evaluación que comprende: (a) los procesos del responsable del despliegue en los que se usará el sistema conforme a su finalidad prevista; (b) el período y la frecuencia de uso; (c) las categorías de personas físicas y grupos que probablemente se vean afectados; (d) los riesgos específicos de perjuicio que probablemente afecten a dichas categorías, teniendo en cuenta la información del Art. 13 facilitada por el proveedor; (e) la aplicación de las medidas de supervisión humana conforme a las instrucciones de uso; (f) las medidas que deben adoptarse si los riesgos se materializan, incl. gobernanza interna y mecanismos de reclamación. Notificar los resultados a la autoridad de vigilancia del mercado (cuestionario-plantilla de la Oficina de IA, posiblemente herramienta automatizada); puede apoyarse en la EIPD cuando se solapen; actualizar cuando cambien los elementos. Ómnibus: el calendario de la EIDF sigue la fecha de alto riesgo del Anexo III (2 de diciembre de 2027) V.",
+   "category": "Obligaciones de proveedores y responsables del despliegue",
+   "evidenceHint": "Informe de EIDF (EV-IA), notificación a la autoridad (EV-COMM), referencia cruzada a la EIPD, descripción del mecanismo de reclamación. · Tests: resultados de T-BIAS y T-HO como entradas para (d)/(e); T-UX con los grupos afectados."
+  },
+  "EU_AI_ACT|Art. 43": {
+   "title": "Evaluación de la conformidad",
+   "description": "Anexo III, punto 1 (biometría): si se aplican normas armonizadas (Art. 40) o especificaciones comunes (Art. 41), elegir entre control interno (Anexo VI) o evaluación por terceros del SGC y de la documentación técnica por un organismo notificado (Anexo VII); si no se aplican / se aplican parcialmente / no existen normas, Anexo VII con organismo notificado. Anexo III, puntos 2–8: control interno (Anexo VI), sin organismo notificado. Productos del Anexo I, Sección A: seguir el procedimiento sectorial de evaluación de la conformidad por terceros integrando los requisitos de la Sección 2 y los puntos 4.3–4.5 y 4.6, párrafo quinto, del Anexo VII. Nueva evaluación de la conformidad en caso de modificación sustancial (los cambios predeterminados por el proveedor y evaluados en la evaluación inicial no constituyen modificaciones sustanciales); cubiertos los cambios predeterminados de los sistemas de aprendizaje continuo. La Comisión puede modificar los Anexos VI/VII y trasladar los puntos 2–8 a la evaluación por terceros mediante acto delegado.",
+   "category": "Conformidad, registro y poscomercialización",
+   "evidenceHint": "Informe de evaluación de la conformidad / registro de control interno del Anexo VI, certificado del organismo notificado (Anexo VII) cuando proceda, registro de aplicación de normas armonizadas, procedimiento de evaluación de modificaciones sustanciales (EV-DEC, EV-CHG, EV-TECHDOC). · Tests: T-CONF; paquete completo de pruebas T-* como entrada técnica para los Anexos VI/VII."
+  },
+  "EU_AI_ACT|Art. 47": {
+   "title": "Declaración UE de conformidad",
+   "description": "Elaborar una declaración de conformidad escrita, legible por máquina y firmada física o electrónicamente para cada sistema de alto riesgo; conservarla 10 años; facilitar copia a petición; identificar el sistema; declarar el cumplimiento de la Sección 2 (y de otra legislación de la Unión que exija una declaración de conformidad, cuando proceda, mediante una declaración única); contener la información del Anexo V (nombre/dirección del proveedor; declaración bajo su exclusiva responsabilidad; nombre, tipo y referencia única del sistema; declaración de conformidad con el Reglamento y otra legislación pertinente de la Unión, p. ej., protección de datos; referencias a normas armonizadas/especificaciones comunes; cuando proceda, nombre/número del organismo notificado, procedimiento y certificado; lugar y fecha, nombre/función del firmante); traducirla a una lengua exigida por los Estados miembros; mantenerla actualizada.",
+   "category": "Conformidad, registro y poscomercialización",
+   "evidenceHint": "Declaración de conformidad firmada (EV-DEC), lista de referencias normativas, certificado del organismo notificado. · Tests: T-CONF."
+  },
+  "EU_AI_ACT|Art. 49": {
+   "title": "Registro V (detalles del Ómnibus U)",
+   "description": "Antes de introducir en el mercado/poner en servicio un sistema de alto riesgo del Anexo III (excepto el ámbito 2), el proveedor (o su representante autorizado) se registra a sí mismo y al sistema en la base de datos de la UE (Art. 71) con la información del Anexo VIII, Sección A; los proveedores que concluyan que un sistema no es de alto riesgo conforme al Art. 6(3) se registran según el Anexo VIII, Sección B (la propuesta Ómnibus eliminó/simplificó este registro de autoevaluación — estado U, tratar como \"verificar en el texto consolidado\"); los responsables del despliegue que sean autoridades públicas/organismos de la UE se registran según el Anexo VIII, Sección C; los sistemas de aplicación de la ley, migración, asilo y control fronterizo se registran en una sección segura no pública. Ómnibus: información de registro requerida simplificada V.",
+   "category": "Conformidad, registro y poscomercialización",
+   "evidenceHint": "Registro / confirmación de inscripción en la base de datos de la UE (EV-DEC), paquete de datos del Anexo VIII. · Tests: ninguno técnico (comprobación de completitud T-CONF)."
+  },
+  "EU_AI_ACT|Art. 72": {
+   "title": "Vigilancia poscomercialización por los proveedores y plan de vigilancia poscomercialización",
+   "description": "Establecer y documentar un sistema de vigilancia poscomercialización proporcionado a la naturaleza de las tecnologías de IA y a los riesgos; recopilar, documentar y analizar de forma activa y sistemática los datos pertinentes sobre el funcionamiento durante toda la vida útil (facilitados por los responsables del despliegue o recopilados de otras fuentes, incl. la interacción con otros sistemas de IA cuando proceda; excluidos los datos operativos sensibles de responsables del despliegue de aplicación de la ley); evaluar el cumplimiento continuo de la Sección 2; basado en un plan de vigilancia poscomercialización que forma parte de la documentación técnica del Anexo IV (punto 9); acto de ejecución de la Comisión con plantilla del plan (previsto para el 2 de febrero de 2026); para los productos del Anexo I, Sección A, integrarlo en los sistemas de vigilancia existentes; las entidades financieras pueden usar las normas existentes.",
+   "category": "Conformidad, registro y poscomercialización",
+   "evidenceHint": "Plan de vigilancia poscomercialización (EV-PMM), informes/paneles de vigilancia, análisis de tendencias de rendimiento, registros de retroalimentación de los responsables del despliegue, registros de vinculación entre la vigilancia poscomercialización y la gestión de riesgos (EV-RISK). · Tests: T-DRIFT (degradación del rendimiento, deriva de datos/concepto), reejecución periódica de T-ACC/T-BIAS/T-SEC en producción, análisis T-LOG."
+  },
+  "EU_AI_ACT|Art. 73": {
+   "title": "Notificación de incidentes graves",
+   "description": "Los proveedores de sistemas de alto riesgo introducidos en el mercado de la Unión notifican cualquier incidente grave (Art. 3(49): fallecimiento o daños graves para la salud; perturbación grave e irreversible de la gestión/funcionamiento de infraestructuras críticas; infracción de las obligaciones de la Unión en materia de derechos fundamentales; daños graves a bienes o al medio ambiente) a las autoridades de vigilancia del mercado del Estado miembro en que se produjo; inmediatamente tras establecer un nexo causal o una probabilidad razonable, y a más tardar 15 días después de tener conocimiento; ≤2 días en caso de infracción generalizada o incidente grave que afecte a infraestructuras críticas; ≤10 días en caso de fallecimiento; se permite un informe inicial incompleto; realizar la investigación y la evaluación de riesgos, medidas correctoras, cooperar con las autoridades, no alterar el sistema antes de informar a la autoridad; para los sistemas del Anexo I, Sección A, cubiertos por una notificación sectorial equivalente, solo los incidentes que infrinjan obligaciones de derechos fundamentales; para productos sanitarios (MDR/IVDR), notificación a través del marco existente. Los responsables del despliegue notifican conforme al Art. 26(5).",
+   "category": "Conformidad, registro y poscomercialización",
+   "evidenceHint": "Procedimiento de gestión de incidentes (EV-PROC), registro de incidentes con clasificación de gravedad y marcas de tiempo de inicio de plazos (EV-INC), copias de las notificaciones a las autoridades, análisis de causa raíz, registros de acciones correctivas (EV-CHG). · Tests: registros de ejercicios de mesa/simulacros de respuesta a incidentes (variante T-HO), T-LOG (capacidad de reconstruir el incidente), verificación de las alertas T-DRIFT."
+  },
+  "EU_AI_ACT|Art. 50": {
+   "title": "Obligaciones de transparencia de los proveedores y responsables del despliegue de determinados sistemas de IA",
+   "description": "Informar a las personas físicas de que están interactuando con un sistema de IA; marcar las salidas sintéticas de audio/imagen/vídeo/texto de forma legible por máquina y detectable; informar a las personas expuestas a reconocimiento de emociones/categorización biométrica; etiquetar las ultrafalsificaciones (deepfakes) y los textos de interés público generados por IA; la información se facilita de forma clara en la primera interacción. Aplicable a partir del 2 de agosto de 2026.",
+   "category": "Transparencia (Art. 50)",
+   "evidenceHint": "Textos y capturas de pantalla de la UX de divulgación (EV-UI), especificación de implementación de marcas de agua/metadatos (p. ej., C2PA) (EV-TECHDOC), política de etiquetado de ultrafalsificaciones (deepfakes), declaración de responsabilidad editorial (EV-POL). · Tests: T-TRANS (presencia de la divulgación de IA en la primera interacción; presencia de la marca de agua, persistencia tras transformaciones y detectabilidad; supervivencia de los metadatos; visibilidad de la etiqueta), T-UX (comprensión de los avisos por el usuario), T-SEC (solidez de la marca de agua frente a su eliminación)."
+  },
+  "EU_AI_ACT|Art. 51": {
+   "title": "Clasificación y notificación (Art. 51–52)",
+   "description": "Riesgo sistémico si el modelo tiene capacidades de gran impacto (evaluadas mediante parámetros de referencia/indicadores) o por decisión de la Comisión; presunción cuando la capacidad de cómputo acumulada de entrenamiento supera 10^25 FLOP; el proveedor notifica a la Comisión en el plazo de 2 semanas desde que alcanza/prevé alcanzar el umbral; puede alegar en contra de la designación.",
+   "category": "Modelos de IA de uso general (Cap. V)",
+   "evidenceHint": "Registro de contabilidad de cómputo, correspondencia de notificación (EV-COMM, EV-TECHDOC). Tests: contabilidad de cómputo de tipo T-ENV; evaluaciones de capacidades T-ACC."
+  },
+  "EU_AI_ACT|Art. 53": {
+   "title": "Obligaciones de los proveedores de modelos de IA de uso general",
+   "description": "(a) elaborar y mantener actualizada la documentación técnica del modelo, incl. el proceso de entrenamiento y prueba y los resultados de la evaluación (Anexo XI), para la Oficina de IA / autoridades nacionales competentes a petición; (b) elaborar, mantener actualizada y poner a disposición información y documentación para los proveedores posteriores que integren el modelo (Anexo XII), de modo que puedan comprender sus capacidades y limitaciones y cumplir sus obligaciones; (c) establecer una política para cumplir el Derecho de la Unión en materia de derechos de autor, incl. identificar y respetar las reservas de derechos conforme al Art. 4(3) de la Directiva (UE) 2019/790 (exclusiones voluntarias de minería de textos y datos) mediante tecnologías punteras; (d) elaborar y publicar un resumen suficientemente detallado del contenido utilizado para el entrenamiento según la plantilla de la Oficina de IA (plantilla publicada en julio de 2025 V*). Exención de código abierto respecto a (a)/(b) (no a (c)/(d)) salvo riesgo sistémico. El cumplimiento puede demostrarse mediante códigos de buenas prácticas (Art. 56; Código de buenas prácticas para IA de uso general publicado el 10 de julio de 2025 con capítulos de Transparencia, Derechos de autor y Seguridad y protección V*) o normas armonizadas.",
+   "category": "Modelos de IA de uso general (Cap. V)",
+   "evidenceHint": "Documentación técnica del Anexo XI (EV-TECHDOC), documentación del Anexo XII para proveedores posteriores / ficha de modelo (EV-TECHDOC, EV-SUP), política de cumplimiento de derechos de autor y registros de gestión de exclusiones voluntarias (EV-POL, EV-DATA), resumen público del contenido de entrenamiento (EV-DATA), estado de firmante del Código de buenas prácticas (EV-DEC). · Tests: T-ACC (resultados de evaluación en la documentación), T-IP (pruebas de regurgitación/memorización, verificación del cumplimiento de exclusiones por los rastreadores), T-DQ (procedencia de los datos de entrenamiento)."
+  },
+  "EU_AI_ACT|Art. 54": {
+   "title": "Representantes autorizados de proveedores de modelos de IA de uso general establecidos en terceros países V* (resumen)",
+   "description": "Designar un representante autorizado en la UE mediante mandato escrito; evidencia: mandato (EV-DEC).",
+   "category": "Modelos de IA de uso general (Cap. V)",
+   "evidenceHint": null
+  },
+  "EU_AI_ACT|Art. 55": {
+   "title": "Obligaciones de los proveedores de modelos de IA de uso general con riesgo sistémico",
+   "description": "Requisito (además del Art. 53): (a) realizar la evaluación del modelo conforme a protocolos y herramientas normalizados que reflejen el estado de la técnica, incl. realizar y documentar pruebas adversarias para identificar y mitigar riesgos sistémicos; (b) evaluar y mitigar los posibles riesgos sistémicos a escala de la Unión, incl. sus fuentes, que puedan derivarse del desarrollo, la introducción en el mercado o el uso; (c) hacer seguimiento, documentar y notificar los incidentes graves y las posibles medidas correctoras a la Oficina de IA y, en su caso, a las autoridades nacionales competentes sin demora indebida; (d) garantizar un nivel adecuado de protección en materia de ciberseguridad para el modelo y su infraestructura física. Códigos de buenas prácticas (capítulo de Seguridad y protección) como vía de presunción de conformidad.",
+   "category": "Modelos de IA de uso general (Cap. V)",
+   "evidenceHint": "Informes de evaluación del modelo, incl. evaluaciones de capacidades peligrosas (EV-TEST), informes de red team (EV-TEST), evaluación y mitigación del riesgo sistémico (Marco de seguridad y protección) (EV-RISK), informes de incidentes a la Oficina de IA (EV-INC), controles y evaluaciones de ciberseguridad (protección de los pesos del modelo, amenazas internas, infraestructura) (EV-TECHDOC, EV-TEST). · Tests: T-RT (pruebas adversarias/red teaming en QBRN, ciberofensiva, pérdida de control, manipulación), T-SAFE (evaluaciones de capacidades peligrosas), T-SEC (resistencia a la exfiltración de pesos del modelo, pruebas de penetración de la infraestructura), T-ACC (parámetros de referencia de capacidades), T-ADV."
+  },
+  "EU_AI_ACT|Art. 56": {
+   "title": "Códigos de buenas prácticas",
+   "description": "La Oficina de IA facilita códigos de buenas prácticas; Código de buenas prácticas para IA de uso general (10 de julio de 2025); seguimiento y revisión; la Comisión puede aprobarlos mediante acto de ejecución.",
+   "category": "Modelos de IA de uso general (Cap. V)",
+   "evidenceHint": null
+  },
+  "EU_AI_ACT|Art. 4": {
+   "title": "Alfabetización en materia de IA",
+   "description": "Los proveedores y los responsables del despliegue adoptan medidas para garantizar un nivel suficiente de alfabetización en materia de IA de su personal y de otras personas que se encarguen del funcionamiento y uso de los sistemas de IA (redacción modificada por el Ómnibus).",
+   "category": "Obligaciones de proveedores y responsables del despliegue",
+   "evidenceHint": "Registros de formación en alfabetización en IA, planes de estudio (EV-TRAIN)"
+  },
+  "EU_AI_ACT|Art. 18": {
+   "title": "Conservación de la documentación",
+   "description": "Los proveedores mantienen a disposición de las autoridades la documentación técnica, la documentación del SGC, las decisiones de los organismos notificados y la declaración UE de conformidad durante 10 años tras la introducción en el mercado.",
+   "category": "Obligaciones de proveedores y responsables del despliegue",
+   "evidenceHint": "Política y registro de conservación documental (EV-TECHDOC, EV-PROC)"
+  },
+  "EU_AI_ACT|Art. 19": {
+   "title": "Registros generados automáticamente",
+   "description": "Los proveedores de sistemas de IA de alto riesgo conservan los registros generados automáticamente que estén bajo su control durante un período adecuado a la finalidad prevista, de al menos seis meses.",
+   "category": "Obligaciones de proveedores y responsables del despliegue",
+   "evidenceHint": "Configuración de conservación de registros, muestras de registros (EV-LOG) · Tests: T-LOG"
+  },
+  "EU_AI_ACT|Art. 20": {
+   "title": "Medidas correctoras y deber de información",
+   "description": "Los proveedores que consideren que un sistema de IA de alto riesgo no es conforme adoptan inmediatamente medidas correctoras (retirada, desactivación, recuperación) e informan a los distribuidores, responsables del despliegue, representante autorizado e importadores.",
+   "category": "Obligaciones de proveedores y responsables del despliegue",
+   "evidenceHint": "Registros de medidas correctoras, notificaciones (EV-AUDIT, EV-COMM)"
+  },
+  "EU_AI_ACT|Art. 22": {
+   "title": "Representantes autorizados de los proveedores de sistemas de IA de alto riesgo",
+   "description": "Los proveedores establecidos fuera de la Unión designan, mediante mandato escrito, un representante autorizado establecido en la Unión antes de comercializar el sistema.",
+   "category": "Obligaciones de proveedores y responsables del despliegue",
+   "evidenceHint": "Carta de mandato (EV-RACI)"
+  },
+  "EU_AI_ACT|Art. 25": {
+   "title": "Responsabilidades a lo largo de la cadena de valor de la IA",
+   "description": "Los distribuidores, importadores, responsables del despliegue o terceros pasan a ser proveedores cuando ponen su nombre en un sistema de IA de alto riesgo, lo modifican sustancialmente o cambian su finalidad prevista; acuerdos escritos sobre información y acceso técnico con los suministradores de componentes.",
+   "category": "Obligaciones de proveedores y responsables del despliegue",
+   "evidenceHint": "Acuerdos de la cadena de valor, matriz de responsabilidad compartida (EV-SUP)"
+  },
+  "EU_AI_ACT|Art. 40": {
+   "title": "Normas armonizadas y documentos de normalización",
+   "description": "Se presume que los sistemas de IA de alto riesgo o los modelos de IA de uso general conformes con normas armonizadas publicadas en el DOUE cumplen los requisitos correspondientes.",
+   "category": "Conformidad, registro y poscomercialización",
+   "evidenceHint": "Lista de verificación de conformidad con normas (EV-DEC) · Tests: T-CONF"
+  },
+  "EU_AI_ACT|Art. 48": {
+   "title": "Marcado CE",
+   "description": "El marcado CE se coloca de forma visible, legible e indeleble en los sistemas de IA de alto riesgo (o digitalmente cuando proceda), seguido del número de identificación del organismo notificado cuando corresponda.",
+   "category": "Conformidad, registro y poscomercialización",
+   "evidenceHint": "Registro del marcado CE (EV-DEC)"
+  },
+  "EU_AI_ACT|Art. 85": {
+   "title": "Derecho a presentar una reclamación ante una autoridad de vigilancia del mercado",
+   "description": "Toda persona física o jurídica que tenga motivos para considerar que se ha producido una infracción puede presentar una reclamación ante la autoridad de vigilancia del mercado pertinente.",
+   "category": "Otros",
+   "evidenceHint": "Registros de gestión de reclamaciones (EV-COMM)"
+  },
+  "EU_AI_ACT|Art. 86": {
+   "title": "Derecho a explicación de decisiones individuales",
+   "description": "Las personas afectadas por una decisión adoptada por un responsable del despliegue sobre la base de los resultados de un sistema de IA de alto riesgo del Anexo III que produzca efectos jurídicos o de similar importancia tienen derecho a obtener explicaciones claras y significativas sobre el papel del sistema de IA y los principales elementos de la decisión.",
+   "category": "Otros",
+   "evidenceHint": "Procedimiento y plantillas de explicación (EV-UI, EV-PROC) · Tests: T-EXP"
+  },
+  "EU_AI_ACT|Art. 95": {
+   "title": "Códigos de conducta para la aplicación voluntaria de requisitos específicos",
+   "description": "La Oficina de IA y los Estados miembros fomentan códigos de conducta que promuevan la aplicación voluntaria de los requisitos de alto riesgo a otros sistemas de IA, incl. sostenibilidad ambiental, alfabetización en IA, diseño inclusivo y participación de las partes interesadas.",
+   "category": "Otros",
+   "evidenceHint": "Registro de adhesión a códigos de conducta (EV-POL)"
+  },
+  "NIST_AI_RMF|GOVERN 1": {
+   "title": "Existen políticas, procesos, procedimientos y prácticas en toda la organización relacionados con el mapeo, la medición y la gestión de los riesgos de la IA, que son transparentes y se implementan eficazmente.",
+   "description": null,
+   "category": "GOVERN",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|GOVERN 1.1": {
+   "title": "Los requisitos legales y reglamentarios relativos a la IA se comprenden, gestionan y documentan.",
+   "description": "Los requisitos legales y reglamentarios relativos a la IA se comprenden, gestionan y documentan.",
+   "category": "GOVERN",
+   "evidenceHint": "Registro legal/reglamentario (EV-POL)"
+  },
+  "NIST_AI_RMF|GOVERN 1.2": {
+   "title": "Las características de la IA fiable se integran en las políticas, procesos, procedimientos y prácticas de la organización.",
+   "description": "Las características de la IA fiable se integran en las políticas, procesos, procedimientos y prácticas de la organización.",
+   "category": "GOVERN",
+   "evidenceHint": "Política de IA, principios de IA responsable (EV-POL)"
+  },
+  "NIST_AI_RMF|GOVERN 1.3": {
+   "title": "Existen procesos, procedimientos y prácticas para determinar el nivel necesario de actividades de gestión de riesgos…",
+   "description": "Existen procesos, procedimientos y prácticas para determinar el nivel necesario de actividades de gestión de riesgos en función de la tolerancia al riesgo de la organización.",
+   "category": "GOVERN",
+   "evidenceHint": "Metodología de estratificación de riesgos (EV-PROC, EV-RISK)"
+  },
+  "NIST_AI_RMF|GOVERN 1.4": {
+   "title": "El proceso de gestión de riesgos y sus resultados se establecen mediante políticas, procedimientos y otros controles…",
+   "description": "El proceso de gestión de riesgos y sus resultados se establecen mediante políticas, procedimientos y otros controles transparentes basados en las prioridades de riesgo de la organización.",
+   "category": "GOVERN",
+   "evidenceHint": "Procedimiento de gestión de riesgos (EV-PROC)"
+  },
+  "NIST_AI_RMF|GOVERN 1.5": {
+   "title": "Se planifican el seguimiento continuo y la revisión periódica del proceso de gestión de riesgos y de sus resultados…",
+   "description": "Se planifican el seguimiento continuo y la revisión periódica del proceso de gestión de riesgos y de sus resultados, y los roles y responsabilidades de la organización están claramente definidos, incluida la determinación de la frecuencia de la revisión periódica.",
+   "category": "GOVERN",
+   "evidenceHint": "Calendario de revisiones, actas de la revisión por la dirección (EV-MR)"
+  },
+  "NIST_AI_RMF|GOVERN 1.6": {
+   "title": "Existen mecanismos para inventariar los sistemas de IA, dotados de recursos conforme a las prioridades de riesgo de la organización.",
+   "description": "Existen mecanismos para inventariar los sistemas de IA, dotados de recursos conforme a las prioridades de riesgo de la organización.",
+   "category": "GOVERN",
+   "evidenceHint": "Inventario de IA (EV-INV)"
+  },
+  "NIST_AI_RMF|GOVERN 1.7": {
+   "title": "Existen procesos y procedimientos para retirar y eliminar gradualmente los sistemas de IA de forma segura y sin…",
+   "description": "Existen procesos y procedimientos para retirar y eliminar gradualmente los sistemas de IA de forma segura y sin aumentar los riesgos ni reducir la fiabilidad de la organización.",
+   "category": "GOVERN",
+   "evidenceHint": "Procedimiento y registros de retirada (EV-PROC, EV-CHG)"
+  },
+  "NIST_AI_RMF|GOVERN 2": {
+   "title": "Existen estructuras de rendición de cuentas para que los equipos y las personas adecuados estén facultados, sean responsables y estén formados para mapear, medir y gestionar los riesgos de la IA.",
+   "description": null,
+   "category": "GOVERN",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|GOVERN 2.1": {
+   "title": "Los roles y responsabilidades y las líneas de comunicación relacionados con el mapeo, la medición y la gestión de los…",
+   "description": "Los roles y responsabilidades y las líneas de comunicación relacionados con el mapeo, la medición y la gestión de los riesgos de la IA están documentados y son claros para las personas y los equipos de toda la organización.",
+   "category": "GOVERN",
+   "evidenceHint": "RACI (EV-RACI)"
+  },
+  "NIST_AI_RMF|GOVERN 2.2": {
+   "title": "El personal y los socios de la organización reciben formación en gestión de riesgos de la IA que les permite…",
+   "description": "El personal y los socios de la organización reciben formación en gestión de riesgos de la IA que les permite desempeñar sus funciones y responsabilidades de conformidad con las políticas, procedimientos y acuerdos relacionados.",
+   "category": "GOVERN",
+   "evidenceHint": "Registros de formación (EV-TRAIN)"
+  },
+  "NIST_AI_RMF|GOVERN 2.3": {
+   "title": "La alta dirección de la organización asume la responsabilidad de las decisiones sobre los riesgos asociados al…",
+   "description": "La alta dirección de la organización asume la responsabilidad de las decisiones sobre los riesgos asociados al desarrollo y despliegue de sistemas de IA.",
+   "category": "GOVERN",
+   "evidenceHint": "Aprobaciones ejecutivas, actas del consejo (EV-MR)"
+  },
+  "NIST_AI_RMF|GOVERN 3": {
+   "title": "Los procesos de diversidad, equidad, inclusión y accesibilidad de la plantilla se priorizan en el mapeo, la medición y la gestión de los riesgos de la IA a lo largo del ciclo de vida.",
+   "description": null,
+   "category": "GOVERN",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|GOVERN 3.1": {
+   "title": "La toma de decisiones relacionada con el mapeo, la medición y la gestión de los riesgos de la IA a lo largo del ciclo…",
+   "description": "La toma de decisiones relacionada con el mapeo, la medición y la gestión de los riesgos de la IA a lo largo del ciclo de vida se apoya en un equipo diverso (p. ej., diversidad demográfica, de disciplinas, experiencia, conocimientos y trayectorias).",
+   "category": "GOVERN",
+   "evidenceHint": "Registros de composición de equipos, estatutos de los comités de revisión (EV-RACI)"
+  },
+  "NIST_AI_RMF|GOVERN 3.2": {
+   "title": "Existen políticas y procedimientos para definir y diferenciar los roles y responsabilidades en las configuraciones…",
+   "description": "Existen políticas y procedimientos para definir y diferenciar los roles y responsabilidades en las configuraciones humano-IA y en la supervisión de los sistemas de IA.",
+   "category": "GOVERN",
+   "evidenceHint": "Definiciones de roles de supervisión humana (EV-PROC, EV-RACI) · Tests: T-HO"
+  },
+  "NIST_AI_RMF|GOVERN 4": {
+   "title": "Los equipos de la organización están comprometidos con una cultura que considera y comunica el riesgo de la IA.",
+   "description": null,
+   "category": "GOVERN",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|GOVERN 4.1": {
+   "title": "Existen políticas y prácticas organizativas para fomentar una mentalidad de pensamiento crítico y de seguridad ante…",
+   "description": "Existen políticas y prácticas organizativas para fomentar una mentalidad de pensamiento crítico y de seguridad ante todo en el diseño, desarrollo, despliegue y usos de los sistemas de IA, con el fin de minimizar los posibles impactos negativos.",
+   "category": "GOVERN",
+   "evidenceHint": "Política de cultura de seguridad, listas de verificación de revisión de diseño (EV-POL)"
+  },
+  "NIST_AI_RMF|GOVERN 4.2": {
+   "title": "Los equipos de la organización documentan los riesgos y los posibles impactos de la tecnología de IA que diseñan…",
+   "description": "Los equipos de la organización documentan los riesgos y los posibles impactos de la tecnología de IA que diseñan, desarrollan, despliegan, evalúan y utilizan, y comunican dichos impactos de forma más amplia.",
+   "category": "GOVERN",
+   "evidenceHint": "Documentación de riesgos/impactos, fichas de sistema (EV-RISK, EV-IA)"
+  },
+  "NIST_AI_RMF|GOVERN 4.3": {
+   "title": "Existen prácticas organizativas que permiten las pruebas de IA, la identificación de incidentes y el intercambio de información.",
+   "description": "Existen prácticas organizativas que permiten las pruebas de IA, la identificación de incidentes y el intercambio de información.",
+   "category": "GOVERN",
+   "evidenceHint": "Política de pruebas, procedimiento de intercambio de incidentes (EV-PROC, EV-INC) · Tests: T-RT, T-SEC"
+  },
+  "NIST_AI_RMF|GOVERN 5": {
+   "title": "Existen procesos para una colaboración sólida con los actores de IA pertinentes.",
+   "description": null,
+   "category": "GOVERN",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|GOVERN 5.1": {
+   "title": "Existen políticas y prácticas organizativas para recopilar, considerar, priorizar e integrar la retroalimentación de…",
+   "description": "Existen políticas y prácticas organizativas para recopilar, considerar, priorizar e integrar la retroalimentación de personas externas al equipo que desarrolló o desplegó el sistema de IA sobre los posibles impactos individuales y sociales relacionados con los riesgos de la IA.",
+   "category": "GOVERN",
+   "evidenceHint": "Política de participación de las partes interesadas, registros de retroalimentación (EV-COMM) · Tests: T-UX"
+  },
+  "NIST_AI_RMF|GOVERN 5.2": {
+   "title": "Se establecen mecanismos que permiten al equipo que desarrolló o desplegó los sistemas de IA incorporar regularmente…",
+   "description": "Se establecen mecanismos que permiten al equipo que desarrolló o desplegó los sistemas de IA incorporar regularmente en el diseño y la implementación del sistema la retroalimentación evaluada de los actores de IA pertinentes.",
+   "category": "GOVERN",
+   "evidenceHint": "Trazabilidad de la retroalimentación al backlog (EV-CHG)"
+  },
+  "NIST_AI_RMF|GOVERN 6": {
+   "title": "Existen políticas y procedimientos para abordar los riesgos y beneficios de la IA derivados del software y los datos de terceros y de otras cuestiones de la cadena de suministro.",
+   "description": null,
+   "category": "GOVERN",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|GOVERN 6.1": {
+   "title": "Existen políticas y procedimientos que abordan los riesgos de la IA asociados a entidades terceras, incluidos los…",
+   "description": "Existen políticas y procedimientos que abordan los riesgos de la IA asociados a entidades terceras, incluidos los riesgos de infracción de la propiedad intelectual u otros derechos de terceros.",
+   "category": "GOVERN",
+   "evidenceHint": "Política de IA de terceros, evaluaciones de proveedores (EV-SUP) · Tests: T-IP"
+  },
+  "NIST_AI_RMF|GOVERN 6.2": {
+   "title": "Existen procesos de contingencia para gestionar fallos o incidentes en datos o sistemas de IA de terceros…",
+   "description": "Existen procesos de contingencia para gestionar fallos o incidentes en datos o sistemas de IA de terceros considerados de alto riesgo.",
+   "category": "GOVERN",
+   "evidenceHint": "Planes de contingencia/respaldo (EV-PROC) · Tests: T-ROB (prueba de respaldo)"
+  },
+  "NIST_AI_RMF|MAP 1": {
+   "title": "El contexto se establece y se comprende.",
+   "description": null,
+   "category": "MAP",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MAP 1.1": {
+   "title": "Se comprenden y documentan las finalidades previstas, los usos potencialmente beneficiosos, las leyes, normas y…",
+   "description": "Se comprenden y documentan las finalidades previstas, los usos potencialmente beneficiosos, las leyes, normas y expectativas específicas del contexto y los entornos previstos en los que se desplegará el sistema de IA (usuarios y expectativas; impactos positivos/negativos sobre las personas, comunidades, organizaciones, la sociedad y el planeta; supuestos y limitaciones; métricas de TEVV y del sistema relacionadas).",
+   "category": "MAP",
+   "evidenceHint": "Definición del caso de uso / declaración de finalidad prevista (EV-INV, EV-TECHDOC)"
+  },
+  "NIST_AI_RMF|MAP 1.2": {
+   "title": "Los actores de IA interdisciplinares y las competencias, habilidades y capacidades para establecer el contexto…",
+   "description": "Los actores de IA interdisciplinares y las competencias, habilidades y capacidades para establecer el contexto reflejan diversidad demográfica y una amplia experiencia en el dominio y en la experiencia de usuario, y su participación está documentada.",
+   "category": "MAP",
+   "evidenceHint": "Lista de miembros del equipo/partes interesadas (EV-RACI)"
+  },
+  "NIST_AI_RMF|MAP 1.3": {
+   "title": "La misión de la organización y sus objetivos pertinentes para la tecnología de IA se comprenden y documentan.",
+   "description": "La misión de la organización y sus objetivos pertinentes para la tecnología de IA se comprenden y documentan.",
+   "category": "MAP",
+   "evidenceHint": "Estrategia de IA (EV-POL)"
+  },
+  "NIST_AI_RMF|MAP 1.4": {
+   "title": "El valor de negocio o el contexto de uso empresarial se ha definido claramente o — en el caso de la evaluación de…",
+   "description": "El valor de negocio o el contexto de uso empresarial se ha definido claramente o — en el caso de la evaluación de sistemas de IA existentes — se ha reevaluado.",
+   "category": "MAP",
+   "evidenceHint": "Caso de negocio (EV-INV)"
+  },
+  "NIST_AI_RMF|MAP 1.5": {
+   "title": "Las tolerancias al riesgo de la organización se determinan y documentan.",
+   "description": "Las tolerancias al riesgo de la organización se determinan y documentan.",
+   "category": "MAP",
+   "evidenceHint": "Declaración de apetito/tolerancia al riesgo (EV-POL, EV-RISK)"
+  },
+  "NIST_AI_RMF|MAP 1.6": {
+   "title": "Los requisitos del sistema (p. ej., \"el sistema respetará la privacidad de sus usuarios\") se obtienen de los actores…",
+   "description": "Los requisitos del sistema (p. ej., \"el sistema respetará la privacidad de sus usuarios\") se obtienen de los actores de IA pertinentes y son comprendidos por ellos; las decisiones de diseño tienen en cuenta las implicaciones sociotécnicas.",
+   "category": "MAP",
+   "evidenceHint": "Especificación de requisitos (EV-TECHDOC)"
+  },
+  "NIST_AI_RMF|MAP 2": {
+   "title": "Se realiza la categorización del sistema de IA.",
+   "description": null,
+   "category": "MAP",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MAP 2.1": {
+   "title": "Se definen las tareas específicas y los métodos utilizados para implementar las tareas que el sistema de IA apoyará…",
+   "description": "Se definen las tareas específicas y los métodos utilizados para implementar las tareas que el sistema de IA apoyará (p. ej., clasificadores, modelos generativos, sistemas de recomendación).",
+   "category": "MAP",
+   "evidenceHint": "Ficha de sistema/modelo (EV-INV)"
+  },
+  "NIST_AI_RMF|MAP 2.2": {
+   "title": "Se documenta la información sobre los límites de conocimiento del sistema de IA y sobre cómo los humanos pueden…",
+   "description": "Se documenta la información sobre los límites de conocimiento del sistema de IA y sobre cómo los humanos pueden utilizar y supervisar sus resultados; suficiente para ayudar a los actores de IA en sus decisiones y acciones posteriores.",
+   "category": "MAP",
+   "evidenceHint": "Declaración de limitaciones, orientaciones de supervisión (EV-TECHDOC, EV-UI) · Tests: T-HO"
+  },
+  "NIST_AI_RMF|MAP 2.3": {
+   "title": "Se identifican y documentan las consideraciones de integridad científica y de TEVV, incluidas las relativas al diseño…",
+   "description": "Se identifican y documentan las consideraciones de integridad científica y de TEVV, incluidas las relativas al diseño experimental, la recopilación y selección de datos (disponibilidad, representatividad, idoneidad), la fiabilidad del sistema y la validación de constructos.",
+   "category": "MAP",
+   "evidenceHint": "Plan de TEVV (EV-TEST), análisis de idoneidad de los datos (EV-DATA) · Tests: T-DQ"
+  },
+  "NIST_AI_RMF|MAP 3": {
+   "title": "Se comprenden las capacidades de la IA, el uso objetivo, los objetivos y los beneficios y costes esperados en comparación con parámetros de referencia adecuados.",
+   "description": null,
+   "category": "MAP",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MAP 3.1": {
+   "title": "Se examinan y documentan los posibles beneficios de la funcionalidad y el rendimiento previstos del sistema de IA.",
+   "description": "Se examinan y documentan los posibles beneficios de la funcionalidad y el rendimiento previstos del sistema de IA.",
+   "category": "MAP",
+   "evidenceHint": "Análisis de beneficios (EV-IA)"
+  },
+  "NIST_AI_RMF|MAP 3.2": {
+   "title": "Se examinan y documentan los costes potenciales, incluidos los no monetarios, derivados de errores de IA esperados o…",
+   "description": "Se examinan y documentan los costes potenciales, incluidos los no monetarios, derivados de errores de IA esperados o materializados o de la funcionalidad y fiabilidad del sistema — en relación con la tolerancia al riesgo de la organización.",
+   "category": "MAP",
+   "evidenceHint": "Análisis de costes/daños (EV-IA, EV-RISK)"
+  },
+  "NIST_AI_RMF|MAP 3.3": {
+   "title": "El ámbito de aplicación objetivo se especifica y documenta en función de la capacidad del sistema, el contexto…",
+   "description": "El ámbito de aplicación objetivo se especifica y documenta en función de la capacidad del sistema, el contexto establecido y la categorización del sistema de IA.",
+   "category": "MAP",
+   "evidenceHint": "Declaración de alcance / límites del uso previsto (EV-INV)"
+  },
+  "NIST_AI_RMF|MAP 3.4": {
+   "title": "Se definen, evalúan y documentan los procesos para la competencia de los operadores y profesionales respecto al…",
+   "description": "Se definen, evalúan y documentan los procesos para la competencia de los operadores y profesionales respecto al rendimiento y la fiabilidad del sistema de IA — y las normas técnicas y certificaciones pertinentes.",
+   "category": "MAP",
+   "evidenceHint": "Requisitos de competencia de los operadores (EV-TRAIN)"
+  },
+  "NIST_AI_RMF|MAP 3.5": {
+   "title": "Los procesos de supervisión humana se definen, evalúan y documentan de conformidad con las políticas organizativas…",
+   "description": "Los procesos de supervisión humana se definen, evalúan y documentan de conformidad con las políticas organizativas derivadas de la función GOVERN.",
+   "category": "MAP",
+   "evidenceHint": "Diseño de la supervisión humana (EV-PROC, EV-TECHDOC) · Tests: T-HO"
+  },
+  "NIST_AI_RMF|MAP 4": {
+   "title": "Se mapean los riesgos y beneficios de todos los componentes del sistema de IA, incluidos el software y los datos de terceros.",
+   "description": null,
+   "category": "MAP",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MAP 4.1": {
+   "title": "Existen, se siguen y se documentan enfoques para mapear los riesgos tecnológicos y legales de la IA y de sus…",
+   "description": "Existen, se siguen y se documentan enfoques para mapear los riesgos tecnológicos y legales de la IA y de sus componentes — incluido el uso de datos o software de terceros —, así como los riesgos de infracción de la propiedad intelectual u otros derechos de terceros.",
+   "category": "MAP",
+   "evidenceHint": "Mapa de riesgos de componentes/dependencias, auditoría de licencias (EV-SUP, EV-RISK) · Tests: T-IP, T-SEC (escaneo de la cadena de suministro)"
+  },
+  "NIST_AI_RMF|MAP 4.2": {
+   "title": "Se identifican y documentan los controles internos de riesgo para los componentes del sistema de IA, incluidas las…",
+   "description": "Se identifican y documentan los controles internos de riesgo para los componentes del sistema de IA, incluidas las tecnologías de IA de terceros.",
+   "category": "MAP",
+   "evidenceHint": "Mapeo de controles por componente (EV-RISK)"
+  },
+  "NIST_AI_RMF|MAP 5": {
+   "title": "Se caracterizan los impactos sobre las personas, los grupos, las comunidades, las organizaciones y la sociedad.",
+   "description": null,
+   "category": "MAP",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MAP 5.1": {
+   "title": "Se identifican y documentan la probabilidad y la magnitud de cada impacto identificado (tanto potencialmente…",
+   "description": "Se identifican y documentan la probabilidad y la magnitud de cada impacto identificado (tanto potencialmente beneficioso como perjudicial) sobre la base del uso esperado, usos anteriores de sistemas de IA en contextos similares, informes públicos de incidentes, retroalimentación de personas externas al equipo u otros datos.",
+   "category": "MAP",
+   "evidenceHint": "Evaluación de impacto con probabilidad/magnitud (EV-IA) · Tests: T-UX"
+  },
+  "NIST_AI_RMF|MAP 5.2": {
+   "title": "Existen y están documentados las prácticas y el personal para apoyar la colaboración regular con los actores de IA…",
+   "description": "Existen y están documentados las prácticas y el personal para apoyar la colaboración regular con los actores de IA pertinentes e integrar la retroalimentación sobre impactos positivos, negativos e imprevistos.",
+   "category": "MAP",
+   "evidenceHint": "Plan de participación, registros de retroalimentación (EV-COMM) · Tests: T-UX"
+  },
+  "NIST_AI_RMF|MEASURE 1": {
+   "title": "Se identifican y aplican métodos y métricas adecuados.",
+   "description": null,
+   "category": "MEASURE",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MEASURE 1.1": {
+   "title": "Los enfoques y métricas para medir los riesgos de la IA enumerados durante MAP se seleccionan para su implementación…",
+   "description": "Los enfoques y métricas para medir los riesgos de la IA enumerados durante MAP se seleccionan para su implementación empezando por los riesgos de IA más significativos; los riesgos o características de fiabilidad que no se medirán — o no pueden medirse — se documentan debidamente.",
+   "category": "MEASURE",
+   "evidenceHint": "Registro de selección de métricas, registro de \"riesgos no medidos\" (EV-TEST, EV-RISK) · Tests: todos"
+  },
+  "NIST_AI_RMF|MEASURE 1.2": {
+   "title": "La idoneidad de las métricas de IA y la eficacia de los controles existentes se evalúan y actualizan regularmente…",
+   "description": "La idoneidad de las métricas de IA y la eficacia de los controles existentes se evalúan y actualizan regularmente, incluidos los informes de errores y los posibles impactos sobre las comunidades afectadas.",
+   "category": "MEASURE",
+   "evidenceHint": "Registro de revisión de métricas (EV-TEST)"
+  },
+  "NIST_AI_RMF|MEASURE 1.3": {
+   "title": "Expertos internos que no actuaron como desarrolladores de primera línea del sistema y/o evaluadores independientes…",
+   "description": "Expertos internos que no actuaron como desarrolladores de primera línea del sistema y/o evaluadores independientes participan en evaluaciones y actualizaciones regulares; se consulta a expertos del dominio, usuarios, actores de IA externos y comunidades afectadas según sea necesario.",
+   "category": "MEASURE",
+   "evidenceHint": "Informes de evaluación independiente, atestación de independencia del evaluador (EV-AUDIT, EV-TEST) · Tests: reejecución independiente de T-*"
+  },
+  "NIST_AI_RMF|MEASURE 2": {
+   "title": "Los sistemas de IA se evalúan en cuanto a sus características de fiabilidad.",
+   "description": null,
+   "category": "MEASURE",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MEASURE 2.1": {
+   "title": "Se documentan los conjuntos de prueba, las métricas y los detalles de las herramientas utilizadas durante la TEVV.",
+   "description": "Se documentan los conjuntos de prueba, las métricas y los detalles de las herramientas utilizadas durante la TEVV.",
+   "category": "MEASURE",
+   "evidenceHint": "Documentación de TEVV: conjuntos de prueba, métricas, versiones de herramientas (EV-TEST) · Tests: todos (metadatos de T-*)"
+  },
+  "NIST_AI_RMF|MEASURE 2.2": {
+   "title": "Las evaluaciones con sujetos humanos cumplen los requisitos aplicables (incluida la protección de los sujetos…",
+   "description": "Las evaluaciones con sujetos humanos cumplen los requisitos aplicables (incluida la protección de los sujetos humanos) y son representativas de la población pertinente.",
+   "category": "MEASURE",
+   "evidenceHint": "Aprobaciones del comité de ética/IRB, datos demográficos de los participantes (EV-TEST) · Tests: T-UX, T-RT (humano)"
+  },
+  "NIST_AI_RMF|MEASURE 2.3": {
+   "title": "El rendimiento del sistema de IA o los criterios de aseguramiento se miden cualitativa o cuantitativamente y se…",
+   "description": "El rendimiento del sistema de IA o los criterios de aseguramiento se miden cualitativa o cuantitativamente y se demuestran en condiciones similares a las del entorno o entornos de despliegue; las medidas se documentan.",
+   "category": "MEASURE",
+   "evidenceHint": "Informe de rendimiento en condiciones similares a las de despliegue (EV-TEST) · Tests: T-ACC, T-ROB"
+  },
+  "NIST_AI_RMF|MEASURE 2.4": {
+   "title": "La funcionalidad y el comportamiento del sistema de IA y de sus componentes — según se identificaron en MAP — se…",
+   "description": "La funcionalidad y el comportamiento del sistema de IA y de sus componentes — según se identificaron en MAP — se monitorizan en producción.",
+   "category": "MEASURE",
+   "evidenceHint": "Paneles de monitorización en producción (EV-PMM) · Tests: T-DRIFT"
+  },
+  "NIST_AI_RMF|MEASURE 2.5": {
+   "title": "Se demuestra que el sistema de IA que se va a desplegar es válido y fiable; se documentan las limitaciones de…",
+   "description": "Se demuestra que el sistema de IA que se va a desplegar es válido y fiable; se documentan las limitaciones de generalización más allá de las condiciones de desarrollo.",
+   "category": "MEASURE",
+   "evidenceHint": "Informe de validez y fiabilidad, límites de generalización (EV-TEST) · Tests: T-ACC, T-ROB, T-HALL"
+  },
+  "NIST_AI_RMF|MEASURE 2.6": {
+   "title": "El sistema de IA se evalúa regularmente en cuanto a riesgos de seguridad — según se identificaron en MAP; se…",
+   "description": "El sistema de IA se evalúa regularmente en cuanto a riesgos de seguridad — según se identificaron en MAP; se demuestra que es seguro, que el riesgo negativo residual está dentro de la tolerancia y que puede fallar de forma segura, especialmente más allá de sus límites de conocimiento; las métricas de seguridad reflejan la fiabilidad y la solidez, la monitorización en tiempo real y los tiempos de respuesta ante fallos.",
+   "category": "MEASURE",
+   "evidenceHint": "Informe de evaluación de seguridad, resultados de pruebas a prueba de fallos (EV-TEST) · Tests: T-SAFE, T-ROB, T-HO"
+  },
+  "NIST_AI_RMF|MEASURE 2.7": {
+   "title": "La seguridad y la resiliencia del sistema de IA — según se identificaron en MAP — se evalúan y documentan.",
+   "description": "La seguridad y la resiliencia del sistema de IA — según se identificaron en MAP — se evalúan y documentan.",
+   "category": "MEASURE",
+   "evidenceHint": "Informe de pruebas de seguridad, informe de pruebas de penetración/red team (EV-TEST) · Tests: T-SEC, T-ADV, T-RT"
+  },
+  "NIST_AI_RMF|MEASURE 2.8": {
+   "title": "Los riesgos asociados a la transparencia y la rendición de cuentas — según se identificaron en MAP — se examinan y documentan.",
+   "description": "Los riesgos asociados a la transparencia y la rendición de cuentas — según se identificaron en MAP — se examinan y documentan.",
+   "category": "MEASURE",
+   "evidenceHint": "Evaluación de transparencia, traza de rendición de cuentas (EV-TEST, EV-LOG) · Tests: T-TRANS, T-LOG"
+  },
+  "NIST_AI_RMF|MEASURE 2.9": {
+   "title": "El modelo de IA se explica, valida y documenta, y los resultados del sistema de IA se interpretan dentro de su…",
+   "description": "El modelo de IA se explica, valida y documenta, y los resultados del sistema de IA se interpretan dentro de su contexto — según se identificó en MAP — para fundamentar un uso y una gobernanza responsables.",
+   "category": "MEASURE",
+   "evidenceHint": "Informe de explicabilidad, documentación del modelo (EV-TEST, EV-TECHDOC) · Tests: T-EXP"
+  },
+  "NIST_AI_RMF|MEASURE 2.10": {
+   "title": "El riesgo para la privacidad del sistema de IA — según se identificó en MAP — se examina y documenta.",
+   "description": "El riesgo para la privacidad del sistema de IA — según se identificó en MAP — se examina y documenta.",
+   "category": "MEASURE",
+   "evidenceHint": "Informe de pruebas de privacidad, EIPD (EV-TEST, EV-IA) · Tests: T-PRIV"
+  },
+  "NIST_AI_RMF|MEASURE 2.11": {
+   "title": "La equidad y el sesgo — según se identificaron en MAP — se evalúan y los resultados se documentan.",
+   "description": "La equidad y el sesgo — según se identificaron en MAP — se evalúan y los resultados se documentan.",
+   "category": "MEASURE",
+   "evidenceHint": "Informe de evaluación de equidad/sesgo (EV-TEST) · Tests: T-BIAS, T-DQ"
+  },
+  "NIST_AI_RMF|MEASURE 2.12": {
+   "title": "El impacto ambiental y la sostenibilidad del entrenamiento y la gestión del modelo de IA — según MAP — se evalúan…",
+   "description": "El impacto ambiental y la sostenibilidad de las actividades de entrenamiento y gestión del modelo de IA — según se identificaron en MAP — se evalúan y documentan.",
+   "category": "MEASURE",
+   "evidenceHint": "Informe de energía/carbono (EV-TEST) · Tests: T-ENV"
+  },
+  "NIST_AI_RMF|MEASURE 2.13": {
+   "title": "La eficacia de las métricas y procesos de TEVV empleados en la función MEASURE se evalúa y documenta.",
+   "description": "La eficacia de las métricas y procesos de TEVV empleados en la función MEASURE se evalúa y documenta.",
+   "category": "MEASURE",
+   "evidenceHint": "Revisión de la eficacia de la TEVV (EV-TEST, EV-AUDIT) · Tests: metaevaluación de T-*"
+  },
+  "NIST_AI_RMF|MEASURE 3": {
+   "title": "Existen mecanismos para hacer seguimiento de los riesgos de IA identificados a lo largo del tiempo.",
+   "description": null,
+   "category": "MEASURE",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MEASURE 3.1": {
+   "title": "Existen enfoques, personal y documentación para identificar y hacer seguimiento regularmente de los riesgos de IA…",
+   "description": "Existen enfoques, personal y documentación para identificar y hacer seguimiento regularmente de los riesgos de IA existentes, imprevistos y emergentes, sobre la base de factores como el rendimiento previsto y real en los contextos de despliegue.",
+   "category": "MEASURE",
+   "evidenceHint": "Registro de seguimiento de riesgos, roles de monitorización (EV-RISK, EV-PMM) · Tests: T-DRIFT"
+  },
+  "NIST_AI_RMF|MEASURE 3.2": {
+   "title": "Se consideran enfoques de seguimiento de riesgos para los entornos en los que los riesgos de IA son difíciles de…",
+   "description": "Se consideran enfoques de seguimiento de riesgos para los entornos en los que los riesgos de IA son difíciles de evaluar con las técnicas de medición actualmente disponibles o en los que aún no existen métricas.",
+   "category": "MEASURE",
+   "evidenceHint": "Notas de seguimiento cualitativo de riesgos (EV-RISK) · Tests: T-UX, T-RT"
+  },
+  "NIST_AI_RMF|MEASURE 3.3": {
+   "title": "Se establecen procesos de retroalimentación para que los usuarios finales y las comunidades afectadas notifiquen…",
+   "description": "Se establecen procesos de retroalimentación para que los usuarios finales y las comunidades afectadas notifiquen problemas y recurran los resultados del sistema, y se integran en las métricas de evaluación del sistema de IA.",
+   "category": "MEASURE",
+   "evidenceHint": "Canal de retroalimentación y recurso para usuarios, integración en métricas (EV-COMM, EV-PMM) · Tests: T-UX"
+  },
+  "NIST_AI_RMF|MEASURE 4": {
+   "title": "Se recopila y evalúa la retroalimentación sobre la eficacia de la medición.",
+   "description": null,
+   "category": "MEASURE",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MEASURE 4.1": {
+   "title": "Los enfoques de medición para identificar los riesgos de IA están vinculados al contexto o contextos de despliegue y…",
+   "description": "Los enfoques de medición para identificar los riesgos de IA están vinculados al contexto o contextos de despliegue y se fundamentan en la consulta con expertos del dominio y otros usuarios finales; los enfoques se documentan.",
+   "category": "MEASURE",
+   "evidenceHint": "Documentación del enfoque de medición con consulta a expertos (EV-TEST) · Tests: T-UX"
+  },
+  "NIST_AI_RMF|MEASURE 4.2": {
+   "title": "Los resultados de medición sobre la fiabilidad del sistema de IA en el contexto o contextos de despliegue y a lo…",
+   "description": "Los resultados de medición sobre la fiabilidad del sistema de IA en el contexto o contextos de despliegue y a lo largo del ciclo de vida de la IA se fundamentan en las aportaciones de expertos del dominio y actores de IA pertinentes para validar si el sistema funciona de forma consistente según lo previsto; los resultados se documentan.",
+   "category": "MEASURE",
+   "evidenceHint": "Registros de validación con aportaciones de las partes interesadas (EV-TEST) · Tests: T-UX, T-DRIFT"
+  },
+  "NIST_AI_RMF|MEASURE 4.3": {
+   "title": "Se identifican y documentan las mejoras o deterioros medibles del rendimiento sobre la base de consultas con los…",
+   "description": "Se identifican y documentan las mejoras o deterioros medibles del rendimiento sobre la base de consultas con los actores de IA pertinentes, incluidas las comunidades afectadas, y de datos de campo sobre los riesgos y las características de fiabilidad relevantes para el contexto.",
+   "category": "MEASURE",
+   "evidenceHint": "Análisis de tendencias, informes de datos de campo (EV-PMM) · Tests: T-DRIFT, T-UX"
+  },
+  "NIST_AI_RMF|MANAGE 1": {
+   "title": "Los riesgos de IA, basados en las evaluaciones y otros resultados analíticos de MAP y MEASURE, se priorizan, se responde a ellos y se gestionan.",
+   "description": null,
+   "category": "MANAGE",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MANAGE 1.1": {
+   "title": "Se determina si el sistema de IA alcanza sus finalidades previstas y sus objetivos declarados, y si su desarrollo o…",
+   "description": "Se determina si el sistema de IA alcanza sus finalidades previstas y sus objetivos declarados, y si su desarrollo o despliegue debe continuar.",
+   "category": "MANAGE",
+   "evidenceHint": "Registro de decisión de continuar/no continuar (EV-MR, EV-CHG) · Tests: puerta basada en los resultados de T-*"
+  },
+  "NIST_AI_RMF|MANAGE 1.2": {
+   "title": "El tratamiento de los riesgos de IA documentados se prioriza en función del impacto, la probabilidad y los recursos o métodos disponibles.",
+   "description": "El tratamiento de los riesgos de IA documentados se prioriza en función del impacto, la probabilidad y los recursos o métodos disponibles.",
+   "category": "MANAGE",
+   "evidenceHint": "Plan priorizado de tratamiento de riesgos (EV-RISK)"
+  },
+  "NIST_AI_RMF|MANAGE 1.3": {
+   "title": "Se desarrollan, planifican y documentan las respuestas a los riesgos de IA de alta prioridad identificados en MAP; opciones…",
+   "description": "Se desarrollan, planifican y documentan las respuestas a los riesgos de IA considerados de alta prioridad, según se identificaron en MAP; las opciones incluyen mitigar, transferir, evitar o aceptar.",
+   "category": "MANAGE",
+   "evidenceHint": "Planes de respuesta a riesgos (EV-RISK)"
+  },
+  "NIST_AI_RMF|MANAGE 1.4": {
+   "title": "Se documentan los riesgos residuales negativos (la suma de todos los riesgos no mitigados) tanto para los adquirentes…",
+   "description": "Se documentan los riesgos residuales negativos (la suma de todos los riesgos no mitigados) tanto para los adquirentes posteriores de sistemas de IA como para los usuarios finales.",
+   "category": "MANAGE",
+   "evidenceHint": "Declaración de riesgo residual, divulgación a los adquirentes posteriores (EV-RISK, EV-UI)"
+  },
+  "NIST_AI_RMF|MANAGE 2": {
+   "title": "Las estrategias para maximizar los beneficios de la IA y minimizar los impactos negativos se planifican, preparan, implementan y documentan, y se fundamentan en las aportaciones de los actores de IA pertinentes.",
+   "description": null,
+   "category": "MANAGE",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MANAGE 2.1": {
+   "title": "Se tienen en cuenta los recursos necesarios para gestionar los riesgos de IA — junto con sistemas, enfoques o métodos…",
+   "description": "Se tienen en cuenta los recursos necesarios para gestionar los riesgos de IA — junto con sistemas, enfoques o métodos alternativos viables que no sean de IA — para reducir la magnitud o la probabilidad de los posibles impactos.",
+   "category": "MANAGE",
+   "evidenceHint": "Plan de recursos, análisis de alternativas (EV-RISK, EV-MR)"
+  },
+  "NIST_AI_RMF|MANAGE 2.2": {
+   "title": "Existen y se aplican mecanismos para mantener el valor de los sistemas de IA desplegados.",
+   "description": "Existen y se aplican mecanismos para mantener el valor de los sistemas de IA desplegados.",
+   "category": "MANAGE",
+   "evidenceHint": "Plan de mantenimiento/reentrenamiento (EV-PMM) · Tests: T-DRIFT"
+  },
+  "NIST_AI_RMF|MANAGE 2.3": {
+   "title": "Se siguen procedimientos para responder a un riesgo previamente desconocido y recuperarse de él cuando se identifica.",
+   "description": "Se siguen procedimientos para responder a un riesgo previamente desconocido y recuperarse de él cuando se identifica.",
+   "category": "MANAGE",
+   "evidenceHint": "Procedimiento y registros de respuesta a riesgos emergentes (EV-PROC, EV-INC) · Tests: simulacros de incidentes"
+  },
+  "NIST_AI_RMF|MANAGE 2.4": {
+   "title": "Existen y se aplican mecanismos, y se asignan y comprenden las responsabilidades, para reemplazar, desconectar o…",
+   "description": "Existen y se aplican mecanismos, y se asignan y comprenden las responsabilidades, para reemplazar, desconectar o desactivar los sistemas de IA cuyo rendimiento o resultados sean incoherentes con el uso previsto.",
+   "category": "MANAGE",
+   "evidenceHint": "Procedimiento de interruptor de emergencia / desactivación, asignación de autoridad (EV-PROC, EV-RACI) · Tests: T-HO (prueba de parada), T-AGENT"
+  },
+  "NIST_AI_RMF|MANAGE 3": {
+   "title": "Se gestionan los riesgos y beneficios de la IA procedentes de entidades terceras.",
+   "description": null,
+   "category": "MANAGE",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MANAGE 3.1": {
+   "title": "Los riesgos y beneficios de la IA procedentes de recursos de terceros se monitorizan regularmente, y se aplican y documentan controles de riesgo.",
+   "description": "Los riesgos y beneficios de la IA procedentes de recursos de terceros se monitorizan regularmente, y se aplican y documentan controles de riesgo.",
+   "category": "MANAGE",
+   "evidenceHint": "Registros de monitorización de proveedores (EV-SUP) · Tests: T-SEC, T-ACC sobre componentes de terceros"
+  },
+  "NIST_AI_RMF|MANAGE 3.2": {
+   "title": "Los modelos preentrenados utilizados para el desarrollo se monitorizan como parte de la monitorización y el mantenimiento regulares del sistema de IA.",
+   "description": "Los modelos preentrenados utilizados para el desarrollo se monitorizan como parte de la monitorización y el mantenimiento regulares del sistema de IA.",
+   "category": "MANAGE",
+   "evidenceHint": "Seguimiento de versiones del modelo base, reevaluación tras actualizaciones (EV-SUP, EV-CHG) · Tests: regresión T-ACC, T-SAFE"
+  },
+  "NIST_AI_RMF|MANAGE 4": {
+   "title": "Los tratamientos de riesgos, incluidas la respuesta y la recuperación, y los planes de comunicación para los riesgos de IA identificados y medidos se documentan y se monitorizan regularmente.",
+   "description": null,
+   "category": "MANAGE",
+   "evidenceHint": null
+  },
+  "NIST_AI_RMF|MANAGE 4.1": {
+   "title": "Se implementan planes de monitorización del sistema de IA tras el despliegue, incluidos mecanismos para captar y…",
+   "description": "Se implementan planes de monitorización del sistema de IA tras el despliegue, incluidos mecanismos para captar y evaluar las aportaciones de los usuarios y otros actores de IA pertinentes, el recurso y la anulación, la retirada, la respuesta a incidentes, la recuperación y la gestión de cambios.",
+   "category": "MANAGE",
+   "evidenceHint": "Plan e informes de monitorización tras el despliegue (EV-PMM), registros de recursos/anulaciones, gestión de cambios (EV-CHG) · Tests: T-DRIFT, T-HO"
+  },
+  "NIST_AI_RMF|MANAGE 4.2": {
+   "title": "Las actividades medibles de mejora continua se integran en las actualizaciones del sistema de IA e incluyen la…",
+   "description": "Las actividades medibles de mejora continua se integran en las actualizaciones del sistema de IA e incluyen la colaboración regular con las partes interesadas, incluidos los actores de IA pertinentes.",
+   "category": "MANAGE",
+   "evidenceHint": "Backlog de mejoras, notas de versión (EV-CHG) · Tests: regresión T-*"
+  },
+  "NIST_AI_RMF|MANAGE 4.3": {
+   "title": "Los incidentes y errores se comunican a los actores de IA pertinentes, incluidas las comunidades afectadas; se siguen…",
+   "description": "Los incidentes y errores se comunican a los actores de IA pertinentes, incluidas las comunidades afectadas; se siguen y documentan los procesos de seguimiento, respuesta y recuperación ante incidentes y errores.",
+   "category": "MANAGE",
+   "evidenceHint": "Registro de incidentes, comunicaciones, análisis post mortem (EV-INC, EV-COMM)"
+  },
+  "NIST_ARIA|Scope": {
+   "title": "Alcance — aplicaciones de IA, sector, casos de uso, concepto objetivo",
+   "description": "Definir la(s) aplicación(es) de IA evaluada(s), el sector, los casos de uso representativos y el concepto objetivo (característica de fiabilidad) que se medirá (hoja de trabajo B.1).",
+   "category": "Elementos de ARIA",
+   "evidenceHint": "Hoja de trabajo B.1 cumplimentada; registro del alcance del plan de evaluación"
+  },
+  "NIST_ARIA|Design": {
+   "title": "Diseño — pruebas de modelos, red teaming, pruebas con usuarios, distribución de los evaluadores",
+   "description": "Indicar el objetivo de cada tipo de prueba utilizado y cómo se distribuyen los evaluadores entre aplicaciones y escenarios (intrasujetos/intersujetos/mixto) (hoja de trabajo B.2).",
+   "category": "Elementos de ARIA",
+   "evidenceHint": "Hoja de trabajo B.2 cumplimentada; justificación del diseño; análisis de potencia estadística si se comparan sistemas"
+  },
+  "NIST_ARIA|Materials": {
+   "title": "Materiales — escenarios, conjuntos de prompts, instrucciones, cuestionarios, esquema de anotación",
+   "description": "Desarrollar los escenarios (caso de uso, sector, usuarios, resultados previstos, impactos esperados, KPI), los conjuntos de prompts, las instrucciones para los evaluadores, los cuestionarios generales y específicos de cada escenario y el esquema de anotación (hoja de trabajo B.3).",
+   "category": "Elementos de ARIA",
+   "evidenceHint": "Entradas de la biblioteca de escenarios; conjuntos de prompts; instrucciones; cuestionarios; esquema de anotación"
+  },
+  "NIST_ARIA|Infrastructure": {
+   "title": "Infraestructura — API de evaluación, esquema de datos, plataforma de pruebas, herramienta de anotación, herramienta de puntuación",
+   "description": "Implementar la API de evaluación (OpenConnection/CloseConnection/StartSession/GetResponse), el esquema de datos (SessionID, Date/Time, TesterID, ApplicationID, ScenarioID, TestingType; Dialogues, Questionnaires, Annotations), la plataforma de pruebas, la herramienta de anotación y la herramienta de puntuación (hoja de trabajo B.4).",
+   "category": "Elementos de ARIA",
+   "evidenceHint": "Configuración de la plataforma; exportación del esquema de datos; registros de sesiones/diálogos/anotaciones"
+  },
+  "NIST_ARIA|Implementation": {
+   "title": "Implementación — reclutamiento, recopilación de datos, análisis de datos, comunicación de resultados",
+   "description": "Reclutar evaluadores y anotadores humanos (marco muestral, elegibilidad, tamaño de la muestra, comité de ética/consentimiento), recopilar datos, analizarlos (estadística descriptiva/inferencial, ponderación por gravedad, árboles de medición) y comunicar los métodos y resultados (hoja de trabajo B.5).",
+   "category": "Elementos de ARIA",
+   "evidenceHint": "Hoja de trabajo B.5 cumplimentada; resultados del análisis; informe de evaluación"
+  },
+  "KR_AI_BASIC_ACT|제2조": {
+   "title": "Definición — inteligencia artificial de alto impacto",
+   "description": "Sistema de IA utilizado en ámbitos que pueden afectar de forma significativa o suponer un riesgo para la vida, la integridad física y los derechos fundamentales de las personas (energía, agua potable, sanidad, productos sanitarios, energía nuclear, reconocimiento biométrico en investigaciones penales, y juicios o evaluaciones con efectos significativos sobre los derechos y obligaciones individuales, como la contratación o la concesión de préstamos).",
+   "category": "Obligaciones relativas a la IA de alto impacto y la IA generativa",
+   "evidenceHint": "Registro de la determinación de si el sistema constituye IA de alto impacto en el inventario de IA (EV-INV)"
+  },
+  "KR_AI_BASIC_ACT|제31조": {
+   "title": "Obligación de garantizar la transparencia de la IA",
+   "description": "Al prestar productos o servicios de IA de alto impacto o generativa, informar previamente a los usuarios de que el servicio funciona con IA, indicar que los resultados han sido generados por IA generativa y, en el caso de resultados difíciles de distinguir de la realidad, como las ultrafalsificaciones (deepfakes), comunicar claramente ese hecho.",
+   "category": "Obligaciones relativas a la IA de alto impacto y la IA generativa",
+   "evidenceHint": "Evidencias de la UX de aviso y marcado, documentos de política (EV-UI, EV-POL) · Tests: T-TRANS"
+  },
+  "KR_AI_BASIC_ACT|제32조": {
+   "title": "Obligación de garantizar la seguridad de la IA",
+   "description": "Los operadores de IA de alto rendimiento que superen determinados umbrales deben establecer y operar un sistema de identificación, evaluación y mitigación de riesgos a lo largo de todo el ciclo de vida, así como de monitorización y respuesta ante incidentes de seguridad, y presentar los resultados al Ministro de Ciencia y TIC.",
+   "category": "Obligaciones relativas a la IA de alto impacto y la IA generativa",
+   "evidenceHint": "Documentación del sistema de gestión de riesgos, sistema de respuesta a incidentes de seguridad, historial de presentaciones (EV-RISK, EV-INC, EV-PMM) · Tests: T-SAFE, T-SEC, T-ROB, T-RT"
+  },
+  "KR_AI_BASIC_ACT|제33조": {
+   "title": "Confirmación de la IA de alto impacto",
+   "description": "Los operadores deben examinar previamente si la IA que pretenden prestar constituye IA de alto impacto y, en caso necesario, pueden solicitar su confirmación al Ministro de Ciencia y TIC.",
+   "category": "Obligaciones relativas a la IA de alto impacto y la IA generativa",
+   "evidenceHint": "Registros de examen y confirmación de la condición de IA de alto impacto (EV-INV, EV-DEC) · Tests: T-CONF"
+  },
+  "KR_AI_BASIC_ACT|제34조": {
+   "title": "Deberes de los operadores de IA de alto impacto",
+   "description": "①1 Establecer y operar un plan de gestión de riesgos; ①2 establecer y aplicar un plan de explicación de los resultados finales de la IA, sus criterios principales y una descripción general de los datos de entrenamiento; ①3 medidas de protección de los usuarios; ①4 gestión y supervisión humanas; ①5 elaborar y conservar documentación que permita verificar las medidas adoptadas para garantizar la seguridad y la fiabilidad.",
+   "category": "Obligaciones relativas a la IA de alto impacto y la IA generativa",
+   "evidenceHint": "Plan de gestión de riesgos, plan de explicación, plan de protección de los usuarios, sistema de gestión y supervisión, documentación de seguridad y fiabilidad (EV-RISK, EV-TECHDOC, EV-COMM, EV-PROC, EV-TEST) · Tests: T-ACC, T-BIAS, T-SEC, T-HO, T-HALL"
+  },
+  "KR_AI_BASIC_ACT|제35조": {
+   "title": "Evaluación de impacto de la IA",
+   "description": "Procurar evaluar previamente el impacto de los productos y servicios de IA de alto impacto sobre los derechos fundamentales de las personas; las instituciones estatales y organismos similares pueden dar prioridad a los productos y servicios que hayan sido objeto de una evaluación de impacto.",
+   "category": "Obligaciones relativas a la IA de alto impacto y la IA generativa",
+   "evidenceHint": "Informe de evaluación de impacto de la IA (EV-IA) · Tests: T-BIAS, T-UX"
+  },
+  "KR_AI_BASIC_ACT|제40조": {
+   "title": "Investigación de hechos y órdenes correctivas",
+   "description": "El Ministro de Ciencia y TIC puede llevar a cabo una investigación de hechos cuando existan indicios de infracción de la ley y ordenar al operador infractor las medidas necesarias, como la suspensión o la corrección.",
+   "category": "Obligaciones relativas a la IA de alto impacto y la IA generativa",
+   "evidenceHint": "Registros de respuesta a investigaciones, registros de ejecución de medidas correctivas (EV-AUDIT, EV-COMM)"
+  },
+  "KR_AI_BASIC_ACT|제36조": {
+   "title": "Designación de un representante nacional",
+   "description": "Los operadores extranjeros que superen determinados umbrales y carezcan de domicilio o establecimiento comercial en Corea deben designar un representante nacional que desempeñe en su nombre las funciones relativas a la seguridad y la fiabilidad.",
+   "category": "Obligaciones relativas a la IA de alto impacto y la IA generativa",
+   "evidenceHint": "Documentos de designación del representante nacional (EV-RACI)"
+  }
+ },
+ "controls": {
+  "HC-01": {
+   "name": "Política de IA y marco de gobernanza",
+   "category": "Gobernanza"
+  },
+  "HC-02": {
+   "name": "Funciones, responsabilidades y rendición de cuentas",
+   "category": "Gobernanza"
+  },
+  "HC-03": {
+   "name": "Inventario y clasificación de sistemas de IA",
+   "category": "Inventario"
+  },
+  "HC-04": {
+   "name": "Evaluación y tratamiento de riesgos de la IA",
+   "category": "Riesgo"
+  },
+  "HC-05": {
+   "name": "Evaluación de impacto del sistema de IA / sobre los derechos fundamentales",
+   "category": "Riesgo"
+  },
+  "HC-06": {
+   "name": "Gobernanza y calidad de los datos",
+   "category": "Datos"
+  },
+  "HC-07": {
+   "name": "Pruebas de sesgo y equidad",
+   "category": "Pruebas técnicas"
+  },
+  "HC-08": {
+   "name": "Pruebas de precisión, validez y solidez",
+   "category": "Pruebas técnicas"
+  },
+  "HC-09": {
+   "name": "Pruebas de seguridad de la IA y resiliencia adversaria",
+   "category": "Pruebas técnicas"
+  },
+  "HC-10": {
+   "name": "Transparencia, documentación técnica y explicabilidad",
+   "category": "Transparencia"
+  },
+  "HC-11": {
+   "name": "Supervisión humana",
+   "category": "Supervisión humana"
+  },
+  "HC-12": {
+   "name": "Registro de eventos, trazabilidad y conservación de registros",
+   "category": "Registro"
+  },
+  "HC-13": {
+   "name": "Vigilancia poscomercialización / monitorización en producción",
+   "category": "Monitorización"
+  },
+  "HC-14": {
+   "name": "Gestión y notificación de incidentes",
+   "category": "Incidentes"
+  },
+  "HC-15": {
+   "name": "Gestión de proveedores / terceros y de la cadena de valor",
+   "category": "Terceros"
+  },
+  "HC-16": {
+   "name": "Gestión de cambios y modificación sustancial",
+   "category": "Gestión de cambios"
+  },
+  "HC-17": {
+   "name": "Competencia, formación y alfabetización en IA",
+   "category": "Competencia"
+  },
+  "HC-18": {
+   "name": "Auditoría interna y evaluación independiente",
+   "category": "Auditoría"
+  },
+  "HC-19": {
+   "name": "Revisión por la dirección y rendición de cuentas del liderazgo",
+   "category": "Gobernanza"
+  },
+  "HC-20": {
+   "name": "Mejora continua y acciones correctivas",
+   "category": "Mejora"
+  },
+  "HC-21": {
+   "name": "Evaluación de modelos (evaluaciones de capacidades, seguridad y riesgo sistémico)",
+   "category": "Pruebas técnicas"
+  },
+  "HC-22": {
+   "name": "Red teaming y pruebas adversarias",
+   "category": "Pruebas técnicas"
+  },
+  "HC-23": {
+   "name": "Control de agentes y del uso de herramientas (límites de autonomía)",
+   "category": "Gobernanza de agentes"
+  },
+  "HC-24": {
+   "name": "Notificación a los usuarios, divulgación y marcado de contenido sintético",
+   "category": "Transparencia"
+  },
+  "HC-25": {
+   "name": "Evaluación de la conformidad, declaración y registro",
+   "category": "Conformidad"
+  },
+  "HC-26": {
+   "name": "Privacidad y protección de datos personales en la IA",
+   "category": "Privacidad"
+  },
+  "HC-27": {
+   "name": "Impacto ambiental de la IA",
+   "category": "Medio ambiente"
+  },
+  "HC-28": {
+   "name": "Participación de las partes interesadas e información externa / reclamaciones",
+   "category": "Partes interesadas"
+  }
+ }
+}

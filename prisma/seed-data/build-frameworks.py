@@ -62,7 +62,7 @@ frameworks.append({"code": "ISO_42001", "name": "ISO/IEC 42001:2023 — AI manag
 # ── EU AI Act articles ──
 eu_reqs = []
 order = 0
-sec = src.split("### 2.3 High-risk requirements")[1].split("### 2.5 Chapter V")[0]
+sec = src.split("### 2.3 High-risk requirements")[1].split("### 2.4 Art. 50")[0]
 art_blocks = re.split(r"\n#### ", sec)
 for blk in art_blocks[1:]:
     head, _, body = blk.partition("\n")

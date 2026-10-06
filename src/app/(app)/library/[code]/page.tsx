@@ -5,11 +5,12 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getI18n } from "@/lib/i18n/server";
+import { localizeControl } from "@/lib/i18n/content";
 
 import type { AnnotationItem, ScenarioPrompt } from "@/lib/eval/types";
 
 export default async function MethodPage(props: PageProps<"/library/[code]">) {
-  const { t, L } = await getI18n();
+  const { locale, t, L } = await getI18n();
   await requireUser();
   const { code } = await props.params;
   const sp = await props.searchParams;
@@ -22,7 +23,7 @@ export default async function MethodPage(props: PageProps<"/library/[code]">) {
       <div className="mb-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Card><CardHeader><CardTitle>{t("Method")}</CardTitle></CardHeader><CardContent className="space-y-2 text-sm"><div><Badge>{L(m.category)}</Badge> <Badge tone="info">{L(m.testingType)}</Badge></div><p><span className="text-muted">{t("Reference:")} </span>{m.standardRef}</p><p><span className="text-muted">{t("Applicable to:")} </span>{m.applicableTo.map((x) => L(x)).join(", ")}</p></CardContent></Card>
         <Card><CardHeader><CardTitle>{t("Metrics & acceptance criteria")}</CardTitle></CardHeader><CardContent><ul className="space-y-1 text-sm">{(m.metrics as { key: string; name: string; direction: string; threshold: number; unit?: string; aggregate?: string }[]).map((x) => <li key={x.key} className="flex items-center justify-between rounded border border-border px-2 py-1"><span>{x.name}<span className="ml-1 text-[11px] text-muted">({x.aggregate ?? "rate"})</span></span><span className="font-mono text-xs">{x.direction === "lower" ? "≤" : "≥"} {x.unit === "rate" ? `${Math.round(x.threshold * 100)}%` : x.unit === "ms" ? `${x.threshold} ms` : x.threshold}</span></li>)}</ul></CardContent></Card>
-        <Card><CardHeader><CardTitle>{t("Control & requirement traceability")}</CardTitle></CardHeader><CardContent className="space-y-2 text-sm">{m.controls.map((c) => <div key={c.controlId} className="rounded border border-border px-2 py-1.5"><div className="font-medium"><span className="font-mono text-xs text-muted">{c.control.code}</span> {c.control.name}</div><div className="text-[11px] text-muted">{c.control.requirements.map((r) => `${L(r.requirement.framework.code)} ${r.requirement.ref}`).join(" · ")}</div></div>)}</CardContent></Card>
+        <Card><CardHeader><CardTitle>{t("Control & requirement traceability")}</CardTitle></CardHeader><CardContent className="space-y-2 text-sm">{m.controls.map((c) => <div key={c.controlId} className="rounded border border-border px-2 py-1.5"><div className="font-medium"><span className="font-mono text-xs text-muted">{c.control.code}</span> {localizeControl(locale, c.control).name}</div><div className="text-[11px] text-muted">{c.control.requirements.map((r) => `${L(r.requirement.framework.code)} ${r.requirement.ref}`).join(" · ")}</div></div>)}</CardContent></Card>
       </div>
       {m.judgeRubric && m.judgeRubric !== "n/a" && <Card className="mb-4"><CardHeader><CardTitle>{t("LLM-as-judge rubric")}</CardTitle></CardHeader><CardContent className="text-sm">{m.judgeRubric}</CardContent></Card>}
       {m.scenarios.map((s) => { const prompts = s.prompts as unknown as ScenarioPrompt[]; const items = s.annotationSchema as unknown as AnnotationItem[]; const q = s.questionnaire as { key: string; question: string }[]; return (
