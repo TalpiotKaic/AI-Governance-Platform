@@ -1,6 +1,9 @@
 /** Spanish (es) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const es: Record<string, string> = {
+  "A user with this email address already exists in the system.": "Ya existe un usuario con esta dirección de correo electrónico en el sistema.",
+  "Cancel": "Cancelar",
+  "New password (optional)": "Nueva contraseña (opcional)",
   "Keys are AES-256-GCM encrypted with AUTH_SECRET.": "Las claves se cifran con AES-256-GCM mediante AUTH_SECRET.",
   "Environment keys detected:": "Claves detectadas en las variables de entorno:",
   "base URL": "URL base",

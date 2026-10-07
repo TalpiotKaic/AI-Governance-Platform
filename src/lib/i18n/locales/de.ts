@@ -1,6 +1,9 @@
 /** German (de) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const de: Record<string, string> = {
+  "A user with this email address already exists in the system.": "Ein Benutzer mit dieser E-Mail-Adresse existiert bereits im System.",
+  "Cancel": "Abbrechen",
+  "New password (optional)": "Neues Passwort (optional)",
   "Keys are AES-256-GCM encrypted with AUTH_SECRET.": "Schlüssel werden mit AUTH_SECRET AES-256-GCM-verschlüsselt gespeichert.",
   "Environment keys detected:": "In Umgebungsvariablen erkannte Schlüssel:",
   "base URL": "Basis-URL",

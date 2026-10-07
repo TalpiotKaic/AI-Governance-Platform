@@ -48,7 +48,7 @@ export default async function SettingsPage(props: { searchParams: Promise<{ erro
                       <Input name="password" type="password" placeholder={t("New password (optional)")} />
                       <div className="flex gap-2">
                         <Button type="submit">{t("Save")}</Button>
-                        <Button variant="outline" type="button" asChild><Link href="/settings">{t("Cancel")}</Link></Button>
+                        <Link href="/settings"><Button variant="outline" type="button">{t("Cancel")}</Button></Link>
                       </div>
                     </form>
                   </TD>

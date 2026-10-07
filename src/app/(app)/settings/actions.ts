@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { hashPassword, requirePermission } from "@/lib/auth";
 import { encryptSecret } from "@/lib/crypto";
-import type { Role } from "@/generated/prisma/client";
+import type { Prisma, Role } from "@/generated/prisma/client";
 
 export async function updateOrgAction(formData: FormData) {
   const user = await requirePermission("settings.manage");
@@ -41,16 +41,13 @@ export async function updateUserAction(id: string, formData: FormData) {
   }
 
   const password = String(formData.get("password") || "");
-  const updateData: any = {
+  const updateData: Prisma.UserUpdateInput = {
     email,
     name: String(formData.get("name")),
     role: String(formData.get("role")) as Role,
     title: String(formData.get("title") || "") || null,
   };
-  
-  if (password.length >= 6) {
-    updateData.passwordHash = await hashPassword(password);
-  }
+  if (password.length >= 6) updateData.passwordHash = await hashPassword(password);
 
   await db.user.update({ where: { id }, data: updateData });
   redirect("/settings");
