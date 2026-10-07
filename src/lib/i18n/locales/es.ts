@@ -1,6 +1,9 @@
 /** Spanish (es) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const es: Record<string, string> = {
+  "Theme": "Tema",
+  "Light": "Claro",
+  "Dark": "Oscuro",
   "A user with this email address already exists in the system.": "Ya existe un usuario con esta dirección de correo electrónico en el sistema.",
   "Cancel": "Cancelar",
   "New password (optional)": "Nueva contraseña (opcional)",

@@ -64,7 +64,7 @@ Les flèches en pointillé sont des rétroactions automatiques. Les constats HIG
 **Organisation de l'écran**
 
 - Barre latérale gauche : menus groupés en Vue d'ensemble, Gouverner, Évaluer & vérifier, Prouver, Administration et Public. Les menus affichés dépendent de votre rôle (chapitre 5).
-- Barre supérieure : type d'organisation (organisme de vérification / entreprise), sélecteur de langue, thème (clair/sombre), votre nom et rôle, déconnexion.
+- Barre supérieure : type d'organisation (organisme de vérification / entreprise), sélecteur de langue, sélecteur de thème (clair / sombre / système — également sur la page de connexion et dans le menu mobile ; le choix est mémorisé par le navigateur), votre nom et rôle, déconnexion.
 - Corps : titre de page avec description et actions principales ; les pages de détail sont découpées en onglets (synthèse, métriques, constats, …).
 - Mobile : le bouton menu en haut à gauche ouvre les mêmes menus et le sélecteur de langue.
 

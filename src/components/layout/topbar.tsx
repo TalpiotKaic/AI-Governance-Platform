@@ -21,7 +21,7 @@ export async function Topbar({ user }: { user: SessionUser }) {
       </div>
       <div className="flex items-center gap-2">
         <Suspense><LanguageToggle className="hidden sm:flex" /></Suspense>
-        <ThemeToggle />
+        <ThemeToggle className="hidden sm:flex" />
         <div className="hidden items-center gap-2 rounded-md border border-border px-2 py-1 text-xs sm:flex">
           <UserIcon className="h-3.5 w-3.5 text-muted" />
           <span className="font-medium">{user.name}</span>

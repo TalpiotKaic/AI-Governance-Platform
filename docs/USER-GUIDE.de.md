@@ -64,7 +64,7 @@ Gestrichelte Pfeile sind automatische Rückkopplungen. Feststellungen mit HIGH/C
 **Bildschirmaufbau**
 
 - Linke Seitenleiste: Menüs in den Gruppen Übersicht, Steuern, Evaluieren & Verifizieren, Nachweisen, Verwaltung und Öffentlich. Welche Menüs erscheinen, hängt von der Rolle ab (Kapitel 5).
-- Kopfleiste: Organisationstyp (Prüfstelle / Unternehmen), Sprachwähler, Design (hell/dunkel), Name und Rolle, Abmelden.
+- Kopfleiste: Organisationstyp (Prüfstelle / Unternehmen), Sprachwähler, Designwahl (Hell / Dunkel / System — auch auf der Anmeldeseite und im mobilen Menü; die Wahl wird im Browser gespeichert), Name und Rolle, Abmelden.
 - Inhalt: Seitentitel mit Beschreibung und Hauptaktionen; Detailseiten sind in Tabs gegliedert (Zusammenfassung, Metriken, Feststellungen, …).
 - Mobil: die Menüschaltfläche oben links öffnet dieselben Menüs und den Sprachwähler.
 

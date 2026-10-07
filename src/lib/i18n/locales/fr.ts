@@ -1,6 +1,9 @@
 /** French (fr) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const fr: Record<string, string> = {
+  "Theme": "Thème",
+  "Light": "Clair",
+  "Dark": "Sombre",
   "A user with this email address already exists in the system.": "Un utilisateur avec cette adresse e-mail existe déjà dans le système.",
   "Cancel": "Annuler",
   "New password (optional)": "Nouveau mot de passe (facultatif)",

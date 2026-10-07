@@ -4,6 +4,7 @@ import { getSession } from "@/lib/auth";
 import { LoginForm } from "./login-form";
 import { getI18n } from "@/lib/i18n/server";
 import { LanguageToggle } from "@/components/layout/language-toggle";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Suspense } from "react";
 
 export const metadata = { title: "Sign in · K-VeriAI" };
@@ -24,7 +25,7 @@ export default async function LoginPage(props: PageProps<"/login">) {
             <div className="text-xs text-muted">{t("AI Governance, Evaluation & Assurance Platform")}</div>
           </div>
         </div>
-        <div className="mb-4 flex justify-center"><Suspense><LanguageToggle /></Suspense></div>
+        <div className="mb-4 flex flex-wrap items-center justify-center gap-2"><Suspense><LanguageToggle /></Suspense><ThemeToggle compact /></div>
         <LoginForm next={next} />
         <div className="mt-6 rounded-lg border border-border bg-surface p-4 text-xs text-muted">
           <p className="mb-2 font-medium text-foreground">{t("Demo accounts (password: demo1234)")}</p>

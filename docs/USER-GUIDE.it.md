@@ -64,7 +64,7 @@ Le frecce tratteggiate sono retroazioni automatiche. I rilievi HIGH/CRITICAL di 
 **Struttura dello schermo**
 
 - Barra laterale sinistra: menu raggruppati in Panoramica, Governare, Valutare & verificare, Dimostrare, Amministrazione e Pubblico. I menu visibili dipendono dal ruolo (capitolo 5).
-- Barra superiore: tipo di organizzazione (organismo di verifica / azienda), selettore lingua, tema (chiaro/scuro), nome e ruolo, uscita.
+- Barra superiore: tipo di organizzazione (organismo di verifica / azienda), selettore lingua, selettore del tema (chiaro / scuro / sistema — anche nella pagina di accesso e nel menu mobile; la scelta viene memorizzata dal browser), nome e ruolo, uscita.
 - Corpo: titolo di pagina con descrizione e azioni principali; le pagine di dettaglio sono divise in schede (sintesi, metriche, rilievi, …).
 - Mobile: il pulsante menu in alto a sinistra apre gli stessi menu e il selettore lingua.
 

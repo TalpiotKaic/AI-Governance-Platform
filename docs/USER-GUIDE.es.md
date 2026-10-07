@@ -64,7 +64,7 @@ Las flechas discontinuas son retroalimentaciones automáticas. Los hallazgos HIG
 **Organización de la pantalla**
 
 - Barra lateral izquierda: menús agrupados en Resumen, Gobernar, Evaluar y verificar, Demostrar, Administración y Público. Los menús visibles dependen de su rol (capítulo 5).
-- Barra superior: tipo de organización (organismo de verificación / empresa), selector de idioma, tema (claro/oscuro), su nombre y rol, cierre de sesión.
+- Barra superior: tipo de organización (organismo de verificación / empresa), selector de idioma, selector de tema (claro / oscuro / sistema — también en la página de inicio de sesión y en el menú móvil; la elección se guarda en el navegador), su nombre y rol, cierre de sesión.
 - Cuerpo: título de página con descripción y acciones principales; las páginas de detalle se dividen en pestañas (resumen, métricas, hallazgos, …).
 - Móvil: el botón de menú arriba a la izquierda abre los mismos menús y el selector de idioma.
 

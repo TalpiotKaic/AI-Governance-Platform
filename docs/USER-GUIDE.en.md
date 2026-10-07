@@ -64,7 +64,7 @@ Dashed arrows are automatic feedback. HIGH/CRITICAL findings from a test are reg
 **Screen layout**
 
 - Left sidebar: menus grouped into Overview, Govern, Evaluate & Verify, Prove, Admin and Public. Which menus appear depends on your role (chapter 5).
-- Top bar: organisation-type badge (Verification Body / Enterprise), language toggle, theme (light/dark), your name and role, sign-out.
+- Top bar: organisation-type badge (Verification Body / Enterprise), language toggle, theme selector (Light / Dark / System — also on the login page and in the mobile menu; the choice is remembered by the browser), your name and role, sign-out.
 - Body: page title with description and main action buttons; detail pages are split into tabs (summary, metrics, findings, …).
 - Mobile: the menu button at the top left opens the same menus and the language toggle.
 

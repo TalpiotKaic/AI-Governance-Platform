@@ -40,6 +40,9 @@ export function localeFromAcceptLanguage(header: string | null | undefined): Loc
 }
 
 export const ko: Record<string, string> = {
+  "Theme": "테마",
+  "Light": "라이트",
+  "Dark": "다크",
   "Keys are AES-256-GCM encrypted with AUTH_SECRET.": "키는 AUTH_SECRET으로 AES-256-GCM 암호화되어 저장됩니다.",
   "Environment keys detected:": "서버 환경변수에서 감지된 키:",
   "base URL": "기본 URL",

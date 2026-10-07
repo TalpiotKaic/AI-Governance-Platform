@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScoreRing } from "@/components/ui/progress";
 import { fmtDate} from "@/lib/utils";
 import { getI18n } from "@/lib/i18n/server";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 
 export default async function TrustCenterPage(props: PageProps<"/trust/[slug]">) {
   const { t, L } = await getI18n();
@@ -19,7 +20,7 @@ export default async function TrustCenterPage(props: PageProps<"/trust/[slug]">)
   const verified = impls.filter((i) => i.status === "VERIFIED" || i.status === "IMPLEMENTED").length;
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-surface"><div className="mx-auto flex max-w-5xl items-center gap-3 px-6 py-5"><Image src="/kveriai_logo.jpg" alt="K-VeriAI Logo" width={40} height={40} className="h-10 w-10 rounded-lg object-cover" /><div><h1 className="text-xl font-semibold">{org.name} — AI Trust Center</h1><p className="text-xs text-muted">Published by K-VeriAI · last updated {fmtDate(new Date())}</p></div></div></header>
+      <header className="border-b border-border bg-surface"><div className="mx-auto flex max-w-5xl items-center gap-3 px-6 py-5"><div className="order-last ml-auto"><ThemeToggle compact /></div><Image src="/kveriai_logo.jpg" alt="K-VeriAI Logo" width={40} height={40} className="h-10 w-10 rounded-lg object-cover" /><div><h1 className="text-xl font-semibold">{org.name} — AI Trust Center</h1><p className="text-xs text-muted">Published by K-VeriAI · last updated {fmtDate(new Date())}</p></div></div></header>
       <main className="mx-auto max-w-5xl space-y-8 px-6 py-8">
         <section><p className="text-sm leading-relaxed">{org.trustCenterIntro}</p></section>
         <section><h2 className="mb-3 text-base font-semibold">{t("Governance commitments")}</h2><div className="grid grid-cols-2 gap-3 md:grid-cols-4">{frameworks.filter((f) => f.code !== "NIST_ARIA").map((f) => <div key={f.id} className="rounded-lg border border-border bg-surface p-3 text-sm"><div className="font-medium">{L(f.code)}</div><div className="text-xs text-muted">{f.version}</div></div>)}</div><p className="mt-2 text-xs text-muted">{verified} harmonized control implementations verified or implemented across {systems.length} in-scope systems.</p></section>
