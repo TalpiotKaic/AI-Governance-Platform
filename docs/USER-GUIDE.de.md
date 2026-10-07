@@ -32,7 +32,7 @@ Oberfläche und Berichte sind auf Englisch, Koreanisch, Deutsch, Französisch, I
 
 Jede Funktion sitzt auf einer Kette. Das Registrieren eines KI-Systems erzeugt Risiken, Risiken werden durch Kontrollen gemindert, Kontrollen werden durch Tests verifiziert, und Testergebnisse werden zu Nachweisen in Berichten. Ändert sich ein Glied, wird der Rest automatisch aktualisiert.
 
-![Governance-Kette · 6 Schritte, 2 Rückkopplungsschleifen](images/governance-chain.png)
+![Governance-Kette · 6 Schritte, 2 Rückkopplungsschleifen](images/governance-chain.de.png)
 
 Gestrichelte Pfeile sind automatische Rückkopplungen. Feststellungen mit HIGH/CRITICAL aus einem Test werden im Risikoregister eingetragen, und das Erfassen einer Änderung am System lässt testbasierte Nachweise verfallen und verlangt einen erneuten Test.
 
@@ -324,7 +324,7 @@ Der Zugriff ist eine **Fähigkeitsmatrix**, keine Rollenhierarchie. Prüfer und 
 
 Eine Verifizierung läuft vom Governance-Verantwortlichen, der das System registriert, über den Tester, der es evaluiert, zum Prüfer, der die Ergebnisse validiert, bis zum Freigebenden, der den Bericht ausstellt. Der Administrator verwaltet Benutzer, Berechtigungen und Zugangsdaten; der Betrachter liest Ergebnisse.
 
-![Standard-Verifizierungszyklus je Rolle · 5 Bahnen](images/role-cycle.png)
+![Standard-Verifizierungszyklus je Rolle · 5 Bahnen](images/role-cycle.de.png)
 
 Gestrichelte Linien sind Rückwege. Setzt ein Prüfer einen Bericht zurück in den Entwurf, wiederholt der Tester den Lauf; ausgestellte Berichte veröffentlicht der Governance-Verantwortliche im Trust Center.
 

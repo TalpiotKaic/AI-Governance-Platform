@@ -32,7 +32,7 @@ L'interface et les rapports existent en anglais, coréen, allemand, français, i
 
 Chaque fonction repose sur une chaîne. Enregistrer un système d'IA produit des risques, les risques sont atténués par des contrôles, les contrôles sont vérifiés par des tests, et les résultats des tests deviennent des preuves intégrées aux rapports. Quand un maillon change, le reste se met à jour automatiquement.
 
-![Chaîne de gouvernance · 6 étapes, 2 boucles de rétroaction](images/governance-chain.png)
+![Chaîne de gouvernance · 6 étapes, 2 boucles de rétroaction](images/governance-chain.fr.png)
 
 Les flèches en pointillé sont des rétroactions automatiques. Les constats HIGH/CRITICAL d'un test sont inscrits au registre des risques, et l'enregistrement d'un changement sur un système fait expirer les preuves issues des tests et exige un nouveau test.
 
@@ -324,7 +324,7 @@ L'accès est une **matrice de capacités**, pas une hiérarchie de rôles. Relec
 
 Une vérification va du responsable gouvernance qui enregistre le système, au testeur qui l'évalue, au relecteur qui valide les résultats, puis à l'approbateur qui émet le rapport. L'administrateur gère utilisateurs, permissions et identifiants ; le lecteur lit les résultats.
 
-![Cycle de vérification standard par rôle · 5 couloirs](images/role-cycle.png)
+![Cycle de vérification standard par rôle · 5 couloirs](images/role-cycle.fr.png)
 
 Les lignes en pointillé sont des retours. Quand un relecteur renvoie un rapport en brouillon, le testeur réexécute ; le responsable gouvernance publie les rapports émis dans le Centre de confiance.
 

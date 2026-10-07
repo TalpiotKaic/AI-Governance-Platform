@@ -32,7 +32,7 @@ La interfaz y los informes están disponibles en inglés, coreano, alemán, fran
 
 Toda función se apoya en una cadena. Registrar un sistema de IA produce riesgos, los riesgos se mitigan con controles, los controles se verifican con pruebas y los resultados de las pruebas se convierten en evidencias que van a los informes. Cuando un eslabón cambia, el resto se actualiza automáticamente.
 
-![Cadena de gobernanza · 6 pasos, 2 bucles de retroalimentación](images/governance-chain.png)
+![Cadena de gobernanza · 6 pasos, 2 bucles de retroalimentación](images/governance-chain.es.png)
 
 Las flechas discontinuas son retroalimentaciones automáticas. Los hallazgos HIGH/CRITICAL de una prueba se inscriben en el registro de riesgos, y registrar un cambio en un sistema caduca las evidencias derivadas de pruebas y exige una nueva prueba.
 
@@ -324,7 +324,7 @@ El acceso es una **matriz de capacidades**, no una jerarquía de roles. Revisore
 
 Una verificación fluye desde el responsable de gobernanza que registra el sistema, al probador que lo evalúa, al revisor que valida los resultados y al aprobador que emite el informe. El administrador gestiona usuarios, permisos y credenciales; el lector lee los resultados.
 
-![Ciclo de verificación estándar por rol · 5 carriles](images/role-cycle.png)
+![Ciclo de verificación estándar por rol · 5 carriles](images/role-cycle.es.png)
 
 Las líneas discontinuas son caminos de retorno. Cuando un revisor devuelve un informe a borrador, el probador reejecuta; el responsable de gobernanza publica los informes emitidos en el Centro de confianza.
 

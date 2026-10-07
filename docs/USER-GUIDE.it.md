@@ -32,7 +32,7 @@ Interfaccia e report sono disponibili in inglese, coreano, tedesco, francese, it
 
 Ogni funzione poggia su una catena. Registrare un sistema di IA genera rischi, i rischi sono mitigati da controlli, i controlli sono verificati da test e i risultati dei test diventano evidenze inserite nei report. Quando un anello cambia, il resto si aggiorna automaticamente.
 
-![Catena di governance · 6 passi, 2 cicli di retroazione](images/governance-chain.png)
+![Catena di governance · 6 passi, 2 cicli di retroazione](images/governance-chain.it.png)
 
 Le frecce tratteggiate sono retroazioni automatiche. I rilievi HIGH/CRITICAL di un test vengono registrati nel registro dei rischi e registrare una modifica su un sistema fa scadere le evidenze derivate dai test e richiede un nuovo test.
 
@@ -324,7 +324,7 @@ L'accesso è una **matrice di capacità**, non una gerarchia di ruoli. Revisori 
 
 Una verifica va dal responsabile governance che registra il sistema, al tester che lo valuta, al revisore che convalida i risultati, fino all'approvatore che emette il report. L'amministratore gestisce utenti, permessi e credenziali; il lettore legge i risultati.
 
-![Ciclo di verifica standard per ruolo · 5 corsie](images/role-cycle.png)
+![Ciclo di verifica standard per ruolo · 5 corsie](images/role-cycle.it.png)
 
 Le linee tratteggiate sono percorsi di ritorno. Quando un revisore riporta un report in bozza, il tester riesegue; i report emessi vengono pubblicati dal responsabile governance nel Trust Center.
 

@@ -32,7 +32,7 @@ The UI and the reports are available in English, Korean, German, French, Italian
 
 Every feature sits on one chain. Registering an AI system produces risks, risks are mitigated by controls, controls are verified by tests, and test results become evidence that goes into reports. When one link changes, the rest updates automatically.
 
-![Governance chain · 6 steps, 2 feedback loops](images/governance-chain.png)
+![Governance chain · 6 steps, 2 feedback loops](images/governance-chain.en.png)
 
 Dashed arrows are automatic feedback. HIGH/CRITICAL findings from a test are registered in the risk register, and recording a change on a system expires test-derived evidence and demands a re-test.
 
@@ -324,7 +324,7 @@ Access is a **capability matrix**, not a role hierarchy. Reviewers and Approvers
 
 One verification flows from the Governance Owner who registers the system, to the Tester who evaluates it, to the Reviewer who validates the results, to the Approver who issues the report. The Admin manages users, permissions and credentials; the Viewer reads results.
 
-![Standard verification cycle by role · 5 lanes](images/role-cycle.png)
+![Standard verification cycle by role · 5 lanes](images/role-cycle.en.png)
 
 Dashed lines are return paths. When a Reviewer returns a report to draft, the Tester re-runs; the Governance Owner publishes issued reports in the Trust Center.
 
