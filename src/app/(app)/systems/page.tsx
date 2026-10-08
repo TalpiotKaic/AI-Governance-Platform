@@ -20,7 +20,7 @@ export default async function SystemsPage(props: PageProps<"/systems">) {
   return (
     <>
       <PageHeader title={t("AI Inventory")} description={t("Every AI system, model and agent in scope — the top-level object that risks, controls, tests, evidence and reports attach to.")} actions={userCan(user, "systems.write") && <div className="flex items-center gap-2"><Link href="/systems/import"><Button variant="outline"><FileSpreadsheet className="h-4 w-4" /> {t("Import from Excel")}</Button></Link><Link href="/systems/new"><Button><Plus className="h-4 w-4" /> {t("Register AI system")}</Button></Link></div>} />
-      {imported > 0 && <p className="mb-4 rounded-md border border-success/40 bg-success-soft px-3 py-2 text-sm text-success">{imported} {t("systems were registered from Excel. Each one has its intake tier, seeded risks and approval workflow.")}</p>}
+      {imported > 0 && <p className="mb-4 rounded-md border border-success/40 bg-success-soft px-3 py-2 text-sm text-success">{t("{n} systems were registered from Excel. Each one has its intake tier, seeded risks and approval workflow.").replace("{n}", String(imported))}</p>}
       {systems.length === 0 ? <EmptyState title={t("No AI systems registered")} description={t("Register your first AI system to start the intake → risk → control → test → evidence chain.")} action={userCan(user, "systems.write") ? <Link href="/systems/new"><Button>{t("Register AI system")}</Button></Link> : undefined} /> : (
         <div className="rounded-lg border border-border bg-surface">
           <Table>

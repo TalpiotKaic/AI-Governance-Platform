@@ -214,7 +214,9 @@ export async function parseSystemsWorkbook(buffer: Buffer, locale: Locale): Prom
         const key = String(issue.path[0] ?? "");
         const col = COLUMNS.find((c) => c.key === key);
         const label = col ? t(col.header) : key;
-        if (!reported.has(label)) errors.push(`${label}: ${issue.message}`);
+        if (reported.has(label)) continue;
+        const msg = issue.code === "too_small" ? t("value is too short") : issue.code === "too_big" ? t("value is too long") : issue.code === "invalid_value" ? t("unknown value") : issue.code === "invalid_type" ? t("required") : t("invalid value");
+        errors.push(`${label}: ${msg}`);
       }
     }
     rows.push({ row: rowNumber, name, data: parsed.success && errors.length === 0 ? parsed.data : undefined, errors });
