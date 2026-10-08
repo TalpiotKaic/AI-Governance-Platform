@@ -1,8 +1,10 @@
 "use client";
 import { useI18n } from "@/lib/i18n/client";
+import { HelpToggle } from "@/components/ui/help-toggle";
+import { ANNEX_III_AREAS, annexAreaValue } from "@/lib/eu-ai-act";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Checkbox, Field, Input, Select, Textarea } from "@/components/ui/input";
+import { Checkbox, Field, Input, Select, Textarea, Label } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 
 type Initial = Partial<{
@@ -193,30 +195,36 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
         <CardHeader><CardTitle>{t("2. Regulatory classification & data")}</CardTitle></CardHeader>
         <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="flex flex-col">
-            <div className="flex items-center gap-1 mb-1">
-              <label className="block text-xs font-medium text-muted">{t("EU AI Act category")}</label>
-              <button type="button" onClick={() => {
-                const el = document.getElementById('eu-ai-act-help');
-                if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
-              }} className="flex h-4 w-4 items-center justify-center rounded-full bg-blue-100 text-[10px] font-bold text-blue-600 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400" title={t("Show help")}>?</button>
+            <div className="mb-1 flex flex-wrap items-center gap-1.5">
+              <label className="whitespace-nowrap text-xs font-medium text-muted">{t("EU AI Act category")}</label>
+              <HelpToggle>
+                <ul className="list-disc space-y-1.5 pl-4">
+                  <li><strong>{t("Unclassified")}</strong>: {t("Not yet classified.")}</li>
+                  <li><strong>{t("Minimal risk")}</strong>: {t("Most AI systems (e.g. spam filters). Unregulated.")}</li>
+                  <li><strong>{t("Limited risk (Art. 50 transparency)")}</strong>: {t("Systems interacting with humans (e.g. chatbots, deepfakes). Requires transparency.")}</li>
+                  <li><strong>{t("High-risk (Annex I / III)")}</strong>: {t("Systems in biometrics, critical infrastructure, education, employment, essential services, law enforcement. Strict compliance required.")}</li>
+                  <li><strong>{t("Prohibited practice (Art. 5)")}</strong>: {t("Subliminal manipulation, social scoring, untargeted facial scraping. Banned.")}</li>
+                  <li><strong>{t("GPAI model")}</strong>: {t("General Purpose AI models capable of wide range of tasks.")}</li>
+                  <li><strong>{t("GPAI with systemic risk")}</strong>: {t("High-impact GPAI models trained with massive compute.")}</li>
+                </ul>
+              </HelpToggle>
             </div>
             <Select name="euAiActCategory" defaultValue={initial?.euAiActCategory ?? "UNCLASSIFIED"}>
               <option value="UNCLASSIFIED">{t("Unclassified")}</option><option value="MINIMAL">{t("Minimal risk")}</option><option value="LIMITED_TRANSPARENCY">{t("Limited risk (Art. 50 transparency)")}</option><option value="HIGH_RISK">{t("High-risk (Annex I / III)")}</option><option value="PROHIBITED">{t("Prohibited practice (Art. 5)")}</option><option value="GPAI">{t("GPAI model")}</option><option value="GPAI_SYSTEMIC">{t("GPAI with systemic risk")}</option>
             </Select>
             <p className="mt-1 text-[11px] text-muted">{t("Annex III areas: biometrics, critical infrastructure, education, employment, essential services (credit, insurance), law enforcement, migration, justice.")}</p>
-            <div id="eu-ai-act-help" style={{ display: 'none' }} className="mt-2 text-[11px] bg-blue-50 border border-blue-100 p-3 rounded text-blue-800 shadow-sm relative z-10">
-              <ul className="space-y-1.5 list-disc pl-4">
-                <li><strong>{t("Unclassified")}</strong>: {t("Not yet classified.")}</li>
-                <li><strong>{t("Minimal risk")}</strong>: {t("Most AI systems (e.g. spam filters). Unregulated.")}</li>
-                <li><strong>{t("Limited risk (Art. 50 transparency)")}</strong>: {t("Systems interacting with humans (e.g. chatbots, deepfakes). Requires transparency.")}</li>
-                <li><strong>{t("High-risk (Annex I / III)")}</strong>: {t("Systems in biometrics, critical infrastructure, education, employment, essential services, law enforcement. Strict compliance required.")}</li>
-                <li><strong>{t("Prohibited practice (Art. 5)")}</strong>: {t("Subliminal manipulation, social scoring, untargeted facial scraping. Banned.")}</li>
-                <li><strong>{t("GPAI model")}</strong>: {t("General Purpose AI models capable of wide range of tasks.")}</li>
-                <li><strong>{t("GPAI with systemic risk")}</strong>: {t("High-impact GPAI models trained with massive compute.")}</li>
-              </ul>
-            </div>
           </div>
-          <Field label={t("Annex III area (if high-risk)")}><Input name="euAiActAnnexIIIArea" defaultValue={initial?.euAiActAnnexIIIArea ?? ""} placeholder={t("e.g. Annex III §5(b) creditworthiness")} /></Field>
+          <div>
+            <div className="mb-1 flex flex-wrap items-center gap-1.5"><Label className="mb-0 whitespace-nowrap">{t("Annex III area (if high-risk)")}</Label>
+              <HelpToggle>
+                <p className="mb-1.5">{t("Only for systems classified High-risk under Annex III. Pick one of the eight Annex III areas (or type your own wording); for Annex I product-safety systems leave this empty and describe the product legislation in the purpose field.")}</p>
+                <ul className="list-disc space-y-1.5 pl-4">{ANNEX_III_AREAS.map((a) => <li key={a.ref}><strong>{a.ref} — {t(a.label)}</strong>: {t(a.description)}</li>)}</ul>
+              </HelpToggle>
+            </div>
+            <Input name="euAiActAnnexIIIArea" list="annex-iii-areas" defaultValue={initial?.euAiActAnnexIIIArea ?? ""} placeholder={t("Choose an Annex III area or type")} />
+            <datalist id="annex-iii-areas">{ANNEX_III_AREAS.map((a) => <option key={a.ref} value={annexAreaValue(t, a)}>{t(a.description)}</option>)}</datalist>
+            <p className="mt-1 text-[11px] text-muted">{t("Suggestions appear as you type; the eight areas are listed under the ? button.")}</p>
+          </div>
           <Field label={t("Human oversight measures")} className="md:col-span-2"><Textarea name="humanOversight" defaultValue={initial?.humanOversight ?? ""} placeholder={t("Approval gates, review of outputs, kill switch, escalation…")} /></Field>
           <div className="grid grid-cols-1 gap-2 md:col-span-2 md:grid-cols-2">
             <Checkbox name="usesPersonalData" label={t("Processes personal data")} defaultChecked={initial?.usesPersonalData} />

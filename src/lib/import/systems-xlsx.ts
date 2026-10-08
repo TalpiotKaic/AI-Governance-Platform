@@ -3,13 +3,14 @@ import { LOCALES, translate, type Locale } from "@/lib/i18n/dict";
 import { labelFor } from "@/lib/i18n/labels";
 import { enumLabel } from "@/lib/utils";
 import { systemSchema, type SystemInput } from "@/lib/systems/create";
+import { ANNEX_III_AREAS, annexAreaValue } from "@/lib/eu-ai-act";
 
 /**
  * Excel template + parser for bulk AI-inventory registration.
  * Headers, dropdown labels and the guide sheet follow the UI language; the parser accepts
  * headers and dropdown values in any supported language (or the raw enum code).
  */
-type Kind = "text" | "long" | "enum" | "bool" | "number";
+type Kind = "text" | "long" | "enum" | "bool" | "number" | "suggest";
 export interface ImportColumn { key: keyof SystemInput; header: string; kind: Kind; required?: boolean; options?: readonly string[]; note: string; example: string; agentOnly?: boolean }
 
 export const SYSTEM_TYPES = ["PREDICTIVE_ML", "LLM_APPLICATION", "RAG_ASSISTANT", "AGENT", "MULTI_AGENT", "EXTERNAL_SAAS"] as const;
@@ -22,7 +23,7 @@ export const COLUMNS: ImportColumn[] = [
   { key: "type", header: "System type", kind: "enum", required: true, options: SYSTEM_TYPES, note: "Choose from the dropdown. Determines which test scenarios apply.", example: "AGENT" },
   { key: "lifecycleStage", header: "Lifecycle stage", kind: "enum", required: true, options: LIFECYCLE_STAGES, note: "Current stage of the system.", example: "DEVELOPMENT" },
   { key: "euAiActCategory", header: "EU AI Act category", kind: "enum", required: true, options: EU_CATEGORIES, note: "Risk classification under the EU AI Act. Drives the intake tier and approval workflow.", example: "LIMITED_TRANSPARENCY" },
-  { key: "euAiActAnnexIIIArea", header: "Annex III area", kind: "text", note: "For high-risk systems: the Annex III area (e.g. Employment, Credit scoring, Biometrics).", example: "" },
+  { key: "euAiActAnnexIIIArea", header: "Annex III area", kind: "suggest", note: "For high-risk systems only: pick one of the eight Annex III areas from the dropdown, or type your own wording.", example: "" },
   { key: "description", header: "Description", kind: "long", note: "What the system does and how it is used.", example: "Chatbot that answers policy questions and processes refunds via tools." },
   { key: "sector", header: "Sector", kind: "text", note: "Industry or business sector.", example: "Financial services" },
   { key: "purpose", header: "Intended purpose", kind: "long", note: "Intended purpose as documented for conformity assessment.", example: "Reduce first-line support workload" },
@@ -77,9 +78,10 @@ export async function buildSystemsTemplate(locale: Locale): Promise<Buffer> {
   };
   for (const c of COLUMNS) if (c.kind === "enum" && c.options) addList(c.key, c.options.map((o) => labelFor(locale, o)));
   addList("bool", [yes, no]);
+  addList("annex", ANNEX_III_AREAS.map((a) => annexAreaValue(t, a)));
 
   // Header row
-  ws.columns = COLUMNS.map((c) => ({ key: c.key, width: c.kind === "long" ? 44 : c.kind === "bool" ? 16 : 24 }));
+  ws.columns = COLUMNS.map((c) => ({ key: c.key, width: c.kind === "long" || c.kind === "suggest" ? 44 : c.kind === "bool" ? 16 : 24 }));
   const header = ws.getRow(1);
   COLUMNS.forEach((c, i) => {
     const cell = header.getCell(i + 1);
@@ -98,6 +100,7 @@ export async function buildSystemsTemplate(locale: Locale): Promise<Buffer> {
       const cell = ws.getCell(`${L}${r}`);
       if (c.kind === "enum") cell.dataValidation = { type: "list", allowBlank: !c.required, formulae: [listRef[c.key]], showErrorMessage: true, errorStyle: "stop", errorTitle: t("Invalid value"), error: t("Choose a value from the dropdown.") };
       else if (c.kind === "bool") cell.dataValidation = { type: "list", allowBlank: !c.required, formulae: [listRef.bool], showErrorMessage: true, errorStyle: "stop", errorTitle: t("Invalid value"), error: t("Choose a value from the dropdown.") };
+      else if (c.kind === "suggest") cell.dataValidation = { type: "list", allowBlank: true, formulae: [listRef.annex], showErrorMessage: true, errorStyle: "information", errorTitle: t("Custom value"), error: t("Not one of the Annex III areas — kept as free text.") };
       else if (c.kind === "number") cell.dataValidation = { type: "decimal", operator: "greaterThanOrEqual", allowBlank: true, formulae: [0], showErrorMessage: true, errorTitle: t("Invalid value"), error: t("Enter a number greater than or equal to 0.") };
       if (c.kind === "long") cell.alignment = { wrapText: true, vertical: "top" };
     }
@@ -112,7 +115,7 @@ export async function buildSystemsTemplate(locale: Locale): Promise<Buffer> {
   const gh = guide.addRow([t("Column"), t("Required"), t("Description"), t("Example")]);
   gh.font = { bold: true }; gh.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFE2E8F0" } };
   for (const c of COLUMNS) {
-    const opts = c.kind === "enum" && c.options ? ` ${t("Options:")} ${c.options.map((o) => labelFor(locale, o)).join(" / ")}` : c.kind === "bool" ? ` ${t("Options:")} ${yes} / ${no}` : "";
+    const opts = c.kind === "enum" && c.options ? ` ${t("Options:")} ${c.options.map((o) => labelFor(locale, o)).join(" / ")}` : c.kind === "bool" ? ` ${t("Options:")} ${yes} / ${no}` : c.kind === "suggest" ? ` ${t("Options:")} ${ANNEX_III_AREAS.map((a) => annexAreaValue(t, a)).join(" / ")}` : "";
     const ex = c.kind === "enum" ? labelFor(locale, c.example) : c.kind === "bool" ? (c.example === "Yes" ? yes : no) : c.example;
     const row = guide.addRow([t(c.header), c.required ? "*" : "", `${t(c.note)}${opts}`, ex]);
     row.alignment = { wrapText: true, vertical: "top" };

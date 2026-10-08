@@ -107,7 +107,7 @@ El registro de todos los sistemas, modelos y agentes de IA. Riesgos, controles, 
 **Registro (admisión)** – botón «Registrar sistema de IA»
 
 1. Identidad y contexto: nombre, tipo de sistema (ML predictivo / aplicación LLM / RAG / agente / multiagente / SaaS externo), fase del ciclo de vida, finalidad, contexto de despliegue, regiones, usuarios previstos, personas afectadas.
-2. Clasificación regulatoria y datos: categoría según la Ley de IA de la UE (mínimo, limitado, alto riesgo, prohibido, GPAI), área del anexo III, medidas de supervisión humana, datos personales y sensibles, orientado al cliente, decisiones automatizadas.
+2. Clasificación regulatoria y datos: categoría según la Ley de IA de la UE (mínimo, limitado, alto riesgo, prohibido, GPAI), área del anexo III (el botón ? describe los ocho ámbitos del anexo III; elija una sugerencia o escriba libremente), medidas de supervisión humana, datos personales y sensibles, orientado al cliente, decisiones automatizadas.
 3. Modelo: proveedor, nombre del modelo, versión.
 4. Perfil del agente (para agentes): framework, nivel de autonomía (asistencial / supervisado / autónomo), lista de herramientas (nombre | nivel de riesgo | permitido | permisos), fuentes de datos, servidores MCP, parada de emergencia, límite de presupuesto.
 

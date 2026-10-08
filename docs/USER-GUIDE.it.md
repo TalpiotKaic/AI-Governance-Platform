@@ -107,7 +107,7 @@ Il registro di tutti i sistemi, modelli e agenti di IA. Rischi, controlli, test,
 **Registrazione (presa in carico)** – pulsante «Registra sistema di IA»
 
 1. Identità e contesto: nome, tipo di sistema (ML predittivo / app LLM / RAG / agente / multi-agente / SaaS esterna), fase del ciclo di vita, finalità, contesto di impiego, aree geografiche, utenti previsti, persone interessate.
-2. Classificazione normativa e dati: categoria AI Act UE (minimo, limitato, alto rischio, vietato, GPAI), area dell'allegato III, misure di sorveglianza umana, dati personali e sensibili, rivolto al cliente, decisioni automatizzate.
+2. Classificazione normativa e dati: categoria AI Act UE (minimo, limitato, alto rischio, vietato, GPAI), area dell'allegato III (il pulsante ? descrive le otto aree dell'allegato III; scegliere un suggerimento o digitare liberamente), misure di sorveglianza umana, dati personali e sensibili, rivolto al cliente, decisioni automatizzate.
 3. Modello: provider, nome del modello, versione.
 4. Profilo agente (per gli agenti): framework, livello di autonomia (assistivo / supervisionato / autonomo), elenco strumenti (nome | livello di rischio | consentito | permessi), fonti dati, server MCP, arresto di emergenza, tetto di budget.
 

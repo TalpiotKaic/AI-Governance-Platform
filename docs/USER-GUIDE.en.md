@@ -107,7 +107,7 @@ The register of every AI system, model and agent. Risks, controls, tests, eviden
 **Registration (intake)** — the "Register AI system" button
 
 1. Identity and context: name, system type (predictive ML / LLM app / RAG / agent / multi-agent / external SaaS), lifecycle stage, purpose, deployment context, geographies, intended users, affected persons.
-2. Regulatory classification and data: EU AI Act category (minimal, limited, high-risk, prohibited, GPAI), Annex III area, human oversight measures, personal and sensitive data, customer-facing, automated decisions.
+2. Regulatory classification and data: EU AI Act category (minimal, limited, high-risk, prohibited, GPAI), Annex III area (the ? button lists the eight Annex III areas with descriptions; pick one from the suggestions or type freely), human oversight measures, personal and sensitive data, customer-facing, automated decisions.
 3. Model: provider, model name, version.
 4. Agent profile (for agent types): framework, autonomy level (assistive / supervised / autonomous), tool list (name | risk level | allowed | permissions), data sources, MCP servers, kill switch, budget cap.
 

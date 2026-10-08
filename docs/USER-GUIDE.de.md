@@ -107,7 +107,7 @@ Das Verzeichnis aller KI-Systeme, Modelle und Agenten. Risiken, Kontrollen, Test
 **Registrierung (Aufnahme)** – Schaltfläche „KI-System registrieren“
 
 1. Identität und Kontext: Name, Systemtyp (prädiktives ML / LLM-App / RAG / Agent / Multi-Agent / externe SaaS), Lebenszyklusphase, Zweck, Einsatzkontext, Regionen, vorgesehene Nutzer, betroffene Personen.
-2. Regulatorische Einstufung und Daten: Kategorie nach EU-KI-Verordnung (minimal, begrenzt, Hochrisiko, verboten, GPAI), Anhang-III-Bereich, Maßnahmen zur menschlichen Aufsicht, personenbezogene und sensible Daten, kundenseitig, automatisierte Entscheidungen.
+2. Regulatorische Einstufung und Daten: Kategorie nach EU-KI-Verordnung (minimal, begrenzt, Hochrisiko, verboten, GPAI), Anhang-III-Bereich (der ?-Knopf erläutert die acht Anhang-III-Bereiche; aus den Vorschlägen wählen oder frei eingeben), Maßnahmen zur menschlichen Aufsicht, personenbezogene und sensible Daten, kundenseitig, automatisierte Entscheidungen.
 3. Modell: Anbieter, Modellname, Version.
 4. Agentenprofil (bei Agententypen): Framework, Autonomiegrad (assistierend / überwacht / autonom), Werkzeugliste (Name | Risikostufe | erlaubt | Berechtigungen), Datenquellen, MCP-Server, Notabschaltung, Budgetgrenze.
 
