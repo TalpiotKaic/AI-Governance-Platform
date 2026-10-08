@@ -1,5 +1,6 @@
 "use server";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { requirePermission } from "@/lib/auth";
 import { ASSESSMENT_ITEMS, computeVendorRisk, dataProfileSummary, type AssessmentScores, type VendorAssessment, type VendorDataProfile } from "@/lib/vendors/assessment";
@@ -49,6 +50,7 @@ export async function saveVendorAction(id: string | null, formData: FormData) {
   const risks = await ensureVendorRisks(user.orgId, { vendorId: vendor.id });
   if (risks.length) await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: "risk.auto_registered", entityType: "Vendor", entityId: vendor.id, summary: `${risks.join(", ")} registered for high-risk vendor ${name}` } });
   revalidatePath("/vendors"); revalidatePath("/risks"); revalidatePath("/evidence");
+  redirect("/vendors?tab=vendors");
 }
 
 export async function deleteVendorAction(id: string) {
@@ -57,6 +59,7 @@ export async function deleteVendorAction(id: string) {
   await db.vendor.delete({ where: { id } });
   await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: "vendor.deleted", entityType: "Vendor", entityId: id, summary: v.name } });
   revalidatePath("/vendors");
+  redirect("/vendors?tab=vendors");
 }
 export async function saveDatasetAction(id: string | null, formData: FormData) {
   const user = await requirePermission("systems.write");
@@ -67,6 +70,7 @@ export async function saveDatasetAction(id: string | null, formData: FormData) {
   else { await db.dataset.create({ data: { orgId: user.orgId, ...data } }); }
   await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: id ? "dataset.updated" : "dataset.created", entityType: "Dataset", entityId: id ?? undefined, summary: name } });
   revalidatePath("/vendors");
+  redirect("/vendors?tab=datasets");
 }
 export async function deleteDatasetAction(id: string) {
   const user = await requirePermission("systems.write");
@@ -74,4 +78,5 @@ export async function deleteDatasetAction(id: string) {
   await db.dataset.delete({ where: { id } });
   await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: "dataset.deleted", entityType: "Dataset", entityId: id, summary: d.name } });
   revalidatePath("/vendors");
+  redirect("/vendors?tab=datasets");
 }

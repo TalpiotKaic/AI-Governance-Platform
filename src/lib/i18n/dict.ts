@@ -149,7 +149,7 @@ export const ko: Record<string, string> = {
   "Service type": "서비스 유형",
   "Third-party providers (model APIs, hosting, tool providers) and the datasets your AI systems train on, retrieve from or evaluate against. Link them to systems from the intake form or the system page; they appear in the AI Passport and feed the vendor-risk and data-protection evidence.": "제3자 제공자(모델 API, 호스팅, 도구 제공자)와 AI 시스템이 학습·검색·평가에 쓰는 데이터셋입니다. 등록 폼이나 시스템 화면에서 시스템에 연결하면 AI Passport에 표시되고 벤더 위험·데이터 보호 증적에 반영됩니다.",
   "Unlink": "연결 해제",
-  "Used by": "사용 시스템:",
+  "Used by": "사용 시스템",
   "Vendors & Datasets": "벤더·데이터셋",
   "Vendors that do not exist yet are created and linked on save.": "없는 벤더는 저장 시 생성되어 연결됩니다.",
   "What data the vendor sees": "벤더가 접근하는 데이터",
