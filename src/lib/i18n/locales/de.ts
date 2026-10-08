@@ -1,6 +1,7 @@
 /** German (de) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const de: Record<string, string> = {
+  "Annex III": "Anhang III",
   "Choose an Annex III area or type": "Anhang-III-Bereich wählen oder eingeben",
   "Custom value": "Eigener Wert",
   "Not one of the Annex III areas — kept as free text.": "Kein Anhang-III-Bereich aus der Liste – wird als Freitext übernommen.",

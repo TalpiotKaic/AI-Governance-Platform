@@ -1,6 +1,7 @@
 /** Italian (it) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const it: Record<string, string> = {
+  "Annex III": "Allegato III",
   "Choose an Annex III area or type": "Scegli un'area dell'allegato III o digita",
   "Custom value": "Valore personalizzato",
   "Not one of the Annex III areas — kept as free text.": "Non è una delle aree dell'allegato III: mantenuto come testo libero.",

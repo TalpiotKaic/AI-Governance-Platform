@@ -1,7 +1,7 @@
 "use client";
 import { useI18n } from "@/lib/i18n/client";
 import { HelpToggle } from "@/components/ui/help-toggle";
-import { ANNEX_III_AREAS, annexAreaValue } from "@/lib/eu-ai-act";
+import { ANNEX_III_AREAS, annexAreaValue, annexRef } from "@/lib/eu-ai-act";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox, Field, Input, Select, Textarea, Label } from "@/components/ui/input";
@@ -218,11 +218,11 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
             <div className="mb-1 flex flex-wrap items-center gap-1.5"><Label className="mb-0 whitespace-nowrap">{t("Annex III area (if high-risk)")}</Label>
               <HelpToggle>
                 <p className="mb-1.5">{t("Only for systems classified High-risk under Annex III. Pick one of the eight Annex III areas (or type your own wording); for Annex I product-safety systems leave this empty and describe the product legislation in the purpose field.")}</p>
-                <ul className="list-disc space-y-1.5 pl-4">{ANNEX_III_AREAS.map((a) => <li key={a.ref}><strong>{a.ref} — {t(a.label)}</strong>: {t(a.description)}</li>)}</ul>
+                <ul className="list-disc space-y-1.5 pl-4">{ANNEX_III_AREAS.map((a) => <li key={a.n}><strong>{annexRef(t, a)} — {t(a.label)}</strong>: {t(a.description)}</li>)}</ul>
               </HelpToggle>
             </div>
             <Input name="euAiActAnnexIIIArea" list="annex-iii-areas" defaultValue={initial?.euAiActAnnexIIIArea ?? ""} placeholder={t("Choose an Annex III area or type")} />
-            <datalist id="annex-iii-areas">{ANNEX_III_AREAS.map((a) => <option key={a.ref} value={annexAreaValue(t, a)}>{t(a.description)}</option>)}</datalist>
+            <datalist id="annex-iii-areas">{ANNEX_III_AREAS.map((a) => <option key={a.n} value={annexAreaValue(t, a)}>{t(a.description)}</option>)}</datalist>
             <p className="mt-1 text-[11px] text-muted">{t("Suggestions appear as you type; the eight areas are listed under the ? button.")}</p>
           </div>
           <Field label={t("Human oversight measures")} className="md:col-span-2"><Textarea name="humanOversight" defaultValue={initial?.humanOversight ?? ""} placeholder={t("Approval gates, review of outputs, kill switch, escalation…")} /></Field>

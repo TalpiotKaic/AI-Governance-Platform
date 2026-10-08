@@ -1,6 +1,7 @@
 /** Spanish (es) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const es: Record<string, string> = {
+  "Annex III": "Anexo III",
   "Choose an Annex III area or type": "Elija un ámbito del anexo III o escriba",
   "Custom value": "Valor personalizado",
   "Not one of the Annex III areas — kept as free text.": "No es uno de los ámbitos del anexo III: se conserva como texto libre.",

@@ -1,6 +1,7 @@
 /** French (fr) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const fr: Record<string, string> = {
+  "Annex III": "Annexe III",
   "Choose an Annex III area or type": "Choisir un domaine de l'annexe III ou saisir",
   "Custom value": "Valeur personnalisée",
   "Not one of the Annex III areas — kept as free text.": "Ne figure pas parmi les domaines de l'annexe III – conservé en texte libre.",
