@@ -113,6 +113,15 @@ Das Verzeichnis aller KI-Systeme, Modelle und Agenten. Risiken, Kontrollen, Test
 
 Beim Speichern setzen die Antworten die **anfängliche Risikostufe**, erzeugen kontextbezogene Risiken (z. B. personenbezogene Daten → Datenschutzrisiko, Agent → Werkzeugmissbrauchsrisiko) und legen den **mehrstufigen Freigabe-Workflow** passend zur Stufe an (Technik → Datenschutz & Sicherheit → Recht → Geschäftsleitung).
 
+**Massenregistrierung aus Excel** — Schaltfläche „Aus Excel importieren“
+
+Bei vielen Systemen registrieren Sie diese auf einmal über die Standard-Excel-Vorlage statt einzeln.
+
+1. Vorlage herunterladen: Spaltenüberschriften und Auswahllisten werden in der aktuellen UI-Sprache erzeugt. Pflichtspalten sind mit `*` markiert, Agenten-Spalten haben violette Überschriften. Systemtyp, Lebenszyklusphase, KI-Verordnungs-Kategorie und Autonomiestufe sind Auswahllisten, Ja/Nein-Felder ebenfalls, sodass keine Codierfehler entstehen. Jede Überschrift trägt einen Hinweis; das Blatt `Guide` erklärt jedes Feld mit Beispiel.
+2. Ausfüllen: eine Zeile je System im Blatt `Systems` (bis zu 500 Zeilen). Mehrzeilige Zellen wie die Tool-Liste mit Alt+Eingabe.
+3. Hochladen → prüfen: jede Zeile wird als Bereit oder Fehler angezeigt. Fehlerzeilen werden übersprungen; doppelte Namen in der Datei und bereits registrierte Namen werden gemeldet.
+4. Bestätigen: nur gültige Zeilen werden registriert. Jedes System erhält wie über das Formular Aufnahmestufe, vorbelegte Risiken und den stufenabhängigen Freigabe-Workflow; der Import wird im Audit-Log protokolliert.
+
 **Tabs der Detailseite**
 
 | Tab | Inhalt |

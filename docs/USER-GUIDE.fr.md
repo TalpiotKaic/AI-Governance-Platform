@@ -113,6 +113,15 @@ Le registre de tous les systèmes, modèles et agents d'IA. Risques, contrôles,
 
 À l'enregistrement, les réponses fixent le **niveau de risque initial**, génèrent des risques contextuels (par exemple données personnelles → risque vie privée, agent → risque de mésusage d'outils) et créent le **flux d'approbation à plusieurs étapes** correspondant au niveau (technique → vie privée & sécurité → juridique → direction).
 
+**Enregistrement en masse depuis Excel** — bouton « Importer depuis Excel »
+
+Lorsque les systèmes sont nombreux, enregistrez-les en une fois à partir du modèle Excel standard plutôt qu'un par un.
+
+1. Télécharger le modèle : en-têtes et listes déroulantes sont générés dans la langue de l'interface. Les colonnes obligatoires portent `*`, les colonnes réservées aux agents ont un en-tête violet. Type de système, étape du cycle de vie, catégorie du règlement sur l'IA et niveau d'autonomie sont des listes déroulantes, de même que les champs Oui/Non : aucune faute de codage n'est possible. Chaque en-tête comporte une note et la feuille `Guide` décrit chaque champ avec un exemple.
+2. Remplir : une ligne par système dans la feuille `Systems` (jusqu'à 500 lignes). Les cellules multilignes comme la liste des outils utilisent Alt+Entrée.
+3. Téléverser → valider : chaque ligne est affichée Prête ou En erreur. Les lignes en erreur sont ignorées ; les doublons dans le fichier et les noms déjà enregistrés sont signalés.
+4. Confirmer : seules les lignes valides sont enregistrées. Chaque système reçoit, comme via le formulaire, son niveau d'admission, ses risques initiaux et son flux d'approbation ; l'import est consigné dans le journal d'audit.
+
 **Onglets de la page de détail**
 
 | Onglet | Contenu |

@@ -113,6 +113,15 @@ El registro de todos los sistemas, modelos y agentes de IA. Riesgos, controles, 
 
 Al guardar, las respuestas fijan el **nivel de riesgo inicial**, generan riesgos contextuales (por ejemplo, datos personales → riesgo de privacidad, agente → riesgo de uso indebido de herramientas) y crean el **flujo de aprobación en varias etapas** acorde al nivel (técnica → privacidad y seguridad → legal → dirección).
 
+**Alta masiva desde Excel** — botón «Importar desde Excel»
+
+Cuando hay muchos sistemas, regístrelos de una vez con la plantilla Excel estándar en lugar de uno a uno.
+
+1. Descargar la plantilla: encabezados y listas desplegables se generan en el idioma de la interfaz. Las columnas obligatorias llevan `*` y las columnas solo para agentes tienen encabezado morado. Tipo de sistema, etapa del ciclo de vida, categoría del Reglamento de IA y nivel de autonomía son listas desplegables, igual que los campos Sí/No: no hay errores de codificación. Cada encabezado tiene una nota y la hoja `Guide` describe cada campo con un ejemplo.
+2. Rellenar: una fila por sistema en la hoja `Systems` (hasta 500 filas). Las celdas multilínea como la lista de herramientas usan Alt+Intro.
+3. Subir → validar: cada fila se muestra como Lista o Error. Las filas con errores se omiten; se avisan los nombres duplicados en el archivo y los ya registrados.
+4. Confirmar: solo se registran las filas válidas. Cada sistema recibe, igual que desde el formulario, su nivel de alta, riesgos iniciales y flujo de aprobación; la importación queda en el registro de auditoría.
+
 **Pestañas de la página de detalle**
 
 | Pestaña | Contenido |

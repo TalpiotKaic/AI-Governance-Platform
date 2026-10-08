@@ -113,6 +113,15 @@ The register of every AI system, model and agent. Risks, controls, tests, eviden
 
 On save, the answers set the **initial risk tier**, seed context-specific risks (for example personal data → privacy risk, agent → tool-misuse risk), and create the **multi-stage approval workflow** that matches the tier (technical → privacy & security → legal → executive).
 
+**Bulk registration from Excel** — "Import from Excel" button
+
+When there are many systems, register them in one go from the standard Excel template instead of one by one.
+
+1. Download the template: column headers and dropdowns are generated in your current UI language. Required columns are marked `*`, agent-only columns have purple headers. System type, lifecycle stage, EU AI Act category and autonomy level are dropdowns and Yes/No fields are lists, so coding typos cannot happen. Every header carries a note and the `Guide` sheet explains each field with an example.
+2. Fill in: one row per system in the `Systems` sheet (up to 500 rows). Multi-line cells such as the tool list use Alt+Enter.
+3. Upload → validate: each row is shown as Ready or Error. Error rows are skipped; duplicate names inside the file and names already registered are flagged.
+4. Confirm: only valid rows are registered. Each system gets its intake tier, seeded risks and tier-based approval workflow exactly as from the form, and the import is written to the audit log.
+
 **Detail tabs**
 
 | Tab | Content |

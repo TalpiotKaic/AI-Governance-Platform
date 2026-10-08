@@ -56,6 +56,7 @@ export function canSeeNav(role: Role, href: string): boolean {
 /** Route guards for pages that are pure mutation forms. */
 export const ROUTE_PERMISSION: { prefix: string; perm: Permission }[] = [
   { prefix: "/systems/new", perm: "systems.write" },
+  { prefix: "/systems/import", perm: "systems.write" },
   { prefix: "/risks/new", perm: "risks.write" },
   { prefix: "/plans/new", perm: "plans.write" },
   { prefix: "/evaluations/new", perm: "evaluations.run" },

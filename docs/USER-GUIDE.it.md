@@ -113,6 +113,15 @@ Il registro di tutti i sistemi, modelli e agenti di IA. Rischi, controlli, test,
 
 Al salvataggio le risposte fissano il **livello di rischio iniziale**, generano rischi contestuali (ad es. dati personali → rischio privacy, agente → rischio di uso improprio degli strumenti) e creano il **flusso di approvazione a più fasi** adeguato al livello (tecnica → privacy & sicurezza → legale → direzione).
 
+**Registrazione massiva da Excel** — pulsante «Importa da Excel»
+
+Quando i sistemi sono molti, registrali in una volta dal modello Excel standard invece che uno alla volta.
+
+1. Scaricare il modello: intestazioni ed elenchi a discesa sono generati nella lingua dell'interfaccia. Le colonne obbligatorie hanno `*`, quelle solo per agenti un'intestazione viola. Tipo di sistema, fase del ciclo di vita, categoria AI Act e livello di autonomia sono elenchi a discesa, così come i campi Sì/No: nessun errore di codifica. Ogni intestazione ha una nota e il foglio `Guide` descrive ogni campo con un esempio.
+2. Compilare: una riga per sistema nel foglio `Systems` (fino a 500 righe). Le celle multiriga come l'elenco degli strumenti usano Alt+Invio.
+3. Caricare → validare: ogni riga è mostrata come Pronta o Errore. Le righe con errori vengono saltate; i nomi duplicati nel file e quelli già registrati vengono segnalati.
+4. Confermare: solo le righe valide vengono registrate. Ogni sistema riceve, come dal modulo, fascia di intake, rischi iniziali e flusso di approvazione; l'importazione è annotata nel registro di audit.
+
 **Schede della pagina di dettaglio**
 
 | Scheda | Contenuto |
