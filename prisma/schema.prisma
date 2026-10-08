@@ -271,6 +271,9 @@ model Vendor {
   dataSensitivity String?
   certifications  String[] @default([])
   notes           String?
+  assessment      Json?    // { scores: {dataAccess, security, dataGovernance, transparency, jurisdiction, continuity}: 0-3, note, assessedAt, assessedBy }
+  dataProfile     Json?    // { dataTypes: string[], personalData: boolean, sensitiveData: boolean, conditions: string[], note }
+  assessedAt      DateTime?
   createdAt       DateTime @default(now())
 
   org     Organization   @relation(fields: [orgId], references: [id], onDelete: Cascade)
@@ -319,6 +322,7 @@ enum RiskSource {
   TEST_FINDING
   INCIDENT
   MONITORING
+  VENDOR
 }
 
 model Risk {
@@ -795,6 +799,7 @@ enum EvidenceType {
   APPROVAL_RECORD
   INCIDENT_RECORD
   TRAINING_RECORD
+  VENDOR_ASSESSMENT
   OTHER
 }
 

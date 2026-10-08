@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { ensureVendorRisks } from "@/lib/vendors/risk";
 
 /** Vendor / dataset links for an AI system, resolved by id or by (case-insensitive) name within the organisation. */
 export type VendorLink = { id?: string; name?: string; role?: string | null; serviceType?: string | null; country?: string | null };
@@ -67,6 +68,7 @@ export async function syncSystemLinks(orgId: string, systemId: string, spec: Lin
     await db.systemDataset.deleteMany({ where: { systemId, datasetId: { notIn: [...datasetIds] } } });
   }
   const after = await db.systemVendor.findMany({ where: { systemId }, select: { vendorId: true } });
+  await ensureVendorRisks(orgId, { systemId });
   const vendorsChanged = before.length !== after.length || before.some((b) => !after.find((a) => a.vendorId === b.vendorId));
   return { vendorIds: [...vendorIds], datasetIds: [...datasetIds], vendorsChanged };
 }

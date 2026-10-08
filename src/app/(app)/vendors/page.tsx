@@ -11,6 +11,8 @@ import { Checkbox, Field, Input, Textarea } from "@/components/ui/input";
 import { Tabs } from "@/components/ui/tabs";
 import { ConfirmButton } from "@/components/ui/confirm-button";
 import { deleteDatasetAction, deleteVendorAction, saveDatasetAction, saveVendorAction } from "./actions";
+import { AssessmentFields } from "./assessment-fields";
+import { dataProfileSummary, parseAssessment, parseDataProfile } from "@/lib/vendors/assessment";
 
 export const metadata = { title: "Vendors & Datasets" };
 
@@ -32,15 +34,14 @@ export default async function VendorsPage(props: PageProps<"/vendors">) {
 
       {tab === "vendors" && (
         <div className="space-y-4">
-          {canWrite && <Card><CardHeader><CardTitle>{t("Add vendor")}</CardTitle><CardDescription>{t("Risk score 0–100 (vendor due-diligence result); certifications comma-separated (ISO 27001, SOC 2…).")}</CardDescription></CardHeader><CardContent>
+          {canWrite && <Card><CardHeader><CardTitle>{t("Add vendor")}</CardTitle><CardDescription>{t("Fill the six-item due-diligence checklist to compute the risk score and describe the data the vendor sees; certifications comma-separated (ISO 27001, SOC 2…).")}</CardDescription></CardHeader><CardContent>
             <form action={saveVendorAction.bind(null, null)} className="grid grid-cols-1 gap-3 md:grid-cols-6">
               <Field label={t("Name")} className="md:col-span-2"><Input name="name" required /></Field>
               <Field label={t("Service type")}><Input name="serviceType" placeholder={t("Foundation model API, Cloud hosting, SaaS AI…")} /></Field>
               <Field label={t("Country")}><Input name="country" placeholder="US, KR, EU…" /></Field>
-              <Field label={t("Risk score")}><Input name="riskScore" type="number" min={0} max={100} step={1} /></Field>
-              <Field label={t("Data sensitivity")}><Input name="dataSensitivity" placeholder={t("What data the vendor sees")} /></Field>
-              <Field label={t("Certifications")} className="md:col-span-3"><Input name="certifications" placeholder="ISO 27001, SOC 2 Type II, ISO 42001" /></Field>
-              <Field label={t("Notes")} className="md:col-span-3"><Input name="notes" /></Field>
+              <Field label={t("Certifications")} className="md:col-span-2"><Input name="certifications" placeholder="ISO 27001, SOC 2 Type II, ISO 42001" /></Field>
+              <Field label={t("Notes")} className="md:col-span-6"><Input name="notes" /></Field>
+              <AssessmentFields assessment={null} profile={null} currentScore={null} />
               <div className="flex justify-end md:col-span-6"><Button type="submit">{t("Add vendor")}</Button></div>
             </form></CardContent></Card>}
           {vendors.length === 0 && <p className="text-sm text-muted">{t("No vendors registered yet.")}</p>}
@@ -48,19 +49,19 @@ export default async function VendorsPage(props: PageProps<"/vendors">) {
             <Card key={v.id}><CardContent className="pt-5">
               <form action={saveVendorAction.bind(null, v.id)} className="grid grid-cols-1 gap-3 md:grid-cols-6">
                 <div className="flex flex-wrap items-center justify-between gap-2 md:col-span-6">
-                  <div className="flex flex-wrap items-center gap-2"><span className="font-medium">{v.name}</span><Badge tone={riskTone(v.riskScore)}>{t("Risk")} {v.riskScore ?? "—"}/100</Badge>{v.certifications.map((c) => <Badge key={c}>{c}</Badge>)}</div>
+                  <div className="flex flex-wrap items-center gap-2"><span className="font-medium">{v.name}</span><Badge tone={riskTone(v.riskScore)}>{t("Risk")} {v.riskScore ?? "—"}/100{v.assessedAt ? "" : v.riskScore !== null ? ` · ${t("manual")}` : ""}</Badge>{v.assessedAt && <span className="text-[11px] text-muted">{t("assessed")} {v.assessedAt.toISOString().slice(0, 10)}</span>}{v.certifications.map((c) => <Badge key={c}>{c}</Badge>)}</div>
                   <div className="text-xs text-muted">{v.systems.length ? <>{t("Used by")} {v.systems.map((l) => <Link key={l.systemId} href={`/systems/${l.system.id}`} className="ml-1 text-primary hover:underline">{l.system.code}</Link>)}</> : t("Not linked to any system")}</div>
                 </div>
+                {(() => { const prof = parseDataProfile(v.dataProfile); const line = prof ? dataProfileSummary(prof, t) : v.dataSensitivity; return line ? <p className="-mt-1 text-xs text-muted md:col-span-6">{t("Data exposed")}: {line}</p> : null; })()}
                 {canWrite ? <>
                   <Field label={t("Name")} className="md:col-span-2"><Input name="name" defaultValue={v.name} required /></Field>
                   <Field label={t("Service type")}><Input name="serviceType" defaultValue={v.serviceType ?? ""} /></Field>
                   <Field label={t("Country")}><Input name="country" defaultValue={v.country ?? ""} /></Field>
-                  <Field label={t("Risk score")}><Input name="riskScore" type="number" min={0} max={100} step={1} defaultValue={v.riskScore ?? ""} /></Field>
-                  <Field label={t("Data sensitivity")}><Input name="dataSensitivity" defaultValue={v.dataSensitivity ?? ""} /></Field>
-                  <Field label={t("Certifications")} className="md:col-span-3"><Input name="certifications" defaultValue={v.certifications.join(", ")} /></Field>
-                  <Field label={t("Notes")} className="md:col-span-3"><Input name="notes" defaultValue={v.notes ?? ""} /></Field>
+                  <Field label={t("Certifications")} className="md:col-span-2"><Input name="certifications" defaultValue={v.certifications.join(", ")} /></Field>
+                  <Field label={t("Notes")} className="md:col-span-6"><Input name="notes" defaultValue={v.notes ?? ""} /></Field>
+                  <AssessmentFields assessment={parseAssessment(v.assessment)} profile={parseDataProfile(v.dataProfile)} currentScore={v.riskScore} />
                   <div className="flex justify-end gap-2 md:col-span-6"><ConfirmButton variant="ghost" size="sm" formAction={deleteVendorAction.bind(null, v.id)} message={t("Delete this vendor? Links to systems are removed as well.")}>{t("Delete")}</ConfirmButton><Button type="submit" size="sm" variant="outline">{t("Save")}</Button></div>
-                </> : <p className="text-sm text-muted md:col-span-6">{[v.serviceType, v.country, v.dataSensitivity, v.notes].filter(Boolean).join(" · ") || "—"}</p>}
+                </> : <p className="text-sm text-muted md:col-span-6">{[v.serviceType, v.country, v.notes].filter(Boolean).join(" · ") || "—"}</p>}
               </form>
             </CardContent></Card>
           ))}
