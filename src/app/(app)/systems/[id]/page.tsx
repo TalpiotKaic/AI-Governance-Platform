@@ -13,7 +13,8 @@ import { Table, TBody, TD, TH, THead, TR, EmptyState } from "@/components/ui/tab
 import { Input, Select } from "@/components/ui/input";
 import { VerdictBadge, SeverityBadge } from "@/components/domain/verdict";
 import { fmtDate, fmtAgo} from "@/lib/utils";
-import { recordChangeAction, updateControlStatusAction } from "../actions";
+import { linkDatasetAction, linkVendorAction, recordChangeAction, unlinkDatasetAction, unlinkVendorAction, updateControlStatusAction } from "../actions";
+import { Checkbox } from "@/components/ui/input";
 import { Suspense } from "react";
 import { getI18n } from "@/lib/i18n/server";
 import { localizeControl } from "@/lib/i18n/content";
@@ -24,6 +25,8 @@ export default async function SystemDetailPage(props: PageProps<"/systems/[id]">
   const { id } = await props.params;
   const sp = await props.searchParams;
   const tab = typeof sp.tab === "string" ? sp.tab : "overview";
+  const canEdit = userCan(user, "systems.write");
+  const [orgVendors, orgDatasets] = tab === "overview" ? await Promise.all([db.vendor.findMany({ where: { orgId: user.orgId }, orderBy: { name: "asc" }, select: { id: true, name: true } }), db.dataset.findMany({ where: { orgId: user.orgId }, orderBy: { name: "asc" }, select: { id: true, name: true } })]) : [[], []];
   const s = await db.aiSystem.findFirst({ where: { id, orgId: user.orgId }, include: { owner: true, technicalOwner: true, models: true, agentProfile: true, datasets: { include: { dataset: true } }, vendors: { include: { vendor: true } }, risks: { orderBy: { score: "desc" }, include: { owner: true } }, runs: { orderBy: { createdAt: "desc" } }, plans: { orderBy: { createdAt: "desc" } }, evidence: { orderBy: { createdAt: "desc" }, include: { links: { include: { control: true } } } }, reports: { orderBy: { createdAt: "desc" } }, changeEvents: { orderBy: { createdAt: "desc" } }, findings: { where: { status: { in: ["OPEN", "MITIGATING"] } }, orderBy: { severity: "desc" } }, incidents: true } });
   if (!s) notFound();
   const controls = (await db.control.findMany({ orderBy: { sortOrder: "asc" }, include: { impls: { where: { systemId: id } }, requirements: { include: { requirement: { include: { framework: true } } } }, testMethods: { include: { testMethod: true } }, evidenceLinks: { where: { evidence: { systemId: id, status: "VALID" } } } } })).map((c) => localizeControl(locale, c));
@@ -61,8 +64,19 @@ export default async function SystemDetailPage(props: PageProps<"/systems/[id]">
             </dl>
           </CardContent></Card>
           <Card><CardHeader><CardTitle>{t("Models")}</CardTitle></CardHeader><CardContent>{s.models.length ? <ul className="space-y-2 text-sm">{s.models.map((m) => <li key={m.id} className="rounded-md border border-border px-3 py-2"><div className="font-medium">{m.provider} · {m.name}{m.version && <span className="text-muted"> v{m.version}</span>}</div><div className="text-xs text-muted">{L(m.hostingType)}{m.modality ? ` · ${m.modality}` : ""}</div></li>)}</ul> : <p className="text-sm text-muted">{t("No model recorded.")}</p>}</CardContent></Card>
-          <Card><CardHeader><CardTitle>{t("Datasets")}</CardTitle></CardHeader><CardContent>{s.datasets.length ? <ul className="space-y-2 text-sm">{s.datasets.map((d) => <li key={d.datasetId} className="rounded-md border border-border px-3 py-2"><div className="font-medium">{d.dataset.name}{d.dataset.version && <span className="text-muted"> {d.dataset.version}</span>}</div><div className="text-xs text-muted">{d.purpose} · {d.dataset.containsPii ? "contains PII" : "no PII"} · {d.dataset.sensitivity}</div></li>)}</ul> : <p className="text-sm text-muted">{t("No datasets linked.")}</p>}</CardContent></Card>
-          <Card><CardHeader><CardTitle>{t("Vendors")}</CardTitle></CardHeader><CardContent>{s.vendors.length ? <ul className="space-y-2 text-sm">{s.vendors.map((v) => <li key={v.vendorId} className="rounded-md border border-border px-3 py-2"><div className="font-medium">{v.vendor.name}</div><div className="text-xs text-muted">{v.role} · {v.vendor.serviceType} · risk {v.vendor.riskScore ?? "—"}/100</div></li>)}</ul> : <p className="text-sm text-muted">{t("No vendors linked.")}</p>}</CardContent></Card>
+          <Card><CardHeader><CardTitle>{t("Datasets")}</CardTitle></CardHeader><CardContent>{s.datasets.length ? <ul className="space-y-2 text-sm">{s.datasets.map((d) => <li key={d.datasetId} className="flex items-start justify-between gap-2 rounded-md border border-border px-3 py-2"><div><div className="font-medium">{d.dataset.name}{d.dataset.version && <span className="text-muted"> {d.dataset.version}</span>}</div><div className="text-xs text-muted">{[d.purpose, d.dataset.containsPii ? t("contains PII") : t("no PII"), d.dataset.sensitivity].filter(Boolean).join(" · ")}</div></div>{canEdit && <form action={unlinkDatasetAction.bind(null, s.id, d.datasetId)}><button type="submit" className="text-xs text-muted hover:text-danger" title={t("Unlink")}>✕</button></form>}</li>)}</ul> : <p className="text-sm text-muted">{t("No datasets linked.")}</p>}
+            {canEdit && <form action={linkDatasetAction.bind(null, s.id)} className="mt-3 space-y-2 border-t border-border pt-3 text-xs">
+              <div className="flex flex-wrap gap-2"><Select name="datasetId" className="h-8 min-w-40 flex-1 text-xs"><option value="">{t("Existing dataset…")}</option>{orgDatasets.filter((d) => !s.datasets.some((x) => x.datasetId === d.id)).map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}</Select><Input name="datasetName" placeholder={t("or new dataset name")} className="h-8 min-w-40 flex-1 text-xs" /></div>
+              <div className="flex flex-wrap items-center gap-2"><Input name="purpose" placeholder={t("Purpose (training, evaluation, retrieval…)")} className="h-8 flex-1 text-xs" /><Input name="sensitivity" placeholder={t("Sensitivity")} className="h-8 w-28 text-xs" /><Checkbox name="containsPii" label={t("PII")} /><Button type="submit" size="sm" variant="outline">{t("Link")}</Button></div>
+            </form>}
+          </CardContent></Card>
+          <Card><CardHeader><CardTitle>{t("Vendors")}</CardTitle></CardHeader><CardContent>{s.vendors.length ? <ul className="space-y-2 text-sm">{s.vendors.map((v) => <li key={v.vendorId} className="flex items-start justify-between gap-2 rounded-md border border-border px-3 py-2"><div><div className="font-medium">{v.vendor.name}</div><div className="text-xs text-muted">{[v.role, v.vendor.serviceType, v.vendor.country].filter(Boolean).join(" · ")} · {t("risk")} {v.vendor.riskScore ?? "—"}/100</div></div>{canEdit && <form action={unlinkVendorAction.bind(null, s.id, v.vendorId)}><button type="submit" className="text-xs text-muted hover:text-danger" title={t("Unlink")}>✕</button></form>}</li>)}</ul> : <p className="text-sm text-muted">{t("No vendors linked.")}</p>}
+            {canEdit && <form action={linkVendorAction.bind(null, s.id)} className="mt-3 space-y-2 border-t border-border pt-3 text-xs">
+              <div className="flex flex-wrap gap-2"><Select name="vendorId" className="h-8 min-w-40 flex-1 text-xs"><option value="">{t("Existing vendor…")}</option>{orgVendors.filter((v) => !s.vendors.some((x) => x.vendorId === v.id)).map((v) => <option key={v.id} value={v.id}>{v.name}</option>)}</Select><Input name="vendorName" placeholder={t("or new vendor name")} className="h-8 min-w-40 flex-1 text-xs" /></div>
+              <div className="flex flex-wrap items-center gap-2"><Input name="role" placeholder={t("Role (LLM provider, hosting…)")} className="h-8 flex-1 text-xs" /><Input name="serviceType" placeholder={t("Service type")} className="h-8 w-36 text-xs" /><Button type="submit" size="sm" variant="outline">{t("Link")}</Button></div>
+            </form>}
+            <p className="mt-2 text-[11px] text-muted"><Link href="/vendors" className="text-primary hover:underline">{t("Manage vendors & datasets")}</Link></p>
+          </CardContent></Card>
         </div>
       )}
 

@@ -10,7 +10,7 @@ import { LanguageToggle } from "./language-toggle";
 import { ThemeToggle } from "./theme-toggle";
 
 const links = [
-  ["/dashboard", "Dashboard"], ["/systems", "AI Inventory"], ["/risks", "Risk Register"], ["/frameworks", "Frameworks & Controls"],
+  ["/dashboard", "Dashboard"], ["/systems", "AI Inventory"], ["/vendors", "Vendors & Datasets"], ["/risks", "Risk Register"], ["/frameworks", "Frameworks & Controls"],
   ["/plans", "Evaluation Plans"], ["/evaluations", "Evaluation Runs"], ["/library", "Test Library"], ["/evidence", "Evidence Center"],
   ["/reports", "Reports & Packs"], ["/approvals", "Approvals & Tasks"], ["/incidents", "Incidents"], ["/policies", "Policies"], ["/settings", "Settings"],
 ];

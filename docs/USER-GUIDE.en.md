@@ -113,6 +113,13 @@ The register of every AI system, model and agent. Risks, controls, tests, eviden
 
 On save, the answers set the **initial risk tier**, seed context-specific risks (for example personal data → privacy risk, agent → tool-misuse risk), and create the **multi-stage approval workflow** that matches the tier (technical → privacy & security → legal → executive).
 
+**Linking vendors and datasets** — form section 4, the system page, and the "Vendors & Datasets" menu
+
+- In section "4. Vendors & datasets" of the form, tick the vendors and datasets already registered for your organisation and give each a role (LLM provider, hosting…) or purpose (training, evaluation, retrieval…). Items that do not exist yet can be typed one per line (name | role | service type | country / name | purpose | PII yes·no | sensitivity) and are created and linked on save. With "Link the model provider as a vendor automatically" on, the provider from section 3 (e.g. Anthropic) is linked as an LLM-provider vendor (skipped for in-house models).
+- On the system page → Overview, the Vendors and Datasets cards let you add links (pick an existing one or type a new name) and remove them (✕). A vendor change writes a change event and requires security/privacy re-tests.
+- Govern → "Vendors & Datasets" manages vendors (service type, country, risk score 0–100, data sensitivity, certifications, notes) and datasets (version, source, sensitivity, record count, PII flag) and shows which systems use them.
+- The Excel bulk template has "Vendors" and "Datasets" columns in the same line format. Links appear in the AI Passport's data & third-parties tables.
+
 **Bulk registration from Excel** — "Import from Excel" button
 
 When there are many systems, register them in one go from the standard Excel template instead of one by one.

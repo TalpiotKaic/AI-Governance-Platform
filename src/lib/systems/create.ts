@@ -4,6 +4,7 @@ import { intakeTier } from "@/lib/intake";
 import type { SessionUser } from "@/lib/auth";
 import type { Prisma } from "@/generated/prisma/client";
 import { z } from "zod";
+import { linksFromForm, syncSystemLinks, type LinkSpec } from "./links";
 
 /** Intake form schema — shared by the single-system form and the Excel bulk import. */
 export const systemSchema = z.object({
@@ -36,6 +37,10 @@ export const systemSchema = z.object({
   mcpServers: z.string().optional(),
   killSwitch: z.boolean().optional(),
   maxBudgetUsd: z.string().optional(),
+  // third parties & data (one per line: "name | role | serviceType | country" / "name | purpose | PII | sensitivity")
+  vendors: z.string().optional(),
+  datasets: z.string().optional(),
+  linkProviderVendor: z.boolean().optional(),
 });
 
 export type SystemInput = z.infer<typeof systemSchema>;
@@ -48,7 +53,7 @@ export function parseLines(v?: string, key = "name") { return (v ?? "").split("\
 
 
 /** Creates the system plus its intake-seeded risks and tier-based approval workflow; returns the created record and tier. */
-export async function createSystemRecord(user: SessionUser, d: SystemInput, opts: { source?: string } = {}) {
+export async function createSystemRecord(user: SessionUser, d: SystemInput, opts: { source?: string; links?: LinkSpec } = {}) {
   const count = await db.aiSystem.count({ where: { orgId: user.orgId } });
   const { score, tier } = intakeTier(d);
   const isAgent = d.type === "AGENT" || d.type === "MULTI_AGENT";
@@ -75,5 +80,8 @@ export async function createSystemRecord(user: SessionUser, d: SystemInput, opts
   const stages = tier === "LOW" ? ["Governance owner approval"] : tier === "MEDIUM" ? ["Technical review", "Governance owner approval"] : ["Technical review", "Privacy & security review", "Legal / compliance review", "Executive approval"];
   await db.approval.createMany({ data: stages.map((stage) => ({ orgId: user.orgId, subjectType: "SYSTEM_DEPLOYMENT" as const, subjectId: system.id, subjectLabel: `${system.code} ${system.name} — deployment`, stage })) });
   await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: "system.created", entityType: "AiSystem", entityId: system.id, summary: `${system.code} ${system.name} registered (tier ${tier})${opts.source ? ` via ${opts.source}` : ""}` } });
+  // Vendors & datasets (existing by id/name, or created on the fly); the model provider becomes a vendor unless opted out
+  const links = opts.links ?? linksFromForm(new FormData(), d);
+  await syncSystemLinks(user.orgId, system.id, links);
   return { system, tier, score };
 }

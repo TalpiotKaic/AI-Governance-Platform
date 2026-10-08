@@ -113,6 +113,13 @@ Le registre de tous les systèmes, modèles et agents d'IA. Risques, contrôles,
 
 À l'enregistrement, les réponses fixent le **niveau de risque initial**, génèrent des risques contextuels (par exemple données personnelles → risque vie privée, agent → risque de mésusage d'outils) et créent le **flux d'approbation à plusieurs étapes** correspondant au niveau (technique → vie privée & sécurité → juridique → direction).
 
+**Lier fournisseurs et jeux de données** — section 4 du formulaire, page du système et menu « Fournisseurs et jeux de données »
+
+- Dans la section « 4. Fournisseurs et jeux de données » du formulaire, cochez les fournisseurs et jeux de données déjà enregistrés pour l'organisation et indiquez un rôle (fournisseur LLM, hébergement…) ou un usage (entraînement, évaluation, recherche…). Les éléments inexistants se saisissent un par ligne (nom | rôle | type de service | pays / nom | usage | données personnelles oui·non | sensibilité) et sont créés puis liés à l'enregistrement. Avec « Lier automatiquement le fournisseur du modèle » activé, le fournisseur de la section 3 (ex. Anthropic) est lié comme fournisseur LLM (ignoré pour les modèles internes).
+- Sur la page du système → Vue d'ensemble, les cartes Fournisseurs et Jeux de données permettent d'ajouter des liens (choisir un existant ou saisir un nouveau nom) et de les retirer (✕). Un changement de fournisseur crée un événement de changement et exige des re-tests sécurité/vie privée.
+- Gouverner → « Fournisseurs et jeux de données » gère les fournisseurs (type de service, pays, score de risque 0–100, sensibilité des données, certifications, notes) et les jeux de données (version, source, sensibilité, nombre d'enregistrements, indicateur de données personnelles) et montre quels systèmes les utilisent.
+- Le modèle Excel d'enregistrement en masse comporte les colonnes « Fournisseurs » et « Jeux de données » au même format. Les liens apparaissent dans les tableaux données et tiers de l'AI Passport.
+
 **Enregistrement en masse depuis Excel** — bouton « Importer depuis Excel »
 
 Lorsque les systèmes sont nombreux, enregistrez-les en une fois à partir du modèle Excel standard plutôt qu'un par un.

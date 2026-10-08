@@ -4,7 +4,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Boxes, ShieldAlert, Scale, FlaskConical, ClipboardList, Library, FolderCheck,
-  FileText, CheckSquare, Siren, BookOpen, Settings, Globe, Bot,
+  FileText, CheckSquare, Siren, BookOpen, Settings, Globe, Bot, Building2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/client";
@@ -17,6 +17,7 @@ const nav = [
     section: "Govern",
     items: [
       { href: "/systems", label: "AI Inventory", icon: Boxes },
+      { href: "/vendors", label: "Vendors & Datasets", icon: Building2 },
       { href: "/risks", label: "Risk Register", icon: ShieldAlert },
       { href: "/frameworks", label: "Frameworks & Controls", icon: Scale },
       { href: "/policies", label: "Policies", icon: BookOpen },

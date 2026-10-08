@@ -113,6 +113,13 @@ Il registro di tutti i sistemi, modelli e agenti di IA. Rischi, controlli, test,
 
 Al salvataggio le risposte fissano il **livello di rischio iniziale**, generano rischi contestuali (ad es. dati personali → rischio privacy, agente → rischio di uso improprio degli strumenti) e creano il **flusso di approvazione a più fasi** adeguato al livello (tecnica → privacy & sicurezza → legale → direzione).
 
+**Collegare fornitori e dataset** — sezione 4 del modulo, pagina del sistema e menu «Fornitori e dataset»
+
+- Nella sezione «4. Fornitori e dataset» del modulo, spunta i fornitori e i dataset già registrati per l'organizzazione e indica un ruolo (fornitore LLM, hosting…) o una finalità (addestramento, valutazione, retrieval…). Gli elementi non ancora esistenti si digitano uno per riga (nome | ruolo | tipo di servizio | paese / nome | finalità | dati personali sì·no | sensibilità) e vengono creati e collegati al salvataggio. Con «Collega automaticamente il fornitore del modello» attivo, il fornitore della sezione 3 (es. Anthropic) viene collegato come fornitore LLM (ignorato per i modelli interni).
+- Nella pagina del sistema → Panoramica, le schede Fornitori e Dataset permettono di aggiungere collegamenti (scegliere un elemento esistente o digitare un nuovo nome) e rimuoverli (✕). Una modifica dei fornitori genera un evento di modifica e richiede nuovi test di sicurezza/privacy.
+- Governare → «Fornitori e dataset» gestisce fornitori (tipo di servizio, paese, punteggio di rischio 0–100, sensibilità dei dati, certificazioni, note) e dataset (versione, fonte, sensibilità, numero di record, indicatore dati personali) e mostra quali sistemi li usano.
+- Il modello Excel per la registrazione massiva ha le colonne «Fornitori» e «Dataset» nello stesso formato per riga. I collegamenti compaiono nelle tabelle dati e terze parti dell'AI Passport.
+
 **Registrazione massiva da Excel** — pulsante «Importa da Excel»
 
 Quando i sistemi sono molti, registrali in una volta dal modello Excel standard invece che uno alla volta.

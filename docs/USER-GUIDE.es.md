@@ -113,6 +113,13 @@ El registro de todos los sistemas, modelos y agentes de IA. Riesgos, controles, 
 
 Al guardar, las respuestas fijan el **nivel de riesgo inicial**, generan riesgos contextuales (por ejemplo, datos personales → riesgo de privacidad, agente → riesgo de uso indebido de herramientas) y crean el **flujo de aprobación en varias etapas** acorde al nivel (técnica → privacidad y seguridad → legal → dirección).
 
+**Vincular proveedores y conjuntos de datos** — sección 4 del formulario, página del sistema y menú «Proveedores y conjuntos de datos»
+
+- En la sección «4. Proveedores y conjuntos de datos» del formulario, marque los proveedores y conjuntos de datos ya registrados en la organización e indique un rol (proveedor LLM, alojamiento…) o una finalidad (entrenamiento, evaluación, recuperación…). Los elementos que no existen se escriben uno por línea (nombre | rol | tipo de servicio | país / nombre | finalidad | datos personales sí·no | sensibilidad) y se crean y vinculan al guardar. Con «Vincular automáticamente el proveedor del modelo» activado, el proveedor de la sección 3 (p. ej. Anthropic) se vincula como proveedor LLM (se omite para modelos propios).
+- En la página del sistema → Resumen, las tarjetas Proveedores y Conjuntos de datos permiten añadir vínculos (elegir uno existente o escribir un nombre nuevo) y quitarlos (✕). Un cambio de proveedor genera un evento de cambio y exige nuevas pruebas de seguridad/privacidad.
+- Gobernar → «Proveedores y conjuntos de datos» gestiona proveedores (tipo de servicio, país, puntuación de riesgo 0–100, sensibilidad de los datos, certificaciones, notas) y conjuntos de datos (versión, origen, sensibilidad, número de registros, indicador de datos personales) y muestra qué sistemas los usan.
+- La plantilla Excel de alta masiva tiene las columnas «Proveedores» y «Conjuntos de datos» con el mismo formato por línea. Los vínculos aparecen en las tablas de datos y terceros del AI Passport.
+
 **Alta masiva desde Excel** — botón «Importar desde Excel»
 
 Cuando hay muchos sistemas, regístrelos de una vez con la plantilla Excel estándar en lugar de uno a uno.

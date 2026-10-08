@@ -40,6 +40,8 @@ export const COLUMNS: ImportColumn[] = [
   { key: "modelProvider", header: "Model provider", kind: "text", note: "e.g. Anthropic, OpenAI, in-house.", example: "Anthropic" },
   { key: "modelName", header: "Model name", kind: "text", note: "Primary model used.", example: "claude-sonnet-5-5" },
   { key: "modelVersion", header: "Model version", kind: "text", note: "Version or snapshot identifier.", example: "2026-09" },
+  { key: "vendors", header: "Vendors", kind: "long", note: "One per line (Alt+Enter): name | role | service type | country. Existing vendors are matched by name, new ones are created. The model provider is linked as a vendor automatically.", example: "Anthropic | LLM provider | Foundation model API | US\nAWS (ap-northeast-2) | Hosting | Cloud hosting | KR" },
+  { key: "datasets", header: "Datasets", kind: "long", note: "One per line (Alt+Enter): name | purpose | PII yes/no | sensitivity. Existing datasets are matched by name, new ones are created.", example: "Support knowledge base | retrieval | no | internal" },
   { key: "agentFramework", header: "Agent framework", kind: "text", agentOnly: true, note: "Agents only: LangGraph, CrewAI, AutoGen, custom, MCP…", example: "LangGraph" },
   { key: "autonomyLevel", header: "Autonomy level", kind: "enum", agentOnly: true, options: AUTONOMY_LEVELS, note: "Agents only. Defaults to Supervised.", example: "SUPERVISED" },
   { key: "tools", header: "Agent tools", kind: "long", agentOnly: true, note: "Agents only. One tool per line (Alt+Enter): name | riskLevel(low/medium/high/critical) | allowed(true/false) | permissions", example: "lookup_customer | medium | true | customer:read\ntransfer_funds | critical | true | account:write" },

@@ -113,6 +113,13 @@ Das Verzeichnis aller KI-Systeme, Modelle und Agenten. Risiken, Kontrollen, Test
 
 Beim Speichern setzen die Antworten die **anfängliche Risikostufe**, erzeugen kontextbezogene Risiken (z. B. personenbezogene Daten → Datenschutzrisiko, Agent → Werkzeugmissbrauchsrisiko) und legen den **mehrstufigen Freigabe-Workflow** passend zur Stufe an (Technik → Datenschutz & Sicherheit → Recht → Geschäftsleitung).
 
+**Anbieter und Datensätze verknüpfen** — Formularabschnitt 4, Systemseite und Menü „Anbieter & Datensätze“
+
+- In Abschnitt „4. Anbieter & Datensätze“ des Formulars die bereits registrierten Anbieter und Datensätze ankreuzen und je eine Rolle (LLM-Anbieter, Hosting …) bzw. einen Zweck (Training, Evaluierung, Retrieval …) angeben. Noch nicht vorhandene Einträge zeilenweise eintippen (Name | Rolle | Dienstart | Land / Name | Zweck | personenbezogene Daten ja·nein | Sensibilität); sie werden beim Speichern angelegt und verknüpft. Ist „Modellanbieter automatisch als Anbieter verknüpfen“ aktiv, wird der Anbieter aus Abschnitt 3 (z. B. Anthropic) als LLM-Anbieter verknüpft (bei internen Modellen übersprungen).
+- Auf der Systemseite → Übersicht lassen sich in den Karten Anbieter und Datensätze Verknüpfungen hinzufügen (vorhandenen Eintrag wählen oder neuen Namen eingeben) und entfernen (✕). Ein Anbieterwechsel erzeugt ein Änderungsereignis und verlangt Sicherheits-/Datenschutz-Nachtests.
+- Steuern → „Anbieter & Datensätze“ verwaltet Anbieter (Dienstart, Land, Risikowert 0–100, Datensensibilität, Zertifizierungen, Notizen) und Datensätze (Version, Quelle, Sensibilität, Anzahl, Kennzeichen personenbezogene Daten) und zeigt, welche Systeme sie nutzen.
+- Die Excel-Vorlage für die Massenregistrierung enthält die Spalten „Anbieter“ und „Datensätze“ im gleichen Zeilenformat. Verknüpfungen erscheinen im AI Passport in den Tabellen Daten & Dritte.
+
 **Massenregistrierung aus Excel** — Schaltfläche „Aus Excel importieren“
 
 Bei vielen Systemen registrieren Sie diese auf einmal über die Standard-Excel-Vorlage statt einzeln.

@@ -14,6 +14,10 @@ type Initial = Partial<{
 }>;
 
 type Tool = { name: string; riskLevel?: string; allowed?: boolean; permissions?: string[] };
+export type VendorOption = { id: string; name: string; serviceType: string | null; country: string | null; riskScore: number | null };
+export type DatasetOption = { id: string; name: string; containsPii: boolean; sensitivity: string | null };
+export type InitialLinks = { vendors: { id: string; role: string | null }[]; datasets: { id: string; purpose: string | null }[] };
+type Catalog = { vendors: VendorOption[]; datasets: DatasetOption[]; initialLinks?: InitialLinks };
 type Named = { name: string };
 type Translate = (key: string) => string;
 type LabelFor = (v: string | null | undefined) => string;
@@ -30,7 +34,7 @@ function draftKeyFor(): string {
   return `kveriai-system-draft:${typeof window === "undefined" ? "ssr" : window.location.pathname}`;
 }
 
-export function SystemForm({ action, initial, submitLabel }: { action: (fd: FormData) => Promise<void>; initial?: Initial; submitLabel: string }) {
+export function SystemForm({ action, initial, submitLabel, catalog }: { action: (fd: FormData) => Promise<void>; initial?: Initial; submitLabel: string; catalog: Catalog }) {
   const { t, L } = useI18n();
   const [state, setState] = useState<{ loaded: boolean; draft: Initial | null; key: string }>({ loaded: false, draft: null, key: "" });
 
@@ -62,12 +66,14 @@ export function SystemForm({ action, initial, submitLabel }: { action: (fd: Form
           <Button type="button" size="sm" variant="ghost" onClick={discardDraft}>{t("Discard draft")}</Button>
         </div>
       )}
-      <SystemFormInner key={state.loaded ? `loaded:${state.draft ? "draft" : "clean"}` : "initial"} action={action} initial={mergedInitial} submitLabel={submitLabel} draftKey={state.key} t={t} L={L} />
+      <SystemFormInner key={state.loaded ? `loaded:${state.draft ? "draft" : "clean"}` : "initial"} action={action} initial={mergedInitial} submitLabel={submitLabel} draftKey={state.key} t={t} L={L} catalog={catalog} />
     </div>
   );
 }
 
-function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { action: (fd: FormData) => Promise<void>; initial?: Initial; submitLabel: string; draftKey: string; t: Translate; L: LabelFor }) {
+function SystemFormInner({ action, initial, submitLabel, draftKey, t, L, catalog }: { action: (fd: FormData) => Promise<void>; initial?: Initial; submitLabel: string; draftKey: string; t: Translate; L: LabelFor; catalog: Catalog }) {
+  const linkedV = new Map((catalog.initialLinks?.vendors ?? []).map((v) => [v.id, v.role]));
+  const linkedD = new Map((catalog.initialLinks?.datasets ?? []).map((d) => [d.id, d.purpose]));
   const [type, setType] = useState(initial?.type ?? "LLM_APPLICATION");
   const isAgent = type === "AGENT" || type === "MULTI_AGENT";
   const toolsText = toolsToText(initial?.agent?.tools);
@@ -242,9 +248,25 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L }: { act
           <Field label={t("Version")}><Input name="modelVersion" defaultValue={initial?.model?.version ?? ""} /></Field>
         </CardContent>
       </Card>
+      <Card>
+        <CardHeader><CardTitle>{t("4. Vendors & datasets (third parties and data)")}</CardTitle><CardDescription>{t("Link the external providers and the data this system depends on. Linked vendors and datasets appear on the system page and in the AI Passport; vendor changes trigger security/privacy re-tests.")}</CardDescription></CardHeader>
+        <CardContent className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted">{t("Vendors")}</p>
+            {catalog.vendors.length ? <ul className="max-h-56 space-y-1 overflow-auto rounded-md border border-border p-2">{catalog.vendors.map((v) => <li key={v.id} className="flex flex-wrap items-center gap-2 text-sm"><label className="flex min-w-0 flex-1 items-center gap-2"><input type="checkbox" name="vendorIds" value={v.id} defaultChecked={linkedV.has(v.id)} className="accent-[var(--primary)]" /><span className="truncate">{v.name}<span className="ml-1 text-xs text-muted">{v.serviceType ?? ""}{v.country ? ` · ${v.country}` : ""}</span></span></label><Input name={`vendorRole:${v.id}`} defaultValue={linkedV.get(v.id) ?? ""} placeholder={t("Role (LLM provider, hosting…)")} className="h-7 w-44 text-xs" /></li>)}</ul> : <p className="text-xs text-muted">{t("No vendors registered yet — add them below or in Vendors & Datasets.")}</p>}
+            <Field label={t("New vendors (one per line: name | role | service type | country)")} hint={t("Vendors that do not exist yet are created and linked on save.")}><Textarea name="newVendors" rows={3} placeholder={"Anthropic | LLM provider | Foundation model API | US\nAWS (ap-northeast-2) | Hosting | Cloud hosting | KR"} /></Field>
+            <Checkbox name="linkProviderVendor" label={t("Link the model provider above as a vendor automatically (skipped for in-house models)")} defaultChecked={!initial} />
+          </div>
+          <div className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted">{t("Datasets")}</p>
+            {catalog.datasets.length ? <ul className="max-h-56 space-y-1 overflow-auto rounded-md border border-border p-2">{catalog.datasets.map((d) => <li key={d.id} className="flex flex-wrap items-center gap-2 text-sm"><label className="flex min-w-0 flex-1 items-center gap-2"><input type="checkbox" name="datasetIds" value={d.id} defaultChecked={linkedD.has(d.id)} className="accent-[var(--primary)]" /><span className="truncate">{d.name}<span className="ml-1 text-xs text-muted">{d.containsPii ? t("PII") : ""}{d.sensitivity ? ` · ${d.sensitivity}` : ""}</span></span></label><Input name={`datasetPurpose:${d.id}`} defaultValue={linkedD.get(d.id) ?? ""} placeholder={t("Purpose (training, evaluation, retrieval…)")} className="h-7 w-44 text-xs" /></li>)}</ul> : <p className="text-xs text-muted">{t("No datasets registered yet — add them below or in Vendors & Datasets.")}</p>}
+            <Field label={t("New datasets (one per line: name | purpose | PII yes/no | sensitivity)")} hint={t("Datasets that do not exist yet are created and linked on save.")}><Textarea name="newDatasets" rows={3} placeholder={"Support knowledge base | retrieval | no | internal\nCRM customer records | inference input | yes | confidential"} /></Field>
+          </div>
+        </CardContent>
+      </Card>
       {isAgent && (
         <Card>
-          <CardHeader><CardTitle>{t("4. Agent profile (Agent Card)")}</CardTitle><CardDescription>{t("Tools, data sources and MCP servers define the agent&apos;s action surface; the allow-list is enforced during evaluation and drives agent-specific risks.")}</CardDescription></CardHeader>
+          <CardHeader><CardTitle>{t("5. Agent profile (Agent Card)")}</CardTitle><CardDescription>{t("Tools, data sources and MCP servers define the agent&apos;s action surface; the allow-list is enforced during evaluation and drives agent-specific risks.")}</CardDescription></CardHeader>
           <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Field label={t("Agent framework")}><Input name="agentFramework" defaultValue={initial?.agent?.framework ?? ""} placeholder={t("LangGraph, CrewAI, AutoGen, custom…")} /></Field>
             <Field label={t("Autonomy level")}>
