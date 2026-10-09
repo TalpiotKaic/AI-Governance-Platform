@@ -16,7 +16,7 @@ Textarea.displayName = "Textarea";
 
 export const Select = React.forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<HTMLSelectElement>>(
   ({ className, children, ...props }, ref) => (
-    <select ref={ref} className={cn(base, "h-9", className)} {...props}>
+    <select ref={ref} className={cn(base, "h-9 cursor-pointer disabled:cursor-not-allowed", className)} {...props}>
       {children}
     </select>
   ),
@@ -39,8 +39,8 @@ export function Field({ label, hint, children, className }: { label: string; hin
 
 export function Checkbox({ label, className, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
   return (
-    <label className={cn("flex items-center gap-2 text-sm", className)}>
-      <input type="checkbox" className="h-4 w-4 rounded border-border accent-[var(--primary)]" {...props} />
+    <label className={cn("flex cursor-pointer items-center gap-2 text-sm", className)}>
+      <input type="checkbox" className="h-4 w-4 cursor-pointer rounded border-border accent-[var(--primary)]" {...props} />
       <span>{label}</span>
     </label>
   );

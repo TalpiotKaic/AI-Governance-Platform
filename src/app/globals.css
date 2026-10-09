@@ -96,29 +96,19 @@ body {
   background: var(--primary-soft);
 }
 
-/* Tailwind v4 preflight resets buttons to cursor: default; restore the pointer on every interactive control. */
+/* Tailwind v4 preflight resets buttons to cursor: default; restore the pointer on every interactive control.
+   Kept as plain, widely-supported selectors (no :has/:is in the main list) so older browsers never drop the rule. */
 @layer base {
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]),
-  [role="radio"]:not([aria-disabled="true"]),
-  [role="tab"],
-  input[type="checkbox"]:not(:disabled),
-  input[type="radio"]:not(:disabled),
-  input[type="file"]:not(:disabled),
-  input[type="submit"]:not(:disabled),
-  select:not(:disabled),
-  summary,
-  label:has(> input[type="checkbox"]:not(:disabled)),
-  label:has(> input[type="radio"]:not(:disabled)) {
+  button, [role="button"], [role="radio"], [role="tab"], summary,
+  input[type="checkbox"], input[type="radio"], input[type="file"], input[type="submit"], input[type="button"], select {
     cursor: pointer;
   }
-  button:disabled,
-  input:disabled,
-  select:disabled,
-  textarea:disabled {
+  button:disabled, input:disabled, select:disabled, textarea:disabled, [aria-disabled="true"] {
     cursor: not-allowed;
   }
 }
+/* Labels wrapping a checkbox/radio (progressive enhancement; ignored by browsers without :has). */
+label:has(> input[type="checkbox"]), label:has(> input[type="radio"]) { cursor: pointer; }
 
 .scroll-thin::-webkit-scrollbar { width: 8px; height: 8px; }
 .scroll-thin::-webkit-scrollbar-thumb { background: var(--border); border-radius: 8px; }
