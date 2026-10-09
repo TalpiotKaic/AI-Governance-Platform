@@ -1,6 +1,13 @@
 /** French (fr) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const fr: Record<string, string> = {
+  "public": "public",
+  "internal": "interne",
+  "confidential": "confidentiel",
+  "restricted": "restreint",
+  "training": "entraînement",
+  "retrieval": "recherche",
+  "inference input": "entrée d'inférence",
   "1. Choose the JSONL file": "1. Choisir le fichier JSONL",
   "2. Import options": "2. Options d'import",
   "3. Scenarios to be created": "3. Scénarios à créer",
@@ -416,6 +423,14 @@ export const FR_LABELS: Record<string, string> = {
 };
 
 export const REPORT_FR: Record<string, string> = {
+  "public": "public",
+  "internal": "interne",
+  "confidential": "confidentiel",
+  "restricted": "restreint",
+  "training": "entraînement",
+  "evaluation": "évaluation",
+  "retrieval": "recherche",
+  "inference input": "entrée d'inférence",
   "AI Evaluation Report": "Rapport d'évaluation IA",
   "AI System Verification Report": "Rapport de vérification du système d'IA (rapport d'essai)",
   "NIST ARIA Evaluation Report (AI 200-3 worksheets)": "Rapport d'évaluation NIST ARIA (feuilles AI 200-3)",

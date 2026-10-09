@@ -8,7 +8,8 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Checkbox, Field, Input, Textarea } from "@/components/ui/input";
+import { Checkbox, Field, Input, Select, Textarea } from "@/components/ui/input";
+import { SENSITIVITY_LEVELS, sensitivityLabel } from "@/lib/datasets";
 import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
 import { Tabs } from "@/components/ui/tabs";
 import { ConfirmButton } from "@/components/ui/confirm-button";
@@ -83,14 +84,13 @@ export default async function VendorsPage(props: PageProps<"/vendors">) {
 
       {tab === "datasets" && (
         <div className="space-y-4">
-          <datalist id="sens-list"><option value="public" /><option value="internal" /><option value="confidential" /><option value="restricted" /></datalist>
           {(adding || editDataset) && canWrite && (() => { const d = editDataset; return (
             <Card><CardHeader><CardTitle>{d ? `${t("Edit")}: ${d.name}` : t("Add dataset")}</CardTitle><CardDescription>{t("Sensitivity: public / internal / confidential / restricted. Mark PII so privacy risks and DPIA evidence are linked correctly.")}</CardDescription></CardHeader><CardContent>
               <form action={saveDatasetAction.bind(null, d?.id ?? null)} className="grid grid-cols-1 gap-3 md:grid-cols-6">
                 <Field label={t("Name")} className="md:col-span-2"><Input name="name" defaultValue={d?.name ?? ""} required /></Field>
                 <Field label={t("Version")}><Input name="version" defaultValue={d?.version ?? ""} /></Field>
                 <Field label={t("Source")}><Input name="source" defaultValue={d?.source ?? ""} placeholder={t("CRM export, public corpus, vendor…")} /></Field>
-                <Field label={t("Sensitivity")}><Input name="sensitivity" list="sens-list" defaultValue={d?.sensitivity ?? ""} placeholder="internal" /></Field>
+                <Field label={t("Sensitivity")}><Select name="sensitivity" defaultValue={d?.sensitivity ?? ""}><option value="">—</option>{SENSITIVITY_LEVELS.map((v) => <option key={v} value={v}>{t(v)}</option>)}</Select></Field>
                 <Field label={t("Record count")}><Input name="recordCount" type="number" min={0} defaultValue={d?.recordCount ?? ""} /></Field>
                 <Field label={t("Description")} className="md:col-span-5"><Textarea name="description" rows={2} defaultValue={d?.description ?? ""} /></Field>
                 <div className="flex items-end pb-2"><Checkbox name="containsPii" label={t("Contains PII")} defaultChecked={d?.containsPii} /></div>
@@ -109,7 +109,7 @@ export default async function VendorsPage(props: PageProps<"/vendors">) {
                     <TD><div className="font-medium">{d.name}</div>{d.description && <div className="line-clamp-1 max-w-xs text-xs text-muted">{d.description}</div>}</TD>
                     <TD className="text-xs text-muted">{d.version ?? "—"}</TD>
                     <TD className="text-xs text-muted">{d.source ?? "—"}</TD>
-                    <TD>{d.sensitivity ? <Badge tone="info">{d.sensitivity}</Badge> : <span className="text-xs text-muted">—</span>}</TD>
+                    <TD>{d.sensitivity ? <Badge tone="info">{sensitivityLabel(t, d.sensitivity)}</Badge> : <span className="text-xs text-muted">—</span>}</TD>
                     <TD>{d.containsPii ? <Badge tone="warning">{t("PII")}</Badge> : <span className="text-xs text-muted">—</span>}</TD>
                     <TD className="text-xs tabular-nums text-muted">{d.recordCount?.toLocaleString() ?? "—"}</TD>
                     <TD className="text-xs">{usedBy(d.systems)}</TD>

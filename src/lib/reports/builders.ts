@@ -273,7 +273,7 @@ export async function buildPassport(systemId: string, locale: Locale = "en"): Pr
     { id: "identity", title: tr("Identity & lifecycle"), blocks: [{ type: "score", label: tr("Current AI Assurance Score"), value: s.assuranceScore ?? null, verdict: s.assuranceScore === null ? "NOT_EVALUATED" : s.assuranceScore >= 80 ? "PASS" : s.assuranceScore >= 60 ? "WARN" : "FAIL" }] },
     systemSection(s, locale),
     { id: "data", title: tr("Data & third parties"), blocks: [
-      { type: "table", columns: [tr("Dataset"), tr("Version"), tr("Purpose"), tr("PII"), tr("Sensitivity")], rows: s.datasets.map((d) => [d.dataset.name, d.dataset.version ?? "—", d.purpose ?? "—", d.dataset.containsPii ? tr("Yes") : tr("No"), d.dataset.sensitivity ?? "—"]) },
+      { type: "table", columns: [tr("Dataset"), tr("Version"), tr("Purpose"), tr("PII"), tr("Sensitivity")], rows: s.datasets.map((d) => [d.dataset.name, d.dataset.version ?? "—", d.purpose ? tr(d.purpose) : "—", d.dataset.containsPii ? tr("Yes") : tr("No"), d.dataset.sensitivity ? tr(d.dataset.sensitivity) : "—"]) },
       { type: "table", columns: [tr("Vendor"), tr("Role"), tr("Service"), tr("Country"), tr("Risk score")], rows: s.vendors.map((v) => [v.vendor.name, v.role ?? "—", v.vendor.serviceType ?? "—", v.vendor.country ?? "—", v.vendor.riskScore === null ? "—" : String(v.vendor.riskScore)]) },
     ] },
     { id: "assurance", title: tr("Assurance history"), blocks: [{ type: "table", columns: [tr("Run"), tr("Date"), tr("Mode"), tr("Verdict"), tr("Score"), tr("Findings")], rows: runs.map((r) => [r.code, fmtDate(r.finishedAt ?? r.createdAt), r.mode, r.verdict, String((r.summary as Summary).assuranceScore ?? "—"), String(r.findings.length)]), badgeColumns: [3] }] },

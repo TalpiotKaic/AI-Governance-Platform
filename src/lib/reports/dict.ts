@@ -6,6 +6,14 @@ import { REPORT_ES } from "@/lib/i18n/locales/es";
 
 /** Report-content dictionary (English key → Korean). Used by builders at generation time and by the renderer for chrome. */
 export const REPORT_KO: Record<string, string> = {
+  "public": "공개",
+  "internal": "내부",
+  "confidential": "기밀",
+  "restricted": "제한",
+  "training": "학습",
+  "evaluation": "평가",
+  "retrieval": "검색",
+  "inference input": "추론 입력",
   // titles
   "AI Evaluation Report": "AI 평가 리포트",
   "AI System Verification Report": "AI 시스템 검증 리포트(시험성적서)",

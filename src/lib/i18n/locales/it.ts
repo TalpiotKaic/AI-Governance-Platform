@@ -1,6 +1,13 @@
 /** Italian (it) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const it: Record<string, string> = {
+  "public": "pubblico",
+  "internal": "interno",
+  "confidential": "riservato",
+  "restricted": "ristretto",
+  "training": "addestramento",
+  "retrieval": "retrieval",
+  "inference input": "input di inferenza",
   "1. Choose the JSONL file": "1. Scegli il file JSONL",
   "2. Import options": "2. Opzioni di importazione",
   "3. Scenarios to be created": "3. Scenari da creare",
@@ -416,6 +423,14 @@ export const IT_LABELS: Record<string, string> = {
 };
 
 export const REPORT_IT: Record<string, string> = {
+  "public": "pubblico",
+  "internal": "interno",
+  "confidential": "riservato",
+  "restricted": "ristretto",
+  "training": "addestramento",
+  "evaluation": "valutazione",
+  "retrieval": "retrieval",
+  "inference input": "input di inferenza",
   "AI Evaluation Report": "Report di valutazione IA",
   "AI System Verification Report": "Report di verifica del sistema di IA (rapporto di prova)",
   "NIST ARIA Evaluation Report (AI 200-3 worksheets)": "Report di valutazione NIST ARIA (schede AI 200-3)",

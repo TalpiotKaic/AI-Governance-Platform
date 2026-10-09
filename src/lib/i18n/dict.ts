@@ -40,6 +40,13 @@ export function localeFromAcceptLanguage(header: string | null | undefined): Loc
 }
 
 export const ko: Record<string, string> = {
+  "public": "공개",
+  "internal": "내부",
+  "confidential": "기밀",
+  "restricted": "제한",
+  "training": "학습",
+  "retrieval": "검색",
+  "inference input": "추론 입력",
   "1. Choose the JSONL file": "1. JSONL 파일 선택",
   "2. Import options": "2. 가져오기 옵션",
   "3. Scenarios to be created": "3. 생성될 시나리오",
