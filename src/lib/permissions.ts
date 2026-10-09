@@ -57,6 +57,7 @@ export function canSeeNav(role: Role, href: string): boolean {
 export const ROUTE_PERMISSION: { prefix: string; perm: Permission }[] = [
   { prefix: "/systems/new", perm: "systems.write" },
   { prefix: "/systems/import", perm: "systems.write" },
+  { prefix: "/library/import", perm: "plans.write" },
   { prefix: "/risks/new", perm: "risks.write" },
   { prefix: "/plans/new", perm: "plans.write" },
   { prefix: "/evaluations/new", perm: "evaluations.run" },

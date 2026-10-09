@@ -7,6 +7,7 @@ import { Checkbox, Field, Input, Select, Textarea } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge";
 import { getI18n } from "@/lib/i18n/server";
 import { localizeScenario } from "@/lib/i18n/library";
+import { scenarioScope } from "@/lib/library/link-datasets";
 
 import { createPlanAction } from "../actions";
 
@@ -15,7 +16,7 @@ export default async function NewPlanPage(props: PageProps<"/plans/new">) {
   const user = await requirePagePermission("plans.write");
   const sp = await props.searchParams;
   const systems = await db.aiSystem.findMany({ where: { orgId: user.orgId }, orderBy: { code: "asc" } });
-  const scenarios = (await db.testScenario.findMany({ orderBy: { code: "asc" }, include: { method: true } })).map((s) => localizeScenario(locale, s));
+  const scenarios = (await db.testScenario.findMany({ where: scenarioScope(user.orgId), orderBy: { code: "asc" }, include: { method: true } })).map((s) => localizeScenario(locale, s));
   const systemId = typeof sp.systemId === "string" ? sp.systemId : systems[0]?.id;
   const sys = systems.find((s) => s.id === systemId);
   const groups = ["MODEL_TESTING", "RED_TEAMING", "USER_TESTING"] as const;

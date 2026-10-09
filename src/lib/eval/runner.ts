@@ -91,6 +91,7 @@ export async function executeRun(runId: string) {
     for (const prompt of prompts) {
       const session = await db.testSession.create({ data: { runId, scenarioId: sc.id, testingType: sc.method.testingType, testerId: sc.method.testingType === "MODEL_TESTING" ? `promptset:${sc.code}` : `auto-redteam:${sc.code}`, promptRef: prompt.id } });
       await adapter.startSession(session.id);
+      if ("setFailureHint" in adapter && typeof (adapter as { setFailureHint?: unknown }).setFailureHint === "function") (adapter as unknown as { setFailureHint: (h: string | undefined) => void }).setFailureHint(prompt.demoFailureMode);
       const dialogue: (ChatMessage & { demoMeta?: Record<string, unknown>; latencyMs?: number })[] = [];
       let idx = 0;
       const persistTurn = async (m: ChatMessage & { latencyMs?: number; inputTokens?: number; outputTokens?: number }) => {

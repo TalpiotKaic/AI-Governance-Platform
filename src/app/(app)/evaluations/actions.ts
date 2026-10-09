@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { requirePermission } from "@/lib/auth";
+import { linkScenarioDatasets, scenarioScope } from "@/lib/library/link-datasets";
 import { nextCode } from "@/lib/utils";
 import { startRunInBackground } from "@/lib/eval/runner";
 import type { Prisma } from "@/generated/prisma/client";
@@ -16,7 +17,9 @@ export async function createRunAction(formData: FormData) {
   const planId = s(formData, "planId") || undefined;
   const mode = s(formData, "mode") === "LIVE" ? "LIVE" : "DEMO";
   const adapter = s(formData, "adapter") || "demo";
-  const scenarioIds = formData.getAll("scenarioIds").map(String).filter(Boolean);
+  const requested = formData.getAll("scenarioIds").map(String).filter(Boolean);
+  const scenarioIds = requested.length ? (await db.testScenario.findMany({ where: { id: { in: requested }, ...scenarioScope(user.orgId) }, select: { id: true } })).map((x) => x.id) : [];
+  await linkScenarioDatasets(systemId, scenarioIds);
   const count = await db.evaluationRun.count({ where: { orgId: user.orgId } });
   const targetConfig: Record<string, unknown> = {
     adapter: mode === "DEMO" ? "demo" : adapter,

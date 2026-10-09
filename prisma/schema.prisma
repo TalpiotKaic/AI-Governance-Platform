@@ -244,8 +244,9 @@ model Dataset {
   recordCount  Int?
   createdAt    DateTime @default(now())
 
-  org     Organization    @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  systems SystemDataset[]
+  org       Organization    @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  systems   SystemDataset[]
+  scenarios TestScenario[]
 
   @@index([orgId])
 }
@@ -518,14 +519,18 @@ model TestScenario {
   defaultSeverity  Severity    @default(MEDIUM)
   applicableTo     SystemType[] @default([])
   isLibrary        Boolean     @default(true)
+  datasetId        String?     // evaluation dataset this scenario was imported from (registered in the dataset register)
+  sourceRef        String?     // import provenance, e.g. "risk_paired.jsonl · Evaluation-Dataset-Generator"
   createdAt        DateTime    @default(now())
 
   org      Organization?  @relation(fields: [orgId], references: [id], onDelete: Cascade)
   method   TestMethod     @relation(fields: [methodId], references: [id], onDelete: Cascade)
+  dataset  Dataset?       @relation(fields: [datasetId], references: [id], onDelete: SetNull)
   plans    PlanScenario[]
   sessions TestSession[]
 
   @@index([methodId])
+  @@index([datasetId])
 }
 
 // ───────────────────────────── Evaluation Plan (ARIA worksheets B.1–B.5) ─────────────────────────────

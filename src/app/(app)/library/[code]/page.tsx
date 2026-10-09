@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireUser } from "@/lib/auth";
+import { scenarioScope } from "@/lib/library/link-datasets";
 import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,10 +13,10 @@ import type { AnnotationItem, ScenarioPrompt } from "@/lib/eval/types";
 
 export default async function MethodPage(props: PageProps<"/library/[code]">) {
   const { locale, t, L } = await getI18n();
-  await requireUser();
+  const user = await requireUser();
   const { code } = await props.params;
   const sp = await props.searchParams;
-  const m = await db.testMethod.findUnique({ where: { code }, include: { controls: { include: { control: { include: { requirements: { include: { requirement: { include: { framework: true } } } } } } } }, scenarios: { orderBy: { code: "asc" } } } });
+  const m = await db.testMethod.findUnique({ where: { code }, include: { controls: { include: { control: { include: { requirements: { include: { requirement: { include: { framework: true } } } } } } } }, scenarios: { where: scenarioScope(user.orgId), orderBy: { code: "asc" } } } });
   if (!m) notFound();
   const mm = localizeMethod(locale, m);
   const focus = typeof sp.scenario === "string" ? sp.scenario : undefined;
