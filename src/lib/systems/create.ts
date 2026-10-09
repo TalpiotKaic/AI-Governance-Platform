@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { nextCode, riskScore } from "@/lib/utils";
 import { intakeTier } from "@/lib/intake";
+import { defaultDueDate } from "@/lib/risks/due";
 import type { SessionUser } from "@/lib/auth";
 import type { Prisma } from "@/generated/prisma/client";
 import { z } from "zod";
@@ -74,7 +75,7 @@ export async function createSystemRecord(user: SessionUser, d: SystemInput, opts
   let rc = await db.risk.count({ where: { orgId: user.orgId } });
   for (const r of seeds.filter((x) => x.when)) {
     rc++;
-    await db.risk.create({ data: { orgId: user.orgId, systemId: system.id, code: nextCode("R", rc - 1), title: r.title, dimension: r.dimension, likelihood: r.l, severity: r.s, score: riskScore(r.l, r.s), status: "IDENTIFIED", source: "INTAKE", ownerId: user.id } });
+    await db.risk.create({ data: { orgId: user.orgId, systemId: system.id, code: nextCode("R", rc - 1), title: r.title, dimension: r.dimension, likelihood: r.l, severity: r.s, score: riskScore(r.l, r.s), status: "IDENTIFIED", source: "INTAKE", ownerId: user.id, dueDate: defaultDueDate(riskScore(r.l, r.s)) } });
   }
   // Approval workflow by tier
   const stages = tier === "LOW" ? ["Governance owner approval"] : tier === "MEDIUM" ? ["Technical review", "Governance owner approval"] : ["Technical review", "Privacy & security review", "Legal / compliance review", "Executive approval"];

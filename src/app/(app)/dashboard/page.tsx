@@ -10,16 +10,19 @@ import { VerdictBadge, SeverityBadge } from "@/components/domain/verdict";
 import { fmtAgo} from "@/lib/utils";
 import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
 import { getI18n } from "@/lib/i18n/server";
+import { localizeRiskTitle } from "@/lib/i18n/risks";
+import { daysOverdue, ensureOverdueRiskTasks, isOverdue } from "@/lib/risks/due";
 
 export const metadata = { title: "Dashboard" };
 
 export default async function DashboardPage() {
-  const { t, L } = await getI18n();
+  const { t, L, locale } = await getI18n();
   const user = await requireUser();
   const orgId = user.orgId;
+  await ensureOverdueRiskTasks(orgId);
   const [systems, risks, runs, findings, approvals, tasks, incidents, evidenceCount, impls, frameworks] = await Promise.all([
     db.aiSystem.findMany({ where: { orgId }, orderBy: { code: "asc" }, include: { _count: { select: { risks: true, runs: true } } } }),
-    db.risk.findMany({ where: { orgId } }),
+    db.risk.findMany({ where: { orgId }, include: { system: { select: { code: true } } } }),
     db.evaluationRun.findMany({ where: { orgId }, orderBy: { createdAt: "desc" }, take: 8, include: { system: true } }),
     db.finding.findMany({ where: { system: { orgId }, status: { in: ["OPEN", "MITIGATING"] } }, orderBy: [{ severity: "desc" }, { createdAt: "desc" }], take: 6, include: { system: true } }),
     db.approval.count({ where: { orgId, decision: "PENDING" } }),
@@ -36,6 +39,7 @@ export default async function DashboardPage() {
   const verified = impls.filter((i) => i.status === "VERIFIED").length, implemented = impls.filter((i) => i.status === "IMPLEMENTED").length, inProg = impls.filter((i) => i.status === "IN_PROGRESS").length;
   const runsAsc = [...runs].reverse();
   const scoreTrend = runsAsc.map((r) => Number((r.summary as { assuranceScore?: number }).assuranceScore ?? 0)).filter((n) => n > 0);
+  const overdue = risks.filter((r) => isOverdue(r)).sort((a, b) => a.dueDate!.getTime() - b.dueDate!.getTime());
   const riskByDim = Object.entries(risks.reduce<Record<string, number>>((acc, r) => { acc[r.dimension] = (acc[r.dimension] ?? 0) + 1; return acc; }, {})).sort((a, b) => b[1] - a[1]);
 
   return (
@@ -45,7 +49,7 @@ export default async function DashboardPage() {
         <Stat label={t("AI systems")} value={systems.length} hint={`${highRisk} ${t("high/critical tier")}`} />
         <Stat label={t("Avg. assurance score")} value={systems.some((s) => s.assuranceScore !== null) ? Math.round(avgScore) : "—"} hint={t("across evaluated systems")} tone={avgScore >= 80 ? "success" : avgScore >= 60 ? "warning" : "danger"} />
         <Stat label={t("Open findings")} value={openFindings} hint={`${critFindings} ${t("critical")}`} tone={critFindings ? "danger" : openFindings ? "warning" : "success"} />
-        <Stat label={t("Open risks")} value={risks.filter((r) => r.status !== "CLOSED" && r.status !== "ACCEPTED").length} hint={`${risks.length} ${t("total in register")}`} />
+        <Stat label={t("Open risks")} value={risks.filter((r) => r.status !== "CLOSED" && r.status !== "ACCEPTED").length} hint={overdue.length ? `${overdue.length} ${t("overdue")}` : `${risks.length} ${t("total in register")}`} tone={overdue.length ? "danger" : undefined} />
         <Stat label={t("Pending approvals")} value={approvals} hint={`${tasks} ${t("open tasks")}`} tone={approvals ? "info" : undefined} />
         <Stat label={t("Valid evidence")} value={evidenceCount} hint={`${incidents} ${t("open incidents")}`} />
       </div>
@@ -94,8 +98,13 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader><CardTitle>{t("Risk register by dimension")}</CardTitle><CardDescription>{risks.length} risks</CardDescription></CardHeader>
-          <CardContent><BarList items={riskByDim.map(([k, v]) => ({ label: L(k), value: v }))} /></CardContent>
+          <CardHeader><CardTitle>{t("Risk register by dimension")}</CardTitle><CardDescription>{risks.length} {t("risks")}</CardDescription></CardHeader>
+          <CardContent><BarList items={riskByDim.map(([k, v]) => ({ label: L(k), value: v }))} />
+            <div className="mt-4 border-t border-border pt-3">
+              <p className="mb-1 text-xs font-medium text-muted">{t("Overdue risks")} ({overdue.length})</p>
+              {overdue.length ? <ul className="space-y-1 text-xs">{overdue.slice(0, 6).map((r) => <li key={r.id} className="flex items-center justify-between gap-2"><Link href={`/systems/${r.systemId}?tab=risks`} className="truncate hover:underline"><span className="font-mono text-muted">{r.code}</span> {localizeRiskTitle(locale, r.title)}</Link><Badge tone="danger" className="shrink-0">{t("{n} d").replace("{n}", String(daysOverdue(r.dueDate!)))}</Badge></li>)}{overdue.length > 6 && <li><Link href="/risks" className="text-primary hover:underline">{t("View all in the risk register")}</Link></li>}</ul> : <p className="text-xs text-muted">{t("No overdue risks. Auto-created risks get 30 / 45 / 90-day deadlines by score.")}</p>}
+            </div>
+          </CardContent>
         </Card>
       </div>
 

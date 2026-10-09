@@ -166,6 +166,8 @@ Une vue portefeuille des risques sur tous les systèmes. Les risques sont class�
 - La carte de chaleur 5×5 montre le nombre de risques par cellule et se filtre par dimension.
 - « Ajouter un risque » enregistre un risque manuellement. Les constats de test HIGH/CRITICAL et les incidents sont enregistrés automatiquement avec leur source (TEST_FINDING, INCIDENT).
 - Mettez à jour le statut (identifié → évalué → en atténuation → accepté → clos) et le score résiduel en ligne.
+- Le bouton « Méthode de calcul » en haut à droite de la carte de chaleur ouvre une fenêtre de référence : quels risques sont créés avec quels L/S à partir des réponses d'admission (type de système, catégorie du règlement IA, quatre indicateurs de données), la formule du score (L×1 + S×3) ÷ 20 × 100 et les paliers (≥ 80 critique, 60–79 élevé, 35–59 moyen), les règles de code/statut/responsable, les risques ajoutés par les constats de test, les fournisseurs et les incidents, et la formule du niveau du système.
+- Les risques créés automatiquement reçoivent une échéance par défaut selon le score (critique 30 jours, élevé 45 jours, autres 90 jours). Les risques ouverts en retard sont mis en évidence dans la colonne Échéance (« n jours de retard »), listés sous « Risques en retard » sur le tableau de bord, et une tâche « Risque en retard R-xxxx » est créée automatiquement dans Approbations & tâches (close quand le risque est clos ou accepté). Modifiez la date avec le champ date de la colonne Statut.
 - Conseil : « accepté » est une décision d'acceptation du risque ; gérez-la avec l'enregistrement d'approbation dans Approbations & tâches.
 
 ### 4.4 Référentiels & contrôles

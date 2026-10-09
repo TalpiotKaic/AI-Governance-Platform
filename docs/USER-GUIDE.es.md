@@ -166,6 +166,8 @@ Una vista de cartera de los riesgos en todos los sistemas. Los riesgos se clasif
 - El mapa de calor 5×5 muestra el número de riesgos por celda y se filtra por dimensión.
 - «Añadir riesgo» registra un riesgo manualmente. Los hallazgos de prueba HIGH/CRITICAL y los incidentes se registran automáticamente con su origen (TEST_FINDING, INCIDENT).
 - Actualice el estado (identificado → evaluado → en mitigación → aceptado → cerrado) y la puntuación residual en la misma fila.
+- El botón «Método de cálculo» en la parte superior derecha de la tarjeta del mapa de calor abre una ventana de referencia: qué riesgos se crean con qué L/S a partir de las respuestas de admisión (tipo de sistema, categoría del Reglamento de IA, cuatro indicadores de datos), la fórmula de la puntuación (L×1 + S×3) ÷ 20 × 100 y las bandas (≥ 80 crítico, 60–79 alto, 35–59 medio), las reglas de código/estado/responsable, los riesgos añadidos por hallazgos de prueba, proveedores e incidentes, y la fórmula del nivel del sistema.
+- Los riesgos creados automáticamente reciben un plazo por defecto según la puntuación (crítico 30 días, alto 45 días, otros 90 días). Los riesgos abiertos vencidos se resaltan en la columna Plazo («n días de retraso»), se listan en «Riesgos vencidos» en el panel y se crea automáticamente la tarea «Riesgo vencido R-xxxx» en Aprobaciones y tareas (se cierra al cerrar o aceptar el riesgo). Cambie la fecha con el campo de fecha de la columna Estado.
 - Consejo: «aceptado» es una decisión de aceptación del riesgo; gestiónela junto con el registro de aprobación en Aprobaciones y tareas.
 
 ### 4.4 Marcos y controles

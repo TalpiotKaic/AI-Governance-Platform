@@ -166,6 +166,8 @@ Eine Portfolioansicht der Risiken über alle Systeme. Risiken werden in 10 Dimen
 - Die 5×5-Heatmap zeigt die Zahl der Risiken je Zelle und kann nach Dimension gefiltert werden.
 - „Risiko hinzufügen“ registriert ein Risiko manuell. Testfeststellungen HIGH/CRITICAL und Vorfälle werden automatisch mit ihrer Quelle (TEST_FINDING, INCIDENT) registriert.
 - Status (identifiziert → bewertet → in Minderung → akzeptiert → geschlossen) und Restscore direkt in der Zeile ändern.
+- Die Schaltfläche „Berechnungsmethode“ oben rechts in der Heatmap-Karte öffnet ein Referenz-Popup: welche Risiken mit welchem L/S aus den Intake-Antworten (Systemtyp, Kategorie nach KI-Verordnung, vier Datenmerkmale) entstehen, die Punkteformel (L×1 + S×3) ÷ 20 × 100 und die Stufen (≥ 80 kritisch, 60–79 hoch, 35–59 mittel), Regeln für Code/Status/Verantwortlichen, durch Testbefunde, Anbieter und Vorfälle hinzukommende Risiken sowie die Formel der Systemstufe.
+- Automatisch erzeugte Risiken erhalten eine Standardfrist nach Punktzahl (kritisch 30 Tage, hoch 45 Tage, sonst 90 Tage). Überfällige offene Risiken werden in der Spalte Frist hervorgehoben („n Tage überfällig“), im Dashboard unter „Überfällige Risiken“ gelistet, und unter Freigaben & Aufgaben entsteht automatisch die Aufgabe „Überfälliges Risiko R-xxxx“ (wird geschlossen, wenn das Risiko geschlossen oder akzeptiert ist). Die Frist ändern Sie über das Datumsfeld in der Spalte Status.
 - Tipp: „akzeptiert“ ist eine Risikoakzeptanz-Entscheidung; zusammen mit dem Freigabedatensatz unter Freigaben & Aufgaben verwalten.
 
 ### 4.4 Rahmenwerke & Kontrollen

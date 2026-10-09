@@ -33,6 +33,13 @@ export function localizeRiskDescription(locale: Locale, desc: string | null | un
   return translate(locale, desc); // demo seed descriptions are dictionary keys; anything else falls back to itself
 }
 
+export function localizeTaskTitle(locale: Locale, title: string): string {
+  if (locale === "en") return title;
+  const m = title.match(/^Overdue risk (R-\d+): (.+)$/);
+  if (m) return fill(translate(locale, "Overdue risk {code}: {title}"), { code: m[1], title: localizeRiskTitle(locale, m[2]) });
+  return title;
+}
+
 export function localizeRiskMitigation(locale: Locale, text: string | null | undefined): string {
   return text ? translate(locale, text) : "";
 }

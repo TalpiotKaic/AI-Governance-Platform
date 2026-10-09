@@ -166,6 +166,8 @@ Una vista di portafoglio dei rischi su tutti i sistemi. I rischi sono classifica
 - La mappa di calore 5×5 mostra il numero di rischi per cella e si filtra per dimensione.
 - «Aggiungi rischio» registra un rischio manualmente. I rilievi di test HIGH/CRITICAL e gli incidenti vengono registrati automaticamente con la loro origine (TEST_FINDING, INCIDENT).
 - Aggiorna stato (identificato → valutato → in mitigazione → accettato → chiuso) e punteggio residuo direttamente nella riga.
+- Il pulsante «Metodo di calcolo» in alto a destra nella scheda della mappa di calore apre una finestra di riferimento: quali rischi vengono creati con quali L/S dalle risposte di intake (tipo di sistema, categoria AI Act, quattro indicatori sui dati), la formula del punteggio (L×1 + S×3) ÷ 20 × 100 e le fasce (≥ 80 critico, 60–79 alto, 35–59 medio), le regole di codice/stato/responsabile, i rischi aggiunti da risultanze di test, fornitori e incidenti e la formula del livello del sistema.
+- I rischi creati automaticamente ricevono una scadenza predefinita in base al punteggio (critico 30 giorni, alto 45 giorni, altri 90 giorni). I rischi aperti scaduti sono evidenziati nella colonna Scadenza («n giorni di ritardo»), elencati in «Rischi scaduti» nel dashboard, e in Approvazioni & attività viene creata automaticamente l'attività «Rischio scaduto R-xxxx» (chiusa quando il rischio è chiuso o accettato). La data si modifica con il campo data nella colonna Stato.
 - Suggerimento: «accettato» è una decisione di accettazione del rischio; gestiscila insieme al record di approvazione in Approvazioni & attività.
 
 ### 4.4 Framework & controlli

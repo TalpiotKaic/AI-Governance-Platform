@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { defaultDueDate } from "@/lib/risks/due";
 import { nextCode, riskScore } from "@/lib/utils";
 import { VENDOR_HIGH_RISK } from "./assessment";
 
@@ -21,7 +22,7 @@ export async function ensureVendorRisks(orgId: string, filter: { systemId?: stri
     const r = await db.risk.create({ data: {
       orgId, systemId: l.systemId, code: nextCode("R", count), title,
       description: `Third-party vendor "${l.vendor.name}" (${l.role ?? l.vendor.serviceType ?? "vendor"}) scored ${l.vendor.riskScore}/100 in due diligence and is linked to a high-risk system. ${l.vendor.dataSensitivity ? `Data exposed: ${l.vendor.dataSensitivity}.` : ""}`.trim(),
-      dimension: "EXPOSURE", likelihood: 3, severity, score: riskScore(3, severity), status: "IDENTIFIED", source: "VENDOR", ownerId: l.system.ownerId ?? undefined,
+      dimension: "EXPOSURE", likelihood: 3, severity, score: riskScore(3, severity), status: "IDENTIFIED", source: "VENDOR", ownerId: l.system.ownerId ?? undefined, dueDate: defaultDueDate(riskScore(3, severity)),
       mitigation: "Complete vendor due diligence gaps (certification, no-training clause, DPA, exit plan); restrict data shared; prepare an alternative vendor; re-assess within 90 days.",
     } });
     created.push(r.code);

@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { defaultDueDate } from "@/lib/risks/due";
 import { decryptSecret } from "@/lib/crypto";
 import { createTargetAdapter } from "./adapters";
 import { createJudges, mergeJudgeResults } from "./judge";
@@ -213,7 +214,7 @@ export async function executeRun(runId: string) {
     if (s.severity === "HIGH" || s.severity === "CRITICAL") {
       const riskCount = await db.risk.count({ where: { orgId: run.orgId } });
       const dimension = dimensionFor(s.scenario.method.category);
-      await db.risk.create({ data: { orgId: run.orgId, systemId: run.systemId, code: `R-${String(riskCount + 1).padStart(4, "0")}`, title: `Test finding: ${s.scenario.name}`, description: finding.description, dimension, likelihood: 3, severity: s.severity === "CRITICAL" ? 5 : 4, score: s.severity === "CRITICAL" ? 90 : 75, status: "IDENTIFIED", source: "TEST_FINDING", findingId: finding.id } });
+      await db.risk.create({ data: { orgId: run.orgId, systemId: run.systemId, code: `R-${String(riskCount + 1).padStart(4, "0")}`, title: `Test finding: ${s.scenario.name}`, description: finding.description, dimension, likelihood: 3, severity: s.severity === "CRITICAL" ? 5 : 4, score: s.severity === "CRITICAL" ? 90 : 75, status: "IDENTIFIED", source: "TEST_FINDING", findingId: finding.id, dueDate: defaultDueDate(s.severity === "CRITICAL" ? 90 : 75) } });
     }
   }
 
