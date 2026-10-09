@@ -23,7 +23,7 @@ export function ImportForm() {
     <div className="space-y-4">
       <Card><CardHeader><CardTitle>{t("1. Download the template")}</CardTitle><CardDescription>{t("The template has one row per system, dropdowns for every coded field, Yes/No lists, header notes and a Guide sheet. Column headers and dropdowns follow your current UI language; files filled in any supported language can be uploaded.")}</CardDescription></CardHeader>
         <CardContent className="flex flex-wrap items-center gap-2">
-          <a href={`/api/systems/template?l=${locale}`}><Button variant="outline"><Download className="h-4 w-4" /> {t("Download Excel template")}</Button></a>
+          <a href={`/systems/import/template?l=${locale}`}><Button variant="outline"><Download className="h-4 w-4" /> {t("Download Excel template")}</Button></a>
           <span className="text-xs text-muted">{t("Required columns are marked with *; purple columns apply to agents only.")}</span>
         </CardContent></Card>
 
