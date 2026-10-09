@@ -9,7 +9,7 @@ import { it } from "./locales/it";
 import { es } from "./locales/es";
 
 export type Locale = "en" | "ko" | "de" | "fr" | "it" | "es";
-export const LOCALES: Locale[] = ["en", "ko", "de", "fr", "it", "es"];
+export const LOCALES: Locale[] = ["de", "en", "es", "fr", "it", "ko"]; // alphabetical by code; DEFAULT_LOCALE stays "en"
 export const DEFAULT_LOCALE: Locale = "en";
 export const LOCALE_COOKIE = "kveriai_locale";
 

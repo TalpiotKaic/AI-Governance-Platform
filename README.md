@@ -52,7 +52,7 @@ Set `APP_ORIGIN` (e.g. `https://kveriai.example.com`) so login/locale redirects 
 
 ## Language / 언어 / Sprache / Langue / Lingua / Idioma
 
-The UI and generated reports are available in English, Korean, German, French, Italian and Spanish. Switch with the flag toggle (**EN | KO | DE | FR | IT | ES**, `src/components/layout/flag.tsx`) on the login page or in the top bar; the choice is stored in the `kveriai_locale` cookie (first visit follows `Accept-Language`). Reports are generated in the language chosen on the **Generate report** form (defaults to the UI language); each report stores its `language`, versions are tracked per language, and the report page offers "Regenerate in …" for the other languages.
+The UI and generated reports are available in English, Korean, German, French, Italian and Spanish. Switch with the flag toggle (**DE | EN | ES | FR | IT | KO**, `src/components/layout/flag.tsx`) on the login page or in the top bar; the choice is stored in the `kveriai_locale` cookie (first visit follows `Accept-Language`). Reports are generated in the language chosen on the **Generate report** form (defaults to the UI language); each report stores its `language`, versions are tracked per language, and the report page offers "Regenerate in …" for the other languages.
 
 **Vendors & datasets**: `/vendors` manages third-party providers and datasets (`src/app/(app)/vendors`); systems link to them from the intake form (section 4), the system page cards or the Excel columns. `src/lib/systems/links.ts` resolves links by id or name (creating missing records), auto-links the model provider as an LLM-provider vendor, and records VENDOR / DATA_SOURCE change events that trigger re-tests.
 

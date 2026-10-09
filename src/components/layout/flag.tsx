@@ -1,6 +1,6 @@
 import type { Locale } from "@/lib/i18n/dict";
 
-/** Small, dependency-free SVG flags (16×12) for the language picker (EN, KO, DE, FR, IT, ES). Simplified designs, decorative only. */
+/** Small, dependency-free SVG flags (16×12) for the language picker (DE, EN, ES, FR, IT, KO). Simplified designs, decorative only. */
 export function Flag({ locale, className }: { locale: Locale; className?: string }) {
   const common = { width: 16, height: 12, viewBox: "0 0 16 12", className, "aria-hidden": true as const, style: { borderRadius: 2, boxShadow: "0 0 0 1px rgba(0,0,0,0.12)" } };
   switch (locale) {

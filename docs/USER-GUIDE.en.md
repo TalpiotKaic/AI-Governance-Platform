@@ -26,7 +26,7 @@ K-VeriAI is an AI governance, evaluation and assurance platform that manages an 
 - **DEMO mode** runs the whole pipeline against a deterministic simulator without any API key. It is for training, demonstration and workflow validation; its results must never be used as evidence about a real system.
 - **LIVE mode** calls the real model or agent (Anthropic, OpenAI, OpenAI-compatible, HTTP Evaluation API) and annotates with an LLM-as-judge.
 
-The UI and the reports are available in English, Korean, German, French, Italian and Spanish. Switch with the flag toggle (**EN | KO | DE | FR | IT | ES**) on the login page or in the top bar.
+The UI and the reports are available in English, Korean, German, French, Italian and Spanish. Switch with the flag toggle (**DE | EN | ES | FR | IT | KO**) on the login page or in the top bar.
 
 ## 2. Core concepts and workflow
 
@@ -59,7 +59,7 @@ Dashed arrows are automatic feedback. HIGH/CRITICAL findings from a test are reg
 
 **Sign in** with your organisation account (email and password). Sessions last 7 days; sign out with the button at the right end of the top bar.
 
-**Language**: use the flag toggle (**EN | KO | DE | FR | IT | ES**) on the login page or in the top bar. The choice is stored in the browser for a year. The report language is chosen separately when a report is generated (default: the current UI language).
+**Language**: use the flag toggle (**DE | EN | ES | FR | IT | KO**) on the login page or in the top bar. The choice is stored in the browser for a year. The report language is chosen separately when a report is generated (default: the current UI language).
 
 **Screen layout**
 

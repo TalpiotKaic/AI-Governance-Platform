@@ -26,7 +26,7 @@ K-VeriAI es una plataforma de gobernanza, evaluación y aseguramiento de la IA q
 - **Modo DEMO**: recorre toda la cadena contra un simulador determinista sin claves API. Sirve para formación, demostración y validación del flujo; sus resultados nunca deben usarse como evidencia sobre un sistema real.
 - **Modo LIVE**: llama al modelo o agente real (Anthropic, OpenAI, compatible con OpenAI, HTTP Evaluation API) y anota con un LLM-as-judge.
 
-La interfaz y los informes están disponibles en inglés, coreano, alemán, francés, italiano y español. Cambie de idioma con el selector de banderas (**EN | KO | DE | FR | IT | ES**) en la página de inicio de sesión o en la barra superior.
+La interfaz y los informes están disponibles en inglés, coreano, alemán, francés, italiano y español. Cambie de idioma con el selector de banderas (**DE | EN | ES | FR | IT | KO**) en la página de inicio de sesión o en la barra superior.
 
 ## 2. Conceptos clave y flujo de trabajo
 

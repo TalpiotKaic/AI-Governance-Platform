@@ -26,7 +26,7 @@ K-VeriAI ist eine Plattform für KI-Governance, -Evaluierung und -Assurance, die
 - **DEMO-Modus** durchläuft die gesamte Pipeline gegen einen deterministischen Simulator ohne API-Schlüssel. Er dient Schulung, Vorführung und Workflow-Validierung; seine Ergebnisse dürfen nie als Nachweis über ein reales System verwendet werden.
 - **LIVE-Modus** ruft das echte Modell oder den Agenten auf (Anthropic, OpenAI, OpenAI-kompatibel, HTTP Evaluation API) und annotiert mit einem LLM-as-Judge.
 
-Oberfläche und Berichte sind auf Englisch, Koreanisch, Deutsch, Französisch, Italienisch und Spanisch verfügbar. Umschalten über den Sprachwähler mit Flaggen (**EN | KO | DE | FR | IT | ES**) auf der Anmeldeseite oder in der Kopfleiste.
+Oberfläche und Berichte sind auf Englisch, Koreanisch, Deutsch, Französisch, Italienisch und Spanisch verfügbar. Umschalten über den Sprachwähler mit Flaggen (**DE | EN | ES | FR | IT | KO**) auf der Anmeldeseite oder in der Kopfleiste.
 
 ## 2. Kernkonzepte und Arbeitsablauf
 
