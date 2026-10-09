@@ -11,6 +11,7 @@ import { RenderBlock } from "@/components/domain/report-renderer";
 import { fmtDate} from "@/lib/utils";
 import { linkEvidenceAction, setEvidenceStatusAction } from "../actions";
 import { getI18n } from "@/lib/i18n/server";
+import { localizeMetricName } from "@/lib/i18n/library";
 import { localizeControl, localizeRequirement } from "@/lib/i18n/content";
 
 export default async function EvidenceDetail(props: PageProps<"/evidence/[id]">) {
@@ -20,7 +21,7 @@ export default async function EvidenceDetail(props: PageProps<"/evidence/[id]">)
   const e = await db.evidence.findFirst({ where: { id, orgId: user.orgId }, include: { system: true, run: true, createdBy: true, links: { include: { control: { include: { requirements: { include: { requirement: { include: { framework: true } } } } } }, requirement: { include: { framework: true } } } } } });
   if (!e) notFound();
   const controls = (await db.control.findMany({ orderBy: { sortOrder: "asc" } })).map((c) => localizeControl(locale, c));
-  const content = e.content as { category?: string; metrics?: { name: string; value: number; threshold: number; direction: string; verdict: string; category: string; unit?: string; sampleSize?: number }[]; verdict?: string; reportId?: string } | null;
+  const content = e.content as { category?: string; metrics?: { key?: string; name: string; value: number; threshold: number; direction: string; verdict: string; category: string; unit?: string; sampleSize?: number }[]; verdict?: string; reportId?: string } | null;
   return (
     <>
       <PageHeader title={e.title} crumbs={[{ label: "Evidence Center", href: "/evidence" }, { label: e.title }]} description={e.description ?? undefined} actions={<form action={async (fd) => { "use server"; await setEvidenceStatusAction(id, String(fd.get("status")) as "VALID"); }} className="flex items-center gap-2"><Select name="status" defaultValue={e.status} className="w-32">{["DRAFT", "VALID", "EXPIRED", "SUPERSEDED"].map((s) => <option key={s} value={s}>{L(s)}</option>)}</Select><Button type="submit" variant="outline">{t("Set status")}</Button></form>} />
@@ -31,7 +32,7 @@ export default async function EvidenceDetail(props: PageProps<"/evidence/[id]">)
           <ul className="space-y-2 text-sm">{e.links.map((l) => <li key={l.id} className="rounded-md border border-border px-3 py-2">{l.control ? <><div className="font-medium"><span className="font-mono text-xs text-muted">{l.control.code}</span> {localizeControl(locale, l.control).name}</div><div className="text-[11px] text-muted">{l.control.requirements.map((r) => `${L(r.requirement.framework.code)} ${r.requirement.ref}`).join(" · ")}</div></> : l.requirement ? <div className="font-medium">{L(l.requirement.framework.code)} {l.requirement.ref} — {localizeRequirement(locale, l.requirement.framework.code, l.requirement).title}</div> : null}</li>)}{e.links.length === 0 && <li className="text-muted">{t("Not linked yet.")}</li>}</ul>
           {userCan(user, "evidence.write") && <form action={linkEvidenceAction.bind(null, e.id)} className="mt-3 flex items-center gap-2"><Select name="controlId" className="w-80"><option value="">{t("Link to control…")}</option>{controls.map((c) => <option key={c.id} value={c.id}>{c.code} {c.name}</option>)}</Select><Button type="submit" size="sm" variant="outline">{t("Link")}</Button></form>}
         </CardContent></Card>
-        {content?.metrics && <Card className="lg:col-span-3"><CardHeader><CardTitle>{t("Test-derived content")}</CardTitle><CardDescription>Category {content.category} · verdict {content.verdict}</CardDescription></CardHeader><CardContent><RenderBlock block={{ type: "metrics", items: content.metrics.map((m) => ({ name: m.name, value: m.unit === "ms" ? `${Math.round(m.value)} ms` : m.unit === "score" ? m.value.toFixed(2) : `${(m.value * 100).toFixed(1)}%`, threshold: `${m.direction === "lower" ? "≤" : "≥"} ${m.unit === "ms" ? `${m.threshold} ms` : m.unit === "score" ? m.threshold : `${Math.round(m.threshold * 100)}%`}`, verdict: m.verdict, category: L(m.category), sampleSize: m.sampleSize })) }} /></CardContent></Card>}
+        {content?.metrics && <Card className="lg:col-span-3"><CardHeader><CardTitle>{t("Test-derived content")}</CardTitle><CardDescription>Category {content.category} · verdict {content.verdict}</CardDescription></CardHeader><CardContent><RenderBlock block={{ type: "metrics", items: content.metrics.map((m) => ({ name: localizeMetricName(locale, m.key ?? "", m.name), value: m.unit === "ms" ? `${Math.round(m.value)} ms` : m.unit === "score" ? m.value.toFixed(2) : `${(m.value * 100).toFixed(1)}%`, threshold: `${m.direction === "lower" ? "≤" : "≥"} ${m.unit === "ms" ? `${m.threshold} ms` : m.unit === "score" ? m.threshold : `${Math.round(m.threshold * 100)}%`}`, verdict: m.verdict, category: L(m.category), sampleSize: m.sampleSize })) }} /></CardContent></Card>}
       </div>
     </>
   );

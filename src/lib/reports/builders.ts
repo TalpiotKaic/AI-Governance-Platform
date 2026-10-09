@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { fmtDate, num, pct } from "@/lib/utils";
 import type { Locale } from "@/lib/i18n/dict";
 import { localizeControl, localizeFramework, localizeRequirement } from "@/lib/i18n/content";
+import { localizeMethod, localizeMetricName, localizeScenario } from "@/lib/i18n/library";
 import { labelFor } from "@/lib/i18n/labels";
 import { rt } from "./dict";
 import type { Block, ReportContent, Section } from "./types";
@@ -96,7 +97,7 @@ export async function buildEvaluationReport(runId: string, locale: Locale = "en"
       { type: "kv", items: Object.entries(env).map(([k, v]) => ({ label: k, value: v === null ? "—" : String(v) })) },
     ] },
     { id: "results", title: tr("Results by metric"), blocks: [
-      { type: "metrics", items: run.metrics.map((m) => { const mm = toMetric(m); return { name: m.name, value: fmtMetric(mm), threshold: fmtThreshold(mm), verdict: m.verdict, category: L(m.category), sampleSize: m.sampleSize ?? undefined }; }) },
+      { type: "metrics", items: run.metrics.map((m) => { const mm = toMetric(m); return { name: localizeMetricName(locale, m.metricKey, m.name), value: fmtMetric(mm), threshold: fmtThreshold(mm), verdict: m.verdict, category: L(m.category), sampleSize: m.sampleSize ?? undefined }; }) },
       { type: "table", columns: [tr("Category"), tr("Category score")], rows: Object.entries(summary.byCategory ?? {}).map(([k, v]) => [L(k), `${v}/100`]) },
     ] },
     { id: "findings", title: tr("Findings"), blocks: run.findings.length ? [{ type: "findings", items: run.findings.map((f) => ({ code: f.code, title: f.title, severity: f.severity, category: L(f.category), excerpt: f.evidenceExcerpt ?? undefined, recommendation: f.recommendation ?? undefined, status: f.status })) }] : [{ type: "paragraph", text: tr("No findings were raised."), tone: "success" }] },
@@ -119,7 +120,7 @@ async function traceabilityBlocks(methodIds: string[], systemId: string, locale:
   for (const m of methods) for (const cm of m.controls) {
     const c = cm.control;
     const refs = c.requirements.map((rc) => `${L(rc.requirement.framework.code)} ${rc.requirement.ref}`).slice(0, 8).join("; ");
-    rows.push([m.code, m.name, c.code, localizeControl(locale, c).name, c.impls[0]?.status ?? "NOT_STARTED", refs]);
+    rows.push([m.code, localizeMethod(locale, m).name, c.code, localizeControl(locale, c).name, c.impls[0]?.status ?? "NOT_STARTED", refs]);
   }
   return [{ type: "paragraph", text: tr("Each test method is mapped to harmonized controls, which in turn map to framework requirements. Passing metrics mark the control as VERIFIED for this system and attach generated evidence.") }, { type: "table", columns: [tr("Method"), tr("Test method"), tr("Control"), tr("Harmonized control"), tr("Status"), tr("Requirements")], rows, badgeColumns: [4] }];
 }
@@ -130,11 +131,11 @@ export async function buildVerificationReport(runIds: string[], opts: { tester?:
   if (!runs.length) throw new Error("No runs");
   const s = await loadSystem(runs[0].systemId);
   const methodsUsed = new Map<string, { code: string; name: string; standardRef: string | null; category: string }>();
-  for (const r of runs) for (const ss of r.sessions) methodsUsed.set(ss.scenario.method.id, { code: ss.scenario.method.code, name: ss.scenario.method.name, standardRef: ss.scenario.method.standardRef, category: ss.scenario.method.category });
+  for (const r of runs) for (const ss of r.sessions) methodsUsed.set(ss.scenario.method.id, { code: ss.scenario.method.code, name: localizeMethod(locale, ss.scenario.method).name, standardRef: ss.scenario.method.standardRef, category: ss.scenario.method.category });
   const metricRows = runs.flatMap((r) => r.metrics.map((m) => {
     const method = [...methodsUsed.values()].find((x) => x.category === m.category);
     const mm = toMetric(m);
-    return [method?.code ?? "—", m.name, method?.standardRef ?? "—", fmtThreshold(mm), fmtMetric(mm), String(m.sampleSize ?? "—"), m.verdict];
+    return [method?.code ?? "—", localizeMetricName(locale, m.metricKey, m.name), method?.standardRef ?? "—", fmtThreshold(mm), fmtMetric(mm), String(m.sampleSize ?? "—"), m.verdict];
   }));
   const overall = runs.every((r) => r.verdict === "PASS") ? "PASS" : runs.some((r) => r.verdict === "FAIL") ? "FAIL" : "WARN";
   const anyDemo = runs.some((r) => r.mode === "DEMO");
@@ -190,7 +191,7 @@ export async function buildAriaReport(planId: string, locale: Locale = "en"): Pr
       { label: tr("Distribution of testers"), value: str(design.testerDistribution) },
     ] }] },
     { id: "b3", title: tr("B.3 Materials"), blocks: [
-      { type: "kv", items: [{ label: tr("Scenarios"), value: plan.scenarios.map((ps) => `${ps.scenario.code} ${ps.scenario.name}`).join("; ") || "—" }, { label: tr("Components captured by Model Testing prompts"), value: str(materials.modelTestingComponents) }, { label: tr("Red Teaming instructions"), value: str(materials.redTeamingInstructions) }, { label: tr("User Testing instructions"), value: str(materials.userTestingInstructions) }, { label: tr("Annotation schema components"), value: str(materials.annotationComponents) }] },
+      { type: "kv", items: [{ label: tr("Scenarios"), value: plan.scenarios.map((ps) => `${ps.scenario.code} ${localizeScenario(locale, ps.scenario).name}`).join("; ") || "—" }, { label: tr("Components captured by Model Testing prompts"), value: str(materials.modelTestingComponents) }, { label: tr("Red Teaming instructions"), value: str(materials.redTeamingInstructions) }, { label: tr("User Testing instructions"), value: str(materials.userTestingInstructions) }, { label: tr("Annotation schema components"), value: str(materials.annotationComponents) }] },
       { type: "table", columns: [tr("Scenario"), tr("Testing type"), tr("Prompts / sample"), tr("Annotation items"), tr("Questionnaire items")], rows: plan.scenarios.map((ps) => [ps.scenario.code, L(ps.testingType), String(ps.sampleSize ?? (ps.scenario.prompts as unknown[]).length), String((ps.scenario.annotationSchema as unknown[]).length), String((ps.scenario.questionnaire as unknown[]).length)]), badgeColumns: [1] },
     ] },
     { id: "b4", title: tr("B.4 Infrastructure"), blocks: [{ type: "list", items: [
@@ -210,7 +211,7 @@ export async function buildAriaReport(planId: string, locale: Locale = "en"): Pr
     ] }] },
     { id: "results", title: tr("Results summary"), blocks: lastRun ? [
       { type: "score", label: tr("AI Assurance Score (latest run)"), value: (lastRun.summary as Summary).assuranceScore ?? null, verdict: lastRun.verdict },
-      { type: "metrics", items: lastRun.metrics.map((m) => { const mm = toMetric(m); return { name: m.name, value: fmtMetric(mm), threshold: fmtThreshold(mm), verdict: m.verdict, category: L(m.category), sampleSize: m.sampleSize ?? undefined }; }) },
+      { type: "metrics", items: lastRun.metrics.map((m) => { const mm = toMetric(m); return { name: localizeMetricName(locale, m.metricKey, m.name), value: fmtMetric(mm), threshold: fmtThreshold(mm), verdict: m.verdict, category: L(m.category), sampleSize: m.sampleSize ?? undefined }; }) },
       { type: "table", columns: [tr("Run"), tr("Mode"), tr("Sessions"), tr("Findings"), tr("Verdict")], rows: plan.runs.map((r) => [r.code, r.mode, String(r.sessions.length), String(r.findings.length), r.verdict]), badgeColumns: [4] },
     ] : [{ type: "paragraph", text: tr("No runs have been executed for this plan yet."), tone: "muted" }] },
   ];

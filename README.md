@@ -64,6 +64,8 @@ The UI and generated reports are available in English, Korean, German, French, I
 
 The diagrams embedded in the user guides are generated per language from `scripts/guide-images/texts.json` by `node scripts/guide-images/render.mjs` (Playwright + Chromium; a CJK font such as Noto Sans CJK is needed for Korean), which writes `docs/images/<diagram>.<code>.png`.
 
+**Test-library content** (method/scenario names, descriptions, instructions, target concepts, metric names, annotation questions, questionnaire items and judge rubrics for display) is translated the same way via `prisma/seed-data/i18n/library.<code>.json` and `src/lib/i18n/library.ts`. Prompts, rule checks and the rubric text fed to the LLM judge are never translated: they are the test itself. Regenerate the skeleton with `pnpm tsx scripts/build-library-i18n-source.ts` and validate with `python3 scripts/check-library-i18n.py`.
+
 **Adding a language**: create `src/lib/i18n/locales/<code>.ts` exporting the UI dictionary (English key → translation), the enum-label map and the report-string map (copy `de.ts` or `fr.ts` as a template), add a flag in `src/components/layout/flag.tsx`, then register the code in `LOCALES`/`LOCALE_META`/`DICTS` (`src/lib/i18n/dict.ts`), `LABEL_MAPS` (`src/lib/i18n/labels.ts`) and `REPORT_DICTS` (`src/lib/reports/dict.ts`). Missing keys fall back to English.
 
 ## Quick start

@@ -4,13 +4,14 @@ import { PageHeader } from "@/components/ui/page-header";
 import { createRunAction } from "../actions";
 import { RunForm } from "./run-form";
 import { getI18n } from "@/lib/i18n/server";
+import { localizeScenario } from "@/lib/i18n/library";
 
 export default async function NewRunPage(props: PageProps<"/evaluations/new">) {
-  const { t } = await getI18n();
+  const { locale, t } = await getI18n();
   const user = await requirePagePermission("evaluations.run");
   const sp = await props.searchParams;
   const systems = await db.aiSystem.findMany({ where: { orgId: user.orgId }, orderBy: { code: "asc" }, include: { plans: { orderBy: { createdAt: "desc" } } } });
-  const scenarios = await db.testScenario.findMany({ orderBy: { code: "asc" }, include: { method: true } });
+  const scenarios = (await db.testScenario.findMany({ orderBy: { code: "asc" }, include: { method: true } })).map((s) => localizeScenario(locale, s));
   const credentials = await db.providerCredential.findMany({ where: { orgId: user.orgId } });
   const hasEnvKeys = { anthropic: Boolean(process.env.ANTHROPIC_API_KEY), openai: Boolean(process.env.OPENAI_API_KEY), ollama: Boolean(process.env.OLLAMA_BASE_URL) };
   return (
