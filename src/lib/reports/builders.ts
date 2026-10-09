@@ -4,6 +4,7 @@ import type { Locale } from "@/lib/i18n/dict";
 import { localizeControl, localizeFramework, localizeRequirement } from "@/lib/i18n/content";
 import { localizeMethod, localizeMetricName, localizeScenario } from "@/lib/i18n/library";
 import { labelFor } from "@/lib/i18n/labels";
+import { localizeRiskTitle } from "@/lib/i18n/risks";
 import { rt } from "./dict";
 import type { Block, ReportContent, Section } from "./types";
 import type { FrameworkCode, ReportType } from "@/generated/prisma/client";
@@ -256,7 +257,7 @@ export async function buildEvidencePack(systemId: string, frameworkCode: Framewo
     { id: "matrix", title: tr("Requirement coverage matrix"), blocks: [{ type: "table", columns: [tr("Ref"), tr("Requirement"), tr("Harmonized controls"), tr("Status"), tr("Evidence"), tr("Expected evidence")], rows, badgeColumns: [3] }] },
     { id: "evidence", title: tr("Evidence index"), blocks: [{ type: "table", columns: [tr("Type"), tr("Title"), tr("Source"), tr("Date"), tr("Linked controls / requirements")], rows: sysEvidence.map((e) => [L(e.type), e.title, e.source, fmtDate(e.createdAt), [...new Set(e.links.map((l) => l.control?.code ?? l.requirement?.ref).filter(Boolean))].join(", ") || "—"]), badgeColumns: [0, 2] }] },
     { id: "gaps", title: tr("Gaps and recommended actions"), blocks: gaps.length ? [{ type: "list", items: gaps }] : [{ type: "paragraph", text: tr("No gaps identified."), tone: "success" }] },
-    { id: "risks", title: tr("Risk register extract"), blocks: [{ type: "table", columns: [tr("Code"), tr("Risk"), tr("Dimension"), tr("L"), tr("S"), tr("Score"), tr("Status")], rows: s.risks.map((r) => [r.code, r.title, L(r.dimension), String(r.likelihood), String(r.severity), String(Math.round(r.score)), r.status]), badgeColumns: [6] }] },
+    { id: "risks", title: tr("Risk register extract"), blocks: [{ type: "table", columns: [tr("Code"), tr("Risk"), tr("Dimension"), tr("L"), tr("S"), tr("Score"), tr("Status")], rows: s.risks.map((r) => [r.code, localizeRiskTitle(locale, r.title), L(r.dimension), String(r.likelihood), String(r.severity), String(Math.round(r.score)), r.status]), badgeColumns: [6] }] },
   ];
   const typeMap: Record<string, ReportType> = { ISO_42001: "ISO_42001_EVIDENCE_PACK", EU_AI_ACT: "EU_AI_ACT_EVIDENCE_PACK", NIST_AI_RMF: "NIST_AI_RMF_EVIDENCE_PACK", KR_AI_BASIC_ACT: "KR_AI_BASIC_ACT_EVIDENCE_PACK", NIST_ARIA: "NIST_ARIA_EVALUATION_REPORT" };
   return { meta: { reportType: typeMap[frameworkCode] ?? "ISO_42001_EVIDENCE_PACK", language: locale, generatedAt: new Date().toISOString(), systemName: s.name, systemCode: s.code, organization: s.org.name, frameworks: [frameworkCode], runCodes: runs.map((r) => r.code) }, sections };
@@ -278,7 +279,7 @@ export async function buildPassport(systemId: string, locale: Locale = "en"): Pr
     ] },
     { id: "assurance", title: tr("Assurance history"), blocks: [{ type: "table", columns: [tr("Run"), tr("Date"), tr("Mode"), tr("Verdict"), tr("Score"), tr("Findings")], rows: runs.map((r) => [r.code, fmtDate(r.finishedAt ?? r.createdAt), r.mode, r.verdict, String((r.summary as Summary).assuranceScore ?? "—"), String(r.findings.length)]), badgeColumns: [3] }] },
     { id: "controls", title: tr("Control implementation status"), blocks: [{ type: "table", columns: [tr("Control"), tr("Name"), tr("Status"), tr("Last verified")], rows: impls.map((i) => [i.control.code, localizeControl(locale, i.control).name, i.status, fmtDate(i.lastVerifiedAt)]), badgeColumns: [2] }] },
-    { id: "risks", title: tr("Risk register"), blocks: [{ type: "table", columns: [tr("Code"), tr("Risk"), tr("Dimension"), tr("Score"), tr("Status"), tr("Source")], rows: s.risks.map((r) => [r.code, r.title, L(r.dimension), String(Math.round(r.score)), r.status, r.source]), badgeColumns: [4] }] },
+    { id: "risks", title: tr("Risk register"), blocks: [{ type: "table", columns: [tr("Code"), tr("Risk"), tr("Dimension"), tr("Score"), tr("Status"), tr("Source")], rows: s.risks.map((r) => [r.code, localizeRiskTitle(locale, r.title), L(r.dimension), String(Math.round(r.score)), r.status, r.source]), badgeColumns: [4] }] },
     { id: "changes", title: tr("Change events (re-test triggers)"), blocks: s.changeEvents.length ? [{ type: "table", columns: [tr("Date"), tr("Type"), tr("Description"), tr("Re-test required"), tr("Categories")], rows: s.changeEvents.map((c) => [fmtDate(c.createdAt), L(c.type), c.description, c.requiresRetest ? tr("Yes") : tr("No"), c.retestCategories.map((x) => L(x)).join(", ") || "—"]) }] : [{ type: "paragraph", text: tr("No change events recorded."), tone: "muted" }] },
     { id: "docs", title: tr("Evidence & reports"), blocks: [
       { type: "table", columns: [tr("Evidence type"), tr("Title"), tr("Source"), tr("Status"), tr("Date")], rows: evidence.map((e) => [L(e.type), e.title, e.source, e.status, fmtDate(e.createdAt)]), badgeColumns: [0, 3] },

@@ -19,6 +19,7 @@ import { Suspense } from "react";
 import { getI18n } from "@/lib/i18n/server";
 import { localizeControl } from "@/lib/i18n/content";
 import { SENSITIVITY_LEVELS, purposeLabel, sensitivityLabel } from "@/lib/datasets";
+import { localizeRiskMitigation, localizeRiskTitle } from "@/lib/i18n/risks";
 
 export default async function SystemDetailPage(props: PageProps<"/systems/[id]">) {
   const { locale, t, L } = await getI18n();
@@ -95,7 +96,7 @@ export default async function SystemDetailPage(props: PageProps<"/systems/[id]">
 
       {tab === "risks" && (
         <Card><CardHeader className="flex-row items-center justify-between"><div><CardTitle>Risk register — {s.code}</CardTitle><CardDescription>{t("Score = likelihood × 1 + severity × 3, scaled to 100. HIGH/CRITICAL test findings register risks automatically.")}</CardDescription></div>{userCan(user, "risks.write") && <Link href={`/risks/new?systemId=${s.id}`}><Button size="sm" variant="outline">{t("Add risk")}</Button></Link>}</CardHeader><CardContent className="px-0 pb-0">
-          {s.risks.length ? <Table><THead><TR><TH>{t("Code")}</TH><TH>{t("Risk")}</TH><TH>{t("Dimension")}</TH><TH>L</TH><TH>S</TH><TH>{t("Score")}</TH><TH>{t("Status")}</TH><TH>{t("Source")}</TH><TH>{t("Owner")}</TH><TH>{t("Due")}</TH></TR></THead><TBody>{s.risks.map((r) => <TR key={r.id}><TD className="font-mono text-xs text-muted">{r.code}</TD><TD><div className="font-medium">{r.title}</div>{r.mitigation && <div className="text-xs text-muted">Mitigation: {r.mitigation}</div>}</TD><TD><Badge>{L(r.dimension)}</Badge></TD><TD className="tabular-nums">{r.likelihood}</TD><TD className="tabular-nums">{r.severity}</TD><TD><Badge tone={toneForTier(r.score >= 80 ? "CRITICAL" : r.score >= 60 ? "HIGH" : r.score >= 35 ? "MEDIUM" : "LOW")}>{Math.round(r.score)}</Badge></TD><TD><Badge tone={toneForStatus(r.status)}>{L(r.status)}</Badge></TD><TD className="text-xs">{L(r.source)}</TD><TD className="text-xs">{r.owner?.name ?? "—"}</TD><TD className="text-xs text-muted">{fmtDate(r.dueDate)}</TD></TR>)}</TBody></Table> : <div className="p-5"><EmptyState title={t("No risks")} /></div>}
+          {s.risks.length ? <Table><THead><TR><TH>{t("Code")}</TH><TH>{t("Risk")}</TH><TH>{t("Dimension")}</TH><TH>L</TH><TH>S</TH><TH>{t("Score")}</TH><TH>{t("Status")}</TH><TH>{t("Source")}</TH><TH>{t("Owner")}</TH><TH>{t("Due")}</TH></TR></THead><TBody>{s.risks.map((r) => <TR key={r.id}><TD className="font-mono text-xs text-muted">{r.code}</TD><TD><div className="font-medium">{localizeRiskTitle(locale, r.title)}</div>{r.mitigation && <div className="text-xs text-muted">{t("Mitigation:")} {localizeRiskMitigation(locale, r.mitigation)}</div>}</TD><TD><Badge>{L(r.dimension)}</Badge></TD><TD className="tabular-nums">{r.likelihood}</TD><TD className="tabular-nums">{r.severity}</TD><TD><Badge tone={toneForTier(r.score >= 80 ? "CRITICAL" : r.score >= 60 ? "HIGH" : r.score >= 35 ? "MEDIUM" : "LOW")}>{Math.round(r.score)}</Badge></TD><TD><Badge tone={toneForStatus(r.status)}>{L(r.status)}</Badge></TD><TD className="text-xs">{L(r.source)}</TD><TD className="text-xs">{r.owner?.name ?? "—"}</TD><TD className="text-xs text-muted">{fmtDate(r.dueDate)}</TD></TR>)}</TBody></Table> : <div className="p-5"><EmptyState title={t("No risks")} /></div>}
         </CardContent></Card>
       )}
 
