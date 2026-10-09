@@ -168,6 +168,7 @@ A portfolio view of risks across all systems. Risks are classified into 10 dimen
 - Update status (identified → assessed → mitigating → accepted → closed) and residual score inline.
 - The "How scores are calculated" button at the top right of the heat-map card opens a reference popup: which risks are created with which L/S from the intake answers (system type, EU AI Act category, four data flags), the score formula (L×1 + S×3) ÷ 20 × 100 and bands (≥ 80 critical, 60–79 high, 35–59 medium), code/status/owner rules, risks added by test findings, vendors and incidents, and the system tier formula.
 - Automatically created risks get a default due date by score (critical 30 days, high 45 days, others 90 days). Overdue open risks are highlighted in the Due column ("n days overdue"), listed under "Overdue risks" on the dashboard, and a follow-up task "Overdue risk R-xxxx" is created automatically in Approvals & Tasks (closed when the risk is closed or accepted). Change the date with the date field in the Status column.
+- Existing open risks without a due date are filled in automatically (same rule, counted from the risk's creation date) the first time the dashboard or the risk register is opened; `pnpm tsx scripts/backfill-risk-due-dates.ts` runs the same backfill manually.
 - Tip: "accepted" is a risk-acceptance decision; manage it together with the approval record in Approvals & Tasks.
 
 ### 4.4 Frameworks & Controls

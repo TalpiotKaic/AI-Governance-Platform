@@ -115,3 +115,5 @@ docs/                         framework control library, benchmarking & product 
 `pnpm dev` · `pnpm build` · `pnpm start` · `pnpm lint` · `pnpm tsc --noEmit` · `pnpm prisma studio`
 
 Rebuild the framework seed from the library markdown: `python3 prisma/seed-data/build-frameworks.py`.
+
+Risk due dates: automatically created risks get 30 / 45 / 90-day deadlines by score (`src/lib/risks/due.ts`); open risks without a date are backfilled from their creation date when the dashboard or risk register loads, or with `pnpm tsx scripts/backfill-risk-due-dates.ts`. Overdue open risks create an "Overdue risk" task and appear on the dashboard.

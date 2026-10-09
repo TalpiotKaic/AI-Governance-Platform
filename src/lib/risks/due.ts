@@ -16,12 +16,20 @@ export function daysOverdue(due: Date, now: Date = new Date()): number {
   return Math.max(1, Math.floor((now.getTime() - due.getTime()) / (24 * 60 * 60 * 1000)));
 }
 
+/** Fill missing due dates on open risks from their score, counted from the risk's creation date. Returns the number updated. */
+export async function backfillRiskDueDates(orgId?: string): Promise<number> {
+  const rows = await db.risk.findMany({ where: { ...(orgId ? { orgId } : {}), dueDate: null, status: { in: [...OPEN_RISK_STATUSES] } }, select: { id: true, score: true, createdAt: true } });
+  for (const r of rows) await db.risk.update({ where: { id: r.id }, data: { dueDate: defaultDueDate(r.score, r.createdAt) } });
+  return rows.length;
+}
+
 /**
  * Create one open follow-up task per overdue open risk (idempotent), and close those tasks when the risk is
  * no longer open or no longer overdue. Called on dashboard / risk-register loads.
  */
 export async function ensureOverdueRiskTasks(orgId: string): Promise<{ overdue: number; created: number }> {
   const now = new Date();
+  await backfillRiskDueDates(orgId);
   const risks = await db.risk.findMany({ where: { orgId, status: { in: [...OPEN_RISK_STATUSES] }, dueDate: { lt: now } }, include: { system: { select: { code: true } } } });
   const existing = await db.task.findMany({ where: { orgId, relatedType: "risk", status: { in: ["OPEN", "IN_PROGRESS"] }, title: { startsWith: "Overdue risk " } }, select: { id: true, relatedId: true } });
   const byRisk = new Map(existing.map((t) => [t.relatedId, t.id]));
