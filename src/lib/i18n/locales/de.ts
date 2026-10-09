@@ -1,6 +1,23 @@
 /** German (de) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const de: Record<string, string> = {
+  "e.g. ChatGPT (personal productivity assistant)": "z. B. ChatGPT (persönlicher Arbeitsassistent)",
+  "General-purpose work assistance: drafting, summarising, translation, brainstorming, coding help. Not used for decisions about people or for customer-facing responses.": "Allgemeine Arbeitsassistenz: Entwürfe, Zusammenfassungen, Übersetzung, Brainstorming, Programmierhilfe. Nicht für Entscheidungen über Personen oder kundenseitige Antworten.",
+  "What the system is for and the decisions or outputs it produces": "Wozu das System dient und welche Entscheidungen oder Ausgaben es erzeugt",
+  "Vendor SaaS (web/mobile). Approx. 40 employees on personal accounts, some on a Team plan. Identified in the 2026-10 usage survey.": "Anbieter-SaaS (Web/Mobil). Ca. 40 Mitarbeitende mit privaten Konten, einige im Team-Plan. Erhoben in der Nutzungsumfrage 2026-10.",
+  "Short description of the system and how it is used": "Kurzbeschreibung des Systems und seiner Nutzung",
+  "Vendor cloud (US). Browser and mobile app. No integration with internal systems.": "Anbieter-Cloud (USA). Browser und Mobil-App. Keine Anbindung an interne Systeme.",
+  "All office staff": "Alle Büromitarbeitenden",
+  "Operators, analysts, customers…": "Bediener, Analysten, Kunden…",
+  "No direct impact (outputs are reviewed before use); customers or employees whose data may be entered": "Keine direkte Auswirkung (Ausgaben werden vor Nutzung geprüft); Kunden oder Mitarbeitende, deren Daten eingegeben werden könnten",
+  "Natural persons whose rights or safety may be affected": "Natürliche Personen, deren Rechte oder Sicherheit betroffen sein können",
+  "Outputs reviewed by the responsible person before use; no personal, confidential or source-code input; training opt-out mandatory; quarterly usage review": "Ausgaben werden vor Nutzung von der verantwortlichen Person geprüft; keine Eingabe personenbezogener, vertraulicher oder Quellcode-Daten; Trainings-Opt-out verpflichtend; vierteljährliche Nutzungsprüfung",
+  "general-purpose, individual-use, saas": "allzweck, einzelnutzung, saas",
+  "customer-service, pilot…": "kundenservice, pilot…",
+  "OpenAI / Anthropic / Microsoft": "OpenAI / Anthropic / Microsoft",
+  "GPT (latest offered) / Claude": "GPT (jeweils angebotene Version) / Claude",
+  "SaaS, continuously updated": "SaaS, laufend aktualisiert",
+  "General-purpose tools (ChatGPT, Claude, Copilot…): register one system per tool, not per person. Classify by how your organisation uses it (minimal risk for internal work assistance; limited risk if outputs reach customers; high-risk the moment it is used for hiring, credit or HR decisions) and state the prohibited uses in the purpose field. The examples shown in the fields below are placeholders you can adapt.": "Allzweck-Werkzeuge (ChatGPT, Claude, Copilot…): ein System je Werkzeug registrieren, nicht je Person. Nach der Verwendung in Ihrer Organisation einstufen (minimales Risiko bei interner Arbeitsassistenz; begrenztes Risiko, wenn Ausgaben Kunden erreichen; Hochrisiko, sobald es für Einstellung, Kredit oder Personalentscheidungen genutzt wird) und die verbotenen Nutzungen im Zweckfeld angeben. Die Beispiele in den Feldern unten sind Platzhalter, die Sie anpassen können.",
   "{n} scenarios applicable to {type}": "{n} Szenarien anwendbar auf {type}",
   "this system": "dieses System",
   "evaluation": "Evaluierung",

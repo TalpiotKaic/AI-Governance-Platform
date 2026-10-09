@@ -40,6 +40,23 @@ export function localeFromAcceptLanguage(header: string | null | undefined): Loc
 }
 
 export const ko: Record<string, string> = {
+  "e.g. ChatGPT (personal productivity assistant)": "예: ChatGPT (개인 업무 보조)",
+  "General-purpose work assistance: drafting, summarising, translation, brainstorming, coding help. Not used for decisions about people or for customer-facing responses.": "범용 업무 보조: 문서 초안, 요약, 번역, 아이디어 발상, 코드 작성 지원. 사람에 대한 의사결정이나 고객 응대에는 사용하지 않음.",
+  "What the system is for and the decisions or outputs it produces": "시스템의 용도와 그것이 내리는 결정 또는 산출물",
+  "Vendor SaaS (web/mobile). Approx. 40 employees on personal accounts, some on a Team plan. Identified in the 2026-10 usage survey.": "벤더 SaaS(웹/모바일). 약 40명이 개인 계정으로 사용, 일부는 Team 플랜. 2026-10 사용 현황 조사에서 파악.",
+  "Short description of the system and how it is used": "시스템과 사용 방식에 대한 간단한 설명",
+  "Vendor cloud (US). Browser and mobile app. No integration with internal systems.": "벤더 클라우드(미국). 브라우저 및 모바일 앱. 내부 시스템과 연동 없음.",
+  "All office staff": "전체 사무직 임직원",
+  "Operators, analysts, customers…": "운영자, 분석가, 고객…",
+  "No direct impact (outputs are reviewed before use); customers or employees whose data may be entered": "직접 영향 없음(생성물은 사용 전 검토); 데이터가 입력될 수 있는 고객 또는 임직원",
+  "Natural persons whose rights or safety may be affected": "권리나 안전에 영향을 받을 수 있는 자연인",
+  "Outputs reviewed by the responsible person before use; no personal, confidential or source-code input; training opt-out mandatory; quarterly usage review": "담당자가 사용 전 생성물 검토; 개인정보·기밀·소스코드 입력 금지; 학습 미사용 설정 필수; 분기별 사용 점검",
+  "general-purpose, individual-use, saas": "범용, 개인사용, saas",
+  "customer-service, pilot…": "고객서비스, 파일럿…",
+  "OpenAI / Anthropic / Microsoft": "OpenAI / Anthropic / Microsoft",
+  "GPT (latest offered) / Claude": "GPT(서비스 제공 최신 모델) / Claude",
+  "SaaS, continuously updated": "SaaS 상시 업데이트",
+  "General-purpose tools (ChatGPT, Claude, Copilot…): register one system per tool, not per person. Classify by how your organisation uses it (minimal risk for internal work assistance; limited risk if outputs reach customers; high-risk the moment it is used for hiring, credit or HR decisions) and state the prohibited uses in the purpose field. The examples shown in the fields below are placeholders you can adapt.": "범용 도구(ChatGPT, Claude, Copilot 등)는 사람마다가 아니라 도구 하나당 시스템 하나로 등록합니다. 분류는 우리 조직의 사용 용도 기준입니다(내부 업무 보조는 최소 위험, 생성물이 고객에게 전달되면 제한적 위험, 채용·신용·인사 결정에 쓰는 순간 고위험). 금지 용도는 목적란에 함께 적어 주세요. 아래 입력란의 예시는 참고용 자리표시자이며 상황에 맞게 바꿔 쓰시면 됩니다.",
   "{n} scenarios applicable to {type}": "{type}에 적용 가능한 시나리오 {n}개",
   "this system": "이 시스템",
   "evaluation": "평가",

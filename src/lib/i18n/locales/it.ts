@@ -1,6 +1,23 @@
 /** Italian (it) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const it: Record<string, string> = {
+  "e.g. ChatGPT (personal productivity assistant)": "es. ChatGPT (assistente personale di lavoro)",
+  "General-purpose work assistance: drafting, summarising, translation, brainstorming, coding help. Not used for decisions about people or for customer-facing responses.": "Assistenza generale al lavoro: bozze, riassunti, traduzione, brainstorming, supporto alla programmazione. Non usato per decisioni sulle persone né per risposte ai clienti.",
+  "What the system is for and the decisions or outputs it produces": "A cosa serve il sistema e quali decisioni o output produce",
+  "Vendor SaaS (web/mobile). Approx. 40 employees on personal accounts, some on a Team plan. Identified in the 2026-10 usage survey.": "SaaS del fornitore (web/mobile). Circa 40 dipendenti con account personali, alcuni su piano Team. Rilevato nel sondaggio d'uso 2026-10.",
+  "Short description of the system and how it is used": "Breve descrizione del sistema e del suo utilizzo",
+  "Vendor cloud (US). Browser and mobile app. No integration with internal systems.": "Cloud del fornitore (USA). Browser e app mobile. Nessuna integrazione con i sistemi interni.",
+  "All office staff": "Tutto il personale d'ufficio",
+  "Operators, analysts, customers…": "Operatori, analisti, clienti…",
+  "No direct impact (outputs are reviewed before use); customers or employees whose data may be entered": "Nessun impatto diretto (gli output sono rivisti prima dell'uso); clienti o dipendenti i cui dati potrebbero essere inseriti",
+  "Natural persons whose rights or safety may be affected": "Persone fisiche i cui diritti o la cui sicurezza possono essere interessati",
+  "Outputs reviewed by the responsible person before use; no personal, confidential or source-code input; training opt-out mandatory; quarterly usage review": "Output rivisti dal responsabile prima dell'uso; nessun inserimento di dati personali, riservati o codice sorgente; opt-out dall'addestramento obbligatorio; revisione trimestrale dell'uso",
+  "general-purpose, individual-use, saas": "uso-generale, uso-individuale, saas",
+  "customer-service, pilot…": "servizio-clienti, pilota…",
+  "OpenAI / Anthropic / Microsoft": "OpenAI / Anthropic / Microsoft",
+  "GPT (latest offered) / Claude": "GPT (ultima versione offerta) / Claude",
+  "SaaS, continuously updated": "SaaS, aggiornamento continuo",
+  "General-purpose tools (ChatGPT, Claude, Copilot…): register one system per tool, not per person. Classify by how your organisation uses it (minimal risk for internal work assistance; limited risk if outputs reach customers; high-risk the moment it is used for hiring, credit or HR decisions) and state the prohibited uses in the purpose field. The examples shown in the fields below are placeholders you can adapt.": "Strumenti generici (ChatGPT, Claude, Copilot…): registra un sistema per strumento, non per persona. Classifica in base all'uso nella tua organizzazione (rischio minimo per l'assistenza interna; rischio limitato se gli output raggiungono i clienti; alto rischio appena viene usato per assunzioni, credito o decisioni HR) e indica gli usi vietati nel campo finalità. Gli esempi mostrati nei campi sottostanti sono segnaposto da adattare.",
   "{n} scenarios applicable to {type}": "{n} scenari applicabili a {type}",
   "this system": "questo sistema",
   "evaluation": "valutazione",

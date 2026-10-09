@@ -76,6 +76,9 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L, catalog
   const linkedD = new Map((catalog.initialLinks?.datasets ?? []).map((d) => [d.id, d.purpose]));
   const [type, setType] = useState(initial?.type ?? "LLM_APPLICATION");
   const isAgent = type === "AGENT" || type === "MULTI_AGENT";
+  const isSaas = type === "EXTERNAL_SAAS";
+  // Example values shown as placeholders when registering a general-purpose SaaS tool (ChatGPT, Claude, Copilot…)
+  const ph = (saas: string, other: string) => (isSaas ? t(saas) : t(other));
   const toolsText = toolsToText(initial?.agent?.tools);
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -176,11 +179,12 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L, catalog
       <Card>
         <CardHeader><CardTitle>{t("1. Identity & context (intake)")}</CardTitle><CardDescription>{t("Intake answers drive automatic risk tiering, EU AI Act classification prompts and the approval workflow.")}</CardDescription></CardHeader>
         <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <Field label={t("System name")}><Input name="name" required defaultValue={initial?.name ?? ""} placeholder={t("e.g. Customer Service Agent")} /></Field>
+          <Field label={t("System name")}><Input name="name" required defaultValue={initial?.name ?? ""} placeholder={ph("e.g. ChatGPT (personal productivity assistant)", "e.g. Customer Service Agent")} /></Field>
           <Field label={t("System type")}>
             <Select name="type" value={type} onChange={(e) => setType(e.target.value)}>
               <option value="PREDICTIVE_ML">{t("Predictive ML model")}</option><option value="LLM_APPLICATION">{t("LLM application")}</option><option value="RAG_ASSISTANT">{t("RAG assistant")}</option><option value="AGENT">{t("AI agent (tools)")}</option><option value="MULTI_AGENT">{t("Multi-agent system")}</option><option value="EXTERNAL_SAAS">{t("External SaaS AI")}</option>
             </Select>
+            {isSaas && <p className="mt-1 rounded-md border border-info/30 bg-info-soft/60 px-2 py-1.5 text-[11px] leading-relaxed text-foreground">{t("General-purpose tools (ChatGPT, Claude, Copilot…): register one system per tool, not per person. Classify by how your organisation uses it (minimal risk for internal work assistance; limited risk if outputs reach customers; high-risk the moment it is used for hiring, credit or HR decisions) and state the prohibited uses in the purpose field. The examples shown in the fields below are placeholders you can adapt.")}</p>}
           </Field>
           <Field label={t("Sector")}><Input name="sector" defaultValue={initial?.sector ?? ""} placeholder={t("Financial services, Healthcare, Manufacturing…")} /></Field>
           <Field label={t("Lifecycle stage")}>
@@ -188,13 +192,13 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L, catalog
               {["PLANNED", "DEVELOPMENT", "TESTING", "APPROVED", "PRODUCTION", "RETIRED"].map((s) => <option key={s} value={s}>{L(s)}</option>)}
             </Select>
           </Field>
-          <Field label={t("Purpose / intended use")} className="md:col-span-2"><Textarea name="purpose" defaultValue={initial?.purpose ?? ""} /></Field>
-          <Field label={t("Description")} className="md:col-span-2"><Textarea name="description" defaultValue={initial?.description ?? ""} /></Field>
-          <Field label={t("Deployment context")}><Input name="deploymentContext" defaultValue={initial?.deploymentContext ?? ""} placeholder={t("Customer portal, internal tool, embedded…")} /></Field>
+          <Field label={t("Purpose / intended use")} className="md:col-span-2"><Textarea name="purpose" defaultValue={initial?.purpose ?? ""} placeholder={ph("General-purpose work assistance: drafting, summarising, translation, brainstorming, coding help. Not used for decisions about people or for customer-facing responses.", "What the system is for and the decisions or outputs it produces")} /></Field>
+          <Field label={t("Description")} className="md:col-span-2"><Textarea name="description" defaultValue={initial?.description ?? ""} placeholder={ph("Vendor SaaS (web/mobile). Approx. 40 employees on personal accounts, some on a Team plan. Identified in the 2026-10 usage survey.", "Short description of the system and how it is used")} /></Field>
+          <Field label={t("Deployment context")}><Input name="deploymentContext" defaultValue={initial?.deploymentContext ?? ""} placeholder={ph("Vendor cloud (US). Browser and mobile app. No integration with internal systems.", "Customer portal, internal tool, embedded…")} /></Field>
           <Field label={t("Geographies (comma-separated)")}><Input name="geographies" defaultValue={initial?.geographies?.join(", ") ?? "KR"} /></Field>
-          <Field label={t("Intended users")}><Input name="intendedUsers" defaultValue={initial?.intendedUsers ?? ""} /></Field>
-          <Field label={t("Affected persons")}><Input name="affectedPersons" defaultValue={initial?.affectedPersons ?? ""} /></Field>
-          <Field label={t("Tags (comma-separated)")} className="md:col-span-2"><Input name="tags" defaultValue={initial?.tags?.join(", ") ?? ""} /></Field>
+          <Field label={t("Intended users")}><Input name="intendedUsers" defaultValue={initial?.intendedUsers ?? ""} placeholder={ph("All office staff", "Operators, analysts, customers…")} /></Field>
+          <Field label={t("Affected persons")}><Input name="affectedPersons" defaultValue={initial?.affectedPersons ?? ""} placeholder={ph("No direct impact (outputs are reviewed before use); customers or employees whose data may be entered", "Natural persons whose rights or safety may be affected")} /></Field>
+          <Field label={t("Tags (comma-separated)")} className="md:col-span-2"><Input name="tags" defaultValue={initial?.tags?.join(", ") ?? ""} placeholder={ph("general-purpose, individual-use, saas", "customer-service, pilot…")} /></Field>
         </CardContent>
       </Card>
       <Card>
@@ -231,7 +235,7 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L, catalog
             <datalist id="annex-iii-areas">{ANNEX_III_AREAS.map((a) => <option key={a.n} value={annexAreaValue(t, a)}>{t(a.description)}</option>)}</datalist>
             <p className="mt-1 text-[11px] text-muted">{t("Suggestions appear as you type; the eight areas are listed under the ? button.")}</p>
           </div>
-          <Field label={t("Human oversight measures")} className="md:col-span-2"><Textarea name="humanOversight" defaultValue={initial?.humanOversight ?? ""} placeholder={t("Approval gates, review of outputs, kill switch, escalation…")} /></Field>
+          <Field label={t("Human oversight measures")} className="md:col-span-2"><Textarea name="humanOversight" defaultValue={initial?.humanOversight ?? ""} placeholder={ph("Outputs reviewed by the responsible person before use; no personal, confidential or source-code input; training opt-out mandatory; quarterly usage review", "Approval gates, review of outputs, kill switch, escalation…")} /></Field>
           <div className="grid grid-cols-1 gap-2 md:col-span-2 md:grid-cols-2">
             <Checkbox name="usesPersonalData" label={t("Processes personal data")} defaultChecked={initial?.usesPersonalData} />
             <Checkbox name="usesSensitiveData" label={t("Processes special-category / sensitive data")} defaultChecked={initial?.usesSensitiveData} />
@@ -243,9 +247,9 @@ function SystemFormInner({ action, initial, submitLabel, draftKey, t, L, catalog
       <Card>
         <CardHeader><CardTitle>{t("3. Model")}</CardTitle></CardHeader>
         <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <Field label={t("Provider")}><Input name="modelProvider" defaultValue={initial?.model?.provider ?? ""} placeholder={t("Anthropic, OpenAI, in-house…")} /></Field>
-          <Field label={t("Model name")}><Input name="modelName" defaultValue={initial?.model?.name ?? ""} placeholder={t("claude-sonnet, gpt-4o, GBM v7…")} /></Field>
-          <Field label={t("Version")}><Input name="modelVersion" defaultValue={initial?.model?.version ?? ""} /></Field>
+          <Field label={t("Provider")}><Input name="modelProvider" defaultValue={initial?.model?.provider ?? ""} placeholder={ph("OpenAI / Anthropic / Microsoft", "Anthropic, OpenAI, in-house…")} /></Field>
+          <Field label={t("Model name")}><Input name="modelName" defaultValue={initial?.model?.name ?? ""} placeholder={ph("GPT (latest offered) / Claude", "claude-sonnet, gpt-4o, GBM v7…")} /></Field>
+          <Field label={t("Version")}><Input name="modelVersion" defaultValue={initial?.model?.version ?? ""} placeholder={ph("SaaS, continuously updated", "")} /></Field>
         </CardContent>
       </Card>
       <Card>
