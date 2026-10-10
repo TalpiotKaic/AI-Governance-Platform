@@ -1,6 +1,9 @@
 /** French (fr) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const fr: Record<string, string> = {
+  "Mapped framework requirements ({n})": "Exigences des référentiels associées ({n})",
+  "No mapped requirements.": "Aucune exigence associée.",
+  "Show mapped requirements": "Afficher les exigences associées",
   "Inherent L and S describe the risk before mitigation. After mitigation the owner opens Edit and records residual L and S; the residual score uses the same formula. The inherent view counts open risks; the residual view counts open and accepted risks, because accepted risk is still carried. Closed risks (and accepted ones in the inherent view) are added with the checkbox, and the number left out is shown under the chart. Risks without a residual assessment stay at their inherent position in the residual view.": "L et S inhérents décrivent le risque avant atténuation. Ensuite, le responsable ouvre « Modifier » et saisit L et S résiduels ; le score résiduel utilise la même formule. La vue inhérente compte les risques ouverts ; la vue résiduelle compte les risques ouverts et acceptés, car un risque accepté reste porté. Les risques clos (et acceptés dans la vue inhérente) s'ajoutent via la case à cocher, et le nombre exclu est indiqué sous le graphique. Les risques sans évaluation résiduelle restent à leur position inhérente dans la vue résiduelle.",
   "Action status": "État des actions",
   "Average score": "Score moyen",

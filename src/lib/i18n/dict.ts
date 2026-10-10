@@ -40,6 +40,9 @@ export function localeFromAcceptLanguage(header: string | null | undefined): Loc
 }
 
 export const ko: Record<string, string> = {
+  "Mapped framework requirements ({n})": "매핑된 프레임워크 요구사항 {n}개",
+  "No mapped requirements.": "매핑된 요구사항이 없습니다.",
+  "Show mapped requirements": "매핑된 요구사항 보기",
   "Inherent L and S describe the risk before mitigation. After mitigation the owner opens Edit and records residual L and S; the residual score uses the same formula. The inherent view counts open risks; the residual view counts open and accepted risks, because accepted risk is still carried. Closed risks (and accepted ones in the inherent view) are added with the checkbox, and the number left out is shown under the chart. Risks without a residual assessment stay at their inherent position in the residual view.": "고유 L·S는 완화 조치 전의 위험입니다. 완화 후에는 담당자가 「편집」에서 잔여 L·S를 기록하며, 잔여 점수도 같은 공식으로 계산됩니다. 고유 보기는 미완료 위험을 세고, 잔여 보기는 미완료와 수용 위험을 셉니다. 수용한 위험은 조직이 계속 떠안는 위험이기 때문입니다. 종료 위험(고유 보기에서는 수용 위험도)은 체크박스로 추가하며, 빠진 건수는 그래프 아래에 표시됩니다. 잔여 평가가 없는 위험은 잔여 보기에서 고유 위치에 그대로 표시됩니다.",
   "Action status": "조치 현황",
   "Average score": "평균 점수",

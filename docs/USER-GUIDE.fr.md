@@ -179,6 +179,7 @@ Bibliothèques d'exigences ISO/IEC 42001 (92 exigences), Règlement IA de l'UE (
 - Ouvrez un référentiel pour voir, par exigence, les contrôles harmonisés et les preuves attendues ; choisissez un système pour calculer la **couverture (couvert / partiel / lacune)**.
 - « Générer un dossier de preuves » ouvre le formulaire de rapport avec le système et le référentiel présélectionnés.
 - La table des contrôles harmonisés montre quelles clauses chaque contrôle satisfait, quelles méthodes de test le vérifient et dans combien de systèmes il est vérifié.
+- Survolez (ou touchez) le nom d'un contrôle (HC-xx) pour voir les exigences qu'il satisfait, groupées par référentiel avec numéro de clause et titre. Cela fonctionne dans le tableau des contrôles harmonisés et dans l'onglet « Contrôles » d'un système ; cliquez sur le nom du référentiel pour l'ouvrir.
 - Conseil : le texte des exigences se trouve dans `docs/framework-control-library.md` et est converti en JSON par un script. Modifiez le markdown, pas le JSON.
 
 ### 4.5 Plans d'évaluation (Évaluer & vérifier)

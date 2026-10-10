@@ -179,6 +179,7 @@ Bibliotecas de requisitos de ISO/IEC 42001 (92 requisitos), Ley de IA de la UE (
 - Abra un marco para ver, por requisito, los controles armonizados y las evidencias esperadas; seleccione un sistema para calcular la **cobertura (cubierto / parcial / brecha)**.
 - «Generar paquete de evidencias» abre el formulario de informe con el sistema y el marco preseleccionados.
 - La tabla de controles armonizados muestra qué cláusulas satisface cada control, qué métodos de prueba lo verifican y en cuántos sistemas está verificado.
+- Pase el ratón (o toque) sobre el nombre de un control (HC-xx) para ver los requisitos que cumple, agrupados por marco con número de cláusula y título. Funciona en la tabla de controles armonizados y en la pestaña «Controles» de un sistema; haga clic en el nombre del marco para abrirlo.
 - Consejo: el texto de los requisitos está en `docs/framework-control-library.md` y se convierte a JSON con un script. Edite el markdown, no el JSON.
 
 ### 4.5 Planes de evaluación (Evaluar y verificar)

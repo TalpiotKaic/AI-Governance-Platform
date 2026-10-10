@@ -179,6 +179,7 @@ Librerie di requisiti ISO/IEC 42001 (92 requisiti), AI Act UE (36), NIST AI RMF 
 - Apri un framework per vedere, per ogni requisito, i controlli armonizzati e le evidenze attese; seleziona un sistema per calcolare la **copertura (coperto / parziale / lacuna)**.
 - «Genera pacchetto di evidenze» apre il modulo del report con sistema e framework preselezionati.
 - La tabella dei controlli armonizzati mostra quali clausole soddisfa ogni controllo, quali metodi di test lo verificano e in quanti sistemi è verificato.
+- Passa il mouse (o tocca) sul nome di un controllo (HC-xx) per vedere i requisiti che soddisfa, raggruppati per framework con numero di clausola e titolo. Funziona nella tabella dei controlli armonizzati e nella scheda «Controlli» di un sistema; fai clic sul nome del framework per aprirlo.
 - Suggerimento: il testo dei requisiti è in `docs/framework-control-library.md` e viene convertito in JSON da uno script. Modifica il markdown, non il JSON.
 
 ### 4.5 Piani di valutazione (Valutare & verificare)

@@ -179,6 +179,7 @@ Anforderungsbibliotheken für ISO/IEC 42001 (92 Anforderungen), EU-KI-Verordnung
 - Ein Rahmenwerk öffnen, um je Anforderung die zugeordneten harmonisierten Kontrollen und erwarteten Nachweise zu sehen; ein System wählen, um die **Abdeckung (erfüllt / teilweise / Lücke)** zu berechnen.
 - „Nachweispaket erzeugen“ springt mit vorausgewähltem System und Rahmenwerk in das Berichtsformular.
 - Die Tabelle der harmonisierten Kontrollen zeigt, welche Klauseln jede Kontrolle erfüllt, welche Testmethoden sie verifizieren und in wie vielen Systemen sie verifiziert ist.
+- Fahren Sie mit der Maus über einen Kontrollnamen (HC-xx) oder tippen Sie darauf, um die erfüllten Anforderungen nach Rahmenwerk (Klausel und Titel) zu sehen. Das funktioniert in der Tabelle der harmonisierten Kontrollen und im Reiter „Kontrollen“ eines Systems; ein Klick auf den Rahmenwerksnamen öffnet das Rahmenwerk.
 - Tipp: Der Anforderungstext liegt in `docs/framework-control-library.md` und wird per Skript in JSON gebaut. Das Markdown bearbeiten, nicht das JSON.
 
 ### 4.5 Evaluierungspläne (Evaluieren & Verifizieren)

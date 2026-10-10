@@ -179,6 +179,7 @@ Requirement libraries for ISO/IEC 42001 (92 requirements), EU AI Act (36), NIST 
 - Open a framework to see the harmonized controls and expected evidence mapped to each requirement; select a system to compute **coverage (covered / partial / gap)**.
 - "Generate evidence pack" jumps to the report form with the system and framework pre-selected.
 - The harmonized-control table shows which framework clauses each control satisfies, which test methods verify it, and in how many systems it is verified.
+- Hover over (or tap) a control name (HC-xx) to see the requirements it satisfies, grouped by framework with clause number and title. This works in the harmonized-control table here and in a system's Controls tab; click a framework name to open that framework.
 - Tip: requirement text lives in `docs/framework-control-library.md` and is built into JSON by a script. Edit the markdown, not the JSON.
 
 ### 4.5 Evaluation Plans (Evaluate & Verify)
