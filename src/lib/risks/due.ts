@@ -12,6 +12,13 @@ export function isOverdue(r: { dueDate: Date | null; status: string }, now: Date
   return !!r.dueDate && r.dueDate < now && (OPEN_RISK_STATUSES as readonly string[]).includes(r.status);
 }
 
+/** Open risk whose due date falls within the next `days` days (not yet overdue). */
+export function isDueWithin(r: { dueDate: Date | null; status: string }, days: number, now: Date = new Date()): boolean {
+  if (!r.dueDate || !(OPEN_RISK_STATUSES as readonly string[]).includes(r.status)) return false;
+  const t = r.dueDate.getTime();
+  return t >= now.getTime() && t <= now.getTime() + days * 24 * 60 * 60 * 1000;
+}
+
 export function daysOverdue(due: Date, now: Date = new Date()): number {
   return Math.max(1, Math.floor((now.getTime() - due.getTime()) / (24 * 60 * 60 * 1000)));
 }

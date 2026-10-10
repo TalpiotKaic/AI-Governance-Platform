@@ -13,6 +13,7 @@ import { localizeRiskDescription, localizeRiskMitigation, localizeRiskTitle } fr
 import { OPEN_RISK_STATUSES, daysOverdue, ensureOverdueRiskTasks, isOverdue } from "@/lib/risks/due";
 import { ScoringHelp } from "./scoring-help";
 import { RiskEditor } from "./risk-editor";
+import { RiskSummary } from "./risk-summary";
 
 export const metadata = { title: "Risk Register" };
 
@@ -42,8 +43,12 @@ export default async function RisksPage(props: PageProps<"/risks">) {
   const canWrite = userCan(user, "risks.write");
   const total = dim ? await db.risk.count({ where: { orgId: user.orgId } }) : risks.length;
 
-  // Heat map: open risks by default (closed / accepted on request), inherent or residual position.
-  const charted = risks.filter((r) => includeClosed || (OPEN_RISK_STATUSES as readonly string[]).includes(r.status));
+  // Heat map scope. Inherent view: open risks. Residual view: open + accepted (risk still carried).
+  // The checkbox adds the remaining statuses (closed, and accepted in the inherent view).
+  const isOpen = (st: string) => (OPEN_RISK_STATUSES as readonly string[]).includes(st);
+  const inScope = (st: string) => isOpen(st) || (view === "residual" && st === "ACCEPTED");
+  const charted = risks.filter((r) => includeClosed || inScope(r.status));
+  const excluded = risks.length - charted.length;
   const matrix: number[][] = Array.from({ length: 5 }, () => Array(5).fill(0));
   let notAssessed = 0;
   for (const r of charted) {
@@ -67,7 +72,7 @@ export default async function RisksPage(props: PageProps<"/risks">) {
               <Link href={href({ view: "residual" })} className={seg(view === "residual")} aria-current={view === "residual" ? "true" : undefined}>{t("Residual")}</Link>
             </div>
             <Link href={href({ all: includeClosed ? undefined : "1" })} className="inline-flex items-center gap-1.5 text-xs text-muted hover:text-foreground">
-              <span className={`inline-flex h-3.5 w-3.5 items-center justify-center rounded border ${includeClosed ? "border-primary bg-primary text-primary-foreground" : "border-border"}`}>{includeClosed ? "✓" : ""}</span>{t("Include closed & accepted")}
+              <span className={`inline-flex h-3.5 w-3.5 items-center justify-center rounded border ${includeClosed ? "border-primary bg-primary text-primary-foreground" : "border-border"}`}>{includeClosed ? "✓" : ""}</span>{view === "residual" ? t("Include closed") : t("Include closed & accepted")}
             </Link>
           </div>
           <div className="grid grid-cols-[auto_repeat(5,1fr)] gap-1 text-[11px]">
@@ -75,13 +80,20 @@ export default async function RisksPage(props: PageProps<"/risks">) {
             {matrix.map((row, i) => (<div key={i} className="contents"><div className="pr-1 text-right text-muted">S{5 - i}</div>{row.map((n, j) => { const score = Math.round((((j + 1) + (5 - i) * 3) / 20) * 100); const bg = score >= 80 ? "bg-danger-soft" : score >= 60 ? "bg-warning-soft" : score >= 35 ? "bg-info-soft" : "bg-success-soft"; return <div key={j} className={`flex h-8 items-center justify-center rounded ${bg} ${n ? "font-semibold" : "text-muted"}`} title={`L${j + 1} S${5 - i} → ${score}`}>{n || ""}</div>; })}</div>))}
           </div>
           <p className="mt-2 text-[11px] text-muted">
-            {(includeClosed ? t("{n} risks charted (all statuses).") : t("{n} open risks charted (closed and accepted excluded).")).replace("{n}", String(charted.length))}
+            {includeClosed ? t("{n} risks charted (all statuses).").replace("{n}", String(charted.length))
+              : view === "residual" ? t("{n} open and accepted risks charted.").replace("{n}", String(charted.length))
+              : t("{n} open risks charted.").replace("{n}", String(charted.length))}
+            {!includeClosed && excluded > 0 && <> {(view === "residual" ? t("{n} closed excluded — turn on “Include closed” to show them.") : t("{n} closed or accepted excluded — turn on “Include closed & accepted” to show them.")).replace("{n}", String(excluded))}</>}
             {view === "residual" && notAssessed > 0 && <> {t("{n} without a residual assessment are shown at their inherent position.").replace("{n}", String(notAssessed))}</>}
           </p>
         </CardContent></Card>
         <Card className="lg:col-span-2"><CardHeader><CardTitle>{t("Filter by dimension")}</CardTitle></CardHeader><CardContent className="flex flex-wrap gap-2">
           <Link href={href({ dimension: undefined })}><Badge tone={!dim ? "primary" : "neutral"} className="cursor-pointer">{t("All")} ({total})</Badge></Link>
           {DIMS.map((d) => <Link key={d} href={href({ dimension: d })}><Badge tone={dim === d ? "primary" : "neutral"} className="cursor-pointer">{L(d)}</Badge></Link>)}
+          <div className="mt-3 w-full border-t border-border pt-4">
+            <p className="mb-3 text-sm font-medium">{dim ? t("Summary: {dim}").replace("{dim}", L(dim)) : t("Register summary")}</p>
+            <RiskSummary risks={risks} />
+          </div>
         </CardContent></Card>
       </div>
       <div className="rounded-lg border border-border bg-surface">

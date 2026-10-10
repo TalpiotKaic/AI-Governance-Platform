@@ -35,7 +35,7 @@ export function ScoringHelp() {
         <p className="mt-1 text-muted">{t("Examples: L3·S5 = 90, L3·S4 = 75, L3·S3 = 60, L2·S3 = 55.")}</p>
         <p className="mt-1">{t("Bands: ≥ 80 CRITICAL · 60–79 HIGH · 35–59 MEDIUM · < 35 LOW. The heat-map cells use the same bands.")}</p>
         <H>{t("Inherent and residual risk")}</H>
-        <p>{t("Inherent L and S describe the risk before mitigation. After mitigation the owner opens Edit and records residual L and S; the residual score uses the same formula. The heat map shows either position — open risks only by default, closed and accepted risks on request. Risks without a residual assessment stay at their inherent position in the residual view.")}</p>
+        <p>{t("Inherent L and S describe the risk before mitigation. After mitigation the owner opens Edit and records residual L and S; the residual score uses the same formula. The inherent view counts open risks; the residual view counts open and accepted risks, because accepted risk is still carried. Closed risks (and accepted ones in the inherent view) are added with the checkbox, and the number left out is shown under the chart. Risks without a residual assessment stay at their inherent position in the residual view.")}</p>
         <H>{t("Code, status and owner")}</H>
         <p>{t("Codes run sequentially per organisation (R-0001, R-0002…). New risks start as Identified with source Intake; the owner is the user who registered the system.")}</p>
         <H>{t("Risks added later")}</H>
