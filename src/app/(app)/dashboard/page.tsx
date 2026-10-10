@@ -13,14 +13,20 @@ import { getI18n } from "@/lib/i18n/server";
 import { localizeRiskTitle } from "@/lib/i18n/risks";
 import { daysOverdue, ensureOverdueRiskTasks, isOverdue } from "@/lib/risks/due";
 import { DocumentsCard } from "./documents-card";
+import { syncControlStatuses } from "@/lib/controls/status";
+import { ensureFrameworkMappings } from "@/lib/frameworks/sync";
+import { buildTodos } from "@/lib/todo";
+import { TodoList } from "@/components/domain/todo-list";
 
 export const metadata = { title: "Dashboard" };
 
 export default async function DashboardPage() {
   const { t, L, locale } = await getI18n();
   const user = await requireUser();
+  await ensureFrameworkMappings();
   const orgId = user.orgId;
   await ensureOverdueRiskTasks(orgId);
+  await syncControlStatuses(orgId);
   const [systems, risks, runs, findings, approvals, tasks, incidents, evidenceCount, impls, frameworks] = await Promise.all([
     db.aiSystem.findMany({ where: { orgId }, orderBy: { code: "asc" }, include: { _count: { select: { risks: true, runs: true } } } }),
     db.risk.findMany({ where: { orgId }, include: { system: { select: { code: true } } } }),
@@ -33,6 +39,7 @@ export default async function DashboardPage() {
     db.controlImplementation.findMany({ where: { system: { orgId } } }),
     db.framework.findMany({ include: { _count: { select: { requirements: true } } } }),
   ]);
+  const todos = await buildTodos(user);
   const highRisk = systems.filter((s) => s.riskTier === "HIGH" || s.riskTier === "CRITICAL").length;
   const avgScore = systems.filter((s) => s.assuranceScore !== null).reduce((a, s, _, arr) => a + (s.assuranceScore ?? 0) / arr.length, 0);
   const openFindings = await db.finding.count({ where: { system: { orgId }, status: { in: ["OPEN", "MITIGATING"] } } });
@@ -54,6 +61,16 @@ export default async function DashboardPage() {
         <Stat label={t("Pending approvals")} value={approvals} hint={`${tasks} ${t("open tasks")}`} tone={approvals ? "info" : undefined} />
         <Stat label={t("Valid evidence")} value={evidenceCount} hint={`${incidents} ${t("open incidents")}`} />
       </div>
+
+      {todos.length > 0 && (
+        <Card className="mt-4">
+          <CardHeader className="flex-row items-center justify-between gap-3">
+            <div><CardTitle>{t("To-do")} <span className="ml-1 text-sm font-normal text-muted">{todos.length}</span></CardTitle><CardDescription>{t("The most urgent items for you — each button opens the place where it is done.")}</CardDescription></div>
+            <Link href="/todo" className="shrink-0 text-sm text-primary hover:underline">{t("View all")} →</Link>
+          </CardHeader>
+          <CardContent className="py-0 pb-2"><TodoList todos={todos.slice(0, 6)} t={t} compact /></CardContent>
+        </Card>
+      )}
 
       <div className="mt-4"><DocumentsCard orgId={orgId} /></div>
 

@@ -1908,7 +1908,7 @@
    "name": "AI policy & governance framework",
    "category": "Governance",
    "sortOrder": 1,
-   "description": "ISO/IEC 42001: 5.1, 5.2, A.2.2, A.2.3, A.2.4 · EU AI Act: Art. 17(1)(a),(m) (compliance strategy, accountability framework); Art. 4 (AI literacy, org-level) · NIST AI RMF: GOVERN 1.1, 1.2, 1.4, 4.1 · KR AI Basic Act: 제34조 (책무 이행 체계 전반), 정부 AI 윤리원칙 (제27조 — U)",
+   "description": "ISO/IEC 42001: 5.1, 5.2, A.2.2, A.2.3, A.2.4, 4.1, 4.4, 6.2, A.9.3 · EU AI Act: Art. 17(1)(a),(m) (compliance strategy, accountability framework); Art. 4 (AI literacy, org-level) · NIST AI RMF: GOVERN 1.1, 1.2, 1.4, 4.1; MAP 1.3 · KR AI Basic Act: 제34조 (책무 이행 체계 전반), 정부 AI 윤리원칙 (제27조 — U)",
    "testHint": null,
    "evidenceTypes": "EV-POL, EV-MR",
    "mappings": {
@@ -1917,7 +1917,11 @@
      "5.2",
      "A.2.2",
      "A.2.3",
-     "A.2.4"
+     "A.2.4",
+     "4.1",
+     "4.4",
+     "6.2",
+     "A.9.3"
     ],
     "EU_AI_ACT": [
      "Art. 17",
@@ -1927,7 +1931,8 @@
      "GOVERN 1.1",
      "GOVERN 1.2",
      "GOVERN 1.4",
-     "GOVERN 4.1"
+     "GOVERN 4.1",
+     "MAP 1.3"
     ],
     "KR_AI_BASIC_ACT": [
      "제27조",
@@ -1941,7 +1946,7 @@
    "name": "Roles, responsibilities & accountability",
    "category": "Governance",
    "sortOrder": 2,
-   "description": "ISO/IEC 42001: 5.3, A.3.2, A.10.2 · EU AI Act: Art. 17(1)(m); Art. 16 (provider duties); Art. 26 (deployer duties); Art. 22 (authorised representative) · NIST AI RMF: GOVERN 2.1, 2.3, 3.2 · KR AI Basic Act: 제34조; 제36조 국내대리인",
+   "description": "ISO/IEC 42001: 5.3, A.3.2, A.10.2 · EU AI Act: Art. 17(1)(m); Art. 16 (provider duties); Art. 26 (deployer duties); Art. 22 (authorised representative); Art. 54 (GPAI authorised representative) · NIST AI RMF: GOVERN 2.1, 2.3, 3.2; GOVERN 3.1; MAP 1.2 · KR AI Basic Act: 제34조; 제36조 국내대리인",
    "testHint": null,
    "evidenceTypes": "EV-RACI",
    "mappings": {
@@ -1954,12 +1959,15 @@
      "Art. 16",
      "Art. 17",
      "Art. 22",
-     "Art. 26"
+     "Art. 26",
+     "Art. 54"
     ],
     "NIST_AI_RMF": [
      "GOVERN 2.1",
      "GOVERN 2.3",
-     "GOVERN 3.2"
+     "GOVERN 3.2",
+     "GOVERN 3.1",
+     "MAP 1.2"
     ],
     "KR_AI_BASIC_ACT": [
      "제34조",
@@ -1973,7 +1981,7 @@
    "name": "AI system inventory & classification",
    "category": "Inventory",
    "sortOrder": 3,
-   "description": "ISO/IEC 42001: 4.3, A.4.2, A.4.3–A.4.6, A.9.4 · EU AI Act: Art. 6 + Annex I/III classification; Art. 49 registration; Art. 51–52 GPAI classification · NIST AI RMF: GOVERN 1.6; MAP 2.1, 3.3 · KR AI Basic Act: 제2조 고영향 AI 정의; 제33조 고영향 AI 확인",
+   "description": "ISO/IEC 42001: 4.3, A.4.2, A.4.3–A.4.6, A.9.4 · EU AI Act: Art. 6 + Annex I/III classification; Art. 49 registration; Art. 51–52 GPAI classification; Art. 5 (prohibited-practice screening) · NIST AI RMF: GOVERN 1.6; MAP 2.1, 3.3; MAP 1.1, 1.4 · KR AI Basic Act: 제2조 고영향 AI 정의; 제33조 고영향 AI 확인",
    "testHint": "T-CONF",
    "evidenceTypes": "EV-INV, EV-DEC",
    "mappings": {
@@ -1988,13 +1996,16 @@
     ],
     "EU_AI_ACT": [
      "Art. 49",
+     "Art. 5",
      "Art. 51",
      "Art. 6"
     ],
     "NIST_AI_RMF": [
      "GOVERN 1.6",
      "MAP 2.1",
-     "MAP 3.3"
+     "MAP 3.3",
+     "MAP 1.1",
+     "MAP 1.4"
     ],
     "KR_AI_BASIC_ACT": [
      "제2조",
@@ -2008,7 +2019,7 @@
    "name": "AI risk assessment & treatment",
    "category": "Risk",
    "sortOrder": 4,
-   "description": "ISO/IEC 42001: 6.1.1, 6.1.2, 6.1.3, 8.2, 8.3 · EU AI Act: Art. 9 risk management system; Art. 55(1)(b) systemic-risk assessment · NIST AI RMF: GOVERN 1.3; MAP 1.5, 3.2, 5.1; MANAGE 1.1–1.4 · KR AI Basic Act: 제34조①1 위험관리방안; 제32조 위험 식별·평가·완화",
+   "description": "ISO/IEC 42001: 6.1.1, 6.1.2, 6.1.3, 8.2, 8.3 · EU AI Act: Art. 9 risk management system; Art. 55(1)(b) systemic-risk assessment · NIST AI RMF: GOVERN 1.3; MAP 1.5, 3.2, 5.1; MANAGE 1.1–1.4; MANAGE 2.1 · KR AI Basic Act: 제34조①1 위험관리방안; 제32조 위험 식별·평가·완화",
    "testHint": "all T-* as risk-measurement inputs",
    "evidenceTypes": "EV-RISK, EV-SOA",
    "mappings": {
@@ -2031,7 +2042,8 @@
      "MANAGE 1.1",
      "MANAGE 1.2",
      "MANAGE 1.3",
-     "MANAGE 1.4"
+     "MANAGE 1.4",
+     "MANAGE 2.1"
     ],
     "KR_AI_BASIC_ACT": [
      "제32조",
@@ -2196,14 +2208,16 @@
    "name": "Transparency, technical documentation & explainability",
    "category": "Transparency",
    "sortOrder": 10,
-   "description": "ISO/IEC 42001: A.6.2.3, A.6.2.7, A.8.2 · EU AI Act: Art. 11 + Annex IV; Art. 13 IFU; Art. 53(1)(a),(b) + Annex XI/XII; Art. 47 DoC · NIST AI RMF: MAP 2.2; MEASURE 2.8, 2.9; GOVERN 4.2 · KR AI Basic Act: 제34조①2 설명 방안; 제34조①5 문서 작성·보관",
+   "description": "ISO/IEC 42001: A.6.2.3, A.6.2.7, A.8.2, A.6.1.3, A.6.2.2 · EU AI Act: Art. 11 + Annex IV; Art. 13 IFU; Art. 53(1)(a),(b) + Annex XI/XII; Art. 47 DoC · NIST AI RMF: MAP 2.2; MEASURE 2.8, 2.9; GOVERN 4.2; MAP 1.6 · KR AI Basic Act: 제34조①2 설명 방안; 제34조①5 문서 작성·보관",
    "testHint": "T-EXP, T-TRANS, T-CONF",
    "evidenceTypes": "EV-TECHDOC, EV-UI",
    "mappings": {
     "ISO_42001": [
      "A.6.2.3",
      "A.6.2.7",
-     "A.8.2"
+     "A.8.2",
+     "A.6.1.3",
+     "A.6.2.2"
     ],
     "EU_AI_ACT": [
      "Art. 11",
@@ -2215,7 +2229,8 @@
      "MAP 2.2",
      "MEASURE 2.8",
      "MEASURE 2.9",
-     "GOVERN 4.2"
+     "GOVERN 4.2",
+     "MAP 1.6"
     ],
     "KR_AI_BASIC_ACT": [
      "제34조"
@@ -2258,13 +2273,16 @@
    "name": "Logging, traceability & record-keeping",
    "category": "Logging",
    "sortOrder": 12,
-   "description": "ISO/IEC 42001: A.6.2.8, 7.5 · EU AI Act: Art. 12; Art. 19; Art. 26(6); Art. 17(1)(k); Art. 18 · NIST AI RMF: MEASURE 2.8; MANAGE 4.1 · KR AI Basic Act: 제34조①5 문서 보관; 제40조 사실조사 대응",
+   "description": "ISO/IEC 42001: A.6.2.8, 7.5, 7.5.1, 7.5.2, 7.5.3 · EU AI Act: Art. 12; Art. 19; Art. 26(6); Art. 17(1)(k); Art. 18 · NIST AI RMF: MEASURE 2.8; MANAGE 4.1 · KR AI Basic Act: 제34조①5 문서 보관; 제40조 사실조사 대응",
    "testHint": "T-LOG, T-AGENT (trace)",
    "evidenceTypes": "EV-LOG",
    "mappings": {
     "ISO_42001": [
      "A.6.2.8",
-     "7.5"
+     "7.5",
+     "7.5.1",
+     "7.5.2",
+     "7.5.3"
     ],
     "EU_AI_ACT": [
      "Art. 12",
@@ -2289,7 +2307,7 @@
    "name": "Post-market / production monitoring",
    "category": "Monitoring",
    "sortOrder": 13,
-   "description": "ISO/IEC 42001: A.6.2.6, 9.1 · EU AI Act: Art. 72 + PMM plan (Annex IV §9); Art. 26(5) deployer monitoring; Art. 17(1)(h) · NIST AI RMF: MEASURE 2.4, 3.1, 4.3; MANAGE 2.2, 4.1 · KR AI Basic Act: 제32조 안전사고 모니터링; 제34조①1 위험관리 운영",
+   "description": "ISO/IEC 42001: A.6.2.6, 9.1 · EU AI Act: Art. 72 + PMM plan (Annex IV §9); Art. 26(5) deployer monitoring; Art. 17(1)(h) · NIST AI RMF: MEASURE 2.4, 3.1, 4.3; MANAGE 2.2, 4.1; MEASURE 3.2, 4.1, 4.2 · KR AI Basic Act: 제32조 안전사고 모니터링; 제34조①1 위험관리 운영",
    "testHint": "T-DRIFT, periodic T-ACC/T-BIAS/T-SEC",
    "evidenceTypes": "EV-PMM",
    "mappings": {
@@ -2307,7 +2325,10 @@
      "MEASURE 3.1",
      "MEASURE 4.3",
      "MANAGE 2.2",
-     "MANAGE 4.1"
+     "MANAGE 4.1",
+     "MEASURE 3.2",
+     "MEASURE 4.1",
+     "MEASURE 4.2"
     ],
     "KR_AI_BASIC_ACT": [
      "제32조",
@@ -2388,7 +2409,7 @@
    "name": "Change management & substantial modification",
    "category": "Change management",
    "sortOrder": 16,
-   "description": "ISO/IEC 42001: 6.3, 8.1, A.6.2.5 · EU AI Act: Art. 17(1)(a) modification management; Art. 43(4) substantial modification → re-assessment; Annex IV §6; Art. 25(1)(b),(c) · NIST AI RMF: MANAGE 4.1 (change management), 4.2 · KR AI Basic Act: 제33조 재확인 (general)",
+   "description": "ISO/IEC 42001: 6.3, 8.1, A.6.2.5 · EU AI Act: Art. 17(1)(a) modification management; Art. 43(4) substantial modification → re-assessment; Annex IV §6; Art. 25(1)(b),(c) · NIST AI RMF: MANAGE 4.1 (change management), 4.2; GOVERN 1.7 · KR AI Basic Act: 제33조 재확인 (general)",
    "testHint": "regression T-*, T-CONF",
    "evidenceTypes": "EV-CHG",
    "mappings": {
@@ -2404,7 +2425,8 @@
     ],
     "NIST_AI_RMF": [
      "MANAGE 4.1",
-     "MANAGE 4.2"
+     "MANAGE 4.2",
+     "GOVERN 1.7"
     ],
     "KR_AI_BASIC_ACT": [
      "제33조"
@@ -2474,7 +2496,7 @@
    "name": "Management review & accountability of leadership",
    "category": "Governance",
    "sortOrder": 19,
-   "description": "ISO/IEC 42001: 9.3.1–9.3.3, 5.1 · EU AI Act: Art. 17(1)(m) accountability framework; Art. 16 provider responsibilities · NIST AI RMF: GOVERN 1.5, 2.3 · KR AI Basic Act: 제34조 (경영진 책무 — general)",
+   "description": "ISO/IEC 42001: 9.3.1–9.3.3, 5.1, 7.1 · EU AI Act: Art. 17(1)(m) accountability framework; Art. 16 provider responsibilities · NIST AI RMF: GOVERN 1.5, 2.3 · KR AI Basic Act: 제34조 (경영진 책무 — general)",
    "testHint": null,
    "evidenceTypes": "EV-MR",
    "mappings": {
@@ -2482,7 +2504,8 @@
      "9.3.1",
      "9.3.2",
      "9.3.3",
-     "5.1"
+     "5.1",
+     "7.1"
     ],
     "EU_AI_ACT": [
      "Art. 16",
@@ -2531,7 +2554,7 @@
    "name": "Model evaluation (capability, safety & systemic-risk evals)",
    "category": "Technical testing",
    "sortOrder": 21,
-   "description": "ISO/IEC 42001: A.6.2.4 · EU AI Act: Art. 55(1)(a) standardised evaluation protocols; Art. 53 Annex XI evaluation results; Art. 9(6) testing · NIST AI RMF: MEASURE 2.1, 2.3, 2.5, 2.6; ARIA Model Testing; 600-1 CBRN / Dangerous Content · KR AI Basic Act: 제32조 안전성 (고성능 AI)",
+   "description": "ISO/IEC 42001: A.6.2.4 · EU AI Act: Art. 55(1)(a) standardised evaluation protocols; Art. 53 Annex XI evaluation results; Art. 9(6) testing · NIST AI RMF: MEASURE 2.1, 2.3, 2.5, 2.6; ARIA Model Testing; 600-1 CBRN / Dangerous Content; MEASURE 1.1; ARIA Scope; ARIA Materials; ARIA Infrastructure; ARIA Implementation · KR AI Basic Act: 제32조 안전성 (고성능 AI)",
    "testHint": "T-ACC, T-SAFE, T-HALL, T-ROB",
    "evidenceTypes": "EV-TEST",
    "mappings": {
@@ -2547,13 +2570,18 @@
      "MEASURE 2.1",
      "MEASURE 2.3",
      "MEASURE 2.5",
-     "MEASURE 2.6"
+     "MEASURE 2.6",
+     "MEASURE 1.1"
     ],
     "KR_AI_BASIC_ACT": [
      "제32조"
     ],
     "NIST_ARIA": [
-     "Design"
+     "Design",
+     "Implementation",
+     "Infrastructure",
+     "Materials",
+     "Scope"
     ]
    }
   },
@@ -2649,7 +2677,7 @@
    "name": "Conformity assessment, declaration & registration",
    "category": "Conformity",
    "sortOrder": 25,
-   "description": "ISO/IEC 42001: 6.1.3 (SoA), 9.2 · EU AI Act: Art. 43; Art. 47 + Annex V; Art. 48 CE marking; Art. 49 + Annex VIII; Art. 16(f)–(i) · NIST AI RMF: GOVERN 1.1 (regulatory compliance); MEASURE 2.13 · KR AI Basic Act: 제33조 고영향 AI 확인; 제36조 국내대리인",
+   "description": "ISO/IEC 42001: 6.1.3 (SoA), 9.2 · EU AI Act: Art. 43; Art. 47 + Annex V; Art. 48 CE marking; Art. 49 + Annex VIII; Art. 16(f)–(i); Art. 8 (compliance with requirements); Art. 56 (codes of practice) · NIST AI RMF: GOVERN 1.1 (regulatory compliance); MEASURE 2.13 · KR AI Basic Act: 제33조 고영향 AI 확인; 제36조 국내대리인",
    "testHint": "T-CONF",
    "evidenceTypes": "EV-DEC, EV-SOA",
    "mappings": {
@@ -2662,7 +2690,9 @@
      "Art. 43",
      "Art. 47",
      "Art. 48",
-     "Art. 49"
+     "Art. 49",
+     "Art. 56",
+     "Art. 8"
     ],
     "NIST_AI_RMF": [
      "GOVERN 1.1",
@@ -2729,7 +2759,7 @@
    "name": "Stakeholder engagement & external reporting / complaints",
    "category": "Stakeholders",
    "sortOrder": 28,
-   "description": "ISO/IEC 42001: 4.2, 7.4, A.8.3, A.8.5 · EU AI Act: Art. 27(1)(f) complaint mechanisms; Art. 85 right to lodge complaint; Art. 86 right to explanation of individual decision-making · NIST AI RMF: GOVERN 5.1, 5.2; MAP 5.2; MEASURE 3.3 · KR AI Basic Act: 제34조①3 이용자 보호 방안",
+   "description": "ISO/IEC 42001: 4.2, 7.4, A.8.3, A.8.5 · EU AI Act: Art. 27(1)(f) complaint mechanisms; Art. 85 right to lodge complaint; Art. 86 right to explanation of individual decision-making · NIST AI RMF: GOVERN 5.1, 5.2; MAP 5.2; MEASURE 3.3; MEASURE 2.2 · KR AI Basic Act: 제34조①3 이용자 보호 방안",
    "testHint": "T-UX",
    "evidenceTypes": "EV-COMM",
    "mappings": {
@@ -2748,7 +2778,8 @@
      "GOVERN 5.1",
      "GOVERN 5.2",
      "MAP 5.2",
-     "MEASURE 3.3"
+     "MEASURE 3.3",
+     "MEASURE 2.2"
     ],
     "KR_AI_BASIC_ACT": [
      "제34조"

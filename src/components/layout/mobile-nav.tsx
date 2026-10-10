@@ -6,16 +6,17 @@ import { Menu, X } from "lucide-react";
 import { useI18n } from "@/lib/i18n/client";
 import { canSeeNav } from "@/lib/permissions";
 import type { Role } from "@/generated/prisma/client";
+import { hiddenInMode, type UiMode } from "@/lib/ui-mode";
 import { LanguageToggle } from "./language-toggle";
 import { ThemeToggle } from "./theme-toggle";
 
 const links = [
-  ["/dashboard", "Dashboard"], ["/systems", "AI Inventory"], ["/vendors", "Vendors & Datasets"], ["/risks", "Risk Register"], ["/frameworks", "Frameworks & Controls"],
+  ["/dashboard", "Dashboard"], ["/todo", "To-do"], ["/systems", "AI Inventory"], ["/vendors", "Vendors & Datasets"], ["/risks", "Risk Register"], ["/frameworks", "Frameworks & Controls"],
   ["/plans", "Evaluation Plans"], ["/evaluations", "Evaluation Runs"], ["/library", "Test Library"], ["/evidence", "Evidence Center"],
   ["/reports", "Reports & Packs"], ["/approvals", "Approvals & Tasks"], ["/incidents", "Incidents"], ["/policies", "Policies & documents"], ["/settings", "Settings"],
 ];
 
-export function MobileNav({ role }: { role: Role }) {
+export function MobileNav({ role, mode }: { role: Role; mode: UiMode }) {
   const [open, setOpen] = useState(false);
   const { t } = useI18n();
   return (
@@ -31,7 +32,7 @@ export function MobileNav({ role }: { role: Role }) {
               <button type="button" onClick={() => setOpen(false)} aria-label={t("Close")}><X className="h-5 w-5" /></button>
             </div>
             <ul className="space-y-1">
-              {links.filter(([href]) => canSeeNav(role, href)).map(([href, label]) => (
+              {links.filter(([href]) => canSeeNav(role, href) && !hiddenInMode(mode, href)).map(([href, label]) => (
                 <li key={href}><Link href={href} onClick={() => setOpen(false)} className="block rounded-md px-2 py-2 text-sm hover:bg-surface-2">{t(label)}</Link></li>
               ))}
             </ul>

@@ -64,6 +64,8 @@ Dashed arrows are automatic feedback. HIGH/CRITICAL findings from a test are reg
 **Screen layout**
 
 - Left sidebar: menus grouped into Overview, Govern, Evaluate & Verify, Prove, Admin and Public. Which menus appear depends on your role (chapter 5).
+- **To-do**: "To-do" under Overview in the sidebar gathers what you need to do now from the inventory, risks, documents, evaluations, vendors and approvals, most urgent first (urgent, important, when possible). Each item's button opens the screen where it is done, and completed items disappear automatically. The number next to the menu is the count of open items (red when something is urgent). Start here whenever you are unsure what to do next.
+- **Simple / Expert mode**: switch with "Simple | Expert" in the top bar. Simple mode hides the Evaluation Plans and Test Library menus and the "New plan" / "New evaluation" buttons on the system page; evaluations run through each system's one-click "Recommended evaluation". Administrators and testers start in expert mode, everyone else in simple mode; the choice is stored in the browser for a year. Hidden screens remain reachable by URL.
 - Top bar: organisation-type badge (Verification Body / Enterprise), language toggle, theme selector (Light / Dark / System — also on the login page and in the mobile menu; the choice is remembered by the browser), your name and role, sign-out.
 - Body: page title with description and main action buttons; detail pages are split into tabs (summary, metrics, findings, …).
 - Mobile: the menu button at the top left opens the same menus and the language toggle.
@@ -83,6 +85,7 @@ The demo data contains 5 AI systems (AIS-0001 to 0005), 5 evaluation runs and ab
 
 **A suggested first 30 minutes**
 
+0. Open "To-do" to see what needs doing (on a new organisation it shows "Create the baseline document set").
 1. On the Dashboard, look at the assurance score per system and the open findings.
 2. In the AI Inventory, open AIS-0001 (customer service agent) and browse the Agent Card, Risks, Controls and Evidence tabs.
 3. In Evaluation Runs, open a completed run and inspect metrics, findings and session dialogues.
@@ -98,6 +101,7 @@ Menus are described in sidebar order: purpose → layout → procedure → tips.
 One screen for the organisation's AI assurance posture. Six stat tiles (AI systems, average assurance score, open findings, open risks, pending approvals, valid evidence), a bar of assurance scores per system, a score trend, top open findings, risks by dimension and recent evaluation runs.
 
 - Colour rule: assurance score 80+ green (good), 60–79 amber (warning), below 60 red (failing).
+- The "To-do" card below the tiles shows your six most urgent items; "View all" opens the full to-do list.
 - Tip: for executives and auditors, use this screen together with the AI Passport report.
 
 ### 4.2 AI Inventory
@@ -144,6 +148,14 @@ When there are many systems, register them in one go from the standard Excel tem
 3. Upload → validate: each row is shown as Ready or Error. Error rows are skipped; duplicate names inside the file and names already registered are flagged.
 4. Confirm: only valid rows are registered. Each system gets its intake tier, seeded risks and tier-based approval workflow exactly as from the form, and the import is written to the audit log.
 
+**Progress and next step**: top of the system page
+
+Each system shows its path to deployment in one row: Registered → Vendors & data → Risks assessed → Evaluated → Controls met → Deployment approved. Completed steps get a check mark, open ones a short detail (risks to assess, share of applicable controls met, …), and on the right the percentage complete and a single **"Next: …" button** that opens the screen for that step. Internal general-purpose SaaS tools (external SaaS, not customer-facing, no automated decisions, not high-risk) skip the evaluation step as optional. Controls count as met when at least 80% of the applicable controls are implemented or verified.
+
+**Recommended evaluation (one click)**: "Recommended evaluation" button on the system page, "Recommended evaluation" card on the Evaluations tab
+
+The library scenarios to run are chosen automatically from the intake answers and the risk register. Quality, safety, security and robustness (plus agent behaviour for agents) are the baseline; fairness is added for automated decisions, high-risk classification, customer-facing output or a fairness risk; privacy when personal or sensitive data is processed; transparency for customer-facing or limited-risk systems. Imported scenarios and user testing are left out (build a plan by hand in expert mode if you need them). The button creates the evaluation plan (B.1–B.5 filled in; one plan per system, refreshed on each use) and opens the run form with it selected. Choose DEMO or LIVE and press "Start evaluation".
+
 **Detail tabs**
 
 | Tab | Content |
@@ -151,11 +163,23 @@ When there are many systems, register them in one go from the standard Excel tem
 | Overview | Basic data, models, datasets and vendors, assurance score, whether a re-test is required |
 | Agent card | Risk level, allowed flag, required approval and permissions per tool. Disallowed tools are blocked during evaluation and logged as findings if attempted |
 | Risks | This system's risks and scores |
-| Controls | Implementation status of the 28 harmonized controls (not started, in progress, implemented, verified, not applicable). Verified automatically when test metrics pass |
+| Controls | Implementation status of the 28 harmonized controls (not started, in progress, implemented, verified, not applicable). Derived automatically (see below), shown with an Auto/Manual marker and the reason |
 | Evaluations | Plans and runs for this system |
 | Evidence | Test-derived, uploaded and attested evidence |
 | Reports | Generated reports and evidence packs |
 | Changes & approvals | Deployment approval stages, change events |
+
+**Automatic control status**: Controls tab
+
+You no longer set control statuses by hand. They are derived in this order and refreshed whenever tests, evidence, documents, risks or system details change:
+
+1. Not applicable: controls the intake answers rule out (HC-23 unless an agent, HC-25 unless high-risk, HC-26 without personal or sensitive data, HC-24 for predictive models without user-facing output, HC-07/08/21/22 for internal general-purpose SaaS tools).
+2. Verified: the tests linked to the control passed. If the latest test missed a metric, or a recorded change requires a re-test: in progress.
+3. Implemented: valid evidence (this system's or organisation-wide, not expired) is linked. HC-03 is implemented by registration and classification in the inventory; HC-04 once every risk in the register has been assessed (in progress while risks remain to assess).
+4. In progress: a governance document covering the control is in draft or review.
+5. Otherwise not started.
+
+Only where you disagree, choose "Exception: not applicable / implemented / in progress / not started" in the Update column and enter a **mandatory reason**. Exceptions are marked "Manual" and written to the audit log; switching back to "Automatic" re-derives the status. Statuses changed by hand before automatic derivation are kept with the reason "Set manually before automatic status"; review them and switch back to "Automatic" when appropriate.
 
 - Tip: whenever the model version, prompts, tools or data sources change, record a change event. Test-derived evidence expires and controls fall back to "in progress", so the re-test scope becomes explicit.
 
@@ -170,6 +194,7 @@ A portfolio view of risks across all systems. Risks are classified into 10 dimen
 - The "How scores are calculated" button at the top right of the heat-map card opens a reference popup: which risks are created with which L/S from the intake answers (system type, EU AI Act category, four data flags), the score formula (L×1 + S×3) ÷ 20 × 100 and bands (≥ 80 critical, 60–79 high, 35–59 medium), code/status/owner rules, risks added by test findings, vendors and incidents, and the system tier formula.
 - Automatically created risks get a default due date by score (critical 30 days, high 45 days, others 90 days). Overdue open risks are highlighted in the Due column ("n days overdue"), listed under "Overdue risks" on the dashboard, and a follow-up task "Overdue risk R-xxxx" is created automatically in Approvals & Tasks (closed when the risk is closed or accepted). Change the date with "Edit" in the Update column.
 - Existing open risks without a due date are filled in automatically (same rule, counted from the risk's creation date) the first time the dashboard or the risk register is opened; `pnpm tsx scripts/backfill-risk-due-dates.ts` runs the same backfill manually.
+- **Recommended mitigations**: risks generated from the intake come with a recommended mitigation for their dimension. For existing risks without one, "Apply recommended mitigations (n)" at the top fills them all at once (risks from test findings use the finding's recommendation). The mitigation field in the editor also shows the recommendation as a hint. Adjust the text to your situation, then enter the residual L·S.
 - Tip: "accepted" is a risk-acceptance decision; manage it together with the approval record in Approvals & Tasks.
 
 ### 4.4 Frameworks & Controls
@@ -180,6 +205,8 @@ Requirement libraries for ISO/IEC 42001 (92 requirements), EU AI Act (36), NIST 
 - "Generate evidence pack" jumps to the report form with the system and framework pre-selected.
 - The harmonized-control table shows which framework clauses each control satisfies, which test methods verify it, and in how many systems it is verified.
 - Hover over (or tap) a control name (HC-xx) to see the requirements it satisfies, grouped by framework with clause number and title. This works in the harmonized-control table here and in a system's Controls tab; click a framework name to open that framework.
+- Chapter or clause headings that have sub-clauses (e.g. ISO 42001 "4", NIST "GOVERN 1") are judged through their sub-clauses and left out of coverage. Requirements whose mapped controls are all "not applicable" are shown as not applicable and excluded from the total.
+- There is nothing you need to maintain on this screen: control statuses are derived automatically (4.2, "Automatic control status"), and gaps are closed by following the system's "Next" button or the To-do list.
 - Tip: requirement text lives in `docs/framework-control-library.md` and is built into JSON by a script. Edit the markdown, not the JSON.
 
 ### 4.5 Evaluation Plans (Evaluate & Verify)
@@ -194,6 +221,7 @@ Fill in the NIST AI 200-3 ARIA evaluation-planning worksheets B.1–B.5. A plan 
 | B.4 Infrastructure | Annotation tool, scoring tool, Evaluation API / target adapter |
 | B.5 Implementation | Red teamer, user tester and annotator samples; data collection (IRB, consent, storage); analysis techniques; reported results |
 
+- In most cases the system's "Recommended evaluation" (4.2) creates this plan for you, so you do not need to write one. Simple mode hides this menu.
 - "Run this plan" on the plan page opens the run form with the plan's scenarios pre-selected.
 - "ARIA report" turns the plan and its latest run into a B.1–B.5 formatted report.
 - Tip: for red teaming or user testing with people, complete the IRB/consent items in B.5 before running.
@@ -287,6 +315,7 @@ Write, review and keep current the organisation-level governance documents in on
 | 3. Approved · in force | A reviewer other than the author approves it, or returns it with a comment. Approval puts it in force, sets the next review date (approval date + cycle) and creates organisation-wide evidence linked to the selected controls. | Reviewer, approver, governance owner, admin |
 | 4. Periodic review · revision | From 30 days before the review date, the dashboard and a task remind the owner. If nothing changed, "Reviewed — no change" extends validity by one cycle; otherwise "New version" creates a revision that goes through review again. When it is approved the previous version becomes "Superseded" in the history. | Reviewer / author |
 
+- **Baseline document set**: on the "Baseline document set" card above the list, "Create n draft(s)" creates six drafts in the current UI language: AI policy (HC-01), AI roles and responsibilities (RACI, HC-02), AI objectives and plan (HC-01, HC-19), AI risk assessment and treatment procedure (HC-04), AI records and document control rules (HC-12, 24-month review cycle) and AI literacy training plan (HC-17). Your organisation name and AI inventory are pre-filled, so you only replace the [ ] placeholders and request review. Existing documents are not recreated, and the card shows the status of all six at a glance.
 - **Expiry**: after the review date the document and its evidence expire and drop out of coverage; a "Document expired" task is created for the owner.
 - **Segregation of duties**: the author (submitter) cannot approve their own document. An administrator may, but it is flagged "Self-reviewed".
 - **Retire**: retiring a document supersedes its evidence and keeps it for the record. Drafts can be deleted.

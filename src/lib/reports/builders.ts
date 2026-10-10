@@ -9,6 +9,8 @@ import { rt } from "./dict";
 import { evidenceCountsFor, validEvidenceWhere } from "@/lib/documents";
 import type { Block, ReportContent, Section } from "./types";
 import type { FrameworkCode, ReportType } from "@/generated/prisma/client";
+import { syncControlStatuses } from "@/lib/controls/status";
+import { headingRefs } from "@/lib/frameworks/coverage";
 
 type Metric = { key: string; name: string; category: string; value: number; threshold: number; direction: string; verdict: string; sampleSize?: number; unit?: string };
 type Summary = { verdict?: string; assuranceScore?: number; byCategory?: Record<string, number>; counts?: Record<string, number>; metrics?: Metric[]; target?: string; judge?: string; scenarios?: { code: string; name: string; category: string; testingType: string }[] };
@@ -223,6 +225,7 @@ export async function buildAriaReport(planId: string, locale: Locale = "en"): Pr
 export async function buildEvidencePack(systemId: string, frameworkCode: FrameworkCode, locale: Locale = "en"): Promise<ReportContent> {
   const { tr, L } = i18n(locale);
   const s = await loadSystem(systemId);
+  await syncControlStatuses(s.orgId, [systemId]);
   const fwRaw = await db.framework.findUniqueOrThrow({ where: { code: frameworkCode }, include: { requirements: { orderBy: { sortOrder: "asc" }, include: { controls: { include: { control: { include: { impls: { where: { systemId } }, evidenceLinks: { include: { evidence: true } } } } } }, evidenceLinks: { include: { evidence: true } } } } } });
   const fw = localizeFramework(locale, { ...fwRaw, requirements: fwRaw.requirements.map((r) => localizeRequirement(locale, frameworkCode, r)) });
   const sysEvidence = await db.evidence.findMany({ where: validEvidenceWhere(s.orgId, systemId), include: { links: { include: { control: true, requirement: true } } }, orderBy: { createdAt: "desc" } });
@@ -230,12 +233,14 @@ export async function buildEvidencePack(systemId: string, frameworkCode: Framewo
   let covered = 0, partial = 0, total = 0;
   const rows: (string | null)[][] = [];
   const gaps: string[] = [];
+  const headings = headingRefs(fw.requirements.map((r) => r.ref));
   for (const r of fw.requirements) {
     const controls = r.controls.map((rc) => rc.control);
-    const isHeading = !r.description && controls.length === 0;
+    const isHeading = controls.length === 0 && (!r.description || headings.has(r.ref));
     if (isHeading) continue;
-    total++;
     const statuses = controls.map((c) => c.impls[0]?.status ?? "NOT_STARTED");
+    if (controls.length && statuses.every((st) => st === "NOT_APPLICABLE")) { rows.push([r.ref, r.title, controls.map((c) => c.code).join(", "), "NOT_APPLICABLE", "0", r.evidenceHint ?? "—"]); continue; }
+    total++;
     const evidenceForReq = new Set<string>();
     for (const c of controls) for (const l of c.evidenceLinks) if (evidenceCountsFor(l.evidence, s.orgId, systemId)) evidenceForReq.add(l.evidence.id);
     for (const l of r.evidenceLinks) if (evidenceCountsFor(l.evidence, s.orgId, systemId)) evidenceForReq.add(l.evidence.id);
@@ -267,6 +272,7 @@ export async function buildEvidencePack(systemId: string, frameworkCode: Framewo
 export async function buildPassport(systemId: string, locale: Locale = "en"): Promise<ReportContent> {
   const { tr, L } = i18n(locale);
   const s = await loadSystem(systemId);
+  await syncControlStatuses(s.orgId, [systemId]);
   const runs = await db.evaluationRun.findMany({ where: { systemId }, orderBy: { createdAt: "asc" }, include: { findings: true } });
   const reports = await db.report.findMany({ where: { systemId }, orderBy: { createdAt: "desc" } });
   const evidence = await db.evidence.findMany({ where: { systemId }, orderBy: { createdAt: "desc" } });

@@ -6,7 +6,11 @@ import { requirePermission } from "@/lib/auth";
 import { intakeTier } from "@/lib/intake";
 import { createSystemRecord, csv, parseLines, parseTools, systemSchema } from "@/lib/systems/create";
 import { linksFromForm, syncSystemLinks } from "@/lib/systems/links";
-import type { Prisma } from "@/generated/prisma/client";
+import type { Prisma, TestingType } from "@/generated/prisma/client";
+import { getI18n } from "@/lib/i18n/server";
+import { recommendScenarios } from "@/lib/eval/recommend";
+import { linkScenarioDatasets } from "@/lib/library/link-datasets";
+import { syncControlStatuses } from "@/lib/controls/status";
 
 
 function parseForm(fd: FormData) {
@@ -47,6 +51,7 @@ export async function updateSystemAction(id: string, formData: FormData) {
   if (vendorsChanged) changes.push({ type: "VENDOR", description: "Vendor set changed", cats: ["SECURITY", "PRIVACY"] });
   for (const c of changes) await db.changeEvent.create({ data: { systemId: id, type: c.type, description: c.description, requiresRetest: true, retestCategories: c.cats } });
   await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: "system.updated", entityType: "AiSystem", entityId: id, summary: `${existing.code} updated` } });
+  await syncControlStatuses(user.orgId, [id]);
   revalidatePath(`/systems/${id}`);
   redirect(`/systems/${id}`);
 }
@@ -60,18 +65,29 @@ export async function recordChangeAction(systemId: string, formData: FormData) {
   await db.changeEvent.create({ data: { systemId, type, description: description || `${type} changed`, requiresRetest: true, retestCategories: catsMap[type] ?? [] } });
   // invalidate generated evidence of affected categories? mark as EXPIRED for test-derived evidence
   await db.evidence.updateMany({ where: { systemId, source: "GENERATED", type: { in: ["EVALUATION_METRICS", "TEST_REPORT", "SECURITY_ASSESSMENT", "RED_TEAM_REPORT", "BIAS_FAIRNESS_REPORT", "ROBUSTNESS_TEST_REPORT"] }, status: "VALID" }, data: { status: "EXPIRED" } });
-  await db.controlImplementation.updateMany({ where: { systemId, status: "VERIFIED" }, data: { status: "IN_PROGRESS", notes: `Re-test required after change: ${description || type}` } });
+  await db.controlImplementation.updateMany({ where: { systemId, testStatus: "VERIFIED" }, data: { testStatus: "IN_PROGRESS", notes: `Re-test required after change: ${description || type}` } });
+  await syncControlStatuses(user.orgId, [systemId]);
   await db.task.create({ data: { orgId: user.orgId, title: `Re-evaluate after change: ${description || type}`, description: `Categories to re-test: ${(catsMap[type] ?? []).join(", ")}`, assigneeId: user.id, status: "OPEN", relatedType: "system", relatedId: systemId, dueDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 14) } });
   await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: "system.change_recorded", entityType: "AiSystem", entityId: systemId, summary: `${type}: ${description}` } });
   revalidatePath(`/systems/${systemId}`);
 }
 
+/** Record a manual exception for a control (reason required), or return it to automatic status ("AUTO"). */
 export async function updateControlStatusAction(systemId: string, controlId: string, formData: FormData) {
   const user = await requirePermission("systems.write");
   await db.aiSystem.findFirstOrThrow({ where: { id: systemId, orgId: user.orgId } });
-  const status = String(formData.get("status")) as "NOT_STARTED" | "IN_PROGRESS" | "IMPLEMENTED" | "VERIFIED" | "NOT_APPLICABLE";
-  const notes = String(formData.get("notes") ?? "").trim() || undefined;
-  await db.controlImplementation.upsert({ where: { systemId_controlId: { systemId, controlId } }, create: { systemId, controlId, status, notes, ownerId: user.id }, update: { status, notes, ownerId: user.id } });
+  const mode = String(formData.get("status"));
+  const notes = String(formData.get("notes") ?? "").trim();
+  const control = await db.control.findUniqueOrThrow({ where: { id: controlId }, select: { code: true } });
+  if (mode === "AUTO") {
+    await db.controlImplementation.upsert({ where: { systemId_controlId: { systemId, controlId } }, create: { systemId, controlId, auto: true }, update: { auto: true, notes: null, ownerId: user.id } });
+    await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: "control.auto", entityType: "AiSystem", entityId: systemId, summary: `${control.code} returned to automatic status` } });
+  } else if (["NOT_STARTED", "IN_PROGRESS", "IMPLEMENTED", "VERIFIED", "NOT_APPLICABLE"].includes(mode) && notes) {
+    const status = mode as "NOT_STARTED" | "IN_PROGRESS" | "IMPLEMENTED" | "VERIFIED" | "NOT_APPLICABLE";
+    await db.controlImplementation.upsert({ where: { systemId_controlId: { systemId, controlId } }, create: { systemId, controlId, status, notes, auto: false, ownerId: user.id }, update: { status, notes, auto: false, ownerId: user.id } });
+    await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: "control.exception", entityType: "AiSystem", entityId: systemId, summary: `${control.code} set to ${status} manually: ${notes}` } });
+  }
+  await syncControlStatuses(user.orgId, [systemId]);
   revalidatePath(`/systems/${systemId}`);
 }
 
@@ -121,4 +137,30 @@ export async function unlinkDatasetAction(systemId: string, datasetId: string) {
   await db.changeEvent.create({ data: { systemId, type: "DATA_SOURCE", description: "Dataset unlinked", requiresRetest: true, retestCategories: ["QUALITY", "PRIVACY"] } });
   await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: "system.dataset_unlinked", entityType: "AiSystem", entityId: systemId, summary: `${system.code}: dataset removed` } });
   revalidatePath(`/systems/${systemId}`);
+}
+
+/** One click: build (or refresh) the recommended evaluation plan for a system, then open the run form with it selected. */
+export async function createRecommendedPlanAction(systemId: string) {
+  const user = await requirePermission("evaluations.run");
+  const { t } = await getI18n();
+  const s = await db.aiSystem.findFirstOrThrow({ where: { id: systemId, orgId: user.orgId }, include: { risks: { select: { dimension: true } } } });
+  const recs = await recommendScenarios(s);
+  const by = (type: string) => recs.filter((r) => r.testingType === type).map((r) => `${r.code} ${r.name}`).join("; ");
+  const categories = [...new Set(recs.map((r) => r.category))];
+  const data = {
+    name: `${t("Recommended evaluation")} · ${s.code}`, status: "ACTIVE" as const,
+    scope: { recommended: true, applications: [s.name], sector: s.sector ?? "", useCases: s.purpose ? [s.purpose] : [], targetConcept: categories.join(", ") },
+    design: { modelTestingGoal: by("MODEL_TESTING") ? t("Measure output quality, safety and robustness against the library prompts.") : "", redTeamingGoal: by("RED_TEAMING") ? t("Probe prompt injection, jailbreak and misuse resistance.") : "", userTestingGoal: "", testerDistribution: t("Automated (no human testers)") },
+    materials: { modelTestingComponents: by("MODEL_TESTING"), redTeamingInstructions: by("RED_TEAMING"), userTestingInstructions: "", annotationComponents: t("Library annotation schemas, judged automatically") },
+    infrastructure: { platform: "K-VeriAI engine (all components)", annotationTool: "rule-based + LLM-as-judge with human validation sample", scoringTool: "severity-weighted rates, category scores, AI Assurance Score", evaluationApi: "adapter" },
+    implementation: { redTeamers: "", userTesters: "", annotators: t("LLM-as-judge; reviewer validates a sample"), dataCollection: t("Recorded automatically for every session"), dataAnalysis: t("Pass rates and severity-weighted scores per category"), reportedResults: t("Evaluation report and evidence pack") },
+  };
+  const existing = await db.evaluationPlan.findFirst({ where: { systemId, orgId: user.orgId, status: { in: ["DRAFT", "ACTIVE"] }, scope: { path: ["recommended"], equals: true } } });
+  const plan = existing
+    ? await db.evaluationPlan.update({ where: { id: existing.id }, data: { ...data, scenarios: { deleteMany: {}, create: recs.map((r) => ({ scenarioId: r.id, testingType: r.testingType as TestingType })) } } })
+    : await db.evaluationPlan.create({ data: { ...data, orgId: user.orgId, systemId, createdById: user.id, scenarios: { create: recs.map((r) => ({ scenarioId: r.id, testingType: r.testingType as TestingType })) } } });
+  await linkScenarioDatasets(systemId, recs.map((r) => r.id));
+  await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: existing ? "plan.updated" : "plan.created", entityType: "EvaluationPlan", entityId: plan.id, summary: `${plan.name} (${recs.length} scenarios, recommended)` } });
+  revalidatePath(`/systems/${systemId}`); revalidatePath("/plans");
+  redirect(`/evaluations/new?systemId=${systemId}&planId=${plan.id}&recommended=1`);
 }

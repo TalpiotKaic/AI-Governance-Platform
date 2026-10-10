@@ -7,6 +7,7 @@ import { db } from "@/lib/db";
 import { requirePermission } from "@/lib/auth";
 import { sha256 } from "@/lib/crypto";
 import type { EvidenceType } from "@/generated/prisma/client";
+import { syncControlStatuses } from "@/lib/controls/status";
 
 export async function createEvidenceAction(formData: FormData) {
   const user = await requirePermission("evidence.write");
@@ -31,23 +32,26 @@ export async function createEvidenceAction(formData: FormData) {
     await db.evidence.update({ where: { id: ev.id }, data: { fileName, fileUrl, mimeType, sha256: hash } });
   }
   await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: "evidence.created", entityType: "Evidence", entityId: ev.id, summary: ev.title } });
+  await syncControlStatuses(user.orgId, systemId ? [systemId] : undefined);
   revalidatePath("/evidence");
   redirect(`/evidence/${ev.id}`);
 }
 
 export async function setEvidenceStatusAction(id: string, status: "VALID" | "EXPIRED" | "SUPERSEDED" | "DRAFT") {
   const user = await requirePermission("evidence.write");
-  await db.evidence.findFirstOrThrow({ where: { id, orgId: user.orgId } });
+  const e = await db.evidence.findFirstOrThrow({ where: { id, orgId: user.orgId } });
   await db.evidence.update({ where: { id }, data: { status } });
+  await syncControlStatuses(user.orgId, e.systemId ? [e.systemId] : undefined);
   revalidatePath(`/evidence/${id}`);
 }
 
 export async function linkEvidenceAction(id: string, formData: FormData) {
   const user = await requirePermission("evidence.write");
-  await db.evidence.findFirstOrThrow({ where: { id, orgId: user.orgId } });
+  const e = await db.evidence.findFirstOrThrow({ where: { id, orgId: user.orgId } });
   const controlId = String(formData.get("controlId") || "") || null;
   const requirementId = String(formData.get("requirementId") || "") || null;
   if (!controlId && !requirementId) return;
   await db.evidenceLink.create({ data: { evidenceId: id, controlId, requirementId } });
+  await syncControlStatuses(user.orgId, e.systemId ? [e.systemId] : undefined);
   revalidatePath(`/evidence/${id}`);
 }

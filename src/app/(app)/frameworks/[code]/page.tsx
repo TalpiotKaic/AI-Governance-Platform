@@ -15,10 +15,14 @@ import { validEvidenceWhere } from "@/lib/documents";
 
 import type { FrameworkCode } from "@/generated/prisma/client";
 import { FRAMEWORK_PACK_TYPE } from "@/lib/reports/service";
+import { syncControlStatuses } from "@/lib/controls/status";
+import { ensureFrameworkMappings } from "@/lib/frameworks/sync";
+import { headingRefs } from "@/lib/frameworks/coverage";
 
 export default async function FrameworkDetailPage(props: PageProps<"/frameworks/[code]">) {
   const { locale, t, L } = await getI18n();
   const user = await requireUser();
+  await ensureFrameworkMappings();
   const { code } = await props.params;
   const sp = await props.searchParams;
   const fwRaw = await db.framework.findUnique({ where: { code: code as FrameworkCode }, include: { requirements: { orderBy: { sortOrder: "asc" }, include: { controls: { include: { control: true } } } } } });
@@ -26,6 +30,7 @@ export default async function FrameworkDetailPage(props: PageProps<"/frameworks/
   const fw = localizeFramework(locale, { ...fwRaw, requirements: fwRaw.requirements.map((r) => ({ ...localizeRequirement(locale, fwRaw.code, r), controls: r.controls.map((rc) => ({ ...rc, control: localizeControl(locale, rc.control) })) })) });
   const systems = await db.aiSystem.findMany({ where: { orgId: user.orgId }, orderBy: { code: "asc" } });
   const systemId = typeof sp.systemId === "string" ? sp.systemId : systems[0]?.id;
+  if (systemId) await syncControlStatuses(user.orgId, [systemId]);
   const impls = systemId ? await db.controlImplementation.findMany({ where: { systemId } }) : [];
   const evidenceLinks = systemId ? await db.evidenceLink.findMany({ where: { evidence: validEvidenceWhere(user.orgId, systemId) }, select: { controlId: true, requirementId: true } }) : [];
   const implByControl = new Map(impls.map((i) => [i.controlId, i.status]));
@@ -36,13 +41,15 @@ export default async function FrameworkDetailPage(props: PageProps<"/frameworks/
     if (l.requirementId) evCountByReq.set(l.requirementId, (evCountByReq.get(l.requirementId) ?? 0) + 1);
   }
   const categories = [...new Set(fw.requirements.map((r) => r.category ?? t("General")))];
-  let total = 0, covered = 0, partial = 0;
+  let total = 0, covered = 0, partial = 0, notApplicable = 0;
+  const headings = headingRefs(fw.requirements.map((r) => r.ref));
   const statusFor = (r: (typeof fw.requirements)[number]) => {
     const cs = r.controls.map((rc) => rc.control);
-    if (!r.description && cs.length === 0) return null;
+    if (cs.length === 0 && (!r.description || headings.has(r.ref))) return null;
+    const sts = cs.map((c) => implByControl.get(c.id) ?? "NOT_STARTED");
+    if (cs.length && sts.every((s) => s === "NOT_APPLICABLE")) { notApplicable++; return "NOT_APPLICABLE"; }
     total++;
     if (!cs.length) return "UNMAPPED";
-    const sts = cs.map((c) => implByControl.get(c.id) ?? "NOT_STARTED");
     const ev = cs.reduce((n, c) => n + (evCountByControl.get(c.id) ?? 0), 0) + (evCountByReq.get(r.id) ?? 0);
     const ok = sts.every((s) => s === "VERIFIED" || s === "IMPLEMENTED" || s === "NOT_APPLICABLE");
     if (ok && ev > 0) { covered++; return "COVERED"; }
@@ -57,7 +64,7 @@ export default async function FrameworkDetailPage(props: PageProps<"/frameworks/
         actions={<>{packType && systemId && userCan(user, "reports.generate") && <Link href={`/reports/new?systemId=${systemId}&type=${packType}`}><Button>{t("Generate evidence pack")}</Button></Link>}</>} />
       <Card className="mb-4"><CardContent className="flex flex-col gap-3 pt-5 md:flex-row md:items-center md:justify-between">
         <form className="flex items-center gap-2 text-sm"><span className="text-muted">{t("Coverage for system:")}</span><Select name="systemId" defaultValue={systemId} className="w-72">{systems.map((s) => <option key={s.id} value={s.id}>{s.code} · {s.name}</option>)}</Select><Button type="submit" variant="outline" size="sm">{t("Apply")}</Button></form>
-        <div className="flex items-center gap-3 text-sm"><Progress value={total ? (covered / total) * 100 : 0} className="w-48" tone={covered / Math.max(1, total) >= 0.8 ? "success" : "primary"} /><span className="tabular-nums">{covered}/{total} {t("covered")}</span><Badge tone="warning">{partial} {t("partial")}</Badge><Badge tone="danger">{total - covered - partial} {t("gaps")}</Badge></div>
+        <div className="flex items-center gap-3 text-sm"><Progress value={total ? (covered / total) * 100 : 0} className="w-48" tone={covered / Math.max(1, total) >= 0.8 ? "success" : "primary"} /><span className="tabular-nums">{covered}/{total} {t("covered")}</span>{notApplicable > 0 && <Badge>{notApplicable} {t("not applicable")}</Badge>}<Badge tone="warning">{partial} {t("partial")}</Badge><Badge tone="danger">{total - covered - partial} {t("gaps")}</Badge></div>
       </CardContent></Card>
       {categories.map((cat) => { const items = rows.filter(({ r }) => (r.category ?? t("General")) === cat); return (
         <Card key={cat} className="mb-4"><CardHeader><CardTitle>{cat}</CardTitle><CardDescription>{items.filter((i) => i.status).length} {t("assessable requirements")}</CardDescription></CardHeader><CardContent className="px-0 pb-0">

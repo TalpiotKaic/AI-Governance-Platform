@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { recommendedMitigation } from "@/lib/risks/mitigations";
 import { nextCode, riskScore } from "@/lib/utils";
 import { intakeTier } from "@/lib/intake";
 import { defaultDueDate } from "@/lib/risks/due";
@@ -6,6 +7,7 @@ import type { SessionUser } from "@/lib/auth";
 import type { Prisma } from "@/generated/prisma/client";
 import { z } from "zod";
 import { linksFromForm, syncSystemLinks, type LinkSpec } from "./links";
+import { syncControlStatuses } from "@/lib/controls/status";
 
 /** Intake form schema — shared by the single-system form and the Excel bulk import. */
 export const systemSchema = z.object({
@@ -75,7 +77,7 @@ export async function createSystemRecord(user: SessionUser, d: SystemInput, opts
   let rc = await db.risk.count({ where: { orgId: user.orgId } });
   for (const r of seeds.filter((x) => x.when)) {
     rc++;
-    await db.risk.create({ data: { orgId: user.orgId, systemId: system.id, code: nextCode("R", rc - 1), title: r.title, dimension: r.dimension, likelihood: r.l, severity: r.s, score: riskScore(r.l, r.s), status: "IDENTIFIED", source: "INTAKE", ownerId: user.id, dueDate: defaultDueDate(riskScore(r.l, r.s)) } });
+    await db.risk.create({ data: { orgId: user.orgId, systemId: system.id, code: nextCode("R", rc - 1), title: r.title, dimension: r.dimension, likelihood: r.l, severity: r.s, score: riskScore(r.l, r.s), status: "IDENTIFIED", source: "INTAKE", ownerId: user.id, mitigation: recommendedMitigation(r.dimension), dueDate: defaultDueDate(riskScore(r.l, r.s)) } });
   }
   // Approval workflow by tier
   const stages = tier === "LOW" ? ["Governance owner approval"] : tier === "MEDIUM" ? ["Technical review", "Governance owner approval"] : ["Technical review", "Privacy & security review", "Legal / compliance review", "Executive approval"];
@@ -84,5 +86,6 @@ export async function createSystemRecord(user: SessionUser, d: SystemInput, opts
   // Vendors & datasets (existing by id/name, or created on the fly); the model provider becomes a vendor unless opted out
   const links = opts.links ?? linksFromForm(new FormData(), d);
   await syncSystemLinks(user.orgId, system.id, links);
+  await syncControlStatuses(user.orgId, [system.id]);
   return { system, tier, score };
 }

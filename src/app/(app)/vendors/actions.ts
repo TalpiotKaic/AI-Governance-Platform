@@ -6,6 +6,7 @@ import { requirePermission } from "@/lib/auth";
 import { ASSESSMENT_ITEMS, computeVendorRisk, dataProfileSummary, type AssessmentScores, type VendorAssessment, type VendorDataProfile } from "@/lib/vendors/assessment";
 import { ensureVendorRisks } from "@/lib/vendors/risk";
 import type { Prisma } from "@/generated/prisma/client";
+import { syncControlStatuses } from "@/lib/controls/status";
 
 const s = (fd: FormData, k: string) => { const v = fd.get(k); return typeof v === "string" ? v.trim() : ""; };
 const num = (v: string) => (v === "" || Number.isNaN(Number(v)) ? null : Number(v));
@@ -49,6 +50,7 @@ export async function saveVendorAction(id: string | null, formData: FormData) {
   // High-risk vendor on high-risk systems → risk register
   const risks = await ensureVendorRisks(user.orgId, { vendorId: vendor.id });
   if (risks.length) await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: "risk.auto_registered", entityType: "Vendor", entityId: vendor.id, summary: `${risks.join(", ")} registered for high-risk vendor ${name}` } });
+  await syncControlStatuses(user.orgId);
   revalidatePath("/vendors"); revalidatePath("/risks"); revalidatePath("/evidence");
   redirect("/vendors?tab=vendors");
 }

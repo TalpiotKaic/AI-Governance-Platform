@@ -3,7 +3,7 @@
 import json, re, sys, pathlib
 base = pathlib.Path(__file__).resolve().parents[1] / "prisma/seed-data/i18n"
 src = json.load(open(base / "_source.json"))
-langs = sys.argv[1:] or [p.stem for p in base.glob("*.json") if not p.stem.startswith("_")]
+langs = sys.argv[1:] or [p.stem for p in base.glob("*.json") if not p.stem.startswith("_") and not p.stem.startswith("library.")]
 CODE = re.compile(r"\b(EV-[A-Z]+|T-[A-Z]+|HC-\d\d|Art\. ?\d+[a-z]?|GOVERN|MAP|MEASURE|MANAGE|ISO/IEC \d+|NIST AI [\d-]+|제\d+조)\b")
 ok = True
 for lang in langs:

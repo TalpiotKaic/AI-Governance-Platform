@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Pencil, FlaskConical, FileText, ClipboardList } from "lucide-react";
+import { Pencil, FlaskConical, FileText, ClipboardList, Sparkles } from "lucide-react";
 import { requireUser, userCan } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { PageHeader } from "@/components/ui/page-header";
@@ -22,6 +22,14 @@ import { SENSITIVITY_LEVELS, purposeLabel, sensitivityLabel } from "@/lib/datase
 import { localizeRiskMitigation, localizeRiskTitle } from "@/lib/i18n/risks";
 import { ControlWithRequirements } from "@/components/domain/control-requirements";
 import { validEvidenceWhere } from "@/lib/documents";
+import { autoReasonText, syncControlStatuses } from "@/lib/controls/status";
+import { ControlExceptionForm } from "./control-exception-form";
+import { ProgressStepper } from "./progress-stepper";
+import { systemProgress } from "@/lib/systems/progress";
+import { recommendScenarios } from "@/lib/eval/recommend";
+import { localizeScenario } from "@/lib/i18n/library";
+import { getUiMode } from "@/lib/ui-mode-server";
+import { createRecommendedPlanAction } from "../actions";
 
 export default async function SystemDetailPage(props: PageProps<"/systems/[id]">) {
   const { locale, t, L } = await getI18n();
@@ -33,10 +41,13 @@ export default async function SystemDetailPage(props: PageProps<"/systems/[id]">
   const [orgVendors, orgDatasets] = tab === "overview" ? await Promise.all([db.vendor.findMany({ where: { orgId: user.orgId }, orderBy: { name: "asc" }, select: { id: true, name: true } }), db.dataset.findMany({ where: { orgId: user.orgId }, orderBy: { name: "asc" }, select: { id: true, name: true } })]) : [[], []];
   const s = await db.aiSystem.findFirst({ where: { id, orgId: user.orgId }, include: { owner: true, technicalOwner: true, models: true, agentProfile: true, datasets: { include: { dataset: true } }, vendors: { include: { vendor: true } }, risks: { orderBy: { score: "desc" }, include: { owner: true } }, runs: { orderBy: { createdAt: "desc" } }, plans: { orderBy: { createdAt: "desc" } }, evidence: { orderBy: { createdAt: "desc" }, include: { links: { include: { control: true } } } }, reports: { orderBy: { createdAt: "desc" } }, changeEvents: { orderBy: { createdAt: "desc" } }, findings: { where: { status: { in: ["OPEN", "MITIGATING"] } }, orderBy: { severity: "desc" } }, incidents: true } });
   if (!s) notFound();
+  if (tab === "controls") await syncControlStatuses(user.orgId, [id]);
   const controls = (await db.control.findMany({ orderBy: { sortOrder: "asc" }, include: { impls: { where: { systemId: id } }, requirements: { include: { requirement: { include: { framework: true } } } }, testMethods: { include: { testMethod: true } }, evidenceLinks: { where: { evidence: validEvidenceWhere(user.orgId, id) } } } })).map((c) => localizeControl(locale, c));
   const approvals = await db.approval.findMany({ where: { orgId: user.orgId, subjectId: id }, orderBy: { requestedAt: "asc" }, include: { approver: true } });
   const tools = (s.agentProfile?.tools as { name: string; riskLevel?: string; allowed?: boolean; permissions?: string[]; requiresApproval?: boolean }[] | undefined) ?? [];
   const retestNeeded = s.changeEvents.some((c) => c.requiresRetest && (!s.runs[0] || c.createdAt > (s.runs[0].finishedAt ?? s.runs[0].createdAt)));
+  const [progress, mode, recs] = await Promise.all([systemProgress(id), getUiMode(user.role), tab === "evaluations" ? recommendScenarios(s).then((r) => r.map((x) => localizeScenario(locale, x))) : Promise.resolve([])]);
+  const canRun = userCan(user, "evaluations.run");
   const tabs = [
     { key: "overview", label: "Overview" }, ...(s.agentProfile ? [{ key: "agent", label: "Agent card" }] : []), { key: "risks", label: "Risks", count: s.risks.length }, { key: "controls", label: "Controls", count: controls.filter((c) => c.impls[0] && c.impls[0].status !== "NOT_STARTED").length },
     { key: "evaluations", label: "Evaluations", count: s.runs.length }, { key: "evidence", label: "Evidence", count: s.evidence.length }, { key: "reports", label: "Reports", count: s.reports.length }, { key: "changes", label: "Changes & approvals" },
@@ -45,8 +56,9 @@ export default async function SystemDetailPage(props: PageProps<"/systems/[id]">
     <>
       <PageHeader title={`${s.code} · ${s.name}`} crumbs={[{ label: "AI Inventory", href: "/systems" }, { label: s.code }]} description={s.purpose ?? s.description ?? undefined}
         actions={<>
-          {userCan(user, "plans.write") && <Link href={`/plans/new?systemId=${s.id}`}><Button variant="outline"><ClipboardList className="h-4 w-4" /> {t("New plan")}</Button></Link>}
-          {userCan(user, "evaluations.run") && <Link href={`/evaluations/new?systemId=${s.id}`}><Button variant="outline"><FlaskConical className="h-4 w-4" /> {t("New evaluation")}</Button></Link>}
+          {canRun && <form action={createRecommendedPlanAction.bind(null, s.id)}><Button type="submit" variant="outline"><Sparkles className="h-4 w-4" /> {t("Recommended evaluation")}</Button></form>}
+          {mode === "expert" && userCan(user, "plans.write") && <Link href={`/plans/new?systemId=${s.id}`}><Button variant="outline"><ClipboardList className="h-4 w-4" /> {t("New plan")}</Button></Link>}
+          {mode === "expert" && canRun && <Link href={`/evaluations/new?systemId=${s.id}`}><Button variant="outline"><FlaskConical className="h-4 w-4" /> {t("New evaluation")}</Button></Link>}
           {userCan(user, "reports.generate") && <Link href={`/reports/new?systemId=${s.id}`}><Button variant="outline"><FileText className="h-4 w-4" /> {t("Generate report")}</Button></Link>}
           {userCan(user, "systems.write") && <Link href={`/systems/${s.id}/edit`}><Button><Pencil className="h-4 w-4" /> {t("Edit")}</Button></Link>}
         </>} />
@@ -55,6 +67,7 @@ export default async function SystemDetailPage(props: PageProps<"/systems/[id]">
         {s.usesPersonalData && <Badge tone="info">{t("Personal data")}</Badge>}{s.usesSensitiveData && <Badge tone="danger">{t("Sensitive data")}</Badge>}{s.customerFacing && <Badge tone="accent">{t("Customer-facing")}</Badge>}{s.automatedDecision && <Badge tone="warning">{t("Automated decisions")}</Badge>}
         {retestNeeded && <Badge tone="danger">{t("Re-test required (change recorded)")}</Badge>}
       </div>
+      <ProgressStepper systemId={s.id} steps={progress.steps} next={progress.next} percent={progress.percent} canRun={canRun} t={t} />
       <Suspense><Tabs tabs={tabs} /></Suspense>
 
       {tab === "overview" && (
@@ -103,17 +116,20 @@ export default async function SystemDetailPage(props: PageProps<"/systems/[id]">
       )}
 
       {tab === "controls" && (
-        <Card><CardHeader><CardTitle>{t("Harmonized controls (28)")}</CardTitle><CardDescription>{t("One control satisfies requirements across ISO/IEC 42001, EU AI Act, NIST AI RMF and the KR AI Basic Act. Controls with test methods are VERIFIED automatically when linked test metrics pass.")}</CardDescription></CardHeader><CardContent className="px-0 pb-0">
+        <Card><CardHeader><CardTitle>{t("Harmonized controls (28)")}</CardTitle><CardDescription>{t("Statuses are set automatically: Verified when linked tests pass, Implemented when valid evidence (this system's or organisation-wide) is linked, Not applicable from the intake answers. Record an exception only where you disagree, with a reason.")}</CardDescription></CardHeader><CardContent className="px-0 pb-0">
           <Table><THead><TR><TH>{t("Control")}</TH><TH>{t("Maps to")}</TH><TH>{t("Test methods")}</TH><TH>{t("Evidence")}</TH><TH>{t("Status")}</TH><TH>{t("Update")}</TH></TR></THead><TBody>
             {controls.map((c) => { const impl = c.impls[0]; const fws = [...new Set(c.requirements.map((r) => L(r.requirement.framework.code)))]; return (
-              <TR key={c.id}><TD><div className="font-medium"><ControlWithRequirements code={c.code} name={c.name} requirements={c.requirements} locale={locale} t={t} L={L} /></div><div className="text-xs text-muted">{c.category}</div></TD><TD className="text-xs">{fws.join(" · ")}<div className="text-muted">{c.requirements.length} {t("requirements")}</div></TD><TD className="text-xs">{c.testMethods.map((t) => t.testMethod.code).join(", ") || <span className="text-muted">{t("documentary")}</span>}</TD><TD className="tabular-nums">{c.evidenceLinks.length}</TD><TD><Badge tone={toneForStatus(impl?.status ?? "NOT_STARTED")}>{L(impl?.status ?? "NOT_STARTED")}</Badge>{impl?.lastVerifiedAt && <div className="text-[10px] text-muted">verified {fmtDate(impl.lastVerifiedAt)}</div>}</TD>
-                <TD>{userCan(user, "systems.write") ? <form key={`${c.id}-${impl?.status ?? "NOT_STARTED"}-${impl?.updatedAt?.getTime() ?? 0}`} action={updateControlStatusAction.bind(null, s.id, c.id)} className="flex items-center gap-1"><Select name="status" defaultValue={impl?.status ?? "NOT_STARTED"} className="h-7 w-36 text-xs"><option value="NOT_STARTED">{t("Not started")}</option><option value="IN_PROGRESS">{t("In progress")}</option><option value="IMPLEMENTED">{t("Implemented")}</option><option value="VERIFIED">{t("Verified")}</option><option value="NOT_APPLICABLE">{t("N/A")}</option></Select><Button size="sm" variant="ghost" type="submit">{t("Save")}</Button></form> : <Badge>{L(impl?.status ?? "NOT_STARTED")}</Badge>}</TD></TR>); })}
+              <TR key={c.id}><TD><div className="font-medium"><ControlWithRequirements code={c.code} name={c.name} requirements={c.requirements} locale={locale} t={t} L={L} /></div><div className="text-xs text-muted">{c.category}</div></TD><TD className="text-xs">{fws.join(" · ")}<div className="text-muted">{c.requirements.length} {t("requirements")}</div></TD><TD className="text-xs">{c.testMethods.map((t) => t.testMethod.code).join(", ") || <span className="text-muted">{t("documentary")}</span>}</TD><TD className="tabular-nums">{c.evidenceLinks.length}</TD><TD><div className="flex flex-wrap items-center gap-1"><Badge tone={toneForStatus(impl?.status ?? "NOT_STARTED")}>{L(impl?.status ?? "NOT_STARTED")}</Badge><Badge tone={impl && !impl.auto ? "warning" : "neutral"} className="px-1.5 py-0 text-[10px]">{impl && !impl.auto ? t("Manual") : t("Auto")}</Badge></div><div className="mt-0.5 max-w-56 text-[10px] leading-snug text-muted">{impl && !impl.auto ? impl.notes === "Set manually before automatic status" ? t(impl.notes) : impl.notes : autoReasonText(impl?.autoReason, t)}{impl?.lastVerifiedAt && impl.testStatus === "VERIFIED" && <> · {fmtDate(impl.lastVerifiedAt)}</>}</div></TD>
+                <TD>{userCan(user, "systems.write") ? <ControlExceptionForm key={`${c.id}-${impl?.status ?? "NOT_STARTED"}-${impl?.auto ?? true}-${impl?.updatedAt?.getTime() ?? 0}`} action={updateControlStatusAction.bind(null, s.id, c.id)} auto={impl?.auto ?? true} status={impl?.status ?? "NOT_STARTED"} notes={impl?.notes ?? ""} /> : <span className="text-xs text-muted">—</span>}</TD></TR>); })}
           </TBody></Table>
         </CardContent></Card>
       )}
 
       {tab === "evaluations" && (
         <div className="space-y-4">
+          <Card><CardHeader className="flex-row items-start justify-between gap-3"><div><CardTitle>{t("Recommended evaluation")}</CardTitle><CardDescription>{t("Chosen automatically from the intake answers and the risk register. One click creates the plan (NIST AI 200-3 B.1–B.5 filled in) and opens the run form with it selected.")}</CardDescription></div>{canRun && recs.length > 0 && <form action={createRecommendedPlanAction.bind(null, s.id)}><Button type="submit" size="sm"><Sparkles className="h-4 w-4" /> {t("Prepare and run")}</Button></form>}</CardHeader><CardContent>
+            {recs.length ? <div className="grid gap-1.5 md:grid-cols-2">{recs.map((r) => <div key={r.id} className="rounded-md border border-border px-3 py-1.5 text-sm"><span className="font-mono text-xs text-muted">{r.code}</span> {r.name} <Badge>{L(r.category)}</Badge><span className="block text-[11px] text-muted">{t(r.reason)} · {r.prompts} {t("prompts")}</span></div>)}</div> : <p className="text-sm text-muted">{t("No library scenarios apply to this system type.")}</p>}
+          </CardContent></Card>
           <Card><CardHeader className="flex-row items-center justify-between"><div><CardTitle>{t("Evaluation plans")}</CardTitle><CardDescription>{t("NIST AI 200-3 worksheets B.1–B.5")}</CardDescription></div>{userCan(user, "plans.write") && <Link href={`/plans/new?systemId=${s.id}`}><Button size="sm" variant="outline">{t("New plan")}</Button></Link>}</CardHeader><CardContent className="px-0 pb-0">{s.plans.length ? <Table><THead><TR><TH>{t("Plan")}</TH><TH>{t("Status")}</TH><TH>{t("Created")}</TH></TR></THead><TBody>{s.plans.map((p) => <TR key={p.id}><TD><Link href={`/plans/${p.id}`} className="hover:underline">{p.name}</Link></TD><TD><Badge tone={toneForStatus(p.status)}>{L(p.status)}</Badge></TD><TD className="text-xs text-muted">{fmtDate(p.createdAt)}</TD></TR>)}</TBody></Table> : <div className="p-5"><EmptyState title={t("No evaluation plans")} /></div>}</CardContent></Card>
           <Card><CardHeader className="flex-row items-center justify-between"><div><CardTitle>{t("Evaluation runs")}</CardTitle></div>{userCan(user, "evaluations.run") && <Link href={`/evaluations/new?systemId=${s.id}`}><Button size="sm">{t("New evaluation")}</Button></Link>}</CardHeader><CardContent className="px-0 pb-0">{s.runs.length ? <Table><THead><TR><TH>{t("Run")}</TH><TH>{t("Mode")}</TH><TH>{t("Status")}</TH><TH>{t("Verdict")}</TH><TH>{t("Score")}</TH><TH>{t("Finished")}</TH></TR></THead><TBody>{s.runs.map((r) => <TR key={r.id}><TD><Link href={`/evaluations/${r.id}`} className="hover:underline"><span className="font-mono text-xs text-muted">{r.code}</span> {r.name}</Link></TD><TD><Badge tone={r.mode === "LIVE" ? "accent" : "warning"}>{r.mode}</Badge></TD><TD><Badge tone={toneForStatus(r.status)}>{L(r.status)}</Badge></TD><TD><VerdictBadge verdict={r.verdict} /></TD><TD className="tabular-nums">{(r.summary as { assuranceScore?: number }).assuranceScore ?? "—"}</TD><TD className="text-xs text-muted">{fmtAgo(r.finishedAt ?? r.createdAt)}</TD></TR>)}</TBody></Table> : <div className="p-5"><EmptyState title={t("No evaluation runs yet")} /></div>}</CardContent></Card>
           {s.findings.length > 0 && <Card><CardHeader><CardTitle>Open findings ({s.findings.length})</CardTitle></CardHeader><CardContent className="px-0 pb-0"><Table><THead><TR><TH>{t("Code")}</TH><TH>{t("Finding")}</TH><TH>{t("Category")}</TH><TH>{t("Severity")}</TH><TH>{t("Status")}</TH></TR></THead><TBody>{s.findings.map((f) => <TR key={f.id}><TD className="font-mono text-xs text-muted">{f.code}</TD><TD><Link href={`/evaluations/${f.runId}?tab=findings`} className="hover:underline">{f.title}</Link></TD><TD><Badge>{L(f.category)}</Badge></TD><TD><SeverityBadge severity={f.severity} /></TD><TD><Badge tone={toneForStatus(f.status)}>{L(f.status)}</Badge></TD></TR>)}</TBody></Table></CardContent></Card>}

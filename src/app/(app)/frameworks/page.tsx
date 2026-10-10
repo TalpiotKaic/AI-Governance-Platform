@@ -9,6 +9,8 @@ import { Progress } from "@/components/ui/progress";
 import { getI18n } from "@/lib/i18n/server";
 import { ControlWithRequirements } from "@/components/domain/control-requirements";
 import { localizeControl, localizeFramework } from "@/lib/i18n/content";
+import { syncControlStatuses } from "@/lib/controls/status";
+import { ensureFrameworkMappings } from "@/lib/frameworks/sync";
 
 
 export const metadata = { title: "Frameworks & Controls" };
@@ -16,7 +18,9 @@ export const metadata = { title: "Frameworks & Controls" };
 export default async function FrameworksPage() {
   const { locale, t, L } = await getI18n();
   const user = await requireUser();
+  await ensureFrameworkMappings();
   const frameworks = (await db.framework.findMany({ include: { requirements: { include: { controls: true } } } })).map((f) => localizeFramework(locale, f));
+  await syncControlStatuses(user.orgId);
   const controls = (await db.control.findMany({ orderBy: { sortOrder: "asc" }, include: { requirements: { include: { requirement: { include: { framework: true } } } }, testMethods: { include: { testMethod: true } }, impls: { where: { system: { orgId: user.orgId } } } } })).map((c) => localizeControl(locale, c));
   const systemCount = await db.aiSystem.count({ where: { orgId: user.orgId } });
   return (

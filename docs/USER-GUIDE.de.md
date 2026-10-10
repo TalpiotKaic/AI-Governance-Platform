@@ -64,6 +64,8 @@ Gestrichelte Pfeile sind automatische Rückkopplungen. Feststellungen mit HIGH/C
 **Bildschirmaufbau**
 
 - Linke Seitenleiste: Menüs in den Gruppen Übersicht, Steuern, Evaluieren & Verifizieren, Nachweisen, Verwaltung und Öffentlich. Welche Menüs erscheinen, hängt von der Rolle ab (Kapitel 5).
+- **Zu erledigen**: „Zu erledigen“ unter Übersicht in der Seitenleiste sammelt, was Sie jetzt tun müssen – aus Inventar, Risiken, Dokumenten, Evaluierungen, Anbietern und Freigaben, das Dringendste zuerst (dringend, wichtig, bei Gelegenheit). Die Schaltfläche jedes Eintrags öffnet die Seite, auf der er erledigt wird; erledigte Einträge verschwinden automatisch. Die Zahl neben dem Menü ist die Zahl offener Einträge (rot, wenn etwas dringend ist). Beginnen Sie hier, wann immer Sie nicht wissen, was als Nächstes zu tun ist.
+- **Einfacher / Experten-Modus**: Umschalten über „Einfach | Experte“ in der Kopfleiste. Der einfache Modus blendet die Menüs Evaluierungspläne und Testbibliothek sowie die Schaltflächen „Neuer Plan“ / „Neue Evaluierung“ auf der Systemseite aus; Evaluierungen laufen über die „Empfohlene Evaluierung“ jedes Systems mit einem Klick. Administratoren und Tester starten im Expertenmodus, alle anderen im einfachen Modus; die Wahl wird ein Jahr im Browser gespeichert. Ausgeblendete Seiten bleiben per URL erreichbar.
 - Kopfleiste: Organisationstyp (Prüfstelle / Unternehmen), Sprachwähler, Designwahl (Hell / Dunkel / System — auch auf der Anmeldeseite und im mobilen Menü; die Wahl wird im Browser gespeichert), Name und Rolle, Abmelden.
 - Inhalt: Seitentitel mit Beschreibung und Hauptaktionen; Detailseiten sind in Tabs gegliedert (Zusammenfassung, Metriken, Feststellungen, …).
 - Mobil: die Menüschaltfläche oben links öffnet dieselben Menüs und den Sprachwähler.
@@ -83,6 +85,7 @@ Die Demodaten enthalten 5 KI-Systeme (AIS-0001 bis 0005), 5 Evaluierungsläufe u
 
 **Vorschlag für die ersten 30 Minuten**
 
+0. „Zu erledigen“ öffnen und sehen, was zu tun ist (in einer neuen Organisation erscheint „Basis-Dokumentensatz erstellen“).
 1. Im Dashboard den Assurance-Score je System und die offenen Feststellungen ansehen.
 2. Im KI-Inventar AIS-0001 (Kundenservice-Agent) öffnen und die Tabs Agent Card, Risiken, Kontrollen und Nachweise durchsehen.
 3. In den Evaluierungsläufen einen abgeschlossenen Lauf öffnen und Metriken, Feststellungen und Sitzungsdialoge prüfen.
@@ -98,6 +101,7 @@ Die Menüs werden in der Reihenfolge der Seitenleiste beschrieben: Zweck → Auf
 Eine Seite für den KI-Assurance-Status der Organisation. Sechs Kennzahlkacheln (KI-Systeme, Ø Assurance-Score, offene Feststellungen, offene Risiken, ausstehende Freigaben, gültige Nachweise), ein Balken mit Assurance-Scores je System, ein Verlauf, wichtigste offene Feststellungen, Risiken nach Dimension und letzte Evaluierungsläufe.
 
 - Farbregel: Assurance-Score ab 80 grün (gut), 60–79 gelb (Warnung), unter 60 rot (nicht bestanden).
+- Die Karte „Zu erledigen“ unter den Kacheln zeigt Ihre sechs dringendsten Einträge; „Alle anzeigen“ öffnet die vollständige Liste.
 - Tipp: Für Geschäftsleitung und Prüfer diese Seite zusammen mit dem KI-Pass-Bericht nutzen.
 
 ### 4.2 KI-Inventar
@@ -144,6 +148,14 @@ Bei vielen Systemen registrieren Sie diese auf einmal über die Standard-Excel-V
 3. Hochladen → prüfen: jede Zeile wird als Bereit oder Fehler angezeigt. Fehlerzeilen werden übersprungen; doppelte Namen in der Datei und bereits registrierte Namen werden gemeldet.
 4. Bestätigen: nur gültige Zeilen werden registriert. Jedes System erhält wie über das Formular Aufnahmestufe, vorbelegte Risiken und den stufenabhängigen Freigabe-Workflow; der Import wird im Audit-Log protokolliert.
 
+**Fortschritt und nächster Schritt**: oben auf der Systemseite
+
+Jedes System zeigt seinen Weg zum Einsatz in einer Zeile: Registriert → Anbieter & Daten → Risiken bewertet → Evaluiert → Kontrollen erfüllt → Einsatz freigegeben. Erledigte Schritte erhalten ein Häkchen, offene eine kurze Angabe (zu bewertende Risiken, Anteil erfüllter anwendbarer Kontrollen, …); rechts stehen der Fortschritt in Prozent und eine einzige **Schaltfläche „Als Nächstes: …“**, die die Seite für diesen Schritt öffnet. Interne Allzweck-SaaS-Werkzeuge (externe SaaS, nicht kundenseitig, keine automatisierten Entscheidungen, kein Hochrisiko) überspringen den Evaluierungsschritt als optional. Kontrollen gelten als erfüllt, wenn mindestens 80 % der anwendbaren Kontrollen umgesetzt oder verifiziert sind.
+
+**Empfohlene Evaluierung (ein Klick)**: Schaltfläche „Empfohlene Evaluierung“ auf der Systemseite, Karte „Empfohlene Evaluierung“ im Tab Evaluierungen
+
+Die auszuführenden Bibliotheksszenarien werden automatisch aus den Aufnahmeantworten und dem Risikoregister gewählt. Qualität, Sicherheit, Security und Robustheit (bei Agenten zusätzlich Agentenverhalten) bilden die Basis; Fairness kommt bei automatisierten Entscheidungen, Hochrisiko-Einstufung, kundenseitigen Ausgaben oder einem Fairness-Risiko hinzu, Datenschutz bei Verarbeitung personenbezogener oder sensibler Daten, Transparenz bei kundenseitigen Systemen oder solchen mit begrenztem Risiko. Importierte Szenarien und User Testing bleiben außen vor (bei Bedarf im Expertenmodus einen Plan von Hand erstellen). Die Schaltfläche erzeugt den Evaluierungsplan (B.1–B.5 ausgefüllt; ein Plan je System, bei jeder Nutzung aktualisiert) und öffnet das Lauf-Formular mit diesem Plan. DEMO oder LIVE wählen und „Evaluierung starten“ drücken.
+
 **Tabs der Detailseite**
 
 | Tab | Inhalt |
@@ -151,11 +163,23 @@ Bei vielen Systemen registrieren Sie diese auf einmal über die Standard-Excel-V
 | Übersicht | Stammdaten, Modelle, Datensätze und Anbieter, Assurance-Score, ob ein erneuter Test erforderlich ist |
 | Agent Card | Risikostufe, Erlaubt-Kennzeichen, erforderliche Freigabe und Berechtigungen je Werkzeug. Nicht erlaubte Werkzeuge werden in der Evaluierung blockiert und bei Versuchen als Feststellung protokolliert |
 | Risiken | Risiken und Scores dieses Systems |
-| Kontrollen | Umsetzungsstatus der 28 harmonisierten Kontrollen (nicht begonnen, in Arbeit, umgesetzt, verifiziert, nicht anwendbar). Automatisch verifiziert, wenn Testmetriken bestehen |
+| Kontrollen | Umsetzungsstatus der 28 harmonisierten Kontrollen (nicht begonnen, in Arbeit, umgesetzt, verifiziert, nicht anwendbar). Automatisch abgeleitet (siehe unten), mit Kennzeichnung Auto/Manuell und Begründung |
 | Evaluierungen | Pläne und Läufe dieses Systems |
 | Nachweise | Testbasierte, hochgeladene und bestätigte Nachweise |
 | Berichte | Erzeugte Berichte und Nachweispakete |
 | Änderungen & Freigaben | Freigabestufen für den Einsatz, Änderungsereignisse |
+
+**Automatischer Kontrollstatus**: Tab Kontrollen
+
+Kontrollstatus werden nicht mehr von Hand gesetzt. Sie werden in dieser Reihenfolge abgeleitet und bei jeder Änderung an Tests, Nachweisen, Dokumenten, Risiken oder Systemangaben aktualisiert:
+
+1. Nicht anwendbar: Kontrollen, die die Aufnahmeantworten ausschließen (HC-23 außer bei Agenten, HC-25 außer bei Hochrisiko, HC-26 ohne personenbezogene oder sensible Daten, HC-24 bei prädiktiven Modellen ohne nutzerseitige Ausgabe, HC-07/08/21/22 bei internen Allzweck-SaaS-Werkzeugen).
+2. Verifiziert: Die mit der Kontrolle verknüpften Tests wurden bestanden. Hat der letzte Test eine Metrik verfehlt oder verlangt eine erfasste Änderung einen erneuten Test: in Arbeit.
+3. Umgesetzt: Gültige Nachweise (dieses Systems oder organisationsweit, nicht abgelaufen) sind verknüpft. HC-03 ist durch Registrierung und Einstufung im Inventar umgesetzt; HC-04, sobald jedes Risiko im Register bewertet ist (in Arbeit, solange noch Risiken zu bewerten sind).
+4. In Arbeit: Ein Governance-Dokument, das die Kontrolle abdeckt, ist im Entwurf oder in Prüfung.
+5. Sonst nicht begonnen.
+
+Nur wo Sie nicht einverstanden sind, in der Spalte Aktualisieren „Ausnahme: Nicht anwendbar / Umgesetzt / In Arbeit / Nicht begonnen“ wählen und eine **verpflichtende Begründung** eingeben. Ausnahmen werden als „Manuell“ gekennzeichnet und im Audit-Log protokolliert; der Wechsel zurück auf „Automatisch“ leitet den Status neu ab. Vor der automatischen Ableitung von Hand geänderte Status bleiben mit der Begründung „Vor Einführung des automatischen Status manuell gesetzt“ erhalten; prüfen Sie sie und stellen Sie sie bei Bedarf auf „Automatisch“ zurück.
 
 - Tipp: Wenn sich Modellversion, Prompts, Werkzeuge oder Datenquellen ändern, immer ein Änderungsereignis erfassen. Testbasierte Nachweise verfallen und Kontrollen fallen auf „in Arbeit“ zurück, sodass der Umfang des erneuten Tests klar wird.
 
@@ -170,6 +194,7 @@ Eine Portfolioansicht der Risiken über alle Systeme. Risiken werden in 10 Dimen
 - Die Schaltfläche „Berechnungsmethode“ oben rechts in der Heatmap-Karte öffnet ein Referenz-Popup: welche Risiken mit welchem L/S aus den Intake-Antworten (Systemtyp, Kategorie nach KI-Verordnung, vier Datenmerkmale) entstehen, die Punkteformel (L×1 + S×3) ÷ 20 × 100 und die Stufen (≥ 80 kritisch, 60–79 hoch, 35–59 mittel), Regeln für Code/Status/Verantwortlichen, durch Testbefunde, Anbieter und Vorfälle hinzukommende Risiken sowie die Formel der Systemstufe.
 - Automatisch erzeugte Risiken erhalten eine Standardfrist nach Punktzahl (kritisch 30 Tage, hoch 45 Tage, sonst 90 Tage). Überfällige offene Risiken werden in der Spalte Frist hervorgehoben („n Tage überfällig“), im Dashboard unter „Überfällige Risiken“ gelistet, und unter Freigaben & Aufgaben entsteht automatisch die Aufgabe „Überfälliges Risiko R-xxxx“ (wird geschlossen, wenn das Risiko geschlossen oder akzeptiert ist). Die Frist ändern Sie über „Bearbeiten“ in der Spalte Aktualisieren.
 - Bestehende offene Risiken ohne Frist werden beim ersten Öffnen von Dashboard oder Risikoregister automatisch befüllt (gleiche Regel, gerechnet ab Erstellungsdatum); `pnpm tsx scripts/backfill-risk-due-dates.ts` führt dieselbe Nachbefüllung manuell aus.
+- **Empfohlene Maßnahmen**: Aus der Aufnahme erzeugte Risiken erhalten eine empfohlene Maßnahme für ihre Dimension. Für bestehende Risiken ohne Maßnahme füllt „Empfohlene Maßnahmen anwenden (n)“ oben alle auf einmal aus (Risiken aus Testfeststellungen übernehmen die Empfehlung der Feststellung). Das Maßnahmenfeld im Editor zeigt die Empfehlung zudem als Hinweis. Den Text an Ihre Situation anpassen und dann das Rest-L·S eingeben.
 - Tipp: „akzeptiert“ ist eine Risikoakzeptanz-Entscheidung; zusammen mit dem Freigabedatensatz unter Freigaben & Aufgaben verwalten.
 
 ### 4.4 Rahmenwerke & Kontrollen
@@ -180,6 +205,8 @@ Anforderungsbibliotheken für ISO/IEC 42001 (92 Anforderungen), EU-KI-Verordnung
 - „Nachweispaket erzeugen“ springt mit vorausgewähltem System und Rahmenwerk in das Berichtsformular.
 - Die Tabelle der harmonisierten Kontrollen zeigt, welche Klauseln jede Kontrolle erfüllt, welche Testmethoden sie verifizieren und in wie vielen Systemen sie verifiziert ist.
 - Fahren Sie mit der Maus über einen Kontrollnamen (HC-xx) oder tippen Sie darauf, um die erfüllten Anforderungen nach Rahmenwerk (Klausel und Titel) zu sehen. Das funktioniert in der Tabelle der harmonisierten Kontrollen und im Reiter „Kontrollen“ eines Systems; ein Klick auf den Rahmenwerksnamen öffnet das Rahmenwerk.
+- Kapitel- oder Klauselüberschriften mit Unterklauseln (z. B. ISO 42001 „4“, NIST „GOVERN 1“) werden über ihre Unterklauseln beurteilt und nicht in die Abdeckung eingerechnet. Anforderungen, deren zugeordnete Kontrollen alle „nicht anwendbar“ sind, werden als nicht anwendbar angezeigt und nicht mitgezählt.
+- Auf dieser Seite müssen Sie nichts pflegen: Kontrollstatus werden automatisch abgeleitet (4.2, „Automatischer Kontrollstatus“), und Lücken schließen Sie, indem Sie der Schaltfläche „Als Nächstes“ des Systems oder der Liste „Zu erledigen“ folgen.
 - Tipp: Der Anforderungstext liegt in `docs/framework-control-library.md` und wird per Skript in JSON gebaut. Das Markdown bearbeiten, nicht das JSON.
 
 ### 4.5 Evaluierungspläne (Evaluieren & Verifizieren)
@@ -194,6 +221,7 @@ Die Arbeitsblätter B.1–B.5 des ARIA-Handbuchs NIST AI 200-3 ausfüllen. Ein P
 | B.4 Infrastruktur | Annotationswerkzeug, Bewertungswerkzeug, Evaluation API / Ziel-Adapter |
 | B.5 Durchführung | Stichproben für Red Teamer, Nutzertester und Annotatoren; Datenerhebung (Ethikkommission, Einwilligung, Speicherung); Analysetechniken; berichtete Ergebnisse |
 
+- Meist erzeugt die „Empfohlene Evaluierung“ des Systems (4.2) diesen Plan für Sie, sodass Sie keinen schreiben müssen. Im einfachen Modus ist dieses Menü ausgeblendet.
 - „Diesen Plan ausführen“ auf der Planseite öffnet das Lauf-Formular mit vorausgewählten Szenarien.
 - „ARIA-Bericht“ macht aus Plan und letztem Lauf einen Bericht im Format B.1–B.5.
 - Tipp: Für Red Teaming oder User Testing mit Menschen vor dem Lauf die Punkte Ethikkommission/Einwilligung in B.5 ausfüllen.
@@ -287,6 +315,7 @@ Organisationsweite Governance-Dokumente an einem Ort erstellen, prüfen und aktu
 | 3. Freigegeben · in Kraft | Eine andere Person als der Autor gibt frei oder weist mit Kommentar zurück. Die Freigabe setzt das Dokument in Kraft, legt den nächsten Prüftermin fest (Freigabe + Zyklus) und erzeugt einen organisationsweiten Nachweis für die gewählten Kontrollen. | Prüfer, Freigeber, Governance-Verantwortlicher, Admin |
 | 4. Regelmäßige Prüfung · Revision | Ab 30 Tagen vor dem Prüftermin erinnern Dashboard und Aufgabe. Unverändert: „Geprüft – unverändert“ verlängert um einen Zyklus; sonst erzeugt „Neue Version“ eine Revision mit erneuter Prüfung. Nach deren Freigabe wird die Vorversion im Verlauf „ersetzt“. | Prüfer / Autor |
 
+- **Basis-Dokumentensatz**: Auf der Karte „Basis-Dokumentensatz“ über der Liste erzeugt „n Entwurf/Entwürfe erstellen“ sechs Entwürfe in der aktuellen UI-Sprache: KI-Richtlinie (HC-01), KI-Rollen und Verantwortlichkeiten (RACI) (HC-02), KI-Ziele und Planung (HC-01, HC-19), Verfahren zur KI-Risikobewertung und -behandlung (HC-04), Regeln zu KI-Aufzeichnungen und Dokumentenlenkung (HC-12, Prüfzyklus 24 Monate) und Schulungsplan zur KI-Kompetenz (HC-17). Organisationsname und KI-Inventar sind vorausgefüllt; Sie ersetzen nur die Platzhalter [ ] und fordern die Prüfung an. Vorhandene Dokumente werden nicht neu erzeugt, und die Karte zeigt den Status aller sechs auf einen Blick.
 - **Ablauf**: Nach dem Prüftermin laufen Dokument und Nachweis ab und zählen nicht mehr; der Verantwortliche erhält die Aufgabe „Dokument abgelaufen“.
 - **Funktionstrennung**: Der Autor (Einreicher) kann sein eigenes Dokument nicht freigeben. Ein Administrator darf es, es wird aber als „Selbst geprüft“ markiert.
 - **Zurückziehen**: Ein zurückgezogenes Dokument ersetzt seinen Nachweis und bleibt zur Dokumentation erhalten. Entwürfe können gelöscht werden.

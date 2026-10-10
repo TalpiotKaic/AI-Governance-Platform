@@ -64,6 +64,8 @@ Le frecce tratteggiate sono retroazioni automatiche. I rilievi HIGH/CRITICAL di 
 **Struttura dello schermo**
 
 - Barra laterale sinistra: menu raggruppati in Panoramica, Governare, Valutare & verificare, Dimostrare, Amministrazione e Pubblico. I menu visibili dipendono dal ruolo (capitolo 5).
+- **Da fare**: «Da fare» sotto Panoramica nella barra laterale raccoglie ciò che devi fare ora da inventario, rischi, documenti, valutazioni, fornitori e approvazioni, a partire dal più urgente (urgente, importante, se possibile). Il pulsante di ogni voce apre la schermata in cui va svolta, e le voci completate scompaiono automaticamente. Il numero accanto al menu indica le voci aperte (in rosso se qualcosa è urgente). Parti da qui ogni volta che non sai cosa fare dopo.
+- **Modalità semplice / esperto**: si cambia con «Semplice | Esperto» nella barra superiore. La modalità semplice nasconde i menu Piani di valutazione e Libreria dei test e i pulsanti «Nuovo piano» / «Nuova valutazione» nella pagina del sistema; le valutazioni si eseguono con la «Valutazione consigliata» in un clic di ogni sistema. Amministratori e tester partono in modalità esperto, tutti gli altri in modalità semplice; la scelta è conservata un anno nel browser. Le schermate nascoste restano raggiungibili tramite URL.
 - Barra superiore: tipo di organizzazione (organismo di verifica / azienda), selettore lingua, selettore del tema (chiaro / scuro / sistema — anche nella pagina di accesso e nel menu mobile; la scelta viene memorizzata dal browser), nome e ruolo, uscita.
 - Corpo: titolo di pagina con descrizione e azioni principali; le pagine di dettaglio sono divise in schede (sintesi, metriche, rilievi, …).
 - Mobile: il pulsante menu in alto a sinistra apre gli stessi menu e il selettore lingua.
@@ -83,6 +85,7 @@ I dati demo contengono 5 sistemi di IA (AIS-0001 … 0005), 5 esecuzioni e una d
 
 **Un primo percorso di 30 minuti**
 
+0. Apri «Da fare» per vedere cosa c'è da fare (in una nuova organizzazione compare «Crea il set documentale di base»).
 1. Nella Dashboard guarda il punteggio di assurance per sistema e i rilievi aperti.
 2. Nell'Inventario IA apri AIS-0001 (agente di assistenza clienti) e scorri le schede Agent Card, Rischi, Controlli ed Evidenze.
 3. Nelle Esecuzioni di valutazione apri un'esecuzione completata ed esamina metriche, rilievi e dialoghi di sessione.
@@ -98,6 +101,7 @@ I menu sono descritti nell'ordine della barra laterale: finalità → struttura 
 Una schermata per lo stato di assurance IA dell'organizzazione. Sei riquadri (sistemi di IA, punteggio di assurance medio, rilievi aperti, rischi aperti, approvazioni in attesa, evidenze valide), un grafico dei punteggi per sistema, un andamento, i principali rilievi aperti, i rischi per dimensione e le esecuzioni recenti.
 
 - Regola dei colori: punteggio di assurance da 80 verde (buono), 60–79 ambra (attenzione), sotto 60 rosso (insufficiente).
+- La scheda «Da fare» sotto i riquadri mostra le tue sei voci più urgenti; «Vedi tutto» apre l'elenco completo.
 - Suggerimento: per direzione e auditor usa questa schermata insieme al report Passaporto IA.
 
 ### 4.2 Inventario IA
@@ -144,6 +148,14 @@ Quando i sistemi sono molti, registrali in una volta dal modello Excel standard 
 3. Caricare → validare: ogni riga è mostrata come Pronta o Errore. Le righe con errori vengono saltate; i nomi duplicati nel file e quelli già registrati vengono segnalati.
 4. Confermare: solo le righe valide vengono registrate. Ogni sistema riceve, come dal modulo, fascia di intake, rischi iniziali e flusso di approvazione; l'importazione è annotata nel registro di audit.
 
+**Avanzamento e passo successivo**: in alto nella pagina del sistema
+
+Ogni sistema mostra in una riga il suo percorso verso il rilascio: Registrato → Fornitori e dati → Rischi valutati → Valutato → Controlli soddisfatti → Rilascio approvato. I passi completati hanno un segno di spunta, quelli aperti un breve dettaglio (rischi da valutare, quota di controlli applicabili soddisfatti, …); a destra compaiono la percentuale di completamento e un unico **pulsante «Avanti: …»** che apre la schermata di quel passo. Gli strumenti SaaS interni di uso generale (SaaS esterno, non rivolto al cliente, senza decisioni automatizzate, non ad alto rischio) saltano il passo di valutazione, facoltativo per loro. I controlli sono considerati soddisfatti quando almeno l'80% dei controlli applicabili è implementato o verificato.
+
+**Valutazione consigliata (un clic)**: pulsante «Valutazione consigliata» nella pagina del sistema, sezione «Valutazione consigliata» nella scheda Valutazioni
+
+Gli scenari della libreria da eseguire sono scelti automaticamente in base alle risposte di presa in carico e al registro dei rischi. Qualità, safety, security e robustezza (più il comportamento dell'agente per gli agenti) sono la base; l'equità si aggiunge in caso di decisioni automatizzate, classificazione ad alto rischio, output rivolti al cliente o un rischio di equità; la privacy quando si trattano dati personali o sensibili; la trasparenza per sistemi rivolti al cliente o a rischio limitato. Gli scenari importati e lo user testing sono esclusi (se ti servono, crea un piano a mano in modalità esperto). Il pulsante crea il piano di valutazione (B.1–B.5 compilate; un piano per sistema, aggiornato a ogni uso) e apre il modulo di esecuzione con il piano selezionato. Scegli DEMO o LIVE e premi «Avvia valutazione».
+
 **Schede della pagina di dettaglio**
 
 | Scheda | Contenuto |
@@ -151,11 +163,23 @@ Quando i sistemi sono molti, registrali in una volta dal modello Excel standard 
 | Panoramica | Dati di base, modelli, dataset e fornitori, punteggio di assurance, se è richiesto un nuovo test |
 | Agent Card | Livello di rischio, flag consentito, approvazione richiesta e permessi per strumento. Gli strumenti non consentiti sono bloccati durante la valutazione e registrati come rilievi se tentati |
 | Rischi | Rischi e punteggi di questo sistema |
-| Controlli | Stato di implementazione dei 28 controlli armonizzati (non avviato, in corso, implementato, verificato, non applicabile). Verificato automaticamente quando le metriche di test superano la soglia |
+| Controlli | Stato di implementazione dei 28 controlli armonizzati (non avviato, in corso, implementato, verificato, non applicabile). Derivato automaticamente (vedi sotto), con indicatore Auto/Manuale e motivazione |
 | Valutazioni | Piani ed esecuzioni di questo sistema |
 | Evidenze | Evidenze derivate dai test, caricate e attestate |
 | Report | Report e pacchetti di evidenze generati |
 | Modifiche & approvazioni | Fasi di approvazione del rilascio, eventi di modifica |
+
+**Stato automatico dei controlli**: scheda Controlli
+
+Lo stato dei controlli non si imposta più a mano. Viene derivato in quest'ordine e aggiornato ogni volta che cambiano test, evidenze, documenti, rischi o dati del sistema:
+
+1. Non applicabile: controlli esclusi dalle risposte di presa in carico (HC-23 se non è un agente, HC-25 se non è ad alto rischio, HC-26 senza dati personali o sensibili, HC-24 per modelli predittivi senza output rivolti agli utenti, HC-07/08/21/22 per strumenti SaaS interni di uso generale).
+2. Verificato: i test collegati al controllo sono stati superati. Se l'ultimo test ha mancato una metrica, o una modifica registrata richiede un nuovo test: in corso.
+3. Implementato: è collegata un'evidenza valida (del sistema o a livello di organizzazione, non scaduta). HC-03 è implementato con la registrazione e la classificazione nell'inventario; HC-04 quando ogni rischio del registro è stato valutato (in corso finché restano rischi da valutare).
+4. In corso: un documento di governance che copre il controllo è in bozza o in revisione.
+5. Altrimenti non avviato.
+
+Solo dove non sei d'accordo, scegli «Eccezione: Non applicabile / Implementato / In corso / Non avviato» nella colonna Aggiorna e inserisci una **motivazione obbligatoria**. Le eccezioni sono contrassegnate «Manuale» e registrate nel log di audit; tornando ad «Automatico» lo stato viene ricalcolato. Gli stati modificati a mano prima della derivazione automatica sono mantenuti con la motivazione «Impostato manualmente prima dello stato automatico»; verificali e riportali su «Automatico» quando opportuno.
 
 - Suggerimento: ogni volta che cambiano versione del modello, prompt, strumenti o fonti dati, registra un evento di modifica. Le evidenze derivate dai test scadono e i controlli tornano «in corso», rendendo esplicito l'ambito del nuovo test.
 
@@ -170,6 +194,7 @@ Una vista di portafoglio dei rischi su tutti i sistemi. I rischi sono classifica
 - Il pulsante «Metodo di calcolo» in alto a destra nella scheda della mappa di calore apre una finestra di riferimento: quali rischi vengono creati con quali L/S dalle risposte di intake (tipo di sistema, categoria AI Act, quattro indicatori sui dati), la formula del punteggio (L×1 + S×3) ÷ 20 × 100 e le fasce (≥ 80 critico, 60–79 alto, 35–59 medio), le regole di codice/stato/responsabile, i rischi aggiunti da risultanze di test, fornitori e incidenti e la formula del livello del sistema.
 - I rischi creati automaticamente ricevono una scadenza predefinita in base al punteggio (critico 30 giorni, alto 45 giorni, altri 90 giorni). I rischi aperti scaduti sono evidenziati nella colonna Scadenza («n giorni di ritardo»), elencati in «Rischi scaduti» nel dashboard, e in Approvazioni & attività viene creata automaticamente l'attività «Rischio scaduto R-xxxx» (chiusa quando il rischio è chiuso o accettato). La data si modifica con «Modifica» nella colonna Aggiorna.
 - I rischi aperti esistenti senza scadenza vengono completati automaticamente (stessa regola, a partire dalla data di creazione) alla prima apertura del dashboard o del registro; `pnpm tsx scripts/backfill-risk-due-dates.ts` esegue lo stesso riempimento manualmente.
+- **Mitigazioni consigliate**: i rischi generati dalla presa in carico ricevono una mitigazione consigliata per la loro dimensione. Per i rischi esistenti che non ne hanno, «Applica le mitigazioni consigliate (n)» in alto le compila tutte in una volta (i rischi da rilievi di test usano la raccomandazione del rilievo). Il campo mitigazione dell'editor mostra la raccomandazione anche come suggerimento. Adatta il testo alla tua situazione, poi inserisci gli L·S residui.
 - Suggerimento: «accettato» è una decisione di accettazione del rischio; gestiscila insieme al record di approvazione in Approvazioni & attività.
 
 ### 4.4 Framework & controlli
@@ -180,6 +205,8 @@ Librerie di requisiti ISO/IEC 42001 (92 requisiti), AI Act UE (36), NIST AI RMF 
 - «Genera pacchetto di evidenze» apre il modulo del report con sistema e framework preselezionati.
 - La tabella dei controlli armonizzati mostra quali clausole soddisfa ogni controllo, quali metodi di test lo verificano e in quanti sistemi è verificato.
 - Passa il mouse (o tocca) sul nome di un controllo (HC-xx) per vedere i requisiti che soddisfa, raggruppati per framework con numero di clausola e titolo. Funziona nella tabella dei controlli armonizzati e nella scheda «Controlli» di un sistema; fai clic sul nome del framework per aprirlo.
+- I titoli di capitolo o clausola che hanno sottoclausole (ad es. ISO 42001 «4», NIST «GOVERN 1») sono valutati tramite le loro sottoclausole ed esclusi dalla copertura. I requisiti i cui controlli associati sono tutti «non applicabile» sono mostrati come non applicabili ed esclusi dal totale.
+- In questa schermata non c'è nulla da mantenere: lo stato dei controlli è derivato automaticamente (4.2, «Stato automatico dei controlli») e le lacune si chiudono seguendo il pulsante «Avanti» del sistema o l'elenco «Da fare».
 - Suggerimento: il testo dei requisiti è in `docs/framework-control-library.md` e viene convertito in JSON da uno script. Modifica il markdown, non il JSON.
 
 ### 4.5 Piani di valutazione (Valutare & verificare)
@@ -194,6 +221,7 @@ Compila le schede B.1–B.5 del manuale ARIA NIST AI 200-3. Un piano seleziona s
 | B.4 Infrastruttura | Strumento di annotazione, strumento di scoring, Evaluation API / adattatore target |
 | B.5 Attuazione | Campioni di red teamer, tester utenti e annotatori; raccolta dati (comitato etico, consenso, conservazione); tecniche di analisi; risultati riportati |
 
+- Nella maggior parte dei casi la «Valutazione consigliata» del sistema (4.2) crea questo piano per te, quindi non devi scriverne uno. La modalità semplice nasconde questo menu.
 - «Esegui questo piano» nella pagina del piano apre il modulo di esecuzione con gli scenari preselezionati.
 - «Report ARIA» trasforma il piano e l'ultima esecuzione in un report in formato B.1–B.5.
 - Suggerimento: per red teaming o user testing con persone, compila le voci comitato etico/consenso di B.5 prima di eseguire.
@@ -287,6 +315,7 @@ Redigi, fai revisionare e mantieni aggiornati in un unico punto i documenti di g
 | 3. Approvato · in vigore | Un revisore diverso dall'autore approva o restituisce con un commento. L'approvazione mette in vigore il documento, fissa il prossimo riesame (approvazione + ciclo) e crea un'evidenza dell'organizzazione collegata ai controlli scelti. | Revisore, approvatore, responsabile governance, admin |
 | 4. Riesame periodico · revisione | Da 30 giorni prima del riesame, dashboard e attività lo ricordano. Se nulla cambia, «Riesaminato — nessuna modifica» estende di un ciclo; altrimenti «Nuova versione» crea una revisione da riapprovare. Approvata questa, la versione precedente diventa «Sostituita» nello storico. | Revisore / autore |
 
+- **Set documentale di base**: nella scheda «Set documentale di base» sopra l'elenco, «Crea n bozze» crea sei bozze nella lingua corrente dell'interfaccia: Politica sull'IA (HC-01), Ruoli e responsabilità per l'IA (RACI) (HC-02), Obiettivi e piano per l'IA (HC-01, HC-19), Procedura di valutazione e trattamento del rischio dell'IA (HC-04), Regole per le registrazioni e il controllo dei documenti sull'IA (HC-12, ciclo di riesame di 24 mesi) e Piano di formazione sull'alfabetizzazione in materia di IA (HC-17). Il nome dell'organizzazione e l'inventario IA sono precompilati: devi solo sostituire i segnaposto [ ] e richiedere la revisione. I documenti esistenti non vengono ricreati e la scheda mostra a colpo d'occhio lo stato di tutti e sei.
 - **Scadenza**: dopo la data di riesame documento ed evidenza scadono e non contano più; per il responsabile viene creata l'attività «Documento scaduto».
 - **Separazione dei compiti**: l'autore (richiedente) non può approvare il proprio documento. Un amministratore può farlo, ma viene segnalato «Auto-riesaminato».
 - **Ritiro**: ritirare un documento sostituisce la sua evidenza e lo conserva agli atti. Le bozze possono essere eliminate.

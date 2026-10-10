@@ -11,7 +11,7 @@ import { updateRiskAction } from "./actions";
 type Props = {
   id: string; status: string; likelihood: number; severity: number;
   residualLikelihood: number | null; residualSeverity: number | null; residualScore: number | null;
-  dueDate: string; mitigation: string; ret: string; cancelHref: string;
+  dueDate: string; mitigation: string; suggestion?: string; ret: string; cancelHref: string;
 };
 const LEVELS = [1, 2, 3, 4, 5];
 const STATUSES = ["IDENTIFIED", "ASSESSED", "MITIGATING", "ACCEPTED", "CLOSED"];
@@ -54,7 +54,7 @@ export function RiskEditor(p: Props) {
         {legacy && <p className="mt-1 text-[11px] text-muted">{t("Earlier residual score {n} was entered as a single number. Set residual L and S to replace it.").replace("{n}", String(Math.round(p.residualScore!)))}</p>}
       </div>
       <Field label={t("Due date")}><Input name="dueDate" type="date" defaultValue={p.dueDate} /></Field>
-      <Field label={t("Mitigation")} className="lg:col-span-3"><Textarea name="mitigation" rows={2} defaultValue={p.mitigation} placeholder={t("Controls, tests or decisions that reduce this risk")} /></Field>
+      <Field label={t("Mitigation")} className="lg:col-span-3"><Textarea name="mitigation" rows={2} defaultValue={p.mitigation} placeholder={p.suggestion || t("Controls, tests or decisions that reduce this risk")} /></Field>
       <div className="flex items-end justify-end gap-2">
         <Link href={p.cancelHref}><Button type="button" variant="ghost">{t("Cancel")}</Button></Link>
         <Button type="submit" disabled={partial}>{t("Save")}</Button>

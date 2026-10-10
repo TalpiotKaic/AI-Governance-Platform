@@ -18,6 +18,7 @@ export default async function NewRunPage(props: PageProps<"/evaluations/new">) {
   return (
     <>
       <PageHeader title={t("New evaluation run")} crumbs={[{ label: "Evaluation Runs", href: "/evaluations" }, { label: "New" }]} description={t("Choose the system, scenarios (or a plan), and the target. DEMO mode runs against a deterministic simulated target so the full pipeline can be exercised without API keys; LIVE mode calls the real model/agent and uses an LLM-as-judge.")} />
+      {sp.recommended === "1" && <p className="mb-4 rounded-md border border-primary/30 bg-primary-soft px-3 py-2 text-sm">{t("The recommended plan for this system is selected. Choose DEMO to try the pipeline without API keys, or LIVE to test the real model, then press Start evaluation. Results update the control statuses automatically.")}</p>}
       <RunForm action={createRunAction} systems={systems.map((s) => ({ id: s.id, code: s.code, name: s.name, type: s.type, plans: s.plans.map((p) => ({ id: p.id, name: p.name })) }))} scenarios={scenarios.map((s) => ({ id: s.id, code: s.code, name: s.name, category: s.method.category, testingType: s.method.testingType, applicableTo: s.applicableTo, prompts: (s.prompts as unknown[]).length }))} credentials={credentials.map((c) => ({ provider: c.provider, label: c.label, defaultModel: c.defaultModel }))} hasEnvKeys={hasEnvKeys} initialSystemId={typeof sp.systemId === "string" ? sp.systemId : undefined} initialPlanId={typeof sp.planId === "string" ? sp.planId : undefined} />
     </>
   );

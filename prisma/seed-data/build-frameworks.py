@@ -239,6 +239,8 @@ def parse_aria(col):
     out = []
     for name in ["Model Testing", "Red Teaming", "User Testing"]:
         if name in col: out.append("Design")
+    for element in ["Scope", "Materials", "Infrastructure", "Implementation"]:
+        if f"ARIA {element}" in col: out.append(element)
     return sorted(set(out))
 
 cat_map = {"HC-01": "Governance", "HC-02": "Governance", "HC-03": "Inventory", "HC-04": "Risk", "HC-05": "Risk", "HC-06": "Data", "HC-07": "Technical testing", "HC-08": "Technical testing", "HC-09": "Technical testing", "HC-10": "Transparency", "HC-11": "Human oversight", "HC-12": "Logging", "HC-13": "Monitoring", "HC-14": "Incidents", "HC-15": "Third parties", "HC-16": "Change management", "HC-17": "Competence", "HC-18": "Audit", "HC-19": "Governance", "HC-20": "Improvement", "HC-21": "Technical testing", "HC-22": "Technical testing", "HC-23": "Agent governance", "HC-24": "Transparency", "HC-25": "Conformity", "HC-26": "Privacy", "HC-27": "Environment", "HC-28": "Stakeholders"}

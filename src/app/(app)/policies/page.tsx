@@ -12,13 +12,14 @@ import { fmtDate } from "@/lib/utils";
 import { getI18n } from "@/lib/i18n/server";
 import { daysUntil, docStatusLabel, documentStats, ensureDocumentLifecycle, isReviewDueSoon } from "@/lib/documents";
 import { ProcessStrip } from "./process-strip";
+import { BaselineCard } from "./baseline-card";
 
 export const metadata = { title: "Policies & documents" };
 
 const FILTERS: Record<string, string[]> = { all: [], active: ["ACTIVE"], review: ["IN_REVIEW"], expired: ["EXPIRED"], draft: ["DRAFT"], history: ["SUPERSEDED", "RETIRED"] };
 
 export default async function PoliciesPage(props: PageProps<"/policies">) {
-  const { t, L } = await getI18n();
+  const { t, L, locale } = await getI18n();
   const user = await requireUser();
   const sp = await props.searchParams;
   const f = typeof sp.f === "string" && (sp.f in FILTERS || sp.f === "due") ? sp.f : "current";
@@ -41,6 +42,8 @@ export default async function PoliciesPage(props: PageProps<"/policies">) {
         <Stat label={t("Drafts")} value={stats.drafts} />
       </div>
       <div className="mb-4"><ProcessStrip /></div>
+      {typeof sp.created === "string" && <div className="mb-4 rounded-md border border-success/40 bg-success-soft px-3 py-2 text-sm text-success">{t("{n} draft(s) created from the baseline set. Open each one, replace the [ ] placeholders and request review.").replace("{n}", String(Number(sp.created) || 0))}</div>}
+      <BaselineCard docs={all} locale={locale} canWrite={userCan(user, "policies.write")} t={t} L={L} />
       <div className="mb-3 flex flex-wrap gap-1.5">
         {chip("current", t("Current"))}{chip("active", t("In force"), stats.active)}{chip("review", t("Awaiting review"), stats.inReview)}{chip("due", t("Review due"), stats.dueSoon)}{chip("expired", t("Expired"), stats.expired)}{chip("draft", L("DRAFT"), stats.drafts)}{chip("history", t("History"))}{chip("all", t("All"))}
       </div>

@@ -4,7 +4,9 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { requirePermission } from "@/lib/auth";
 import { nextCode, riskScore } from "@/lib/utils";
-import { defaultDueDate } from "@/lib/risks/due";
+import { OPEN_RISK_STATUSES, defaultDueDate } from "@/lib/risks/due";
+import { recommendedMitigation } from "@/lib/risks/mitigations";
+import { syncControlStatuses } from "@/lib/controls/status";
 import type { RiskDimension, RiskStatus } from "@/generated/prisma/client";
 
 export async function createRiskAction(formData: FormData) {
@@ -15,6 +17,7 @@ export async function createRiskAction(formData: FormData) {
   const count = await db.risk.count({ where: { orgId: user.orgId } });
   const risk = await db.risk.create({ data: { orgId: user.orgId, systemId, code: nextCode("R", count), title: String(formData.get("title")), description: String(formData.get("description") ?? "") || null, dimension: String(formData.get("dimension")) as RiskDimension, likelihood, severity, score: riskScore(likelihood, severity), status: "IDENTIFIED", source: "MANUAL", ownerId: user.id, mitigation: String(formData.get("mitigation") ?? "") || null, dueDate: formData.get("dueDate") ? new Date(String(formData.get("dueDate"))) : defaultDueDate(riskScore(likelihood, severity)) } });
   await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: "risk.created", entityType: "Risk", entityId: risk.id, summary: `${risk.code} ${risk.title}` } });
+  await syncControlStatuses(user.orgId, [systemId]);
   revalidatePath("/risks");
   redirect(`/systems/${systemId}?tab=risks`);
 }
@@ -57,6 +60,24 @@ export async function updateRiskAction(id: string, formData: FormData) {
     due && r.dueDate?.toISOString().slice(0, 10) !== due ? `due ${due}` : "",
   ].filter(Boolean).join(", ");
   await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: "risk.updated", entityType: "Risk", entityId: id, summary: `${r.code} ${changes || "updated"}` } });
+  await syncControlStatuses(user.orgId, [r.systemId]);
   revalidatePath("/risks"); revalidatePath("/dashboard"); revalidatePath("/approvals"); revalidatePath(`/systems/${r.systemId}`);
   redirect(`/risks${returnQuery(formData.get("ret"))}`);
+}
+
+/** Fill the mitigation of every open risk that has none: the test finding's recommendation, or the dimension's recommended mitigation. */
+export async function applyRecommendedMitigationsAction(ret: string) {
+  const user = await requirePermission("risks.write");
+  const risks = await db.risk.findMany({ where: { orgId: user.orgId, status: { in: [...OPEN_RISK_STATUSES] }, OR: [{ mitigation: null }, { mitigation: "" }] }, include: { finding: { select: { recommendation: true } } } });
+  let n = 0;
+  for (const r of risks) {
+    const mitigation = recommendedMitigation(r.dimension, r.finding?.recommendation);
+    if (!mitigation) continue;
+    await db.risk.update({ where: { id: r.id }, data: { mitigation } });
+    n++;
+  }
+  if (n) await db.auditLog.create({ data: { orgId: user.orgId, actorId: user.id, action: "risk.mitigations_applied", entityType: "Risk", entityId: "bulk", summary: `Recommended mitigation applied to ${n} risk(s)` } });
+  revalidatePath("/risks"); revalidatePath("/dashboard");
+  const q = new URLSearchParams(ret); q.set("applied", String(n));
+  redirect(`/risks?${q.toString()}`);
 }

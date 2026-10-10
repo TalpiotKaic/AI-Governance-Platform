@@ -64,6 +64,8 @@ Las flechas discontinuas son retroalimentaciones automáticas. Los hallazgos HIG
 **Organización de la pantalla**
 
 - Barra lateral izquierda: menús agrupados en Resumen, Gobernar, Evaluar y verificar, Demostrar, Administración y Público. Los menús visibles dependen de su rol (capítulo 5).
+- **Pendientes**: «Pendientes», en Resumen dentro de la barra lateral, reúne lo que debe hacer ahora a partir del inventario, los riesgos, los documentos, las evaluaciones, los proveedores y las aprobaciones, lo más urgente primero (urgente, importante, si es posible). El botón de cada elemento abre la pantalla donde se realiza, y los elementos completados desaparecen automáticamente. El número junto al menú es la cantidad de elementos abiertos (en rojo si algo es urgente). Empiece aquí siempre que no sepa qué hacer a continuación.
+- **Modo simple / experto**: cambie con «Simple | Experto» en la barra superior. El modo simple oculta los menús Planes de evaluación y Biblioteca de pruebas y los botones «Nuevo plan» / «Nueva evaluación» de la página del sistema; las evaluaciones se ejecutan con la «Evaluación recomendada» de un clic de cada sistema. Los administradores y probadores empiezan en modo experto, el resto en modo simple; la elección se guarda un año en el navegador. Las pantallas ocultas siguen siendo accesibles por URL.
 - Barra superior: tipo de organización (organismo de verificación / empresa), selector de idioma, selector de tema (claro / oscuro / sistema — también en la página de inicio de sesión y en el menú móvil; la elección se guarda en el navegador), su nombre y rol, cierre de sesión.
 - Cuerpo: título de página con descripción y acciones principales; las páginas de detalle se dividen en pestañas (resumen, métricas, hallazgos, …).
 - Móvil: el botón de menú arriba a la izquierda abre los mismos menús y el selector de idioma.
@@ -83,6 +85,7 @@ Los datos de demostración contienen 5 sistemas de IA (AIS-0001 a 0005), 5 ejecu
 
 **Un primer recorrido de 30 minutos**
 
+0. Abra «Pendientes» para ver qué hay que hacer (en una organización nueva aparece «Crear el conjunto documental básico»).
 1. En el Panel, mire la puntuación de aseguramiento por sistema y los hallazgos abiertos.
 2. En el Inventario de IA, abra AIS-0001 (agente de atención al cliente) y recorra las pestañas Agent Card, Riesgos, Controles y Evidencias.
 3. En Ejecuciones de evaluación, abra una ejecución completada y revise métricas, hallazgos y diálogos de sesión.
@@ -98,6 +101,7 @@ Los menús se describen en el orden de la barra lateral: finalidad → organizac
 Una pantalla para la situación de aseguramiento de IA de la organización. Seis mosaicos (sistemas de IA, puntuación media de aseguramiento, hallazgos abiertos, riesgos abiertos, aprobaciones pendientes, evidencias válidas), un gráfico de puntuaciones por sistema, una tendencia, los principales hallazgos abiertos, los riesgos por dimensión y las ejecuciones recientes.
 
 - Regla de color: puntuación de aseguramiento de 80 o más verde (bueno), 60–79 ámbar (advertencia), menos de 60 rojo (insuficiente).
+- La tarjeta «Pendientes» bajo los mosaicos muestra sus seis elementos más urgentes; «Ver todo» abre la lista completa.
 - Consejo: para dirección y auditores, use esta pantalla junto con el informe Pasaporte de IA.
 
 ### 4.2 Inventario de IA
@@ -144,6 +148,14 @@ Cuando hay muchos sistemas, regístrelos de una vez con la plantilla Excel está
 3. Subir → validar: cada fila se muestra como Lista o Error. Las filas con errores se omiten; se avisan los nombres duplicados en el archivo y los ya registrados.
 4. Confirmar: solo se registran las filas válidas. Cada sistema recibe, igual que desde el formulario, su nivel de alta, riesgos iniciales y flujo de aprobación; la importación queda en el registro de auditoría.
 
+**Progreso y siguiente paso**: parte superior de la página del sistema
+
+Cada sistema muestra en una fila su camino hasta el despliegue: Registrado → Proveedores y datos → Riesgos evaluados → Evaluado → Controles cumplidos → Despliegue aprobado. Los pasos completados llevan una marca de verificación, los abiertos un breve detalle (riesgos por evaluar, proporción de controles aplicables cumplidos, …); a la derecha aparecen el porcentaje completado y un único **botón «Siguiente: …»** que abre la pantalla de ese paso. Las herramientas SaaS internas de uso general (SaaS externo, no orientado al cliente, sin decisiones automatizadas, no de alto riesgo) omiten el paso de evaluación, que para ellas es opcional. Los controles se consideran cumplidos cuando al menos el 80 % de los controles aplicables están implementados o verificados.
+
+**Evaluación recomendada (un clic)**: botón «Evaluación recomendada» en la página del sistema, tarjeta «Evaluación recomendada» en la pestaña Evaluaciones
+
+Los escenarios de la biblioteca que se ejecutan se eligen automáticamente a partir de las respuestas de admisión y del registro de riesgos. Calidad, seguridad física, seguridad informática y robustez (más comportamiento del agente en los agentes) son la base; se añade equidad con decisiones automatizadas, clasificación de alto riesgo, salidas orientadas al cliente o un riesgo de equidad; privacidad cuando se tratan datos personales o sensibles; transparencia para sistemas orientados al cliente o de riesgo limitado. Los escenarios importados y el user testing quedan fuera (si los necesita, cree un plan a mano en modo experto). El botón crea el plan de evaluación (B.1–B.5 rellenadas; un plan por sistema, actualizado en cada uso) y abre el formulario de ejecución con él seleccionado. Elija DEMO o LIVE y pulse «Iniciar evaluación».
+
 **Pestañas de la página de detalle**
 
 | Pestaña | Contenido |
@@ -151,11 +163,23 @@ Cuando hay muchos sistemas, regístrelos de una vez con la plantilla Excel está
 | Resumen | Datos básicos, modelos, conjuntos de datos y proveedores, puntuación de aseguramiento, si se requiere nueva prueba |
 | Agent Card | Nivel de riesgo, indicador de permitido, aprobación requerida y permisos por herramienta. Las herramientas no permitidas se bloquean durante la evaluación y se registran como hallazgos si se intentan usar |
 | Riesgos | Riesgos y puntuaciones de este sistema |
-| Controles | Estado de implementación de los 28 controles armonizados (no iniciado, en curso, implementado, verificado, no aplicable). Verificado automáticamente cuando las métricas de prueba superan el umbral |
+| Controles | Estado de implementación de los 28 controles armonizados (no iniciado, en curso, implementado, verificado, no aplicable). Derivado automáticamente (véase abajo), con una marca Auto/Manual y el motivo |
 | Evaluaciones | Planes y ejecuciones de este sistema |
 | Evidencias | Evidencias derivadas de pruebas, cargadas y atestadas |
 | Informes | Informes y paquetes de evidencias generados |
 | Cambios y aprobaciones | Etapas de aprobación del despliegue, eventos de cambio |
+
+**Estado automático de los controles**: pestaña Controles
+
+Los estados de los controles ya no se fijan a mano. Se derivan en este orden y se actualizan cada vez que cambian pruebas, evidencias, documentos, riesgos o datos del sistema:
+
+1. No aplicable: controles que las respuestas de admisión descartan (HC-23 salvo en agentes, HC-25 salvo en alto riesgo, HC-26 sin datos personales o sensibles, HC-24 en modelos predictivos sin salida para usuarios, HC-07/08/21/22 en herramientas SaaS internas de uso general).
+2. Verificado: las pruebas vinculadas al control se superaron. Si la última prueba no alcanzó una métrica, o un cambio registrado exige repetir la prueba: en curso.
+3. Implementado: hay evidencia válida vinculada (de este sistema o de toda la organización, no vencida). HC-03 queda implementado con el registro y la clasificación en el inventario; HC-04 cuando todos los riesgos del registro se han evaluado (en curso mientras queden riesgos por evaluar).
+4. En curso: un documento de gobierno que cubre el control está en borrador o en revisión.
+5. En otro caso, no iniciado.
+
+Solo si no está de acuerdo, elija «Excepción: No aplicable / Implementado / En curso / No iniciado» en la columna Actualizar e indique un **motivo obligatorio**. Las excepciones se marcan como «Manual» y quedan en el registro de auditoría; volver a «Automático» deriva de nuevo el estado. Los estados cambiados a mano antes de la derivación automática se conservan con el motivo «Fijado manualmente antes del estado automático»; revíselos y vuelva a «Automático» cuando proceda.
 
 - Consejo: siempre que cambien la versión del modelo, los prompts, las herramientas o las fuentes de datos, registre un evento de cambio. Las evidencias derivadas de pruebas caducan y los controles vuelven a «en curso», lo que hace explícito el alcance de la nueva prueba.
 
@@ -170,6 +194,7 @@ Una vista de cartera de los riesgos en todos los sistemas. Los riesgos se clasif
 - El botón «Método de cálculo» en la parte superior derecha de la tarjeta del mapa de calor abre una ventana de referencia: qué riesgos se crean con qué L/S a partir de las respuestas de admisión (tipo de sistema, categoría del Reglamento de IA, cuatro indicadores de datos), la fórmula de la puntuación (L×1 + S×3) ÷ 20 × 100 y las bandas (≥ 80 crítico, 60–79 alto, 35–59 medio), las reglas de código/estado/responsable, los riesgos añadidos por hallazgos de prueba, proveedores e incidentes, y la fórmula del nivel del sistema.
 - Los riesgos creados automáticamente reciben un plazo por defecto según la puntuación (crítico 30 días, alto 45 días, otros 90 días). Los riesgos abiertos vencidos se resaltan en la columna Plazo («n días de retraso»), se listan en «Riesgos vencidos» en el panel y se crea automáticamente la tarea «Riesgo vencido R-xxxx» en Aprobaciones y tareas (se cierra al cerrar o aceptar el riesgo). Cambie la fecha con «Editar» en la columna Actualizar.
 - Los riesgos abiertos existentes sin plazo se completan automáticamente (misma regla, contada desde la fecha de creación) la primera vez que se abre el panel o el registro; `pnpm tsx scripts/backfill-risk-due-dates.ts` ejecuta el mismo relleno manualmente.
+- **Mitigaciones recomendadas**: los riesgos generados en la admisión incluyen una mitigación recomendada para su dimensión. Para los riesgos existentes sin ella, «Aplicar las mitigaciones recomendadas (n)» en la parte superior las rellena todas de una vez (los riesgos de hallazgos de prueba usan la recomendación del hallazgo). El campo de mitigación del editor también muestra la recomendación como sugerencia. Ajuste el texto a su situación y luego indique los L·S residuales.
 - Consejo: «aceptado» es una decisión de aceptación del riesgo; gestiónela junto con el registro de aprobación en Aprobaciones y tareas.
 
 ### 4.4 Marcos y controles
@@ -180,6 +205,8 @@ Bibliotecas de requisitos de ISO/IEC 42001 (92 requisitos), Ley de IA de la UE (
 - «Generar paquete de evidencias» abre el formulario de informe con el sistema y el marco preseleccionados.
 - La tabla de controles armonizados muestra qué cláusulas satisface cada control, qué métodos de prueba lo verifican y en cuántos sistemas está verificado.
 - Pase el ratón (o toque) sobre el nombre de un control (HC-xx) para ver los requisitos que cumple, agrupados por marco con número de cláusula y título. Funciona en la tabla de controles armonizados y en la pestaña «Controles» de un sistema; haga clic en el nombre del marco para abrirlo.
+- Los encabezados de capítulo o cláusula con subcláusulas (p. ej. ISO 42001 «4», NIST «GOVERN 1») se valoran a través de sus subcláusulas y quedan fuera de la cobertura. Los requisitos cuyos controles asignados son todos «no aplicable» se muestran como no aplicables y se excluyen del total.
+- No hay nada que mantener en esta pantalla: los estados de los controles se derivan automáticamente (4.2, «Estado automático de los controles») y las brechas se cierran siguiendo el botón «Siguiente» del sistema o la lista «Pendientes».
 - Consejo: el texto de los requisitos está en `docs/framework-control-library.md` y se convierte a JSON con un script. Edite el markdown, no el JSON.
 
 ### 4.5 Planes de evaluación (Evaluar y verificar)
@@ -194,6 +221,7 @@ Rellene las hojas B.1–B.5 del manual ARIA NIST AI 200-3. Un plan selecciona es
 | B.4 Infraestructura | Herramienta de anotación, herramienta de puntuación, Evaluation API / adaptador de destino |
 | B.5 Implementación | Muestras de red teamers, probadores usuarios y anotadores; recogida de datos (comité ético, consentimiento, almacenamiento); técnicas de análisis; resultados comunicados |
 
+- En la mayoría de los casos, la «Evaluación recomendada» del sistema (4.2) crea este plan por usted, así que no necesita redactarlo. El modo simple oculta este menú.
 - «Ejecutar este plan» en la página del plan abre el formulario de ejecución con los escenarios preseleccionados.
 - «Informe ARIA» convierte el plan y su última ejecución en un informe con formato B.1–B.5.
 - Consejo: para red teaming o user testing con personas, complete los apartados de comité ético/consentimiento de B.5 antes de ejecutar.
@@ -287,6 +315,7 @@ Redacte, someta a revisión y mantenga al día en un solo lugar los documentos d
 | 3. Aprobado · en vigor | Un revisor distinto del autor aprueba o devuelve con un comentario. La aprobación pone el documento en vigor, fija la próxima revisión (aprobación + ciclo) y crea una evidencia de la organización vinculada a los controles elegidos. | Revisor, aprobador, responsable de gobierno, admin |
 | 4. Revisión periódica · nueva versión | Desde 30 días antes de la revisión, el panel y una tarea lo recuerdan. Si no cambia, «Revisado: sin cambios» amplía un ciclo; si cambia, «Nueva versión» crea una revisión que vuelve a aprobarse. Al aprobarse, la versión anterior pasa a «Sustituida» en el historial. | Revisor / autor |
 
+- **Conjunto documental básico**: en la tarjeta «Conjunto documental básico» sobre la lista, «Crear n borrador(es)» crea seis borradores en el idioma actual de la interfaz: Política de IA (HC-01), Roles y responsabilidades en IA (RACI) (HC-02), Objetivos y plan de IA (HC-01, HC-19), Procedimiento de evaluación y tratamiento de riesgos de IA (HC-04), Normas de registros y control documental de IA (HC-12, ciclo de revisión de 24 meses) y Plan de formación en alfabetización en IA (HC-17). El nombre de su organización y su inventario de IA vienen precargados, así que solo tiene que sustituir los marcadores [ ] y solicitar la revisión. Los documentos existentes no se vuelven a crear, y la tarjeta muestra de un vistazo el estado de los seis.
 - **Vencimiento**: tras la fecha de revisión, el documento y su evidencia vencen y dejan de contar; se crea la tarea «Documento vencido» para el responsable.
 - **Segregación de funciones**: el autor (solicitante) no puede aprobar su propio documento. Un administrador puede, pero queda señalado «Autorrevisado».
 - **Retirar**: retirar un documento sustituye su evidencia y lo conserva como registro. Los borradores pueden eliminarse.

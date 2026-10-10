@@ -4,15 +4,16 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Boxes, ShieldAlert, Scale, FlaskConical, ClipboardList, Library, FolderCheck,
-  FileText, CheckSquare, Siren, BookOpen, Settings, Globe, Bot, Building2,
+  FileText, CheckSquare, Siren, BookOpen, Settings, Globe, Bot, Building2, ListTodo,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/client";
 import { canSeeNav } from "@/lib/permissions";
 import type { Role } from "@/generated/prisma/client";
+import { hiddenInMode, type UiMode } from "@/lib/ui-mode";
 
 const nav = [
-  { section: "Overview", items: [{ href: "/dashboard", label: "Dashboard", icon: LayoutDashboard }] },
+  { section: "Overview", items: [{ href: "/dashboard", label: "Dashboard", icon: LayoutDashboard }, { href: "/todo", label: "To-do", icon: ListTodo }] },
   {
     section: "Govern",
     items: [
@@ -48,7 +49,7 @@ const nav = [
   },
 ];
 
-export function Sidebar({ orgName, orgSlug, trustEnabled, role }: { orgName: string; orgSlug: string; trustEnabled: boolean; role: Role }) {
+export function Sidebar({ orgName, orgSlug, trustEnabled, role, mode, todoCount, urgent }: { orgName: string; orgSlug: string; trustEnabled: boolean; role: Role; mode: UiMode; todoCount: number; urgent: number }) {
   const pathname = usePathname();
   const { t } = useI18n();
   return (
@@ -61,7 +62,7 @@ export function Sidebar({ orgName, orgSlug, trustEnabled, role }: { orgName: str
         </div>
       </div>
       <nav className="flex-1 overflow-y-auto px-3 py-3 scroll-thin">
-        {nav.map((g) => ({ ...g, items: g.items.filter((i) => canSeeNav(role, i.href)) })).filter((g) => g.items.length).map((group) => (
+        {nav.map((g) => ({ ...g, items: g.items.filter((i) => canSeeNav(role, i.href) && !hiddenInMode(mode, i.href)) })).filter((g) => g.items.length).map((group) => (
           <div key={group.section} className="mb-4">
             <p className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-wider text-muted">{t(group.section)}</p>
             <ul className="space-y-0.5">
@@ -78,6 +79,7 @@ export function Sidebar({ orgName, orgSlug, trustEnabled, role }: { orgName: str
                     >
                       <item.icon className="h-4 w-4" />
                       {t(item.label)}
+                      {item.href === "/todo" && todoCount > 0 && <span className={cn("ml-auto rounded-full px-1.5 text-[10px] font-semibold tabular-nums", urgent ? "bg-danger text-white" : "bg-surface-2 text-muted")}>{todoCount}</span>}
                     </Link>
                   </li>
                 );

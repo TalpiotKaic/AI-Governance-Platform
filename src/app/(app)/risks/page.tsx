@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Pencil, Plus } from "lucide-react";
+import { Pencil, Plus, Wand2 } from "lucide-react";
 import { requireUser, userCan } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { PageHeader } from "@/components/ui/page-header";
@@ -14,6 +14,8 @@ import { OPEN_RISK_STATUSES, daysOverdue, ensureOverdueRiskTasks, isOverdue } fr
 import { ScoringHelp } from "./scoring-help";
 import { RiskEditor } from "./risk-editor";
 import { RiskSummary } from "./risk-summary";
+import { applyRecommendedMitigationsAction } from "./actions";
+import { recommendedMitigation } from "@/lib/risks/mitigations";
 
 export const metadata = { title: "Risk Register" };
 
@@ -41,6 +43,8 @@ export default async function RisksPage(props: PageProps<"/risks">) {
   await ensureOverdueRiskTasks(user.orgId);
   const risks = await db.risk.findMany({ where: { orgId: user.orgId, ...(dim ? { dimension: dim as never } : {}) }, orderBy: [{ score: "desc" }, { createdAt: "desc" }], include: { system: true, owner: true, finding: true } });
   const canWrite = userCan(user, "risks.write");
+  const withoutMitigation = canWrite ? await db.risk.count({ where: { orgId: user.orgId, status: { in: [...OPEN_RISK_STATUSES] }, OR: [{ mitigation: null }, { mitigation: "" }] } }) : 0;
+  const applied = str("applied");
   const total = dim ? await db.risk.count({ where: { orgId: user.orgId } }) : risks.length;
 
   // Heat map scope. Inherent view: open risks. Residual view: open + accepted (risk still carried).
@@ -63,7 +67,10 @@ export default async function RisksPage(props: PageProps<"/risks">) {
 
   return (
     <>
-      <PageHeader title={t("Risk Register")} description={t("Portfolio view of AI risks across systems. Dimensions follow Holistic-AI-style multi-dimensional assessment plus agent behaviour; HIGH/CRITICAL test findings register risks automatically with full traceability.")} actions={canWrite && <Link href="/risks/new"><Button><Plus className="h-4 w-4" /> {t("Add risk")}</Button></Link>} />
+      <PageHeader title={t("Risk Register")} description={t("Portfolio view of AI risks across systems. Dimensions follow Holistic-AI-style multi-dimensional assessment plus agent behaviour; HIGH/CRITICAL test findings register risks automatically with full traceability.")} actions={canWrite && <>
+        {withoutMitigation > 0 && <form action={applyRecommendedMitigationsAction.bind(null, ret)}><Button type="submit" variant="outline" title={t("Fills the mitigation of open risks that have none: the test finding's recommendation, or the recommended mitigation for the risk dimension. You can edit each one afterwards.")}><Wand2 className="h-4 w-4" /> {t("Apply recommended mitigations ({n})").replace("{n}", String(withoutMitigation))}</Button></form>}
+        <Link href="/risks/new"><Button><Plus className="h-4 w-4" /> {t("Add risk")}</Button></Link></>} />
+      {applied && <p className="mb-4 rounded-md border border-success/40 bg-success-soft px-3 py-2 text-sm text-success">{t("Recommended mitigation applied to {n} risk(s). Review the text, then record residual likelihood and severity.").replace("{n}", String(Number(applied) || 0))}</p>}
       <div className="mb-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Card><CardHeader className="flex-row items-start justify-between gap-2"><div><CardTitle>{t("Likelihood × Severity")}</CardTitle><CardDescription>{t("Count of risks per cell (severity weighted 3×)")}</CardDescription></div><ScoringHelp /></CardHeader><CardContent>
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
@@ -115,7 +122,7 @@ export default async function RisksPage(props: PageProps<"/risks">) {
                 <TD>{canWrite ? (editing ? <span className="text-xs text-primary">{t("Editing…")}</span> : <Link href={href({ edit: r.id })} scroll={false}><Button size="sm" variant="outline"><Pencil className="h-3.5 w-3.5" /> {t("Edit")}</Button></Link>) : <span className="text-xs text-muted">—</span>}</TD>
               </TR>,
               editing ? <TR key={`${r.id}-edit`}><TD colSpan={11} className="bg-surface">
-                <RiskEditor key={`${r.id}-${r.updatedAt.getTime()}`} id={r.id} status={r.status} likelihood={r.likelihood} severity={r.severity} residualLikelihood={r.residualLikelihood} residualSeverity={r.residualSeverity} residualScore={r.residualScore} dueDate={r.dueDate ? r.dueDate.toISOString().slice(0, 10) : ""} mitigation={r.mitigation ?? ""} ret={ret} cancelHref={href({})} />
+                <RiskEditor key={`${r.id}-${r.updatedAt.getTime()}`} id={r.id} status={r.status} likelihood={r.likelihood} severity={r.severity} residualLikelihood={r.residualLikelihood} residualSeverity={r.residualSeverity} residualScore={r.residualScore} dueDate={r.dueDate ? r.dueDate.toISOString().slice(0, 10) : ""} mitigation={r.mitigation ?? ""} suggestion={localizeRiskMitigation(locale, recommendedMitigation(r.dimension, r.finding?.recommendation))} ret={ret} cancelHref={href({})} />
               </TD></TR> : null,
             ];
           })}

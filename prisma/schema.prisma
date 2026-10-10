@@ -436,6 +436,9 @@ model ControlImplementation {
   systemId       String
   controlId      String
   status         ControlStatus @default(NOT_STARTED)
+  auto           Boolean       @default(true)   // false = manual exception set by a user (reason in notes)
+  autoReason     String?       // why the automatic status was derived (code, e.g. "test_pass", "evidence:2", "na_agent")
+  testStatus     ControlStatus?                 // latest test-derived result (VERIFIED / IN_PROGRESS), null if never tested
   ownerId        String?
   notes          String?
   lastVerifiedAt DateTime?
@@ -1049,6 +1052,7 @@ enum DocumentType {
 model Policy {
   id            String       @id @default(cuid())
   orgId         String
+  templateKey   String?      // set when created from the baseline document set
   title         String
   version       String       @default("1.0")
   status        PolicyStatus @default(DRAFT)

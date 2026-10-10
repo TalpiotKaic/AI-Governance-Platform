@@ -2,6 +2,7 @@
 // evidence, review-cycle monitoring, and the shared rule for which evidence counts towards coverage.
 import { db } from "@/lib/db";
 import type { DocumentType, Prisma } from "@/generated/prisma/client";
+import { syncControlStatuses } from "@/lib/controls/status";
 
 export const DOC_TYPES: DocumentType[] = ["POLICY", "PROCEDURE", "STANDARD", "ROLES", "OBJECTIVES", "PLAN", "RECORDS", "OTHER"];
 /** Controls a document type usually satisfies (pre-selected in the form; the author can change them). */
@@ -78,12 +79,15 @@ export async function ensureDocumentLifecycle(orgId: string): Promise<void> {
   }
   // 2) Expire documents past their review date, and their evidence
   const due = await db.policy.findMany({ where: { orgId, status: "ACTIVE", nextReviewDate: { lt: now } }, select: { id: true } });
+  let changed = legacy.length > 0 || due.length > 0;
   if (due.length) {
     await db.policy.updateMany({ where: { id: { in: due.map((d) => d.id) } }, data: { status: "EXPIRED" } });
     await db.evidence.updateMany({ where: { policyId: { in: due.map((d) => d.id) }, status: "VALID" }, data: { status: "EXPIRED" } });
   }
   // 3) Expire any evidence past its validity date
-  await db.evidence.updateMany({ where: { orgId, status: "VALID", validUntil: { lt: now } }, data: { status: "EXPIRED" } });
+  const expiredEv = await db.evidence.updateMany({ where: { orgId, status: "VALID", validUntil: { lt: now } }, data: { status: "EXPIRED" } });
+  changed = changed || expiredEv.count > 0;
+  if (changed) await syncControlStatuses(orgId);
   // 4) Review tasks
   const docs = await db.policy.findMany({ where: { orgId, status: { in: ["IN_REVIEW", "ACTIVE", "EXPIRED"] } }, select: { id: true, title: true, version: true, status: true, ownerId: true, nextReviewDate: true } });
   const open = await db.task.findMany({ where: { orgId, relatedType: "document", status: { in: ["OPEN", "IN_PROGRESS"] } }, select: { id: true, relatedId: true, title: true } });

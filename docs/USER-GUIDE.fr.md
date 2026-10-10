@@ -64,6 +64,8 @@ Les flèches en pointillé sont des rétroactions automatiques. Les constats HIG
 **Organisation de l'écran**
 
 - Barre latérale gauche : menus groupés en Vue d'ensemble, Gouverner, Évaluer & vérifier, Prouver, Administration et Public. Les menus affichés dépendent de votre rôle (chapitre 5).
+- **À faire** : « À faire » sous Vue d'ensemble dans la barre latérale rassemble ce que vous devez faire maintenant à partir de l'inventaire, des risques, des documents, des évaluations, des fournisseurs et des approbations, le plus urgent en premier (urgent, important, si possible). Le bouton de chaque élément ouvre l'écran où il se traite, et les éléments terminés disparaissent automatiquement. Le nombre à côté du menu indique les éléments ouverts (en rouge si quelque chose est urgent). Commencez ici dès que vous ne savez pas quoi faire ensuite.
+- **Mode simple / expert** : basculez avec « Simple | Expert » dans la barre supérieure. Le mode simple masque les menus Plans d'évaluation et Bibliothèque de tests ainsi que les boutons « Nouveau plan » / « Nouvelle évaluation » de la page du système ; les évaluations passent par l'« Évaluation recommandée » en un clic de chaque système. Les administrateurs et les testeurs démarrent en mode expert, tous les autres en mode simple ; le choix est conservé un an dans le navigateur. Les écrans masqués restent accessibles par URL.
 - Barre supérieure : type d'organisation (organisme de vérification / entreprise), sélecteur de langue, sélecteur de thème (clair / sombre / système — également sur la page de connexion et dans le menu mobile ; le choix est mémorisé par le navigateur), votre nom et rôle, déconnexion.
 - Corps : titre de page avec description et actions principales ; les pages de détail sont découpées en onglets (synthèse, métriques, constats, …).
 - Mobile : le bouton menu en haut à gauche ouvre les mêmes menus et le sélecteur de langue.
@@ -83,6 +85,7 @@ Les données de démonstration contiennent 5 systèmes d'IA (AIS-0001 à 0005), 
 
 **Un premier parcours de 30 minutes**
 
+0. Ouvrez « À faire » pour voir ce qu'il reste à faire (dans une nouvelle organisation, « Créer le jeu de documents de base » s'affiche).
 1. Sur le tableau de bord, regardez le score d'assurance par système et les constats ouverts.
 2. Dans l'Inventaire IA, ouvrez AIS-0001 (agent de service client) et parcourez les onglets Agent Card, Risques, Contrôles et Preuves.
 3. Dans les Exécutions d'évaluation, ouvrez une exécution terminée et examinez métriques, constats et dialogues de session.
@@ -98,6 +101,7 @@ Les menus sont décrits dans l'ordre de la barre latérale : finalité → organ
 Un écran pour la posture d'assurance IA de l'organisation. Six tuiles (systèmes d'IA, score d'assurance moyen, constats ouverts, risques ouverts, approbations en attente, preuves valides), un graphique des scores d'assurance par système, une tendance, les principaux constats ouverts, les risques par dimension et les exécutions récentes.
 
 - Règle de couleur : score d'assurance 80 et plus vert (bon), 60–79 orange (avertissement), moins de 60 rouge (insuffisant).
+- La carte « À faire » sous les tuiles affiche vos six éléments les plus urgents ; « Tout voir » ouvre la liste complète.
 - Conseil : pour la direction et les auditeurs, utilisez cet écran avec le rapport Passeport IA.
 
 ### 4.2 Inventaire IA
@@ -144,6 +148,14 @@ Lorsque les systèmes sont nombreux, enregistrez-les en une fois à partir du mo
 3. Téléverser → valider : chaque ligne est affichée Prête ou En erreur. Les lignes en erreur sont ignorées ; les doublons dans le fichier et les noms déjà enregistrés sont signalés.
 4. Confirmer : seules les lignes valides sont enregistrées. Chaque système reçoit, comme via le formulaire, son niveau d'admission, ses risques initiaux et son flux d'approbation ; l'import est consigné dans le journal d'audit.
 
+**Progression et étape suivante** : en haut de la page du système
+
+Chaque système affiche son chemin vers le déploiement sur une ligne : Enregistré → Fournisseurs & données → Risques évalués → Évalué → Contrôles satisfaits → Déploiement approuvé. Les étapes terminées reçoivent une coche, les étapes ouvertes un court détail (risques à évaluer, part des contrôles applicables satisfaits, …) ; à droite figurent le pourcentage d'avancement et un unique **bouton « Étape suivante: … »** qui ouvre l'écran de cette étape. Les outils SaaS internes à usage général (SaaS externe, pas face client, sans décision automatisée, pas à haut risque) sautent l'étape d'évaluation, qui est facultative pour eux. Les contrôles sont considérés comme satisfaits lorsqu'au moins 80 % des contrôles applicables sont mis en œuvre ou vérifiés.
+
+**Évaluation recommandée (en un clic)** : bouton « Évaluation recommandée » sur la page du système, carte « Évaluation recommandée » dans l'onglet Évaluations
+
+Les scénarios de la bibliothèque à exécuter sont choisis automatiquement à partir des réponses d'admission et du registre des risques. Qualité, sûreté, sécurité et robustesse (plus le comportement de l'agent pour les agents) forment la base ; l'équité s'ajoute en cas de décisions automatisées, de classement à haut risque, de sorties face client ou d'un risque d'équité ; la vie privée lorsque des données personnelles ou sensibles sont traitées ; la transparence pour les systèmes face client ou à risque limité. Les scénarios importés et le user testing sont exclus (construisez un plan à la main en mode expert si vous en avez besoin). Le bouton crée le plan d'évaluation (B.1–B.5 renseignées ; un plan par système, actualisé à chaque utilisation) et ouvre le formulaire d'exécution avec ce plan sélectionné. Choisissez DEMO ou LIVE et cliquez sur « Lancer l'évaluation ».
+
 **Onglets de la page de détail**
 
 | Onglet | Contenu |
@@ -151,11 +163,23 @@ Lorsque les systèmes sont nombreux, enregistrez-les en une fois à partir du mo
 | Vue d'ensemble | Données de base, modèles, jeux de données et fournisseurs, score d'assurance, nouveau test requis ou non |
 | Agent Card | Niveau de risque, drapeau autorisé, approbation requise et permissions par outil. Les outils non autorisés sont bloqués pendant l'évaluation et consignés comme constats en cas de tentative |
 | Risques | Risques et scores de ce système |
-| Contrôles | Statut de mise en œuvre des 28 contrôles harmonisés (non commencé, en cours, mis en œuvre, vérifié, non applicable). Vérifié automatiquement quand les métriques de test réussissent |
+| Contrôles | Statut de mise en œuvre des 28 contrôles harmonisés (non commencé, en cours, mis en œuvre, vérifié, non applicable). Déduit automatiquement (voir ci-dessous), affiché avec un indicateur Auto/Manuel et le motif |
 | Évaluations | Plans et exécutions de ce système |
 | Preuves | Preuves issues des tests, téléversées et attestées |
 | Rapports | Rapports et dossiers de preuves générés |
 | Changements & approbations | Étapes d'approbation du déploiement, événements de changement |
+
+**Statut automatique des contrôles** : onglet Contrôles
+
+Vous ne définissez plus le statut des contrôles à la main. Il est déduit dans cet ordre et actualisé dès que les tests, les preuves, les documents, les risques ou les informations du système changent :
+
+1. Non applicable : contrôles exclus par les réponses d'admission (HC-23 sauf pour un agent, HC-25 sauf haut risque, HC-26 sans données personnelles ou sensibles, HC-24 pour les modèles prédictifs sans sortie destinée aux utilisateurs, HC-07/08/21/22 pour les outils SaaS internes à usage général).
+2. Vérifié : les tests liés au contrôle ont réussi. Si le dernier test a manqué une métrique, ou si un changement enregistré exige un nouveau test : en cours.
+3. Mis en œuvre : une preuve valide (de ce système ou de l'organisation, non expirée) est liée. HC-03 est mis en œuvre par l'enregistrement et la classification dans l'inventaire ; HC-04 dès que chaque risque du registre a été évalué (en cours tant que des risques restent à évaluer).
+4. En cours : un document de gouvernance couvrant le contrôle est en brouillon ou en revue.
+5. Sinon : non commencé.
+
+Uniquement en cas de désaccord, choisissez « Exception: Non applicable / Mis en œuvre / En cours / Non commencé » dans la colonne Mise à jour et saisissez un **motif obligatoire**. Les exceptions sont marquées « Manuel » et journalisées ; revenir à « Automatique » recalcule le statut. Les statuts modifiés à la main avant la déduction automatique sont conservés avec le motif « Défini manuellement avant le statut automatique » ; vérifiez-les et repassez-les en « Automatique » le cas échéant.
 
 - Conseil : à chaque changement de version du modèle, de prompts, d'outils ou de sources de données, enregistrez un événement de changement. Les preuves issues des tests expirent et les contrôles reviennent « en cours », ce qui rend explicite le périmètre du nouveau test.
 
@@ -170,6 +194,7 @@ Une vue portefeuille des risques sur tous les systèmes. Les risques sont class�
 - Le bouton « Méthode de calcul » en haut à droite de la carte de chaleur ouvre une fenêtre de référence : quels risques sont créés avec quels L/S à partir des réponses d'admission (type de système, catégorie du règlement IA, quatre indicateurs de données), la formule du score (L×1 + S×3) ÷ 20 × 100 et les paliers (≥ 80 critique, 60–79 élevé, 35–59 moyen), les règles de code/statut/responsable, les risques ajoutés par les constats de test, les fournisseurs et les incidents, et la formule du niveau du système.
 - Les risques créés automatiquement reçoivent une échéance par défaut selon le score (critique 30 jours, élevé 45 jours, autres 90 jours). Les risques ouverts en retard sont mis en évidence dans la colonne Échéance (« n jours de retard »), listés sous « Risques en retard » sur le tableau de bord, et une tâche « Risque en retard R-xxxx » est créée automatiquement dans Approbations & tâches (close quand le risque est clos ou accepté). Modifiez la date via « Modifier » dans la colonne Mise à jour.
 - Les risques ouverts existants sans échéance sont complétés automatiquement (même règle, à compter de la date de création) à la première ouverture du tableau de bord ou du registre ; `pnpm tsx scripts/backfill-risk-due-dates.ts` exécute le même remplissage manuellement.
+- **Atténuations recommandées** : les risques générés à l'admission reçoivent une atténuation recommandée pour leur dimension. Pour les risques existants qui n'en ont pas, « Appliquer les atténuations recommandées (n) » en haut les complète tous d'un coup (les risques issus de constats de test reprennent la recommandation du constat). Le champ atténuation de l'éditeur affiche aussi la recommandation comme indication. Adaptez le texte à votre situation, puis saisissez les L·S résiduels.
 - Conseil : « accepté » est une décision d'acceptation du risque ; gérez-la avec l'enregistrement d'approbation dans Approbations & tâches.
 
 ### 4.4 Référentiels & contrôles
@@ -180,6 +205,8 @@ Bibliothèques d'exigences ISO/IEC 42001 (92 exigences), Règlement IA de l'UE (
 - « Générer un dossier de preuves » ouvre le formulaire de rapport avec le système et le référentiel présélectionnés.
 - La table des contrôles harmonisés montre quelles clauses chaque contrôle satisfait, quelles méthodes de test le vérifient et dans combien de systèmes il est vérifié.
 - Survolez (ou touchez) le nom d'un contrôle (HC-xx) pour voir les exigences qu'il satisfait, groupées par référentiel avec numéro de clause et titre. Cela fonctionne dans le tableau des contrôles harmonisés et dans l'onglet « Contrôles » d'un système ; cliquez sur le nom du référentiel pour l'ouvrir.
+- Les titres de chapitre ou de clause comportant des sous-clauses (p. ex. ISO 42001 « 4 », NIST « GOVERN 1 ») sont évalués via leurs sous-clauses et exclus de la couverture. Les exigences dont tous les contrôles associés sont « non applicable » s'affichent comme non applicables et sont exclues du total.
+- Rien n'est à maintenir sur cet écran : les statuts des contrôles sont déduits automatiquement (4.2, « Statut automatique des contrôles »), et les lacunes se comblent en suivant le bouton « Étape suivante » du système ou la liste « À faire ».
 - Conseil : le texte des exigences se trouve dans `docs/framework-control-library.md` et est converti en JSON par un script. Modifiez le markdown, pas le JSON.
 
 ### 4.5 Plans d'évaluation (Évaluer & vérifier)
@@ -194,6 +221,7 @@ Remplissez les feuilles de travail B.1–B.5 du manuel ARIA NIST AI 200-3. Un pl
 | B.4 Infrastructure | Outil d'annotation, outil de notation, Evaluation API / adaptateur cible |
 | B.5 Mise en œuvre | Échantillons de red teamers, testeurs utilisateurs et annotateurs ; collecte des données (comité d'éthique, consentement, stockage) ; techniques d'analyse ; résultats rapportés |
 
+- Dans la plupart des cas, l'« Évaluation recommandée » du système (4.2) crée ce plan pour vous ; inutile d'en rédiger un. Le mode simple masque ce menu.
 - « Exécuter ce plan » sur la page du plan ouvre le formulaire d'exécution avec les scénarios présélectionnés.
 - « Rapport ARIA » transforme le plan et sa dernière exécution en rapport au format B.1–B.5.
 - Conseil : pour le red teaming ou le user testing avec des personnes, remplissez les items comité d'éthique/consentement de B.5 avant d'exécuter.
@@ -287,6 +315,7 @@ Rédigez, faites revoir et tenez à jour en un seul endroit les documents de gou
 | 3. Approuvé · en vigueur | Un réviseur autre que l'auteur approuve ou renvoie avec un commentaire. L'approbation met le document en vigueur, fixe la prochaine revue (approbation + cycle) et crée une preuve de l'organisation liée aux contrôles choisis. | Réviseur, approbateur, responsable de la gouvernance, admin |
 | 4. Revue périodique · révision | À partir de 30 jours avant la revue, le tableau de bord et une tâche le rappellent. Sans changement, « Revu — sans changement » prolonge d'un cycle ; sinon « Nouvelle version » crée une révision soumise à revue. Une fois approuvée, la version précédente devient « Remplacée » dans l'historique. | Réviseur / auteur |
 
+- **Jeu de documents de base** : sur la carte « Jeu de documents de base » au-dessus de la liste, « Créer n brouillon(s) » crée six brouillons dans la langue actuelle de l'interface : Politique d'IA (HC-01), Rôles et responsabilités en matière d'IA (RACI) (HC-02), Objectifs et plan en matière d'IA (HC-01, HC-19), Procédure d'évaluation et de traitement des risques liés à l'IA (HC-04), Règles de gestion des enregistrements et de maîtrise des documents d'IA (HC-12, cycle de revue de 24 mois) et Plan de formation à la maîtrise de l'IA (HC-17). Le nom de votre organisation et votre inventaire IA sont pré-remplis : il suffit de remplacer les espaces réservés [ ] et de demander la revue. Les documents existants ne sont pas recréés, et la carte montre d'un coup d'œil le statut des six.
 - **Expiration** : après la date de revue, le document et sa preuve expirent et sortent de la couverture ; une tâche « Document expiré » est créée pour le responsable.
 - **Séparation des tâches** : l'auteur (demandeur) ne peut pas approuver son propre document. Un administrateur le peut, mais c'est signalé « Auto-revu ».
 - **Retrait** : retirer un document remplace sa preuve et le conserve pour mémoire. Les brouillons peuvent être supprimés.

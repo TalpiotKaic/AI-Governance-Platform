@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { defaultDueDate } from "@/lib/risks/due";
+import { syncControlStatuses } from "@/lib/controls/status";
 import { decryptSecret } from "@/lib/crypto";
 import { createTargetAdapter } from "./adapters";
 import { createJudges, mergeJudgeResults } from "./judge";
@@ -251,11 +252,12 @@ export async function executeRun(runId: string) {
     for (const controlId of controlIds) {
       await db.controlImplementation.upsert({
         where: { systemId_controlId: { systemId: run.systemId, controlId } },
-        create: { systemId: run.systemId, controlId, status: allPass ? "VERIFIED" : "IN_PROGRESS", lastVerifiedAt: allPass ? new Date() : null, notes: `Evidence ${ev.title}` },
-        update: { status: allPass ? "VERIFIED" : "IN_PROGRESS", lastVerifiedAt: allPass ? new Date() : undefined },
+        create: { systemId: run.systemId, controlId, testStatus: allPass ? "VERIFIED" : "IN_PROGRESS", lastVerifiedAt: allPass ? new Date() : null, notes: `Evidence ${ev.title}` },
+        update: { testStatus: allPass ? "VERIFIED" : "IN_PROGRESS", lastVerifiedAt: allPass ? new Date() : undefined, notes: `Evidence ${ev.title}` },
       });
     }
   }
+  await syncControlStatuses(run.orgId, [run.systemId]);
   await db.auditLog.create({ data: { orgId: run.orgId, actorId: run.createdById, action: "run.completed", entityType: "EvaluationRun", entityId: runId, summary: `${run.code} completed with verdict ${verdict}, assurance score ${score}` } });
 }
 
