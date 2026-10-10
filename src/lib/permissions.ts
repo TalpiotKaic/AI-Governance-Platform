@@ -19,6 +19,7 @@ export const PERMISSIONS = [
   "tasks.write",
   "incidents.write",
   "policies.write",
+  "policies.review",    // review / approve governance documents (never one's own unless admin)
   "settings.view",
   "settings.manage",    // users, roles, credentials, organisation
   "audit.view",
@@ -30,9 +31,9 @@ export const ROLES: Role[] = ["ADMIN", "GOVERNANCE_OWNER", "APPROVER", "REVIEWER
 const ALL = [...PERMISSIONS] as Permission[];
 export const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
   ADMIN: ALL,
-  GOVERNANCE_OWNER: ["systems.write", "systems.delete", "risks.write", "plans.write", "evaluations.run", "evidence.write", "reports.generate", "approvals.decide", "tasks.write", "incidents.write", "policies.write", "settings.view", "audit.view"],
-  APPROVER: ["reports.approve", "reports.review", "approvals.decide", "tasks.write", "incidents.write", "audit.view"],
-  REVIEWER: ["evaluations.annotate", "reports.review", "approvals.decide", "tasks.write", "incidents.write", "audit.view"],
+  GOVERNANCE_OWNER: ["systems.write", "systems.delete", "risks.write", "plans.write", "evaluations.run", "evidence.write", "reports.generate", "approvals.decide", "tasks.write", "incidents.write", "policies.write", "policies.review", "settings.view", "audit.view"],
+  APPROVER: ["reports.approve", "reports.review", "approvals.decide", "policies.review", "tasks.write", "incidents.write", "audit.view"],
+  REVIEWER: ["evaluations.annotate", "reports.review", "approvals.decide", "policies.review", "tasks.write", "incidents.write", "audit.view"],
   TESTER: ["systems.write", "risks.write", "plans.write", "evaluations.run", "evaluations.annotate", "evidence.write", "reports.generate", "tasks.write", "incidents.write"],
   VIEWER: [],
 };
@@ -58,6 +59,7 @@ export const ROUTE_PERMISSION: { prefix: string; perm: Permission }[] = [
   { prefix: "/systems/new", perm: "systems.write" },
   { prefix: "/systems/import", perm: "systems.write" },
   { prefix: "/library/import", perm: "plans.write" },
+  { prefix: "/policies/new", perm: "policies.write" },
   { prefix: "/risks/new", perm: "risks.write" },
   { prefix: "/plans/new", perm: "plans.write" },
   { prefix: "/evaluations/new", perm: "evaluations.run" },

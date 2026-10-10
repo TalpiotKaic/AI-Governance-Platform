@@ -12,7 +12,7 @@ import { ThemeToggle } from "./theme-toggle";
 const links = [
   ["/dashboard", "Dashboard"], ["/systems", "AI Inventory"], ["/vendors", "Vendors & Datasets"], ["/risks", "Risk Register"], ["/frameworks", "Frameworks & Controls"],
   ["/plans", "Evaluation Plans"], ["/evaluations", "Evaluation Runs"], ["/library", "Test Library"], ["/evidence", "Evidence Center"],
-  ["/reports", "Reports & Packs"], ["/approvals", "Approvals & Tasks"], ["/incidents", "Incidents"], ["/policies", "Policies"], ["/settings", "Settings"],
+  ["/reports", "Reports & Packs"], ["/approvals", "Approvals & Tasks"], ["/incidents", "Incidents"], ["/policies", "Policies & documents"], ["/settings", "Settings"],
 ];
 
 export function MobileNav({ role }: { role: Role }) {

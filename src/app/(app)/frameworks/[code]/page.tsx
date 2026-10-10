@@ -11,6 +11,7 @@ import { Select } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { getI18n } from "@/lib/i18n/server";
 import { localizeControl, localizeFramework, localizeRequirement } from "@/lib/i18n/content";
+import { validEvidenceWhere } from "@/lib/documents";
 
 import type { FrameworkCode } from "@/generated/prisma/client";
 import { FRAMEWORK_PACK_TYPE } from "@/lib/reports/service";
@@ -26,10 +27,14 @@ export default async function FrameworkDetailPage(props: PageProps<"/frameworks/
   const systems = await db.aiSystem.findMany({ where: { orgId: user.orgId }, orderBy: { code: "asc" } });
   const systemId = typeof sp.systemId === "string" ? sp.systemId : systems[0]?.id;
   const impls = systemId ? await db.controlImplementation.findMany({ where: { systemId } }) : [];
-  const evidenceLinks = systemId ? await db.evidenceLink.findMany({ where: { evidence: { systemId, status: "VALID" } }, select: { controlId: true, requirementId: true } }) : [];
+  const evidenceLinks = systemId ? await db.evidenceLink.findMany({ where: { evidence: validEvidenceWhere(user.orgId, systemId) }, select: { controlId: true, requirementId: true } }) : [];
   const implByControl = new Map(impls.map((i) => [i.controlId, i.status]));
   const evCountByControl = new Map<string, number>();
-  for (const l of evidenceLinks) if (l.controlId) evCountByControl.set(l.controlId, (evCountByControl.get(l.controlId) ?? 0) + 1);
+  const evCountByReq = new Map<string, number>();
+  for (const l of evidenceLinks) {
+    if (l.controlId) evCountByControl.set(l.controlId, (evCountByControl.get(l.controlId) ?? 0) + 1);
+    if (l.requirementId) evCountByReq.set(l.requirementId, (evCountByReq.get(l.requirementId) ?? 0) + 1);
+  }
   const categories = [...new Set(fw.requirements.map((r) => r.category ?? t("General")))];
   let total = 0, covered = 0, partial = 0;
   const statusFor = (r: (typeof fw.requirements)[number]) => {
@@ -38,7 +43,7 @@ export default async function FrameworkDetailPage(props: PageProps<"/frameworks/
     total++;
     if (!cs.length) return "UNMAPPED";
     const sts = cs.map((c) => implByControl.get(c.id) ?? "NOT_STARTED");
-    const ev = cs.reduce((n, c) => n + (evCountByControl.get(c.id) ?? 0), 0);
+    const ev = cs.reduce((n, c) => n + (evCountByControl.get(c.id) ?? 0), 0) + (evCountByReq.get(r.id) ?? 0);
     const ok = sts.every((s) => s === "VERIFIED" || s === "IMPLEMENTED" || s === "NOT_APPLICABLE");
     if (ok && ev > 0) { covered++; return "COVERED"; }
     if (sts.some((s) => s !== "NOT_STARTED") || ev > 0) { partial++; return "PARTIAL"; }

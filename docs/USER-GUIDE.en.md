@@ -252,6 +252,7 @@ The store of every artefact that proves something. There are three kinds.
 | UPLOADED | Document files such as policies, DPIAs, model cards | Optional valid-until date |
 | ATTESTATION | A human statement recorded without a file | Optional valid-until date |
 
+- **Organisation-wide evidence**: evidence registered without a system, and documents approved in Policies & documents, count for every system. Evidence past its validity date expires automatically and drops out of coverage; evidence expiring within 30 days is shown on the dashboard. Write and approve governance documents (policies, procedures, roles) in Policies & documents, not here.
 - "Add evidence": choose the type (22 types: model card, risk assessment, DPIA, red-team report, audit report, …), system (leave blank for organisation-level), validity, description, file, and **link to harmonized controls**.
 - Evidence linked to controls is reused automatically in the ISO/IEC 42001, EU AI Act, NIST AI RMF and KR AI Basic Act packs.
 - On the detail page, change status (valid, expired, superseded) and link further controls.
@@ -275,13 +276,22 @@ Generate eight report types from platform records (runs, risks, controls, eviden
 - The report page offers print view, PDF download and JSON export.
 - Tip: for external submission use only reports in "issued" status. Only issued reports appear in the AI Trust Center.
 
-### 4.10 Policies
+### 4.10 Policies & documents
 
-The AI policy library (ISO/IEC 42001 cl. 5.2, A.2.2) and internal standards. **Activating** a policy records versioned policy evidence linked to HC-01 (AI policy and governance control).
+Write, review and keep current the organisation-level governance documents in one place: policies, procedures, standards, roles and responsibilities, objectives and plans, resource and management-review plans, and records and document-control rules. Approved documents are published automatically as **organisation-wide evidence** that counts towards framework coverage for every AI system, and they expire automatically when their review date passes. System-specific documents (DPIA, model card…) and activity records such as test results or training records go in the Evidence Center.
 
-- Templates: AI Policy, Risk Assessment Procedure, Agent Tool-Use Standard, Change-triggered Re-evaluation, Incident Communication Plan.
-- Status: draft → active → retired. Only Governance Owners and Admins can create or activate.
-- Tip: for long policies keep a summary here and upload the full text to the Evidence Center linked to HC-01.
+| Step | What happens | Who |
+|---|---|---|
+| 1. Draft | In "New document", set the type, version and review cycle (3/6/12/24 months); write the body in Markdown (# headings, - lists, \| tables \|) and/or attach the signed file (MD, TXT, PDF, DOCX, HWP…, max 10 MB). Suggested controls are pre-selected by type (e.g. roles and responsibilities → HC-02). | Governance owner, admin |
+| 2. Review request | Requires body text or a file. A "Document review requested" task appears in Approvals & Tasks. | Author |
+| 3. Approved · in force | A reviewer other than the author approves it, or returns it with a comment. Approval puts it in force, sets the next review date (approval date + cycle) and creates organisation-wide evidence linked to the selected controls. | Reviewer, approver, governance owner, admin |
+| 4. Periodic review · revision | From 30 days before the review date, the dashboard and a task remind the owner. If nothing changed, "Reviewed — no change" extends validity by one cycle; otherwise "New version" creates a revision that goes through review again. When it is approved the previous version becomes "Superseded" in the history. | Reviewer / author |
+
+- **Expiry**: after the review date the document and its evidence expire and drop out of coverage; a "Document expired" task is created for the owner.
+- **Segregation of duties**: the author (submitter) cannot approve their own document. An administrator may, but it is flagged "Self-reviewed".
+- **Retire**: retiring a document supersedes its evidence and keeps it for the record. Drafts can be deleted.
+- The tiles above the list (in force, awaiting review, review due within 30 days, expired, drafts) and the filters show the status; the dashboard card "Governance documents & evidence validity" shows the same.
+- Tip: attach the signed original (PDF) and put the key content in the body so auditors can read it on screen.
 
 ### 4.11 Approvals & Tasks
 
@@ -346,7 +356,8 @@ Access is a **capability matrix**, not a role hierarchy. Reviewers and Approvers
 | Decide deployment / risk-acceptance approvals | ● | ● | ● | ● | | |
 | Create / update tasks | ● | ● | ● | ● | ● | |
 | Report / update incidents | ● | ● | ● | ● | ● | |
-| Create / activate policies | ● | ● | | | | |
+| Write documents, request review, revise or retire | ● | ● | | | | |
+| Review and approve documents (not one's own) | ● | ● | ● | ● | | |
 | View settings | ● | ● | | | | |
 | Manage users, roles, credentials, organisation | ● | | | | | |
 | View audit trail | ● | ● | ● | ● | | |

@@ -840,6 +840,7 @@ model Evidence {
   status      EvidenceStatus @default(VALID)
   validFrom   DateTime       @default(now())
   validUntil  DateTime?
+  policyId    String?        // set when the evidence was published from a managed document
   createdById String?
   createdAt   DateTime       @default(now())
 
@@ -1026,8 +1027,23 @@ model Incident {
 
 enum PolicyStatus {
   DRAFT
+  IN_REVIEW
   ACTIVE
+  EXPIRED
+  SUPERSEDED
   RETIRED
+}
+
+/// Organisation-level governance document types managed in "Policies & documents".
+enum DocumentType {
+  POLICY
+  PROCEDURE
+  STANDARD
+  ROLES
+  OBJECTIVES
+  PLAN
+  RECORDS
+  OTHER
 }
 
 model Policy {
@@ -1036,14 +1052,32 @@ model Policy {
   title         String
   version       String       @default("1.0")
   status        PolicyStatus @default(DRAFT)
-  content       String?
+  content       String?      // document body (Markdown / plain text)
   effectiveDate DateTime?
   ownerId       String?
+  docType           DocumentType @default(POLICY)
+  controlCodes      String[]     @default([])   // harmonized controls this document satisfies (HC-xx)
+  reviewCycleMonths Int          @default(12)
+  nextReviewDate    DateTime?
+  lastReviewedAt    DateTime?
+  submittedById     String?
+  submittedAt       DateTime?
+  approvedById      String?
+  approvedAt        DateTime?
+  selfApproved      Boolean      @default(false)
+  reviewComment     String?
+  fileName          String?
+  mimeType          String?
+  sha256            String?
+  evidenceId        String?      // evidence published when the document was approved
+  previousId        String?      // earlier version this revision replaces
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 
   org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
   owner User?        @relation(fields: [ownerId], references: [id])
+
+  @@index([orgId, status])
 }
 
 // Change events drive re-test triggers (model/prompt/tool/data changes invalidate prior evidence)

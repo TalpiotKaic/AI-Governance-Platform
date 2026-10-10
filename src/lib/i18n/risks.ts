@@ -37,6 +37,10 @@ export function localizeTaskTitle(locale: Locale, title: string): string {
   if (locale === "en") return title;
   const m = title.match(/^Overdue risk (R-\d+): (.+)$/);
   if (m) return fill(translate(locale, "Overdue risk {code}: {title}"), { code: m[1], title: localizeRiskTitle(locale, m[2]) });
+  for (const key of ["Document review requested: {title}", "Document review due: {title}", "Document expired: {title}"]) {
+    const prefix = key.replace("{title}", "");
+    if (title.startsWith(prefix)) return fill(translate(locale, key), { title: title.slice(prefix.length) });
+  }
   return title;
 }
 

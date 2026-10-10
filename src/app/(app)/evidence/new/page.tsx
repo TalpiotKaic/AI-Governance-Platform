@@ -7,6 +7,7 @@ import { Field, Input, Select, Textarea } from "@/components/ui/input";
 import { getI18n } from "@/lib/i18n/server";
 import { localizeControl } from "@/lib/i18n/content";
 
+import Link from "next/link";
 import { createEvidenceAction } from "../actions";
 
 const TYPES = ["MODEL_CARD", "AGENT_CARD", "RISK_ASSESSMENT", "IMPACT_ASSESSMENT", "DPIA", "BIAS_FAIRNESS_REPORT", "ROBUSTNESS_TEST_REPORT", "SECURITY_ASSESSMENT", "RED_TEAM_REPORT", "USER_TESTING_REPORT", "EVALUATION_METRICS", "EVALUATION_PLAN", "TEST_REPORT", "HUMAN_OVERSIGHT_PLAN", "POST_MARKET_MONITORING_PLAN", "AUDIT_REPORT", "CONFORMITY_ASSESSMENT", "POLICY_DOCUMENT", "APPROVAL_RECORD", "INCIDENT_RECORD", "TRAINING_RECORD", "VENDOR_ASSESSMENT", "OTHER"];
@@ -20,6 +21,7 @@ export default async function NewEvidencePage(props: PageProps<"/evidence/new">)
   return (
     <>
       <PageHeader title={t("Add evidence")} crumbs={[{ label: "Evidence Center", href: "/evidence" }, { label: "New" }]} description={t("Upload a document or record an attestation and link it to harmonized controls so it is reused across every framework pack.")} />
+      <p className="mb-4 rounded-md border border-info/30 bg-info-soft/60 px-3 py-2 text-sm">{t("Organisation-wide governance documents (policies, procedures, roles and responsibilities, objectives, plans, records rules) are written and approved in")} <Link href="/policies" className="font-medium text-primary hover:underline">{t("Policies & documents")}</Link>{t(". They are published here automatically. Use this form for activity records and system-specific documents: test reports, training records, DPIAs, model cards, minutes, vendor contracts.")}</p>
       <Card><CardContent className="pt-5"><form action={createEvidenceAction} className="grid grid-cols-1 gap-4 md:grid-cols-2" encType="multipart/form-data">
         <Field label={t("Title")} className="md:col-span-2"><Input name="title" required /></Field>
         <Field label={t("Evidence type")}><Select name="type" defaultValue="POLICY_DOCUMENT">{TYPES.map((t) => <option key={t} value={t}>{L(t)}</option>)}</Select></Field>

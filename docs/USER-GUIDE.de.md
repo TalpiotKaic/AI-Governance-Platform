@@ -252,6 +252,7 @@ Der Speicher für jedes Artefakt, das etwas belegt. Es gibt drei Arten.
 | UPLOADED | Dokumentdateien wie Richtlinien, DSFA, Model Cards | Optionales Gültig-bis-Datum |
 | ATTESTATION | Eine menschliche Erklärung ohne Datei | Optionales Gültig-bis-Datum |
 
+- **Organisationsweite Nachweise**: Nachweise ohne System sowie unter Richtlinien & Dokumente freigegebene Dokumente zählen für jedes System. Nachweise nach Ablauf ihrer Gültigkeit laufen automatisch ab und zählen nicht mehr; in 30 Tagen ablaufende Nachweise zeigt das Dashboard. Governance-Dokumente (Richtlinien, Verfahren, Rollen) werden unter Richtlinien & Dokumente erstellt und freigegeben, nicht hier.
 - „Nachweis hinzufügen“: Typ wählen (22 Typen: Model Card, Risikobewertung, DSFA, Red-Team-Bericht, Auditbericht, …), System (leer für Organisationsebene), Gültigkeit, Beschreibung, Datei, und **mit harmonisierten Kontrollen verknüpfen**.
 - Mit Kontrollen verknüpfte Nachweise werden automatisch in den Paketen ISO/IEC 42001, EU-KI-Verordnung, NIST AI RMF und KR-KI-Grundgesetz wiederverwendet.
 - Auf der Detailseite Status (gültig, abgelaufen, ersetzt) ändern und weitere Kontrollen verknüpfen.
@@ -275,13 +276,22 @@ Acht Berichtstypen aus Plattformdaten (Läufe, Risiken, Kontrollen, Nachweise) e
 - Die Berichtsseite bietet Druckansicht, PDF-Download und JSON-Export.
 - Tipp: Für externe Einreichungen nur Berichte im Status „ausgestellt“ verwenden. Nur ausgestellte Berichte erscheinen im KI-Trust-Center.
 
-### 4.10 Richtlinien
+### 4.10 Richtlinien & Dokumente
 
-Die KI-Richtlinienbibliothek (ISO/IEC 42001 Abschnitt 5.2, A.2.2) und interne Standards. Das **Aktivieren** einer Richtlinie erzeugt einen versionierten Richtliniennachweis, verknüpft mit HC-01 (KI-Richtlinie und Governance).
+Organisationsweite Governance-Dokumente an einem Ort erstellen, prüfen und aktuell halten: Richtlinien, Verfahren, Standards, Rollen und Verantwortlichkeiten, Ziele und Pläne, Ressourcen- und Managementbewertungspläne sowie Regeln für Aufzeichnungen und Dokumentenlenkung. Freigegebene Dokumente werden automatisch als **organisationsweiter Nachweis** veröffentlicht, der für jedes KI-System zur Abdeckung zählt, und laufen nach dem Prüftermin automatisch ab. Systembezogene Dokumente (DSFA, Modellkarte…) und Tätigkeitsnachweise wie Testergebnisse oder Schulungen gehören ins Nachweiszentrum.
 
-- Vorlagen: KI-Richtlinie, Risikobewertungsverfahren, Standard für Werkzeugnutzung durch Agenten, änderungsausgelöste Neubewertung, Kommunikationsplan bei Vorfällen.
-- Status: Entwurf → aktiv → zurückgezogen. Nur Governance-Verantwortliche und Administratoren können erstellen oder aktivieren.
-- Tipp: Bei langen Richtlinien hier eine Zusammenfassung halten und den Volltext im Nachweiszentrum hochladen, verknüpft mit HC-01.
+| Schritt | Ablauf | Wer |
+|---|---|---|
+| 1. Entwurf | Unter „Neues Dokument“ Typ, Version und Prüfzyklus (3/6/12/24 Monate) festlegen; Text in Markdown schreiben (# Überschriften, - Listen, \| Tabellen \|) und/oder die unterschriebene Datei anhängen (MD, TXT, PDF, DOCX, HWP…, max. 10 MB). Empfohlene Kontrollen sind je Typ vorausgewählt (z. B. Rollen → HC-02). | Governance-Verantwortlicher, Admin |
+| 2. Prüfanfrage | Erfordert Text oder Datei. Unter Freigaben & Aufgaben entsteht die Aufgabe „Dokumentprüfung angefordert“. | Autor |
+| 3. Freigegeben · in Kraft | Eine andere Person als der Autor gibt frei oder weist mit Kommentar zurück. Die Freigabe setzt das Dokument in Kraft, legt den nächsten Prüftermin fest (Freigabe + Zyklus) und erzeugt einen organisationsweiten Nachweis für die gewählten Kontrollen. | Prüfer, Freigeber, Governance-Verantwortlicher, Admin |
+| 4. Regelmäßige Prüfung · Revision | Ab 30 Tagen vor dem Prüftermin erinnern Dashboard und Aufgabe. Unverändert: „Geprüft – unverändert“ verlängert um einen Zyklus; sonst erzeugt „Neue Version“ eine Revision mit erneuter Prüfung. Nach deren Freigabe wird die Vorversion im Verlauf „ersetzt“. | Prüfer / Autor |
+
+- **Ablauf**: Nach dem Prüftermin laufen Dokument und Nachweis ab und zählen nicht mehr; der Verantwortliche erhält die Aufgabe „Dokument abgelaufen“.
+- **Funktionstrennung**: Der Autor (Einreicher) kann sein eigenes Dokument nicht freigeben. Ein Administrator darf es, es wird aber als „Selbst geprüft“ markiert.
+- **Zurückziehen**: Ein zurückgezogenes Dokument ersetzt seinen Nachweis und bleibt zur Dokumentation erhalten. Entwürfe können gelöscht werden.
+- Die Kennzahlen über der Liste und die Filter zeigen den Stand; die Dashboard-Karte „Governance-Dokumente & Gültigkeit der Nachweise“ zeigt dasselbe.
+- Tipp: Unterschriebenes Original (PDF) anhängen und die Kerninhalte in den Text schreiben, damit Auditoren sie direkt lesen können.
 
 ### 4.11 Freigaben & Aufgaben
 
@@ -346,7 +356,8 @@ Der Zugriff ist eine **Fähigkeitsmatrix**, keine Rollenhierarchie. Prüfer und 
 | Über Einsatz-/Risikoakzeptanz-Freigaben entscheiden | ● | ● | ● | ● | | |
 | Aufgaben erstellen/ändern | ● | ● | ● | ● | ● | |
 | Vorfälle melden/aktualisieren | ● | ● | ● | ● | ● | |
-| Richtlinien erstellen/aktivieren | ● | ● | | | | |
+| Dokumente erstellen, Prüfung anfordern, überarbeiten oder zurückziehen | ● | ● | | | | |
+| Dokumente prüfen und freigeben (nicht die eigenen) | ● | ● | ● | ● | | |
 | Einstellungen einsehen | ● | ● | | | | |
 | Benutzer, Rollen, Zugangsdaten, Organisation verwalten | ● | | | | | |
 | Prüfpfad einsehen | ● | ● | ● | ● | | |

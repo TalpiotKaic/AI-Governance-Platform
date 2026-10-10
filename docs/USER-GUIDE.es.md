@@ -252,6 +252,7 @@ El almacén de todo artefacto que demuestra algo. Hay tres tipos.
 | UPLOADED | Archivos como políticas, EIPD, model cards | Fecha de validez opcional |
 | ATTESTATION | Declaración humana registrada sin archivo | Fecha de validez opcional |
 
+- **Evidencias de toda la organización**: las evidencias registradas sin sistema y los documentos aprobados en Políticas y documentos cuentan para cada sistema. Las evidencias fuera de su vigencia vencen automáticamente y dejan de contar; las que vencen en 30 días se muestran en el panel. Redacte y apruebe los documentos de gobierno (políticas, procedimientos, funciones) en Políticas y documentos, no aquí.
 - «Añadir evidencia»: elija el tipo (22 tipos: model card, evaluación de riesgos, EIPD, informe de red team, informe de auditoría, …), el sistema (en blanco para nivel de organización), la validez, la descripción, el archivo, y **vincúlela a controles armonizados**.
 - Las evidencias vinculadas a controles se reutilizan automáticamente en los paquetes ISO/IEC 42001, Ley de IA de la UE, NIST AI RMF y Ley marco KR.
 - En la página de detalle, cambie el estado (válida, caducada, sustituida) y vincule más controles.
@@ -275,13 +276,22 @@ Genere ocho tipos de informes a partir de los datos de la plataforma (ejecucione
 - La página del informe ofrece vista de impresión, descarga en PDF y exportación JSON.
 - Consejo: para envíos externos use únicamente informes en estado «emitido». Solo los informes emitidos aparecen en el Centro de confianza de IA.
 
-### 4.10 Políticas
+### 4.10 Políticas y documentos
 
-La biblioteca de políticas de IA (ISO/IEC 42001 § 5.2, A.2.2) y las normas internas. **Activar** una política registra una evidencia de política versionada vinculada a HC-01 (política y gobernanza de la IA).
+Redacte, someta a revisión y mantenga al día en un solo lugar los documentos de gobierno de la organización: políticas, procedimientos, normas internas, funciones y responsabilidades, objetivos y planificación, planes de recursos y revisión por la dirección, y reglas de registros y control documental. Los documentos aprobados se publican automáticamente como **evidencia de toda la organización**, que cuenta para la cobertura de cada sistema de IA, y vencen automáticamente tras su fecha de revisión. Los documentos propios de un sistema (EIPD, ficha de modelo…) y los registros de actividad (resultados de pruebas, formación) van en el Centro de evidencias.
 
-- Plantillas: Política de IA, Procedimiento de evaluación de riesgos, Norma de uso de herramientas por agentes, Reevaluación por cambios, Plan de comunicación de incidentes.
-- Estado: borrador → activa → retirada. Solo los responsables de gobernanza y los administradores pueden crear o activar.
-- Consejo: para políticas largas, mantenga aquí un resumen y cargue el texto completo en el Centro de evidencias vinculado a HC-01.
+| Paso | Qué ocurre | Quién |
+|---|---|---|
+| 1. Borrador | En «Nuevo documento» elija tipo, versión y ciclo de revisión (3/6/12/24 meses); redacte el texto en Markdown (# títulos, - listas, \| tablas \|) y/o adjunte el archivo firmado (MD, TXT, PDF, DOCX, HWP…, máx. 10 MB). Los controles sugeridos se preseleccionan según el tipo (p. ej. funciones → HC-02). | Responsable de gobierno, admin |
+| 2. Solicitud de revisión | Requiere texto o archivo. En Aprobaciones y tareas aparece la tarea «Revisión de documento solicitada». | Autor |
+| 3. Aprobado · en vigor | Un revisor distinto del autor aprueba o devuelve con un comentario. La aprobación pone el documento en vigor, fija la próxima revisión (aprobación + ciclo) y crea una evidencia de la organización vinculada a los controles elegidos. | Revisor, aprobador, responsable de gobierno, admin |
+| 4. Revisión periódica · nueva versión | Desde 30 días antes de la revisión, el panel y una tarea lo recuerdan. Si no cambia, «Revisado: sin cambios» amplía un ciclo; si cambia, «Nueva versión» crea una revisión que vuelve a aprobarse. Al aprobarse, la versión anterior pasa a «Sustituida» en el historial. | Revisor / autor |
+
+- **Vencimiento**: tras la fecha de revisión, el documento y su evidencia vencen y dejan de contar; se crea la tarea «Documento vencido» para el responsable.
+- **Segregación de funciones**: el autor (solicitante) no puede aprobar su propio documento. Un administrador puede, pero queda señalado «Autorrevisado».
+- **Retirar**: retirar un documento sustituye su evidencia y lo conserva como registro. Los borradores pueden eliminarse.
+- Los indicadores sobre la lista y los filtros muestran el estado; también la tarjeta «Documentos de gobierno y vigencia de evidencias» del panel.
+- Consejo: adjunte el original firmado (PDF) y recoja lo esencial en el texto para que los auditores lo lean en pantalla.
 
 ### 4.11 Aprobaciones y tareas
 
@@ -346,7 +356,8 @@ El acceso es una **matriz de capacidades**, no una jerarquía de roles. Revisore
 | Decidir aprobaciones de despliegue / aceptación de riesgos | ● | ● | ● | ● | | |
 | Crear / actualizar tareas | ● | ● | ● | ● | ● | |
 | Notificar / actualizar incidentes | ● | ● | ● | ● | ● | |
-| Crear / activar políticas | ● | ● | | | | |
+| Redactar documentos, solicitar revisión, actualizar o retirar | ● | ● | | | | |
+| Revisar y aprobar documentos (no los propios) | ● | ● | ● | ● | | |
 | Ver la configuración | ● | ● | | | | |
 | Gestionar usuarios, roles, credenciales, organización | ● | | | | | |
 | Ver la pista de auditoría | ● | ● | ● | ● | | |

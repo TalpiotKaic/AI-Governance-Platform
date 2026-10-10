@@ -252,6 +252,7 @@ Le dépôt de tout artefact qui prouve quelque chose. Il en existe trois types.
 | UPLOADED | Fichiers tels que politiques, AIPD, model cards | Date de validité facultative |
 | ATTESTATION | Déclaration humaine enregistrée sans fichier | Date de validité facultative |
 
+- **Preuves à l'échelle de l'organisation** : les preuves enregistrées sans système et les documents approuvés dans Politiques et documents comptent pour chaque système. Les preuves dont la validité est dépassée expirent automatiquement et sortent de la couverture ; celles qui expirent sous 30 jours apparaissent sur le tableau de bord. Rédigez et approuvez les documents de gouvernance (politiques, procédures, rôles) dans Politiques et documents, pas ici.
 - « Ajouter une preuve » : choisissez le type (22 types : model card, évaluation des risques, AIPD, rapport de red team, rapport d'audit, …), le système (vide pour le niveau organisation), la validité, la description, le fichier, et **liez-la aux contrôles harmonisés**.
 - Les preuves liées aux contrôles sont réutilisées automatiquement dans les dossiers ISO/IEC 42001, Règlement IA de l'UE, NIST AI RMF et loi-cadre KR.
 - Sur la page de détail, changez le statut (valide, expirée, remplacée) et liez d'autres contrôles.
@@ -275,13 +276,22 @@ Générez huit types de rapports à partir des données de la plateforme (exécu
 - La page du rapport offre vue d'impression, téléchargement PDF et export JSON.
 - Conseil : pour une soumission externe, utilisez uniquement les rapports au statut « émis ». Seuls les rapports émis apparaissent dans le Centre de confiance IA.
 
-### 4.10 Politiques
+### 4.10 Politiques et documents
 
-La bibliothèque de politiques IA (ISO/IEC 42001 § 5.2, A.2.2) et les normes internes. **Activer** une politique enregistre une preuve de politique versionnée liée à HC-01 (politique et gouvernance de l'IA).
+Rédigez, faites revoir et tenez à jour en un seul endroit les documents de gouvernance de l'organisation : politiques, procédures, normes internes, rôles et responsabilités, objectifs et planification, plans de ressources et de revue de direction, règles d'enregistrement et de maîtrise documentaire. Les documents approuvés sont publiés automatiquement comme **preuve à l'échelle de l'organisation**, comptée dans la couverture de chaque système d'IA, et expirent automatiquement après leur date de revue. Les documents propres à un système (AIPD, fiche modèle…) et les enregistrements d'activité (résultats de tests, formations) vont dans le Centre de preuves.
 
-- Modèles : Politique IA, Procédure d'évaluation des risques, Norme d'usage des outils par les agents, Réévaluation déclenchée par changement, Plan de communication en cas d'incident.
-- Statut : brouillon → actif → retiré. Seuls les responsables gouvernance et les administrateurs peuvent créer ou activer.
-- Conseil : pour une politique longue, gardez ici une synthèse et téléversez le texte intégral dans le Centre de preuves, lié à HC-01.
+| Étape | Ce qui se passe | Qui |
+|---|---|---|
+| 1. Rédaction | Dans « Nouveau document », choisissez le type, la version et le cycle de revue (3/6/12/24 mois) ; rédigez le texte en Markdown (# titres, - listes, \| tableaux \|) et/ou joignez le fichier signé (MD, TXT, PDF, DOCX, HWP…, 10 Mo max.). Les contrôles suggérés sont présélectionnés selon le type (ex. rôles → HC-02). | Responsable de la gouvernance, admin |
+| 2. Demande de revue | Exige un texte ou un fichier. Une tâche « Revue de document demandée » apparaît dans Approbations & tâches. | Auteur |
+| 3. Approuvé · en vigueur | Un réviseur autre que l'auteur approuve ou renvoie avec un commentaire. L'approbation met le document en vigueur, fixe la prochaine revue (approbation + cycle) et crée une preuve de l'organisation liée aux contrôles choisis. | Réviseur, approbateur, responsable de la gouvernance, admin |
+| 4. Revue périodique · révision | À partir de 30 jours avant la revue, le tableau de bord et une tâche le rappellent. Sans changement, « Revu — sans changement » prolonge d'un cycle ; sinon « Nouvelle version » crée une révision soumise à revue. Une fois approuvée, la version précédente devient « Remplacée » dans l'historique. | Réviseur / auteur |
+
+- **Expiration** : après la date de revue, le document et sa preuve expirent et sortent de la couverture ; une tâche « Document expiré » est créée pour le responsable.
+- **Séparation des tâches** : l'auteur (demandeur) ne peut pas approuver son propre document. Un administrateur le peut, mais c'est signalé « Auto-revu ».
+- **Retrait** : retirer un document remplace sa preuve et le conserve pour mémoire. Les brouillons peuvent être supprimés.
+- Les indicateurs au-dessus de la liste et les filtres montrent l'état ; la carte « Documents de gouvernance et validité des preuves » du tableau de bord aussi.
+- Conseil : joignez l'original signé (PDF) et reprenez l'essentiel dans le texte pour une lecture directe par les auditeurs.
 
 ### 4.11 Approbations & tâches
 
@@ -346,7 +356,8 @@ L'accès est une **matrice de capacités**, pas une hiérarchie de rôles. Relec
 | Décider des approbations de déploiement / acceptation du risque | ● | ● | ● | ● | | |
 | Créer / modifier des tâches | ● | ● | ● | ● | ● | |
 | Signaler / mettre à jour des incidents | ● | ● | ● | ● | ● | |
-| Créer / activer des politiques | ● | ● | | | | |
+| Rédiger des documents, demander la revue, réviser ou retirer | ● | ● | | | | |
+| Revoir et approuver les documents (sauf les siens) | ● | ● | ● | ● | | |
 | Consulter les paramètres | ● | ● | | | | |
 | Gérer utilisateurs, rôles, identifiants, organisation | ● | | | | | |
 | Consulter la piste d'audit | ● | ● | ● | ● | | |

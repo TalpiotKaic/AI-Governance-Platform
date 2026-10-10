@@ -7,6 +7,8 @@ import { ES_LABELS } from "./locales/es";
 
 /** Korean labels for enum values; falls back to the English enumLabel. */
 const KO: Record<string, string> = {
+  // governance document types
+  DOC_POLICY: "정책", DOC_PROCEDURE: "절차", DOC_STANDARD: "표준·지침", DOC_ROLES: "역할 및 책임", DOC_OBJECTIVES: "목표 및 계획", DOC_PLAN: "계획(자원·경영검토)", DOC_RECORDS: "기록·문서 관리", DOC_OTHER: "기타",
   // roles
   ADMIN: "관리자", GOVERNANCE_OWNER: "거버넌스 책임자", TESTER: "시험자", REVIEWER: "검토자", APPROVER: "승인자", VIEWER: "열람자",
   // org
@@ -51,7 +53,13 @@ const KO: Record<string, string> = {
   COVERED: "충족", PARTIAL: "부분", GAP: "갭", UNMAPPED: "미매핑",
 };
 
-const LABEL_MAPS: Partial<Record<Locale, Record<string, string>>> = { ko: KO, de: DE_LABELS, fr: FR_LABELS, it: IT_LABELS, es: ES_LABELS };
+/** English labels that enumLabel cannot derive. */
+const EN: Record<string, string> = {
+  // governance document types
+  DOC_POLICY: "Policy", DOC_PROCEDURE: "Procedure", DOC_STANDARD: "Standard", DOC_ROLES: "Roles & responsibilities", DOC_OBJECTIVES: "Objectives & plan", DOC_PLAN: "Plan (resources, review)", DOC_RECORDS: "Records & document control", DOC_OTHER: "Other",
+};
+
+const LABEL_MAPS: Partial<Record<Locale, Record<string, string>>> = { en: EN, ko: KO, de: DE_LABELS, fr: FR_LABELS, it: IT_LABELS, es: ES_LABELS };
 
 export function labelFor(locale: Locale, value: string | null | undefined): string {
   if (!value) return "—";

@@ -9,6 +9,7 @@ import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
 import { Stat } from "@/components/ui/stat";
 import { fmtDate} from "@/lib/utils";
 import { getI18n } from "@/lib/i18n/server";
+import { ensureDocumentLifecycle } from "@/lib/documents";
 
 export const metadata = { title: "Evidence Center" };
 
@@ -17,6 +18,7 @@ export default async function EvidencePage(props: PageProps<"/evidence">) {
   const user = await requireUser();
   const sp = await props.searchParams;
   const type = typeof sp.type === "string" ? sp.type : undefined;
+  await ensureDocumentLifecycle(user.orgId);
   const evidence = await db.evidence.findMany({ where: { orgId: user.orgId, ...(type ? { type: type as never } : {}) }, orderBy: { createdAt: "desc" }, include: { system: true, run: true, createdBy: true, links: { include: { control: true, requirement: { include: { framework: true } } } } } });
   const all = await db.evidence.groupBy({ by: ["type"], where: { orgId: user.orgId }, _count: true });
   const counts = { generated: evidence.filter((e) => e.source === "GENERATED").length, uploaded: evidence.filter((e) => e.source === "UPLOADED").length, attestation: evidence.filter((e) => e.source === "ATTESTATION").length, expired: evidence.filter((e) => e.status === "EXPIRED").length };
@@ -26,7 +28,7 @@ export default async function EvidencePage(props: PageProps<"/evidence">) {
       <div className="mb-4 grid grid-cols-2 gap-3 md:grid-cols-4"><Stat label={t("Generated (test-derived)")} value={counts.generated} /><Stat label={t("Uploaded documents")} value={counts.uploaded} /><Stat label={t("Attestations")} value={counts.attestation} /><Stat label={t("Expired (re-test needed)")} value={counts.expired} tone={counts.expired ? "warning" : undefined} /></div>
       <div className="mb-3 flex flex-wrap gap-1"><Link href="/evidence"><Badge tone={!type ? "primary" : "neutral"} className="cursor-pointer">{t("All")}</Badge></Link>{all.map((g) => <Link key={g.type} href={`/evidence?type=${g.type}`}><Badge tone={type === g.type ? "primary" : "neutral"} className="cursor-pointer">{L(g.type)} ({g._count})</Badge></Link>)}</div>
       <div className="rounded-lg border border-border bg-surface"><Table><THead><TR><TH>{t("Type")}</TH><TH>{t("Title")}</TH><TH>{t("System")}</TH><TH>{t("Source")}</TH><TH>{t("Linked controls / requirements")}</TH><TH>{t("Status")}</TH><TH>{t("Valid from")}</TH><TH>{t("By")}</TH></TR></THead><TBody>
-        {evidence.map((e) => <TR key={e.id}><TD><Badge>{L(e.type)}</Badge></TD><TD><Link href={`/evidence/${e.id}`} className="font-medium hover:underline">{e.title}</Link>{e.description && <div className="line-clamp-1 text-xs text-muted">{e.description}</div>}{e.run && <div className="text-[11px] text-muted">from run {e.run.code}</div>}</TD><TD className="text-xs">{e.system?.code ?? <span className="text-muted">{t("org-level")}</span>}</TD><TD><Badge tone={e.source === "GENERATED" ? "primary" : e.source === "ATTESTATION" ? "accent" : "neutral"}>{L(e.source)}</Badge></TD><TD className="text-xs">{[...new Set(e.links.map((l) => l.control?.code ?? (l.requirement ? `${L(l.requirement.framework.code)} ${l.requirement.ref}` : null)).filter(Boolean))].join(", ") || "—"}</TD><TD><Badge tone={toneForStatus(e.status)}>{L(e.status)}</Badge></TD><TD className="text-xs text-muted">{fmtDate(e.validFrom)}</TD><TD className="text-xs">{e.createdBy?.name ?? "system"}</TD></TR>)}
+        {evidence.map((e) => <TR key={e.id}><TD><Badge>{L(e.type)}</Badge></TD><TD><Link href={`/evidence/${e.id}`} className="font-medium hover:underline">{e.title}</Link>{e.description && <div className="line-clamp-1 text-xs text-muted">{e.description}</div>}{e.run && <div className="text-[11px] text-muted">from run {e.run.code}</div>}{e.policyId && <Link href={`/policies/${e.policyId}`} className="text-[11px] text-primary hover:underline">{t("Managed document")} →</Link>}{e.validUntil && e.status === "VALID" && <div className="text-[11px] text-muted">{t("Valid until")} {fmtDate(e.validUntil)}</div>}</TD><TD className="text-xs">{e.system?.code ?? <span className="text-muted">{t("org-level")}</span>}</TD><TD><Badge tone={e.source === "GENERATED" ? "primary" : e.source === "ATTESTATION" ? "accent" : "neutral"}>{L(e.source)}</Badge></TD><TD className="text-xs">{[...new Set(e.links.map((l) => l.control?.code ?? (l.requirement ? `${L(l.requirement.framework.code)} ${l.requirement.ref}` : null)).filter(Boolean))].join(", ") || "—"}</TD><TD><Badge tone={toneForStatus(e.status)}>{L(e.status)}</Badge></TD><TD className="text-xs text-muted">{fmtDate(e.validFrom)}</TD><TD className="text-xs">{e.createdBy?.name ?? "system"}</TD></TR>)}
       </TBody></Table></div>
     </>
   );

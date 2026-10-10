@@ -6,6 +6,7 @@ import { localizeMethod, localizeMetricName, localizeScenario } from "@/lib/i18n
 import { labelFor } from "@/lib/i18n/labels";
 import { localizeRiskTitle } from "@/lib/i18n/risks";
 import { rt } from "./dict";
+import { evidenceCountsFor, validEvidenceWhere } from "@/lib/documents";
 import type { Block, ReportContent, Section } from "./types";
 import type { FrameworkCode, ReportType } from "@/generated/prisma/client";
 
@@ -224,7 +225,7 @@ export async function buildEvidencePack(systemId: string, frameworkCode: Framewo
   const s = await loadSystem(systemId);
   const fwRaw = await db.framework.findUniqueOrThrow({ where: { code: frameworkCode }, include: { requirements: { orderBy: { sortOrder: "asc" }, include: { controls: { include: { control: { include: { impls: { where: { systemId } }, evidenceLinks: { include: { evidence: true } } } } } }, evidenceLinks: { include: { evidence: true } } } } } });
   const fw = localizeFramework(locale, { ...fwRaw, requirements: fwRaw.requirements.map((r) => localizeRequirement(locale, frameworkCode, r)) });
-  const sysEvidence = await db.evidence.findMany({ where: { systemId, status: "VALID" }, include: { links: { include: { control: true, requirement: true } } }, orderBy: { createdAt: "desc" } });
+  const sysEvidence = await db.evidence.findMany({ where: validEvidenceWhere(s.orgId, systemId), include: { links: { include: { control: true, requirement: true } } }, orderBy: { createdAt: "desc" } });
   const runs = await db.evaluationRun.findMany({ where: { systemId, status: "COMPLETED" }, orderBy: { finishedAt: "desc" } });
   let covered = 0, partial = 0, total = 0;
   const rows: (string | null)[][] = [];
@@ -236,8 +237,8 @@ export async function buildEvidencePack(systemId: string, frameworkCode: Framewo
     total++;
     const statuses = controls.map((c) => c.impls[0]?.status ?? "NOT_STARTED");
     const evidenceForReq = new Set<string>();
-    for (const c of controls) for (const l of c.evidenceLinks) if (l.evidence.systemId === systemId && l.evidence.status === "VALID") evidenceForReq.add(l.evidence.id);
-    for (const l of r.evidenceLinks) if (l.evidence.systemId === systemId && l.evidence.status === "VALID") evidenceForReq.add(l.evidence.id);
+    for (const c of controls) for (const l of c.evidenceLinks) if (evidenceCountsFor(l.evidence, s.orgId, systemId)) evidenceForReq.add(l.evidence.id);
+    for (const l of r.evidenceLinks) if (evidenceCountsFor(l.evidence, s.orgId, systemId)) evidenceForReq.add(l.evidence.id);
     const verified = statuses.length > 0 && statuses.every((st) => st === "VERIFIED" || st === "IMPLEMENTED" || st === "NOT_APPLICABLE");
     const some = statuses.some((st) => st === "VERIFIED" || st === "IMPLEMENTED" || st === "IN_PROGRESS") || evidenceForReq.size > 0;
     const status = controls.length === 0 ? "UNMAPPED" : verified && evidenceForReq.size > 0 ? "COVERED" : some ? "PARTIAL" : "GAP";

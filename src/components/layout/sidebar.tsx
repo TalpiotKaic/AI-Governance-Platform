@@ -20,7 +20,7 @@ const nav = [
       { href: "/vendors", label: "Vendors & Datasets", icon: Building2 },
       { href: "/risks", label: "Risk Register", icon: ShieldAlert },
       { href: "/frameworks", label: "Frameworks & Controls", icon: Scale },
-      { href: "/policies", label: "Policies", icon: BookOpen },
+      { href: "/policies", label: "Policies & documents", icon: BookOpen },
       { href: "/approvals", label: "Approvals & Tasks", icon: CheckSquare },
       { href: "/incidents", label: "Incidents", icon: Siren },
     ],

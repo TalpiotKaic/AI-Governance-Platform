@@ -21,6 +21,7 @@ import { localizeControl } from "@/lib/i18n/content";
 import { SENSITIVITY_LEVELS, purposeLabel, sensitivityLabel } from "@/lib/datasets";
 import { localizeRiskMitigation, localizeRiskTitle } from "@/lib/i18n/risks";
 import { ControlWithRequirements } from "@/components/domain/control-requirements";
+import { validEvidenceWhere } from "@/lib/documents";
 
 export default async function SystemDetailPage(props: PageProps<"/systems/[id]">) {
   const { locale, t, L } = await getI18n();
@@ -32,7 +33,7 @@ export default async function SystemDetailPage(props: PageProps<"/systems/[id]">
   const [orgVendors, orgDatasets] = tab === "overview" ? await Promise.all([db.vendor.findMany({ where: { orgId: user.orgId }, orderBy: { name: "asc" }, select: { id: true, name: true } }), db.dataset.findMany({ where: { orgId: user.orgId }, orderBy: { name: "asc" }, select: { id: true, name: true } })]) : [[], []];
   const s = await db.aiSystem.findFirst({ where: { id, orgId: user.orgId }, include: { owner: true, technicalOwner: true, models: true, agentProfile: true, datasets: { include: { dataset: true } }, vendors: { include: { vendor: true } }, risks: { orderBy: { score: "desc" }, include: { owner: true } }, runs: { orderBy: { createdAt: "desc" } }, plans: { orderBy: { createdAt: "desc" } }, evidence: { orderBy: { createdAt: "desc" }, include: { links: { include: { control: true } } } }, reports: { orderBy: { createdAt: "desc" } }, changeEvents: { orderBy: { createdAt: "desc" } }, findings: { where: { status: { in: ["OPEN", "MITIGATING"] } }, orderBy: { severity: "desc" } }, incidents: true } });
   if (!s) notFound();
-  const controls = (await db.control.findMany({ orderBy: { sortOrder: "asc" }, include: { impls: { where: { systemId: id } }, requirements: { include: { requirement: { include: { framework: true } } } }, testMethods: { include: { testMethod: true } }, evidenceLinks: { where: { evidence: { systemId: id, status: "VALID" } } } } })).map((c) => localizeControl(locale, c));
+  const controls = (await db.control.findMany({ orderBy: { sortOrder: "asc" }, include: { impls: { where: { systemId: id } }, requirements: { include: { requirement: { include: { framework: true } } } }, testMethods: { include: { testMethod: true } }, evidenceLinks: { where: { evidence: validEvidenceWhere(user.orgId, id) } } } })).map((c) => localizeControl(locale, c));
   const approvals = await db.approval.findMany({ where: { orgId: user.orgId, subjectId: id }, orderBy: { requestedAt: "asc" }, include: { approver: true } });
   const tools = (s.agentProfile?.tools as { name: string; riskLevel?: string; allowed?: boolean; permissions?: string[]; requiresApproval?: boolean }[] | undefined) ?? [];
   const retestNeeded = s.changeEvents.some((c) => c.requiresRetest && (!s.runs[0] || c.createdAt > (s.runs[0].finishedAt ?? s.runs[0].createdAt)));

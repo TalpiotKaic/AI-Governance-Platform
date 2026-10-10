@@ -12,6 +12,7 @@ import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
 import { getI18n } from "@/lib/i18n/server";
 import { localizeRiskTitle } from "@/lib/i18n/risks";
 import { daysOverdue, ensureOverdueRiskTasks, isOverdue } from "@/lib/risks/due";
+import { DocumentsCard } from "./documents-card";
 
 export const metadata = { title: "Dashboard" };
 
@@ -53,6 +54,8 @@ export default async function DashboardPage() {
         <Stat label={t("Pending approvals")} value={approvals} hint={`${tasks} ${t("open tasks")}`} tone={approvals ? "info" : undefined} />
         <Stat label={t("Valid evidence")} value={evidenceCount} hint={`${incidents} ${t("open incidents")}`} />
       </div>
+
+      <div className="mt-4"><DocumentsCard orgId={orgId} /></div>
 
       <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2">

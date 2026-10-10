@@ -116,4 +116,6 @@ docs/                         framework control library, benchmarking & product 
 
 Rebuild the framework seed from the library markdown: `python3 prisma/seed-data/build-frameworks.py`.
 
+Governance documents (`/policies`, "Policies & documents"): organisation-level policies, procedures, roles, objectives, plans and records rules are drafted (Markdown body and/or file), submitted, approved by a reviewer other than the author (`policies.review`; admin self-review is flagged) and published as **organisation-wide evidence** (`Evidence.policyId`, `systemId = null`) linked to the chosen controls. Each document has a review cycle; `ensureDocumentLifecycle` (in `src/lib/documents.ts`, run on dashboard / register loads) expires documents and evidence past their dates and maintains review tasks. Coverage everywhere uses `validEvidenceWhere` / `evidenceCountsFor`: a system's own evidence plus organisation-wide evidence, VALID and not past `validUntil`.
+
 Risk due dates: automatically created risks get 30 / 45 / 90-day deadlines by score (`src/lib/risks/due.ts`); open risks without a date are backfilled from their creation date when the dashboard or risk register loads, or with `pnpm tsx scripts/backfill-risk-due-dates.ts`. Overdue open risks create an "Overdue risk" task and appear on the dashboard.

@@ -252,6 +252,7 @@ L'archivio di ogni artefatto che dimostra qualcosa. Ne esistono tre tipi.
 | UPLOADED | File di documenti come politiche, DPIA, model card | Data di validità facoltativa |
 | ATTESTATION | Dichiarazione umana registrata senza file | Data di validità facoltativa |
 
+- **Evidenze a livello di organizzazione**: le evidenze registrate senza sistema e i documenti approvati in Policy e documenti contano per ogni sistema. Le evidenze oltre la data di validità scadono automaticamente e non contano più; quelle in scadenza entro 30 giorni compaiono nel dashboard. Redigi e approva i documenti di governance (policy, procedure, ruoli) in Policy e documenti, non qui.
 - «Aggiungi evidenza»: scegli il tipo (22 tipi: model card, valutazione dei rischi, DPIA, report di red team, report di audit, …), il sistema (vuoto per il livello organizzazione), la validità, la descrizione, il file, e **collega ai controlli armonizzati**.
 - Le evidenze collegate ai controlli sono riutilizzate automaticamente nei pacchetti ISO/IEC 42001, AI Act UE, NIST AI RMF e legge quadro KR.
 - Nella pagina di dettaglio cambia lo stato (valida, scaduta, sostituita) e collega altri controlli.
@@ -275,13 +276,22 @@ Genera otto tipi di report dai dati della piattaforma (esecuzioni, rischi, contr
 - La pagina del report offre vista di stampa, download PDF ed esportazione JSON.
 - Suggerimento: per invii esterni usa solo report nello stato «emesso». Solo i report emessi compaiono nel Trust Center IA.
 
-### 4.10 Politiche
+### 4.10 Policy e documenti
 
-La libreria delle politiche IA (ISO/IEC 42001 § 5.2, A.2.2) e gli standard interni. **Attivare** una politica registra un'evidenza di politica versionata collegata a HC-01 (politica e governance dell'IA).
+Redigi, fai revisionare e mantieni aggiornati in un unico punto i documenti di governance dell'organizzazione: policy, procedure, standard interni, ruoli e responsabilità, obiettivi e pianificazione, piani di risorse e riesame della direzione, regole su registrazioni e controllo documentale. I documenti approvati sono pubblicati automaticamente come **evidenza a livello di organizzazione**, che conta per la copertura di ogni sistema di IA, e scadono automaticamente dopo la data di riesame. I documenti specifici di un sistema (DPIA, model card…) e le registrazioni di attività (risultati di test, formazione) vanno nel Centro evidenze.
 
-- Modelli: Politica IA, Procedura di valutazione dei rischi, Standard per l'uso degli strumenti da parte degli agenti, Rivalutazione attivata da modifiche, Piano di comunicazione degli incidenti.
-- Stato: bozza → attiva → ritirata. Solo responsabili governance e amministratori possono creare o attivare.
-- Suggerimento: per politiche lunghe tieni qui una sintesi e carica il testo integrale nel Centro evidenze collegato a HC-01.
+| Passo | Cosa succede | Chi |
+|---|---|---|
+| 1. Bozza | In «Nuovo documento» scegli tipo, versione e ciclo di riesame (3/6/12/24 mesi); scrivi il testo in Markdown (# titoli, - elenchi, \| tabelle \|) e/o allega il file firmato (MD, TXT, PDF, DOCX, HWP…, max 10 MB). I controlli suggeriti sono preselezionati in base al tipo (es. ruoli → HC-02). | Responsabile governance, admin |
+| 2. Richiesta di revisione | Richiede testo o file. In Approvazioni & attività compare l'attività «Revisione documento richiesta». | Autore |
+| 3. Approvato · in vigore | Un revisore diverso dall'autore approva o restituisce con un commento. L'approvazione mette in vigore il documento, fissa il prossimo riesame (approvazione + ciclo) e crea un'evidenza dell'organizzazione collegata ai controlli scelti. | Revisore, approvatore, responsabile governance, admin |
+| 4. Riesame periodico · revisione | Da 30 giorni prima del riesame, dashboard e attività lo ricordano. Se nulla cambia, «Riesaminato — nessuna modifica» estende di un ciclo; altrimenti «Nuova versione» crea una revisione da riapprovare. Approvata questa, la versione precedente diventa «Sostituita» nello storico. | Revisore / autore |
+
+- **Scadenza**: dopo la data di riesame documento ed evidenza scadono e non contano più; per il responsabile viene creata l'attività «Documento scaduto».
+- **Separazione dei compiti**: l'autore (richiedente) non può approvare il proprio documento. Un amministratore può farlo, ma viene segnalato «Auto-riesaminato».
+- **Ritiro**: ritirare un documento sostituisce la sua evidenza e lo conserva agli atti. Le bozze possono essere eliminate.
+- Gli indicatori sopra l'elenco e i filtri mostrano lo stato; lo stesso la scheda «Documenti di governance e validità delle evidenze» del dashboard.
+- Suggerimento: allega l'originale firmato (PDF) e riporta i contenuti chiave nel testo, così gli auditor li leggono a schermo.
 
 ### 4.11 Approvazioni & attività
 
@@ -346,7 +356,8 @@ L'accesso è una **matrice di capacità**, non una gerarchia di ruoli. Revisori 
 | Decidere approvazioni di rilascio / accettazione del rischio | ● | ● | ● | ● | | |
 | Creare / modificare attività | ● | ● | ● | ● | ● | |
 | Segnalare / aggiornare incidenti | ● | ● | ● | ● | ● | |
-| Creare / attivare politiche | ● | ● | | | | |
+| Redigere documenti, richiedere revisione, revisionare o ritirare | ● | ● | | | | |
+| Riesaminare e approvare documenti (non i propri) | ● | ● | ● | ● | | |
 | Visualizzare le impostazioni | ● | ● | | | | |
 | Gestire utenti, ruoli, credenziali, organizzazione | ● | | | | | |
 | Visualizzare l'audit trail | ● | ● | ● | ● | | |
