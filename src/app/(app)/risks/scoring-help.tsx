@@ -33,7 +33,9 @@ export function ScoringHelp() {
         <H>{t("Score formula")}</H>
         <p><span className="rounded bg-surface-2 px-1.5 py-0.5 font-mono text-xs">score = (L × 1 + S × 3) ÷ 20 × 100</span> — {t("severity is weighted three times likelihood (L and S each 1–5).")}</p>
         <p className="mt-1 text-muted">{t("Examples: L3·S5 = 90, L3·S4 = 75, L3·S3 = 60, L2·S3 = 55.")}</p>
-        <p className="mt-1">{t("Bands: ≥ 80 CRITICAL · 60–79 HIGH · 35–59 MEDIUM · < 35 LOW. The heat-map cells use the same bands; residual score is entered by the owner after mitigation.")}</p>
+        <p className="mt-1">{t("Bands: ≥ 80 CRITICAL · 60–79 HIGH · 35–59 MEDIUM · < 35 LOW. The heat-map cells use the same bands.")}</p>
+        <H>{t("Inherent and residual risk")}</H>
+        <p>{t("Inherent L and S describe the risk before mitigation. After mitigation the owner opens Edit and records residual L and S; the residual score uses the same formula. The heat map shows either position — open risks only by default, closed and accepted risks on request. Risks without a residual assessment stay at their inherent position in the residual view.")}</p>
         <H>{t("Code, status and owner")}</H>
         <p>{t("Codes run sequentially per organisation (R-0001, R-0002…). New risks start as Identified with source Intake; the owner is the user who registered the system.")}</p>
         <H>{t("Risks added later")}</H>
@@ -43,7 +45,7 @@ export function ScoringHelp() {
           <li>{t("A reported incident adds an Exposure risk with L4 and S by incident severity, source Incident.")}</li>
         </ul>
         <H>{t("Default due dates")}</H>
-        <p>{t("Automatically created risks receive a remediation due date from their score: CRITICAL (≥ 80) 30 days, HIGH (60–79) 45 days, others 90 days. Overdue open risks are highlighted here, listed on the dashboard and create a follow-up task in Approvals & Tasks. Change the date in the Status column.")}</p>
+        <p>{t("Automatically created risks receive a remediation due date from their score: CRITICAL (≥ 80) 30 days, HIGH (60–79) 45 days, others 90 days. Overdue open risks are highlighted here, listed on the dashboard and create a follow-up task in Approvals & Tasks. Change the date with Edit in the Update column.")}</p>
         <H>{t("System risk tier (separate formula)")}</H>
         <p>{t("The system's own tier, which sets the number of approval stages, starts at 20 and adds: EU high-risk / prohibited / GPAI with systemic risk +45, limited risk +10, sensitive data +15 (otherwise personal data +8), customer-facing +8, automated decision +12, agent or multi-agent +12; capped at 100 and mapped to the same bands.")}</p>
       </Modal>

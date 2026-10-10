@@ -338,6 +338,8 @@ model Risk {
   severity    Int           // 1-5
   score       Float         // computed: likelihood*1 + severity*3 (VerifyWise-style weighting), scaled 0-100
   residualScore Float?
+  residualLikelihood Int?   // 1-5, after mitigation
+  residualSeverity   Int?   // 1-5, after mitigation
   status      RiskStatus    @default(IDENTIFIED)
   source      RiskSource    @default(MANUAL)
   ownerId     String?
