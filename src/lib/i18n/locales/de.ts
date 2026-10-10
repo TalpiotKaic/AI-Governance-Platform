@@ -1,6 +1,8 @@
 /** German (de) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const de: Record<string, string> = {
+  "Back": "Zurück",
+  "Back to the previous screen": "Zurück zur vorherigen Ansicht",
   "How scores are calculated": "Berechnungsmethode",
   "Risk scoring method": "Methode der Risikobewertung",
   "Inputs": "Eingaben",

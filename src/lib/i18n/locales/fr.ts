@@ -1,6 +1,8 @@
 /** French (fr) — UI strings, enum labels and report strings. Keys are the English source strings. */
 
 export const fr: Record<string, string> = {
+  "Back": "Retour",
+  "Back to the previous screen": "Revenir à l'écran précédent",
   "How scores are calculated": "Méthode de calcul",
   "Risk scoring method": "Méthode de notation des risques",
   "Inputs": "Entrées",

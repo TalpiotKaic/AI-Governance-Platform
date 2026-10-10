@@ -40,6 +40,8 @@ export function localeFromAcceptLanguage(header: string | null | undefined): Loc
 }
 
 export const ko: Record<string, string> = {
+  "Back": "뒤로",
+  "Back to the previous screen": "이전 화면으로 돌아가기",
   "How scores are calculated": "계산 방법",
   "Risk scoring method": "위험 점수 산정 기준",
   "Inputs": "입력값",

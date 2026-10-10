@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { requireUser } from "@/lib/auth";
 import { scenarioScope } from "@/lib/library/link-datasets";
 import { PageHeader } from "@/components/ui/page-header";
+import { BackButton } from "@/components/ui/back-button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getI18n } from "@/lib/i18n/server";
@@ -22,7 +23,7 @@ export default async function MethodPage(props: PageProps<"/library/[code]">) {
   const focus = typeof sp.scenario === "string" ? sp.scenario : undefined;
   return (
     <>
-      <PageHeader title={`${m.code} · ${mm.name}`} crumbs={[{ label: t("Test Library"), href: "/library" }, { label: m.code }]} description={mm.description ?? undefined} />
+      <PageHeader title={`${m.code} · ${mm.name}`} crumbs={[{ label: t("Test Library"), href: "/library" }, { label: m.code }]} description={mm.description ?? undefined} actions={<BackButton fallback="/library" />} />
       <div className="mb-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Card><CardHeader><CardTitle>{t("Method")}</CardTitle></CardHeader><CardContent className="space-y-2 text-sm"><div><Badge>{L(m.category)}</Badge> <Badge tone="info">{L(m.testingType)}</Badge></div><p><span className="text-muted">{t("Reference:")} </span>{m.standardRef}</p><p><span className="text-muted">{t("Applicable to:")} </span>{m.applicableTo.map((x) => L(x)).join(", ")}</p></CardContent></Card>
         <Card><CardHeader><CardTitle>{t("Metrics & acceptance criteria")}</CardTitle></CardHeader><CardContent><ul className="space-y-1 text-sm">{(m.metrics as { key: string; name: string; direction: string; threshold: number; unit?: string; aggregate?: string }[]).map((x) => <li key={x.key} className="flex items-center justify-between rounded border border-border px-2 py-1"><span>{localizeMetricName(locale, x.key, x.name)}<span className="ml-1 text-[11px] text-muted">({x.aggregate ?? "rate"})</span></span><span className="font-mono text-xs">{x.direction === "lower" ? "≤" : "≥"} {x.unit === "rate" ? `${Math.round(x.threshold * 100)}%` : x.unit === "ms" ? `${x.threshold} ms` : x.threshold}</span></li>)}</ul></CardContent></Card>
